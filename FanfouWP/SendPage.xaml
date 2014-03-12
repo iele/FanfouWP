@@ -1,0 +1,39 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="FanfouWP.SendPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+    
+    <phone:PhoneApplicationPage.Resources >
+        <ResourceDictionary>
+            <converter:TextToLeftCountTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="TextToLeftCountTextConverter" />
+        </ResourceDictionary>
+    </phone:PhoneApplicationPage.Resources>
+
+    <StackPanel x:Name="LayoutRoot" Background="Transparent">
+
+        <Grid Margin="12,10,12,0" >
+            	<TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" FontSize="24" Text="你在做什么？"/>
+            	<TextBlock HorizontalAlignment="Right" Margin="10,0" TextWrapping="Wrap" Text="{Binding Text, Converter={StaticResource TextToLeftCountTextConverter}, ElementName=Status}" FontSize="24" Width="85" Foreground="#FFB0B0B0"/>
+     </Grid>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <TextBox x:Name="Status" Margin="0,10,0,0" TextWrapping="Wrap" Height="350" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
+             </Grid>
+    </StackPanel>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" Opacity="0.5" IsMenuEnabled="False"  IsVisible="True">
+            <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/upload.png" Text="发送" />
+           
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
