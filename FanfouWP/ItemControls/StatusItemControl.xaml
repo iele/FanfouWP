@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fanfouwp ="clr-namespace:FanfouWP.ItemControls"
+             
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -12,16 +13,24 @@
     <UserControl.Resources >
         <ResourceDictionary>
             <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
+            <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
+            <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot">
         <Grid Margin="0,5">
             <Image Source="{Binding user.profile_image_url}" HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42"/>
-            <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="#00000000" StrokeThickness="0"/>
+            <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="0"/>
             <StackPanel VerticalAlignment="Top" Margin="89,10,10,0">
                 <TextBlock Margin="10,0" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"/>
-                <TextBlock Margin="10,5,10,0" TextWrapping="Wrap" Text="{Binding source,Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" Foreground="#DEB9B9B9" FontSize="18.667"/>
-                <TextBlock Margin="10,5,10,0" TextWrapping="Wrap" Text="{Binding text}" FontSize="24"/>
+                <StackPanel Margin="0" Orientation="Horizontal">
+                    <TextBlock Margin="10,5,0,0" Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                	<TextBlock Margin="10,5,0,0" Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="20,81,15,0">
+            	<TextBlock TextWrapping="Wrap" Text="{Binding text}" FontSize="24"/>
+                <Image Source="{Binding photo.thumburl}" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
             </StackPanel>
         </Grid>
 

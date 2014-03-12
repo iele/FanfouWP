@@ -16,7 +16,8 @@ namespace FanfouWP.API
         public const string VERIFY_CREDENTIALS = "account/verify_credentials.json";
         public const string STATUS_HOME_TIMELINE = "statuses/home_timeline.json";
         public const string STATUS_PUBLIC_TIMELINE = "statuses/public_timeline.json";
+        public const string STATUS_USER_TIMELINE = "statuses/user_timeline.json";
         public const string STATUS_MENTION_TIMELINE = "statuses/mentions.json";
-       
+        public const string STATUS_UPDATE = "statuses/update.json";      
     }
 }

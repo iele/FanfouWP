@@ -22,7 +22,7 @@ namespace FanfouWP
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Login.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
         }
 
     }

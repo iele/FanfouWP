@@ -8,13 +8,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
+    xmlns:rlb ="clr-namespace:RefreshListBox"
+    xmlns:utils="clr-namespace:FanfouWP.Utils"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
- 
+
 
     <Grid x:Name="LayoutRoot">
         <phone:Panorama x:Name="Panorama" Title="FanfouWP">
@@ -23,9 +26,18 @@
                     <usercontrols:PanoramaTitleControl DataContext="{Binding}" />
                 </DataTemplate>
             </phone:Panorama.TitleTemplate>
-            
             <phone:PanoramaItem Header="我的消息">
-                <ListBox Name="HomeTimeLineListBox" ItemsSource="{Binding}"  >
+                <ListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <itemcontrols:StatusItemControl />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </phone:PanoramaItem>
+            <phone:PanoramaItem Header="提及我的">
+                <ListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -34,19 +46,19 @@
                 </ListBox>
             </phone:PanoramaItem>
 
-            <phone:PanoramaItem Header="提及我的">
-                <ListBox Name="MentionTimeLineListBox" ItemsSource="{Binding}"  >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:StatusItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </phone:PanoramaItem>
             <phone:PanoramaItem Header="工具箱">
                 <usercontrols:ToolsControl />
             </phone:PanoramaItem>
+            
         </phone:Panorama>
     </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" Opacity="0.5" IsMenuEnabled="False"  IsVisible="True">
+            <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
+            <shell:ApplicationBarIconButton x:Name="NewButton" Click="NewButton_Click"  IconUri="/Assets/AppBar/edit.png" Text="新饭" />
+            <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/feature.camera.png" Text="照片" />
+            <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

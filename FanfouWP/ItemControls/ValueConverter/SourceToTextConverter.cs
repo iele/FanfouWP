@@ -12,7 +12,7 @@ namespace FanfouWP.ItemControls.ValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)
         {
-            return Regex.Replace((string)value, "<[^>]*>", "");
+            return "来自 " + Regex.Replace((string)value, "<[^>]*>", "");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)

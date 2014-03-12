@@ -8,11 +8,17 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
+using System.Windows.Media;
+using System.Windows.Controls.Primitives;
+using FanfouWP.Utils;
+using System.Threading.Tasks;
+using FanfouWP.API.Items;
 
 namespace FanfouWP
 {
     public partial class TimelinePanorama : PhoneApplicationPage
     {
+
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
 
         public TimelinePanorama()
@@ -45,6 +51,11 @@ namespace FanfouWP
         {
             throw new NotImplementedException();
         }
+        private void FanfouAPI_HomeTimelineFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void FanfouAPI_MentionTimelineSuccess(object sender, EventArgs e)
         {
@@ -52,13 +63,8 @@ namespace FanfouWP
             {
                 this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
             });
-
         }
 
-        private void FanfouAPI_HomeTimelineFailed(object sender, API.Event.FailedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void FanfouAPI_HomeTimelineSuccess(object sender, EventArgs e)
         {
@@ -66,6 +72,7 @@ namespace FanfouWP
             {
                 this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
             });
+
         }
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
@@ -73,6 +80,58 @@ namespace FanfouWP
             FanfouAPI.StatusHomeTimeline();
             FanfouAPI.StatusMentionTimeline();
             FanfouAPI.VerifyCredentials();
+
+        }
+
+        private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.HomeTimeLineListBox.SelectedItem != null)
+            {
+                var item = this.HomeTimeLineListBox.SelectedItem;
+
+                if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("StatusPage");
+                }
+                PhoneApplicationService.Current.State.Add("StatusPage", item);
+                NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+            }
+        }
+
+        private void MentionTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.MentionTimeLineListBox.SelectedItem != null)
+            {
+                var item = this.MentionTimeLineListBox.SelectedItem;
+
+                if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("StatusPage");
+                }
+                PhoneApplicationService.Current.State.Add("StatusPage", item);
+                NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+            }
+        }
+
+        private void MainButton_Click(object sender, EventArgs e)
+        {
+            FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+        }
+
+        private void NewButton_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));        
+        }
+
+        private void CameraButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

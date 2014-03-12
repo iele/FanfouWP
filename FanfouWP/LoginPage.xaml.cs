@@ -11,10 +11,10 @@ using FanfouWP.API;
 
 namespace FanfouWP
 {
-    public partial class Login : PhoneApplicationPage
+    public partial class LoginPage : PhoneApplicationPage
     {
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
-        public Login()
+        public LoginPage()
         {
             InitializeComponent();
             FanfouAPI.LoginSuccess += FanfouAPI_LoginSuccess;

@@ -22,7 +22,7 @@ namespace FanfouWP.API.Items
 
         public string birthday { get; set; }
 
-        string description { get; set; }
+        public string description { get; set; }
 
         public string profile_image_url { get; set; }
 
