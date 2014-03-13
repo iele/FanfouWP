@@ -8,12 +8,14 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
+using FanfouWP.Storage;
 
 namespace FanfouWP
 {
     public partial class LoginPage : PhoneApplicationPage
     {
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
+        private SettingManager settings = SettingManager.GetInstance();
         public LoginPage()
         {
             InitializeComponent();
@@ -33,7 +35,7 @@ namespace FanfouWP
         {
             this.Dispatcher.BeginInvoke(() =>
             {
-                this.NavigationService.Navigate(new Uri("/TimelinePanorama.xaml", UriKind.Relative));
+                this.NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
             });
         }
 

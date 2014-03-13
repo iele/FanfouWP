@@ -1,0 +1,157 @@
+﻿using Microsoft.Phone.Net.NetworkInformation;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Media.Imaging;
+using Windows.Storage;
+
+namespace FanfouWP.ItemControls.ValueConverter
+{
+
+    public class ImageSourceToCacheConverter : IValueConverter
+    {
+        private const string ImageStorageFolder = "CacheImages";
+        private static IsolatedStorageFile _storage;
+
+        public ImageSourceToCacheConverter()
+        {
+            try
+            {
+                if (_storage == null)
+                {
+                    _storage = IsolatedStorageFile.GetUserStoreForApplication();
+                }
+            }
+            catch (IsolatedStorageException e)
+            {
+            }
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            var path = value as string;
+            if (String.IsNullOrEmpty(path.ToString())) return null;
+            var imageFileUri = new Uri(path);
+            if (imageFileUri.Scheme == "http" || imageFileUri.Scheme == "https")
+            {
+                // 先看缓存  
+                if (_storage.FileExists(GetFileNameInIsolatedStorage(imageFileUri)))
+                {
+                    return ExtractFromLocalStorage(imageFileUri);
+                }
+
+                // 再看网络情况  
+                if (!DeviceNetworkInformation.IsNetworkAvailable)
+                {
+                    return LoadDefaultIfPassed(imageFileUri, (parameter ?? string.Empty).ToString());
+                }
+
+                // 最后再网上获取  
+                return DownloadFromWeb(imageFileUri);
+            }
+
+            // 不是网络图片,应用内的素材  
+            var bm = new BitmapImage(imageFileUri);
+            return bm;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object LoadDefaultIfPassed(Uri imageFileUri, string defaultImagePath)
+        {
+            string defaultImageUri = (defaultImagePath ?? string.Empty);
+            if (!string.IsNullOrEmpty(defaultImageUri))
+            {
+                var bm = new BitmapImage(new Uri(defaultImageUri, UriKind.Relative)); //Load default Image  
+                return bm;
+            }
+            else
+            {
+                var bm = new BitmapImage(imageFileUri);
+                return bm;
+            }
+        }
+
+        private static object DownloadFromWeb(Uri imageFileUri)
+        {
+            var m_webClient = new WebClient(); //Load from internet  
+            var bm = new BitmapImage();
+
+            m_webClient.OpenReadCompleted += (o, e) =>
+            {
+                if (e.Error != null || e.Cancelled) return;
+                WriteToIsolatedStorage(IsolatedStorageFile.GetUserStoreForApplication(), e.Result,
+                                       GetFileNameInIsolatedStorage(imageFileUri));
+                bm.SetSource(e.Result);
+                e.Result.Close();
+            };
+            m_webClient.OpenReadAsync(imageFileUri);
+            return bm;
+        }
+
+        private static object ExtractFromLocalStorage(Uri imageFileUri)
+        {
+            string isolatedStoragePath = GetFileNameInIsolatedStorage(imageFileUri); //Load from local storage  
+            using (
+                IsolatedStorageFileStream sourceFile = _storage.OpenFile(isolatedStoragePath, FileMode.Open,
+                                                                         FileAccess.Read))
+            {
+                var bm = new BitmapImage();
+                bm.SetSource(sourceFile);
+                return bm;
+            }
+        }
+
+        private static void WriteToIsolatedStorage(IsolatedStorageFile storage, Stream inputStream,
+                                                   string fileName)
+        {
+            IsolatedStorageFileStream outputStream = null;
+            try
+            {
+                if (!storage.DirectoryExists(ImageStorageFolder))
+                {
+                    storage.CreateDirectory(ImageStorageFolder);
+                }
+                if (storage.FileExists(fileName))
+                {
+                    storage.DeleteFile(fileName);
+                }
+                outputStream = storage.CreateFile(fileName);
+                var buffer = new byte[32768];
+                int read;
+                while ((read = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    outputStream.Write(buffer, 0, read);
+                }
+                outputStream.Close();
+            }
+            catch
+            {
+                //We cannot do anything here.  
+                if (outputStream != null) outputStream.Close();
+            }
+        }
+
+        /// <summary>  
+        ///     Gets the file name in isolated storage for the Uri specified. This name should be used to search in the isolated storage.  
+        /// </summary>  
+        /// <param name="uri">The URI.</param>  
+        /// <returns></returns>  
+        public static string GetFileNameInIsolatedStorage(Uri uri)
+        {
+            return ImageStorageFolder + "\\" + uri.AbsoluteUri.GetHashCode() + ".img";
+        }
+    }
+}

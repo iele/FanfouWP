@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Json;
 using System.IO;
 using Hammock.Authentication.OAuth;
 using System.Collections.ObjectModel;
+using FanfouWP.Storage;
 
 namespace FanfouWP.API
 {
@@ -42,6 +43,13 @@ namespace FanfouWP.API
         public delegate void StatusUpdateSuccessHandler(object sender, EventArgs e);
         public delegate void StatusUpdateFailedHandler(object sender, FailedEventArgs e);
 
+        public event LoginSuccessHandler LoginSuccess;
+        public event LoginFailedHandler LoginFailed;
+        public event VerifyCredentialsSuccessHandler VerifyCredentialsSuccess;
+        public event VerifyCredentialsFailedHandler VerifyCredentialsFailed;
+        public event StatusUpdateSuccessHandler StatusUpdateSuccess;
+        public event StatusUpdateFailedHandler StatusUpdateFailed;
+
         public delegate void HomeTimelineSuccessHandler(object sender, EventArgs e);
         public delegate void HomeTimelineFailedHandler(object sender, FailedEventArgs e);
         public delegate void PublicTimelineSuccessHandler(object sender, EventArgs e);
@@ -51,13 +59,6 @@ namespace FanfouWP.API
         public delegate void UserTimelineSuccessHandler(object sender, UserTimelineEventArgs e);
         public delegate void UserTimelineFailedHandler(object sender, FailedEventArgs e);
 
-        public event LoginSuccessHandler LoginSuccess;
-        public event LoginFailedHandler LoginFailed;
-        public event VerifyCredentialsSuccessHandler VerifyCredentialsSuccess;
-        public event VerifyCredentialsFailedHandler VerifyCredentialsFailed;
-        public event StatusUpdateSuccessHandler StatusUpdateSuccess;
-        public event StatusUpdateFailedHandler StatusUpdateFailed;
-
         public event HomeTimelineSuccessHandler HomeTimelineSuccess;
         public event HomeTimelineFailedHandler HomeTimelineFailed;
         public event PublicTimelineSuccessHandler PublicTimelineSuccess;
@@ -66,6 +67,21 @@ namespace FanfouWP.API
         public event MentionTimelineFailedHandler MentionTimelineFailed;
         public event UserTimelineSuccessHandler UserTimelineSuccess;
         public event UserTimelineFailedHandler UserTimelineFailed;
+
+        public delegate void FavoritesCreateSuccessHandler(object sender, EventArgs e);
+        public delegate void FavoritesCreateFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FavoritesDestroySuccessHandler(object sender, EventArgs e);
+        public delegate void FavoritesDestroyFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FavoritesSuccessHandler(object sender, EventArgs e);
+        public delegate void FavoritesFailedHandler(object sender, FailedEventArgs e);
+
+        public event FavoritesCreateSuccessHandler FavoritesCreateSuccess;
+        public event FavoritesCreateFailedHandler FavoritesCreateFailed;
+        public event FavoritesDestroySuccessHandler FavoritesDestroySuccess;
+        public event FavoritesDestroyFailedHandler FavoritesDestroyFailed;
+        public event FavoritesSuccessHandler FavoritesSuccess;
+        public event FavoritesFailedHandler FavoritesFailed;
+
 
         private static FanfouAPI instance;
         public static FanfouAPI Instance
@@ -80,6 +96,8 @@ namespace FanfouWP.API
             }
         }
         private FanfouAPI() { }
+
+        private SettingManager settings = SettingManager.GetInstance();
 
         private RestClient GetClient()
         {
@@ -146,6 +164,10 @@ namespace FanfouWP.API
 
                     EventArgs e = new EventArgs();
                     LoginSuccess(this, e);
+
+                    settings.username = username;
+                    settings.password = password;
+                    settings.SaveSettings();
                 }
                 else
                 {
@@ -219,6 +241,7 @@ namespace FanfouWP.API
                     this.CurrentUser = user;
                     EventArgs e = new EventArgs();
                     VerifyCredentialsSuccess(this, e);
+
                 }
                 else
                 {
@@ -227,7 +250,7 @@ namespace FanfouWP.API
                 }
             });
         }
-
+        #region status
         public void StatusUserTimeline(string user_id)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -236,7 +259,7 @@ namespace FanfouWP.API
                 Method = Hammock.Web.WebMethod.Get
             };
             restRequest.AddParameter("user_id", user_id);
-          
+
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -443,8 +466,157 @@ namespace FanfouWP.API
                 }
             });
         }
+        #endregion
+
+        #region favorites
+
+        public void FavoritesId(string id, int page = 1)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FAVORITES_ID + id + ".json",
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("page", page.ToString());
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                    var ds = new DataContractJsonSerializer(status.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                    ms.Close();
+
+                    UserTimelineEventArgs e = new UserTimelineEventArgs();
+                    e.UserStatus = status;
+                    FavoritesSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FavoritesFailed(this, e);
+                }
+            });
+        }
+        public void FavoritesCreate(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FAVORITES_CREATE_ID + id + ".json",
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.Status s = new Items.Status();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.Status;
+                    ms.Close();
+
+                    if (this.HomeTimeLineStatus != null)
+                    {
+                        var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = true;
+                        }
+                    }
+                    if (this.MentionTimeLineStatus != null)
+                    {
+                        var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = true;
+                        }
+                    }
+                    if (this.PublicTimeLineStatus != null)
+                    {
+
+                        var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = true;
+                        }
+                    }
+                    EventArgs e = new EventArgs();
+                    FavoritesCreateSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FavoritesCreateFailed(this, e);
+                }
+            });
+        }
+
+        public void FavoritesDestroy(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FAVORITES_DESTROY_ID + id + ".json",
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.Status s = new Items.Status();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.Status;
+                    ms.Close();
+
+                    if (this.HomeTimeLineStatus != null)
+                    {
+                        var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = false;
+                        }
+                    }
+                    if (this.MentionTimeLineStatus != null)
+                    {
+                        var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = false;
+                        }
+                    }
+                    if (this.PublicTimeLineStatus != null)
+                    {
+
+                        var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
+                        foreach (var item in items)
+                        {
+                            item.favorited = false;
+                        }
+                    }
+
+                    EventArgs e = new EventArgs();
+                    FavoritesDestroySuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FavoritesDestroyFailed(this, e);
+                }
+            });
+        }
+        #endregion
+
+
 
     }
-
-
 }

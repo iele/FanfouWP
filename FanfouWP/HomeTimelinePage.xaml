@@ -1,15 +1,18 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="FanfouWP.LoginPage"
+    x:Class="FanfouWP.HomeTimelinePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
+    xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
+    xmlns:utils="clr-namespace:FanfouWP.Utils"
+   FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -22,22 +25,19 @@
 
         <!--TitlePanel 包含应用程序的名称和页标题-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+              <TextBlock Text="我的消息" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-          <TextBox x:Name="UsernameTest" Margin="3,15,3,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="elephas"/>
-            <PasswordBox x:Name="PasswordBox" Margin="3,92,3,0" VerticalAlignment="Top" Password="myelephas"/>
+            <ListBox x:Name="HomeTimelineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimelineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <itemcontrols:StatusItemControl />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True">
-
-            <shell:ApplicationBarIconButton x:Name="ClickButton" Click="ClickButton_Click" IconUri="/Assets/AppBar/add.png" Text="登录" />
-
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

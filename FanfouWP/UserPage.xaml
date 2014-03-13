@@ -14,17 +14,24 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="Portrait"  Orientation="Landscape"
     shell:SystemTray.IsVisible="False">
-
+    <phone:PhoneApplicationPage.Resources >
+        <ResourceDictionary>
+            <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
+            <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
+            <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
+            <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
+        </ResourceDictionary>
+    </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
 		<phone:Pivot Title="{Binding screen_name}">
 			<phone:PivotItem Header="资料">
-				<ScrollViewer Margin="0" Width="447">
+				<ScrollViewer Margin="0">
 					<Grid>
 						<Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
-							Source="{Binding profile_image_url}"/>
+							Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"/>
 						<TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
 						<StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
 							<TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,12"/>

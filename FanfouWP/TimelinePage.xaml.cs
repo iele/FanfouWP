@@ -16,12 +16,12 @@ using FanfouWP.API.Items;
 
 namespace FanfouWP
 {
-    public partial class TimelinePanorama : PhoneApplicationPage
+    public partial class TimelinePage : PhoneApplicationPage
     {
 
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
 
-        public TimelinePanorama()
+        public TimelinePage()
         {
             InitializeComponent();
 
@@ -32,18 +32,34 @@ namespace FanfouWP
             FanfouAPI.PublicTimelineFailed += FanfouAPI_MentionTimelineFailed;
             FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
             FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
+           
+         }
+
+        void FanfouAPI_FavoritesDestroyFailed(object sender, API.Event.FailedEventArgs e)
+        {
+       }
+
+        void FanfouAPI_FavoritesDestroySuccess(object sender, EventArgs e)
+        {
         }
+
+        void FanfouAPI_FavoritesCreateFailed(object sender, API.Event.FailedEventArgs e)
+        {
+       }
+
+        void FanfouAPI_FavoritesCreateSuccess(object sender, EventArgs e)
+        {
+         }
 
         void FanfouAPI_VerifyCredentialsFailed(object sender, API.Event.FailedEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         void FanfouAPI_VerifyCredentialsSuccess(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
              {
-                 this.Panorama.DataContext = FanfouAPI.CurrentUser;
+                 this.Pivot.DataContext = FanfouAPI.CurrentUser;
              });
         }
 

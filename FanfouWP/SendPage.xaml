@@ -11,7 +11,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="False">
     
     <phone:PhoneApplicationPage.Resources >
         <ResourceDictionary>
@@ -22,7 +22,7 @@
     <StackPanel x:Name="LayoutRoot" Background="Transparent">
 
         <Grid Margin="12,10,12,0" >
-            	<TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" FontSize="24" Text="你在做什么？"/>
+            	<TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" FontSize="24" x:Name="titleText"/>
             	<TextBlock HorizontalAlignment="Right" Margin="10,0" TextWrapping="Wrap" Text="{Binding Text, Converter={StaticResource TextToLeftCountTextConverter}, ElementName=Status}" FontSize="24" Width="85" Foreground="#FFB0B0B0"/>
      </Grid>
 
@@ -31,7 +31,7 @@
              </Grid>
     </StackPanel>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.5" IsMenuEnabled="False"  IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
             <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/upload.png" Text="发送" />
            
         </shell:ApplicationBar>

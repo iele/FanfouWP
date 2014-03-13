@@ -104,6 +104,8 @@
     <Compile Include="ItemControls\StatusItemControl.xaml.cs">
       <DependentUpon>StatusItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ValueConverter\BoolToVisibilityConverter.cs" />
+    <Compile Include="ItemControls\ValueConverter\ImageSourceToCacheConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\StatusToFillColorConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\TextToLeftCountTextConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\DateToTextConverter.cs" />
@@ -114,6 +116,12 @@
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HomeTimelinePage.xaml.cs">
+      <DependentUpon>HomeTimelinePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MentionTimelinePage.xaml.cs">
+      <DependentUpon>MentionTimelinePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendPage.xaml.cs">
       <DependentUpon>SendPage.xaml</DependentUpon>
@@ -121,8 +129,9 @@
     <Compile Include="StatusPage.xaml.cs">
       <DependentUpon>StatusPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimelinePanorama.xaml.cs">
-      <DependentUpon>TimelinePanorama.xaml</DependentUpon>
+    <Compile Include="Storage\SettingManager.cs" />
+    <Compile Include="TimelinePage.xaml.cs">
+      <DependentUpon>TimelinePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PanoramaTitleControl.xaml.cs">
       <DependentUpon>PanoramaTitleControl.xaml</DependentUpon>
@@ -152,6 +161,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="HomeTimelinePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MentionTimelinePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SendPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,7 +177,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimelinePanorama.xaml">
+    <Page Include="TimelinePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +195,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -193,6 +211,7 @@
     <Content Include="Assets\AppBar\feature.camera.png" />
     <Content Include="Assets\AppBar\feature.search.png" />
     <Content Include="Assets\AppBar\feature.settings.png" />
+    <Content Include="Assets\AppBar\minus.png" />
     <Content Include="Assets\AppBar\questionmark.png" />
     <Content Include="Assets\AppBar\refresh.png" />
     <Content Include="Assets\AppBar\share.png" />
@@ -250,9 +269,6 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\portable-net4+sl4+wp7+win8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="ReorderListBox">
-      <HintPath>..\packages\ReorderListBox.1.2.0.0\lib\wp80\ReorderListBox.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
     </Reference>
@@ -266,8 +282,9 @@
       <HintPath>..\packages\Unofficial.Blend.Interactivity.1.0.0\lib\wp8\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Storage\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

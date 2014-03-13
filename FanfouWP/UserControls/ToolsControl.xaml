@@ -3,17 +3,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+  xmlns:utils="clr-namespace:FanfouWP.Utils"
+             mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="800" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot">
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="192" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"/>
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="202,10,0,0" VerticalAlignment="Top" Height="192" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"/>
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="192" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"/>
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="202,202,0,0" VerticalAlignment="Top" Height="192" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"/>
-
+    	<Button Content="私信" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True" Background="#FFE51400"/>
+        <Button Content="收藏" HorizontalAlignment="Left" Margin="202,10,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True"/>
+        <Button Content="标签" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True"/>
+        <Button Content="搜索" HorizontalAlignment="Left" Margin="202,202,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True"/>
+        <Button Content="热门话题" HorizontalAlignment="Left" Margin="10,399,0,-111" VerticalAlignment="Top" Height="192" FontSize="32" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True"/>
+        <Button Content="设置" HorizontalAlignment="Left" Margin="202,399,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
+                utils:TiltEffect.IsTiltEnabled="True"/>
     </Grid>
 </UserControl>

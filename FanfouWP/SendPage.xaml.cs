@@ -31,8 +31,7 @@ namespace FanfouWP
                 status = PhoneApplicationService.Current.State["ReSend"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("ReSend");
                 currentPageType = PageType.Resend;
-            }
-            if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
+            } if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
             {
                 status = PhoneApplicationService.Current.State["Reply"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("Reply");
@@ -48,15 +47,20 @@ namespace FanfouWP
             switch (currentPageType)
             {
                 case PageType.Normal:
+                    titleText.Text = "你在做什么？";
                     break;
                 case PageType.Resend:
-                    Dispatcher.BeginInvoke(() => {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        titleText.Text = "转发" + status.user.screen_name + "的消息";
                         this.Status.Text = this.status.text;
                         this.Status.IsReadOnly = true;
                     });
                     break;
                 case PageType.Reply:
-                    Dispatcher.BeginInvoke(() => {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        titleText.Text = "回复" + status.user.screen_name;
                         this.Status.Text = "@" + this.status.user.screen_name;
                     });
                     break;
