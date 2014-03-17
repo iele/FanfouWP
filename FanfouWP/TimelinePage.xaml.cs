@@ -32,12 +32,12 @@ namespace FanfouWP
             FanfouAPI.PublicTimelineFailed += FanfouAPI_MentionTimelineFailed;
             FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
             FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
-           
-         }
+
+        }
 
         void FanfouAPI_FavoritesDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
-       }
+        }
 
         void FanfouAPI_FavoritesDestroySuccess(object sender, EventArgs e)
         {
@@ -45,11 +45,12 @@ namespace FanfouWP
 
         void FanfouAPI_FavoritesCreateFailed(object sender, API.Event.FailedEventArgs e)
         {
-       }
+        }
 
         void FanfouAPI_FavoritesCreateSuccess(object sender, EventArgs e)
         {
-         }
+            Toolbox.DataContext = FanfouAPI.CurrentUser;
+        }
 
         void FanfouAPI_VerifyCredentialsFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -93,9 +94,18 @@ namespace FanfouWP
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
-            FanfouAPI.StatusHomeTimeline();
-            FanfouAPI.StatusMentionTimeline();
-            FanfouAPI.VerifyCredentials();
+            if (this.FanfouAPI.HomeTimeLineStatus.Count != 0  && this.FanfouAPI.MentionTimeLineStatus.Count != 0)
+            {
+                FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.VerifyCredentials();
+            }
+            else {
+                FanfouAPI.StatusHomeTimeline();
+                FanfouAPI.StatusMentionTimeline();
+                FanfouAPI.VerifyCredentials();
+     
+            }
 
         }
 
@@ -137,7 +147,7 @@ namespace FanfouWP
 
         private void NewButton_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));        
+            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
         }
 
         private void CameraButton_Click(object sender, EventArgs e)
@@ -147,7 +157,7 @@ namespace FanfouWP
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
         }
     }
 }

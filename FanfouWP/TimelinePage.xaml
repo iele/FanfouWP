@@ -14,9 +14,8 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Landscape"
     shell:SystemTray.IsVisible="False">
-
 
     <Grid x:Name="LayoutRoot">
         <phone:Pivot x:Name="Pivot" Title="FanfouWP" Margin="0" >
@@ -26,28 +25,28 @@
                 </DataTemplate>
             </phone:Pivot.TitleTemplate>
             <phone:PivotItem Header="我的消息">
-                <ListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
 
             </phone:PivotItem>
             <phone:PivotItem Header="提及我的">
-            	<ListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
-            		<ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                    <phone:LongListSelector.ItemTemplate>
             			<DataTemplate>
             				<itemcontrols:StatusItemControl />
             			</DataTemplate>
-            		</ListBox.ItemTemplate>
-            	</ListBox>
+            		</phone:LongListSelector.ItemTemplate>
+            	</phone:LongListSelector>
             </phone:PivotItem>
 
             <phone:PivotItem Header="工具箱">
                 <ScrollViewer>
-            		<usercontrols:ToolsControl Height="604" Width="420" HorizontalAlignment="Left" />
+            		<usercontrols:ToolsControl x:Name="Toolbox" Height="604" Width="420" HorizontalAlignment="Left" />
             	</ScrollViewer>
             </phone:PivotItem>
             

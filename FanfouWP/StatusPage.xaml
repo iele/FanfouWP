@@ -44,7 +44,7 @@
                         <TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Margin="10,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                         <TextBlock Margin="10,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Text="已收藏" Visibility="{Binding favorited, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
-                    <Image Margin="0,10,0,0" Source="{Binding photo.imageurl}"/>
+                    <Image Margin="0,10,0,0" Source="{Binding photo.largeurl}"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

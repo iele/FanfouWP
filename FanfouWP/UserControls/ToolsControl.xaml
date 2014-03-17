@@ -1,27 +1,22 @@
-﻿<UserControl x:Class="FanfouWP.UserControls.ToolsControl"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:utils="clr-namespace:FanfouWP.Utils"
+             xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="FanfouWP.UserControls.ToolsControl"
              mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="800" d:DesignWidth="480">
-    
+    d:DesignHeight="800" d:DesignWidth="480" >
+
     <Grid x:Name="LayoutRoot">
-    	<Button Content="私信" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True" Background="#FFE51400"/>
-        <Button Content="收藏" HorizontalAlignment="Left" Margin="202,10,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True"/>
-        <Button Content="标签" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True"/>
-        <Button Content="搜索" HorizontalAlignment="Left" Margin="202,202,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True"/>
-        <Button Content="热门话题" HorizontalAlignment="Left" Margin="10,399,0,-111" VerticalAlignment="Top" Height="192" FontSize="32" Width="192" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True"/>
-        <Button Content="设置" HorizontalAlignment="Left" Margin="202,399,0,0" VerticalAlignment="Top" Height="192" Width="192" FontSize="32" BorderBrush="{StaticResource PhoneAccentBrush}" Background="{StaticResource PhoneAccentBrush}"
-                utils:TiltEffect.IsTiltEnabled="True"/>
+        <toolkit:HubTile x:Name="DirectMsgTile" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" utils:TiltEffect.IsTiltEnabled="True" Tap="DirectMsgTile_Tap"  Title="私信" Message="查看最新私信" Source="email.png" Background="#FFE51400"/>
+        <toolkit:HubTile x:Name="FavTile" HorizontalAlignment="Left" Margin="198,10,0,0" VerticalAlignment="Top"  Tap="FavTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="收藏" Message="查看您的收藏状态" Source="folder-bookmarks.png"/>
+        <toolkit:HubTile x:Name="SearchTile" HorizontalAlignment="Left" Margin="198,198,0,0" VerticalAlignment="Top" Tap="SearchTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="搜索" Message="搜索时间线" Source="search.png"/>
+        <toolkit:HubTile x:Name="TrendTile" HorizontalAlignment="Left" Margin="10,198,0,0" VerticalAlignment="Top" Tap="TrendTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="热门话题" Message="看看最近发生了什么" Source="stocks.png"/>
+        <toolkit:HubTile x:Name="TagTile" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Tap="TagTile_Tap"  utils:TiltEffect.IsTiltEnabled="True" Title="标签" Message="根据你的标签找寻新朋友" Source="contact.png"/>
+        <toolkit:HubTile x:Name="SettingTile" HorizontalAlignment="Left" Margin="198,386,0,0" VerticalAlignment="Top" Tap="SettingTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="设置" Message="设置本应用" Source="spareparts.png"/>
     </Grid>
 </UserControl>

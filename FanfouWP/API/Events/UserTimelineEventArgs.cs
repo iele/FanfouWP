@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace FanfouWP.API.Event
 {
-    public class UserTimelineEventArgs : EventArgs
+    public class UserTimelineEventArgs<T> : EventArgs where T:Items.Item
     {
-        public ObservableCollection<FanfouWP.API.Items.Status> UserStatus { get; set; }
+        public ObservableCollection<T> UserStatus { get; set; }
+
+        public UserTimelineEventArgs() { }
+        public UserTimelineEventArgs(ObservableCollection<T> UserStatus)
+        {
+            this.UserStatus = UserStatus;        
+        }
     }
 }

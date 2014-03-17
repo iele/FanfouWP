@@ -56,7 +56,38 @@ namespace FanfouWP.Storage
 
                     is_setting_changed = true;
                 }
+            }        
+            private string _oauthToken;
+            public string oauthToken
+            {
+                get
+                {
+                    return _oauthToken;
+                }
+                set
+                {
+                    _oauthToken = value;
+                    settings["oauthToken"] = value;
+
+                    is_setting_changed = true;
+                }
             }
+
+            private string _oauthSecret;
+            public string oauthSecret
+            {
+                get
+                {
+                    return _oauthSecret;
+                }
+                set
+                {
+                    _oauthSecret = value;
+                    settings["oauthSecret"] = value;
+
+                    is_setting_changed = true;
+                }
+            }        
 
             public Boolean is_setting_changed { get; set; }
 
@@ -79,12 +110,14 @@ namespace FanfouWP.Storage
                 settings["quit_confirm"] = this.quit_confirm;
                 settings["username"] = this.username;
                 settings["password"] = this.password;
+                settings["oauthToken"] = this.oauthToken;
+                settings["oauthSecret"] = this.oauthSecret;
                 settings.Save();
             }
 
             public void RestoreSettings()
             {
-                Object username, password;
+                Object username, password, oauthToken, oauthSecret;
                 if (settings.TryGetValue("username", out username) && username != null)
                     this.username = (string)username;
                 else
@@ -92,7 +125,15 @@ namespace FanfouWP.Storage
                 if (settings.TryGetValue("password", out password) && password != null)
                     this.password = (string)password;
                 else
-                    this.password = null;             
+                    this.password = null;
+                if (settings.TryGetValue("oauthToken", out oauthToken) && oauthToken != null)
+                    this.oauthToken = (string)oauthToken;
+                else
+                    this.oauthToken = null; 
+                if (settings.TryGetValue("oauthSecret", out oauthSecret) && oauthSecret != null)
+                    this.oauthSecret = (string)oauthSecret;
+                else
+                    this.oauthSecret = null;      
             }
        
     }

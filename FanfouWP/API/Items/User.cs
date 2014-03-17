@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FanfouWP.API.Items
 {
-    public class User
+    public class User : Item
     {
 
         public string id { get; set; }

@@ -1,0 +1,18 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fanfouwp ="clr-namespace:FanfouWP.ItemControls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="FanfouWP.ItemControls.TrendsItemControl"  
+    mc:Ignorable="d"
+    d:DesignHeight="480" d:DesignWidth="480"   >
+    <Grid x:Name="LayoutRoot">
+        <Grid Margin="0,5">
+           <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="0"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding name}" FontSize="36" Margin="20,10,0,0"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

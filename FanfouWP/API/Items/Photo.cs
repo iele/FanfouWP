@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FanfouWP.API.Items
 {
-    public class Photo
+    public class Photo:Item
     {
         public string imageurl { get; set; }
         public string thumburl { get; set; }

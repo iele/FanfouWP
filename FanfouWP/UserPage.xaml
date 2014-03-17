@@ -26,7 +26,7 @@
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
 	<Grid x:Name="LayoutRoot" Background="Transparent">
-		<phone:Pivot Title="{Binding screen_name}">
+		<phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
 			<phone:PivotItem Header="资料">
 				<ScrollViewer Margin="0">
 					<Grid>
@@ -35,14 +35,22 @@
 						<TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
 						<StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
 							<TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,12"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="48"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="48"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
-							<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
+							<StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_1" utils:TiltEffect.IsTiltEnabled="True" >
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>
+							</StackPanel>
+                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_2" utils:TiltEffect.IsTiltEnabled="True" >
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="48"/>
+							</StackPanel>
+                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_3" utils:TiltEffect.IsTiltEnabled="True" >
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="48"/>
+							</StackPanel>
+                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_4" utils:TiltEffect.IsTiltEnabled="True" >
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
+								<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
+							</StackPanel>
 						</StackPanel>
 					</Grid>
 				</ScrollViewer>
@@ -56,7 +64,19 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 			</phone:PivotItem>
-		</phone:Pivot>
+            <phone:PivotItem Header="收藏">
+                <ListBox x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <itemcontrols:StatusItemControl />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </phone:PivotItem>
+        </phone:Pivot>
 	</Grid>
-    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
+         </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

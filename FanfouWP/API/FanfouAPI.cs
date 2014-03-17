@@ -24,6 +24,8 @@ namespace FanfouWP.API
 
         public enum RefreshMode { New, Behind, Back };
 
+        private TimelineStorage<Items.Status> storage = new TimelineStorage<Items.Status>();
+
         public Items.User CurrentUser { get; set; }
         public ObservableCollection<Items.Status> HomeTimeLineStatus { get; set; }
         public string firstHomeTimeLineStatusId { get { return HomeTimeLineStatus.First().id; } private set { } }
@@ -34,6 +36,12 @@ namespace FanfouWP.API
         public ObservableCollection<Items.Status> MentionTimeLineStatus { get; set; }
         public string firstMentionTimeLineStatusId { get { return MentionTimeLineStatus.First().id; } private set { } }
         public string lastMentionTimeLineStatusId { get { return MentionTimeLineStatus.Last().id; } private set { } }
+
+
+        public delegate void RestoreDataSuccessHandler(object sender, EventArgs e);
+        public delegate void RestoreDataFailedHandler(object sender, FailedEventArgs e);
+        public event RestoreDataSuccessHandler RestoreDataSuccess;
+        public event RestoreDataFailedHandler RestoreDataFailed;
 
 
         public delegate void LoginSuccessHandler(object sender, EventArgs e);
@@ -56,7 +64,7 @@ namespace FanfouWP.API
         public delegate void PublicTimelineFailedHandler(object sender, FailedEventArgs e);
         public delegate void MentionTimelineSuccessHandler(object sender, EventArgs e);
         public delegate void MentionTimelineFailedHandler(object sender, FailedEventArgs e);
-        public delegate void UserTimelineSuccessHandler(object sender, UserTimelineEventArgs e);
+        public delegate void UserTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
         public delegate void UserTimelineFailedHandler(object sender, FailedEventArgs e);
 
         public event HomeTimelineSuccessHandler HomeTimelineSuccess;
@@ -82,6 +90,17 @@ namespace FanfouWP.API
         public event FavoritesSuccessHandler FavoritesSuccess;
         public event FavoritesFailedHandler FavoritesFailed;
 
+        public delegate void SearchTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
+        public delegate void SearchTimelineFailedHandler(object sender, FailedEventArgs e);
+
+        public event SearchTimelineSuccessHandler SearchTimelineSuccess;
+        public event SearchTimelineFailedHandler SearchTimelineFailed;
+
+        public delegate void TrendsListSuccessHandler(object sender,TrendsListEventArgs e);
+        public delegate void TrendsListFailedHandler(object sender, FailedEventArgs e);
+
+        public event TrendsListSuccessHandler TrendsListSuccess;
+        public event TrendsListFailedHandler TrendsListFailed;
 
         private static FanfouAPI instance;
         public static FanfouAPI Instance
@@ -95,7 +114,79 @@ namespace FanfouWP.API
                 return instance;
             }
         }
-        private FanfouAPI() { }
+        private FanfouAPI()
+        {
+            this.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
+            this.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
+            this.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
+
+           storage.WriteDataSuccess += JsonStorage_WriteDataSuccess;
+           storage.WriteDataFailed += JsonStorage_WriteDataFailed;
+           storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
+           storage.ReadDataFailed += JsonStorage_ReadDataFailed;
+        }
+        
+        void JsonStorage_ReadDataSuccess(object sender, UserTimelineEventArgs<Items.Status> e)
+        {
+            switch (sender as string) { 
+                case "home":
+                    this.HomeTimeLineStatus = e.UserStatus;
+                    break;
+                case "public":
+                    this.PublicTimeLineStatus = e.UserStatus;
+                    break;
+                case "mention":
+                    this.MentionTimeLineStatus = e.UserStatus;
+                    break;            
+            }
+        }
+
+        void JsonStorage_WriteDataFailed(object sender, FailedEventArgs e)
+        {
+        }
+
+        void JsonStorage_ReadDataFailed(object sender, FailedEventArgs e)
+        {
+        }
+
+        void JsonStorage_WriteDataSuccess(object sender, EventArgs e)
+        {
+        }
+
+        private void HomeTimeLineStatusChanged()
+        {
+           storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
+        }
+        private void PublicTimeLineStatusChanged()
+        {
+           storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
+        }
+
+        private void MentionTimeLineStatusChanged()
+        {
+           storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
+        }
+        public void TryRestoreData()
+        {
+            settings.RestoreSettings();
+            if (settings.username != null && settings.password != null)
+            {
+                this.username = settings.username;
+                this.password = settings.password;
+                this.oauthToken = settings.oauthToken;
+                this.oauthSecret = settings.oauthSecret;
+
+                this.LoginSuccess += (o, e) => { };
+                this.LoginFailed += (o, e) => { };
+                this.Login(username, password);
+               storage.ReadDataFromIsolatedStorage("home");
+               storage.ReadDataFromIsolatedStorage("public");
+               storage.ReadDataFromIsolatedStorage("mention");
+
+               RestoreDataSuccess(this, new EventArgs());
+            }
+            RestoreDataFailed(this, new FailedEventArgs());
+        }
 
         private SettingManager settings = SettingManager.GetInstance();
 
@@ -122,7 +213,10 @@ namespace FanfouWP.API
                 };
                 return client;
             }
-            else { return null; }
+            else
+            {
+                return null;
+            }
         }
 
         public void Login(string username, string password)
@@ -162,12 +256,15 @@ namespace FanfouWP.API
                     oauthToken = content[1];
                     oauthSecret = content[3];
 
-                    EventArgs e = new EventArgs();
-                    LoginSuccess(this, e);
-
+                    settings.oauthToken = oauthToken;
+                    settings.oauthSecret = oauthSecret;
                     settings.username = username;
                     settings.password = password;
                     settings.SaveSettings();
+
+                    EventArgs e = new EventArgs();
+                    LoginSuccess(this, e);
+
                 }
                 else
                 {
@@ -211,6 +308,7 @@ namespace FanfouWP.API
                     foreach (var item in HomeTimeLineStatus)
                         l.Add(item);
                     this.HomeTimeLineStatus = l;
+                    HomeTimeLineStatusChanged();
                     EventArgs e = new EventArgs();
                     StatusUpdateSuccess(this, e);
                 }
@@ -270,7 +368,7 @@ namespace FanfouWP.API
                     status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                     ms.Close();
 
-                    UserTimelineEventArgs e = new UserTimelineEventArgs();
+                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
                     e.UserStatus = status;
                     UserTimelineSuccess(this, e);
                 }
@@ -332,7 +430,7 @@ namespace FanfouWP.API
                         default: break;
                     }
                     this.HomeTimeLineStatus = l;
-
+                    HomeTimeLineStatusChanged();
                     EventArgs e = new EventArgs();
                     HomeTimelineSuccess(this, e);
                 }
@@ -395,7 +493,7 @@ namespace FanfouWP.API
                         default: break;
                     }
                     this.PublicTimeLineStatus = l;
-
+                    PublicTimeLineStatusChanged();
                     EventArgs e = new EventArgs();
                     PublicTimelineSuccess(this, e);
                 }
@@ -456,6 +554,7 @@ namespace FanfouWP.API
                         default: break;
                     }
                     this.MentionTimeLineStatus = l;
+                    MentionTimeLineStatusChanged();
                     EventArgs e = new EventArgs();
                     MentionTimelineSuccess(this, e);
                 }
@@ -474,7 +573,7 @@ namespace FanfouWP.API
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
-                Path = FanfouConsts.FAVORITES_ID + id + ".json",
+                Path = FanfouConsts.FAVORITES_ID + HttpUtility.UrlEncode(id) + ".json",
                 Method = Hammock.Web.WebMethod.Get
             };
             restRequest.AddParameter("page", page.ToString());
@@ -489,7 +588,7 @@ namespace FanfouWP.API
                     status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                     ms.Close();
 
-                    UserTimelineEventArgs e = new UserTimelineEventArgs();
+                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
                     e.UserStatus = status;
                     FavoritesSuccess(this, e);
                 }
@@ -611,6 +710,68 @@ namespace FanfouWP.API
                 {
                     FailedEventArgs e = new FailedEventArgs();
                     FavoritesDestroyFailed(this, e);
+                }
+            });
+        }
+
+        public void SearchTimeline(string q)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.SEARCH_PUBLIC_TIMELINE,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("q", q);
+            restRequest.AddParameter("count", "60");
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                    var ds = new DataContractJsonSerializer(status.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                    ms.Close();
+
+                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                    e.UserStatus = status;
+                    SearchTimelineSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    SearchTimelineFailed(this, e);
+                }
+            });
+        }
+
+        public void TrendsList()
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.TRENDS_LIST,
+                Method = Hammock.Web.WebMethod.Get
+            };
+       
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.TrendsList trends = new Items.TrendsList();
+                    var ds = new DataContractJsonSerializer(trends.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    trends = ds.ReadObject(ms) as Items.TrendsList;
+                    ms.Close();
+
+                    TrendsListEventArgs e = new TrendsListEventArgs();
+                    e.trendsList = trends;
+                    TrendsListSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    TrendsListFailed(this, e);
                 }
             });
         }

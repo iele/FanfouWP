@@ -16,5 +16,42 @@ namespace FanfouWP.UserControls
         {
             InitializeComponent();
         }
+
+        private void DirectMsgTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void FavTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var user = this.DataContext as FanfouWP.API.Items.User;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("FavStatusPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("FavStatusPage");
+            }
+            PhoneApplicationService.Current.State.Add("FavStatusPage", user);
+            App.RootFrame.Navigate(new Uri("/FavStatusPage.xaml", UriKind.Relative));
+        }
+
+        private void TagTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void SearchTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.RootFrame.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
+        }
+
+        private void TrendTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            App.RootFrame.Navigate(new Uri("/TrendsPage.xaml", UriKind.Relative));      
+        }
+
+        private void SettingTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
     }
 }

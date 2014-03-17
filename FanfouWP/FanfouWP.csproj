@@ -91,15 +91,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\Events\TrendsListEventArgs.cs" />
     <Compile Include="API\Events\UserTimelineEventArgs.cs" />
     <Compile Include="API\Events\FailedEventArgs.cs" />
     <Compile Include="API\FanfouAPI.cs" />
     <Compile Include="API\FanfouConsts.cs" />
+    <Compile Include="API\Items\Item.cs" />
+    <Compile Include="API\Items\Trends.cs" />
     <Compile Include="API\Items\Photo.cs" />
     <Compile Include="API\Items\Status.cs" />
     <Compile Include="API\Items\User.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemControls\TrendsItemControl.xaml.cs">
+      <DependentUpon>TrendsItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrendsPage.xaml.cs">
+      <DependentUpon>TrendsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemControls\StatusItemControl.xaml.cs">
       <DependentUpon>StatusItemControl.xaml</DependentUpon>
@@ -116,11 +128,8 @@
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HomeTimelinePage.xaml.cs">
-      <DependentUpon>HomeTimelinePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MentionTimelinePage.xaml.cs">
-      <DependentUpon>MentionTimelinePage.xaml</DependentUpon>
+    <Compile Include="FavStatusPage.xaml.cs">
+      <DependentUpon>FavStatusPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendPage.xaml.cs">
@@ -130,6 +139,7 @@
       <DependentUpon>StatusPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Storage\SettingManager.cs" />
+    <Compile Include="Storage\TimelineStorage.cs" />
     <Compile Include="TimelinePage.xaml.cs">
       <DependentUpon>TimelinePage.xaml</DependentUpon>
     </Compile>
@@ -149,6 +159,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="ItemControls\TrendsItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TrendsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ItemControls\StatusItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,11 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HomeTimelinePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MentionTimelinePage.xaml">
+    <Page Include="FavStatusPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,13 +223,16 @@
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppBar\add.png" />
+    <Content Include="Assets\AppBar\back.png" />
     <Content Include="Assets\AppBar\edit.png" />
     <Content Include="Assets\AppBar\favs.addto.png" />
     <Content Include="Assets\AppBar\feature.calendar.png" />
     <Content Include="Assets\AppBar\feature.camera.png" />
     <Content Include="Assets\AppBar\feature.search.png" />
     <Content Include="Assets\AppBar\feature.settings.png" />
+    <Content Include="Assets\AppBar\like.png" />
     <Content Include="Assets\AppBar\minus.png" />
+    <Content Include="Assets\AppBar\next.png" />
     <Content Include="Assets\AppBar\questionmark.png" />
     <Content Include="Assets\AppBar\refresh.png" />
     <Content Include="Assets\AppBar\share.png" />
@@ -282,7 +303,16 @@
       <HintPath>..\packages\Unofficial.Blend.Interactivity.1.0.0\lib\wp8\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UserControls\contact.png" />
+    <Resource Include="UserControls\email.png" />
+    <Resource Include="UserControls\equaliser.png" />
+    <Resource Include="UserControls\folder-bookmarks.png" />
+    <Resource Include="UserControls\gmail.png" />
+    <Resource Include="UserControls\search.png" />
+    <Resource Include="UserControls\spareparts.png" />
+    <Resource Include="UserControls\stocks.png" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
