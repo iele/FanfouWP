@@ -36,7 +36,14 @@ namespace FanfouWP.UserControls
 
         private void TagTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            var user = this.DataContext as FanfouWP.API.Items.User;
 
+            if (PhoneApplicationService.Current.State.ContainsKey("TagPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("TagPage");
+            }
+            PhoneApplicationService.Current.State.Add("TagPage", user);
+            App.RootFrame.Navigate(new Uri("/TagPage.xaml", UriKind.Relative));
         }
 
         private void SearchTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -46,7 +53,7 @@ namespace FanfouWP.UserControls
 
         private void TrendTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            App.RootFrame.Navigate(new Uri("/TrendsPage.xaml", UriKind.Relative));      
+            App.RootFrame.Navigate(new Uri("/TrendsPage.xaml", UriKind.Relative));
         }
 
         private void SettingTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)

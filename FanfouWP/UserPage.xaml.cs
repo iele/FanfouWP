@@ -18,10 +18,10 @@ namespace FanfouWP
         public UserPage()
         {
             InitializeComponent();
-            if (PhoneApplicationService.Current.State.ContainsKey("User"))
+            if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
             {
-                user = PhoneApplicationService.Current.State["User"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("User");
+                user = PhoneApplicationService.Current.State["UserPage"] as FanfouWP.API.Items.User;
+                PhoneApplicationService.Current.State.Remove("UserPage");
             }
             this.Loaded += UserPage_Loaded;
             FanfouWP.API.FanfouAPI.Instance.UserTimelineSuccess += Instance_UserTimelineSuccess;

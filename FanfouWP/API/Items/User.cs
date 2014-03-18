@@ -61,5 +61,7 @@ namespace FanfouWP.API.Items
         public string profile_background_image_url { get; set; }
 
         public bool profile_background_tile { get; set; }
+
+        public Status status { get; set; }
     }
 }

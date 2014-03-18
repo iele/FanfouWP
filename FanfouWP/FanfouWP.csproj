@@ -92,6 +92,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\Events\TrendsListEventArgs.cs" />
+    <Compile Include="API\Events\ListEventArgs.cs" />
     <Compile Include="API\Events\UserTimelineEventArgs.cs" />
     <Compile Include="API\Events\FailedEventArgs.cs" />
     <Compile Include="API\FanfouAPI.cs" />
@@ -104,8 +105,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\UserItemControl.xaml.cs">
+      <DependentUpon>UserItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ItemControls\TrendsItemControl.xaml.cs">
       <DependentUpon>TrendsItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TagPage.xaml.cs">
+      <DependentUpon>TagPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TrendsPage.xaml.cs">
       <DependentUpon>TrendsPage.xaml</DependentUpon>
@@ -159,9 +166,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="ItemControls\UserItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ItemControls\TrendsItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TagPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TrendsPage.xaml">
       <SubType>Designer</SubType>
@@ -214,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Help\Nokia Imaging SDK.chm" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -290,6 +306,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\Portable.CommonServiceLocator.1.2.2\lib\portable-net4+sl4+wp7+win8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Nokia.Graphics.Imaging.Managed">
+      <HintPath>..\packages\NokiaImagingSDK.1.1.177\lib\wp8\Nokia.Graphics.Imaging.Managed.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
     </Reference>
@@ -304,14 +323,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UserControls\contact.png" />
-    <Resource Include="UserControls\email.png" />
-    <Resource Include="UserControls\equaliser.png" />
-    <Resource Include="UserControls\folder-bookmarks.png" />
-    <Resource Include="UserControls\gmail.png" />
-    <Resource Include="UserControls\search.png" />
-    <Resource Include="UserControls\spareparts.png" />
-    <Resource Include="UserControls\stocks.png" />
+    <Resource Include="Assets\contact.png" />
+    <Resource Include="Assets\email.png" />
+    <Resource Include="Assets\equaliser.png" />
+    <Resource Include="Assets\folder-bookmarks.png" />
+    <Resource Include="Assets\gmail.png" />
+    <Resource Include="Assets\search.png" />
+    <Resource Include="Assets\spareparts.png" />
+    <Resource Include="Assets\stocks.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -331,4 +350,5 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="..\packages\NokiaImagingSDK.1.1.177\build\wp8\NokiaImagingSDK.targets" Condition="Exists('..\packages\NokiaImagingSDK.1.1.177\build\wp8\NokiaImagingSDK.targets')" />
 </Project>

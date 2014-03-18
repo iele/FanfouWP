@@ -82,11 +82,11 @@ namespace FanfouWP
 
         private void UserButton_Click(object sender, EventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey("User"))
+            if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
             {
-                PhoneApplicationService.Current.State.Remove("User");
+                PhoneApplicationService.Current.State.Remove("UserPage");
             }
-            PhoneApplicationService.Current.State.Add("User", status.user);
+            PhoneApplicationService.Current.State.Add("UserPage", status.user);
             NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
         }
 

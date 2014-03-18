@@ -102,6 +102,17 @@ namespace FanfouWP.API
         public event TrendsListSuccessHandler TrendsListSuccess;
         public event TrendsListFailedHandler TrendsListFailed;
 
+        public delegate void TagListSuccessHandler(object sender, ListEventArgs<string> e);
+        public delegate void TagListFailedHandler(object sender, FailedEventArgs e);
+        public delegate void TaggedSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
+        public delegate void TaggedFailedHandler(object sender, FailedEventArgs e);
+
+        public event TagListSuccessHandler TagListSuccess;
+        public event TagListFailedHandler TagListFailed;
+        public event TaggedSuccessHandler TaggedSuccess;
+        public event TaggedFailedHandler TaggedFailed;
+
+
         private static FanfouAPI instance;
         public static FanfouAPI Instance
         {
@@ -772,6 +783,68 @@ namespace FanfouWP.API
                 {
                     FailedEventArgs e = new FailedEventArgs();
                     TrendsListFailed(this, e);
+                }
+            });
+        }
+
+        public void TaggedList(string id )
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.USER_TAG_LIST,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id",id);
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    List<string> tags = new List<string>();
+                    var ds = new DataContractJsonSerializer(tags.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    tags = ds.ReadObject(ms) as List<string>;
+                    ms.Close();
+
+                    ListEventArgs<string> e = new ListEventArgs<string>();
+                    e.Result = tags;
+                    TagListSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    TagListFailed(this, e);
+                }
+            });
+        }
+
+        public void Tagged(string tag)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.USERS_TAGGED,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("tag", tag);
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                   ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
+                    var ds = new DataContractJsonSerializer(users.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                    ms.Close();
+
+                    var e = new UserTimelineEventArgs<Items.User>();
+                    e.UserStatus = users;
+                    TaggedSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    TaggedFailed(this, e);
                 }
             });
         }

@@ -25,5 +25,7 @@ namespace FanfouWP.API
         public const string SEARCH_PUBLIC_TIMELINE = "search/public_timeline.json";
         public const string SEARCH_USER = "search/users.json";
         public const string TRENDS_LIST = "trends/list.json";
+        public const string USER_TAG_LIST = "/users/tag_list.json";
+        public const string USERS_TAGGED = "users/tagged.json";
     }
 }
