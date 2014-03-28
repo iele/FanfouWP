@@ -13,6 +13,7 @@ using System.Windows.Controls.Primitives;
 using FanfouWP.Utils;
 using System.Threading.Tasks;
 using FanfouWP.API.Items;
+using Microsoft.Phone.Tasks;
 
 namespace FanfouWP
 {
@@ -29,7 +30,7 @@ namespace FanfouWP
             FanfouAPI.HomeTimelineSuccess += FanfouAPI_HomeTimelineSuccess;
             FanfouAPI.HomeTimelineFailed += FanfouAPI_HomeTimelineFailed;
             FanfouAPI.MentionTimelineSuccess += FanfouAPI_MentionTimelineSuccess;
-            FanfouAPI.PublicTimelineFailed += FanfouAPI_MentionTimelineFailed;
+            FanfouAPI.MentionTimelineFailed +=FanfouAPI_MentionTimelineFailed;
             FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
             FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
 
@@ -66,11 +67,9 @@ namespace FanfouWP
 
         private void FanfouAPI_MentionTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
-            throw new NotImplementedException();
         }
         private void FanfouAPI_HomeTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
 
@@ -152,8 +151,10 @@ namespace FanfouWP
 
         private void CameraButton_Click(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/PhotoPage.xaml",UriKind.Relative));
         }
+
+       
 
         private void SearchButton_Click(object sender, EventArgs e)
         {

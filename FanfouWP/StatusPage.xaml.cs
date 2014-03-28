@@ -7,6 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Maps.Controls;
+using Microsoft.Phone.Maps.Services;
+using System.Device.Location;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace FanfouWP
 {
@@ -32,6 +37,38 @@ namespace FanfouWP
             {
                 this.DataContext = status;
                 NewAppBar();
+
+                if (this.status.location != "")
+                {
+                    try
+                    {
+                        char[] s = { ',' };
+                        string[] l = this.status.location.Split(s);
+                        this.map.Center = new GeoCoordinate(double.Parse(l[0]), double.Parse(l[1]));
+                        this.map.ZoomLevel = 15;
+                        this.map.Layers.Clear();
+                        var mapLayer = new MapLayer();
+                        this.map.Layers.Add(mapLayer);
+                        MapOverlay overlay = new MapOverlay();
+                        Ellipse mark = new Ellipse();
+                        mark.Fill = new SolidColorBrush(Colors.Blue);
+                        mark.Height = 20;
+                        mark.Width = 20;
+                        mark.Opacity = 50;
+                        overlay.Content = mark;
+
+                        overlay.GeoCoordinate = new GeoCoordinate(double.Parse(l[0]), double.Parse(l[1]));
+                        overlay.PositionOrigin = new Point(0.0, 1.0);
+                        mapLayer.Add(overlay);
+                        this.map.Visibility = Visibility.Visible;
+                    }
+                    catch (Exception)
+                    {
+                        this.map.Visibility = Visibility.Collapsed;
+                    }
+                }
+
+
             });
         }
 
@@ -126,7 +163,7 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.DataContext = status; 
+                this.DataContext = status;
                 NewAppBar();
                 FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
                 FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;

@@ -11,11 +11,10 @@
     xmlns:utils="clr-namespace:FanfouWP.Utils"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="False">
+    shell:SystemTray.IsVisible="False" FontFamily="{StaticResource PhoneFontFamilyNormal}">
 
     <Grid x:Name="LayoutRoot">
         <phone:Pivot x:Name="Pivot" Title="FanfouWP" Margin="0" >
@@ -46,7 +45,7 @@
 
             <phone:PivotItem Header="工具箱">
                 <ScrollViewer>
-            		<usercontrols:ToolsControl x:Name="Toolbox" Height="604" Width="420" HorizontalAlignment="Left" />
+            		<usercontrols:ToolsControl x:Name="Toolbox"  HorizontalAlignment="Left" />
             	</ScrollViewer>
             </phone:PivotItem>
             

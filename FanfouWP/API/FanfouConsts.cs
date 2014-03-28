@@ -19,13 +19,21 @@ namespace FanfouWP.API
         public const string STATUS_USER_TIMELINE = "statuses/user_timeline.json";
         public const string STATUS_MENTION_TIMELINE = "statuses/mentions.json";
         public const string STATUS_UPDATE = "statuses/update.json";
-        public const string FAVORITES_ID = "favorites/";
+        public const string FAVORITES_ID = "favorites/id.json";
         public const string FAVORITES_CREATE_ID = "favorites/create/";
         public const string FAVORITES_DESTROY_ID = "favorites/destroy/";
         public const string SEARCH_PUBLIC_TIMELINE = "search/public_timeline.json";
         public const string SEARCH_USER = "search/users.json";
         public const string TRENDS_LIST = "trends/list.json";
-        public const string USER_TAG_LIST = "/users/tag_list.json";
+        public const string USER_TAG_LIST = "users/tag_list.json";
         public const string USERS_TAGGED = "users/tagged.json";
+        public const string USERS_FOLLOWERS = "users/followers.json";
+        public const string USERS_FRIENDS = "users/friends.json";
+        public const string PHOTOS_UPLOAD = "photos/upload.json";
+        public const string FRIENDSHIPS_CREATE = "friendships/create.json";
+        public const string FRIENDSHIPS_DESTROY = "friendships/destroy.json";
+        public const string FRIENDSHIPS_REQUESTS = "friendships/requests.json";
+        public const string FRIENDSHIPS_DENY = "friendships/deny.json";
+        public const string FRIENDSHIPS_ACCEPT = "friendships/accept.json";
     }
 }

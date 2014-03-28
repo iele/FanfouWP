@@ -31,37 +31,26 @@ namespace FanfouWP
 
         private void changeMenu(bool is_end, bool is_disabled = false)
         {
-            ApplicationBar = new ApplicationBar();
-
-            ApplicationBar.Mode = ApplicationBarMode.Default;
-            ApplicationBar.Opacity = 1.0;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
-
-            ApplicationBarIconButton ForeButton = new ApplicationBarIconButton();
-            ForeButton.IconUri = new Uri("/Assets/AppBar/back.png", UriKind.Relative);
-            ForeButton.Text = "前页";
+            ApplicationBarIconButton ForeButton = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
             if (currentPage <= 1 || is_disabled)
                 ForeButton.IsEnabled = false;
-            ApplicationBar.Buttons.Add(ForeButton);
-            ForeButton.Click += new EventHandler(ForeButton_Click);
+            else
+                ForeButton.IsEnabled = true;
 
-            ApplicationBarIconButton BackButton = new ApplicationBarIconButton();
-            BackButton.IconUri = new Uri("/Assets/AppBar/next.png", UriKind.Relative);
-            BackButton.Text = "次页";
+            ApplicationBarIconButton BackButton = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             if (is_end || is_disabled)
-            {
                 BackButton.IsEnabled = false;
-            }
-            ApplicationBar.Buttons.Add(BackButton);
-            BackButton.Click += new EventHandler(BackButton_Click);
+            else
+                BackButton.IsEnabled = true;
+
         }
 
         void FavStatusPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(() => {
+            Dispatcher.BeginInvoke(() =>
+            {
                 this.title.Text = this.user.screen_name + "的收藏";
-            
+
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(user.id, currentPage);
             FanfouWP.API.FanfouAPI.Instance.FavoritesSuccess += Instance_FavoritesSuccess;
@@ -110,7 +99,7 @@ namespace FanfouWP
             {
                 currentPage--;
                 FanfouWP.API.FanfouAPI.Instance.FavoritesId(user.id, currentPage);
-                changeMenu(false,true);
+                changeMenu(false, true);
             }
         }
 
@@ -118,7 +107,7 @@ namespace FanfouWP
         {
             currentPage++;
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(user.id, currentPage);
-            changeMenu(false, true);           
+            changeMenu(false, true);
         }
 
 

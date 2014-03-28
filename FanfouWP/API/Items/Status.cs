@@ -35,6 +35,8 @@ namespace FanfouWP.API.Items
 
         public bool favorited { get; set; }
 
+        public string location { get; set; }
+
         public User user { get; set; }
 
         public Photo photo { get; set; }

@@ -10,13 +10,13 @@ using System.Windows.Data;
 
 namespace FanfouWP.ItemControls.ValueConverter
 {
-    public sealed class BoolToVisibilityConverter : IValueConverter
+    public sealed class BoolToFavoritedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)
         {
             if (value == null)
-                return Visibility.Collapsed;
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+                return "";
+            return (bool)value ? "已收藏" : "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)

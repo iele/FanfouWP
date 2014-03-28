@@ -11,6 +11,7 @@ using System.IO;
 using Hammock.Authentication.OAuth;
 using System.Collections.ObjectModel;
 using FanfouWP.Storage;
+using System.Windows.Media.Imaging;
 
 namespace FanfouWP.API
 {
@@ -96,7 +97,7 @@ namespace FanfouWP.API
         public event SearchTimelineSuccessHandler SearchTimelineSuccess;
         public event SearchTimelineFailedHandler SearchTimelineFailed;
 
-        public delegate void TrendsListSuccessHandler(object sender,TrendsListEventArgs e);
+        public delegate void TrendsListSuccessHandler(object sender, TrendsListEventArgs e);
         public delegate void TrendsListFailedHandler(object sender, FailedEventArgs e);
 
         public event TrendsListSuccessHandler TrendsListSuccess;
@@ -112,6 +113,43 @@ namespace FanfouWP.API
         public event TaggedSuccessHandler TaggedSuccess;
         public event TaggedFailedHandler TaggedFailed;
 
+        public delegate void UsersFollowersSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
+        public delegate void UsersFollowersFailedHandler(object sender, FailedEventArgs e);
+        public delegate void UsersFriendsSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
+        public delegate void UsersFriendsFailedHandler(object sender, FailedEventArgs e);
+
+        public event UsersFollowersSuccessHandler UsersFollowersSuccess;
+        public event UsersFollowersFailedHandler UsersFollowersFailed;
+        public event UsersFriendsSuccessHandler UsersFriendsSuccess;
+        public event UsersFriendsFailedHandler UsersFriendsFailed;
+
+        public delegate void PhotosUploadSuccessHandler(object sender, EventArgs e);
+        public delegate void PhotosUploadFailedHandler(object sender, FailedEventArgs e);
+
+        public event PhotosUploadSuccessHandler PhotosUploadSuccess;
+        public event PhotosUploadFailedHandler PhotosUploadFailed;
+
+        public delegate void FriendshipsCreateSuccessHandler(object sender, EventArgs e);
+        public delegate void FriendshipsCreateFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FriendshipsDestroySuccessHandler(object sender, EventArgs e);
+        public delegate void FriendshipsDestroyFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FriendshipsRequestsSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
+        public delegate void FriendshipsRequestsFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FriendshipsAcceptSuccessHandler(object sender, EventArgs e);
+        public delegate void FriendshipsAcceptFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FriendshipsDenySuccessHandler(object sender, EventArgs e);
+        public delegate void FriendshipsDenyFailedHandler(object sender, FailedEventArgs e);
+
+        public event FriendshipsCreateSuccessHandler FriendshipsCreateSuccess;
+        public event FriendshipsCreateFailedHandler FriendshipsCreateFailed;
+        public event FriendshipsDestroySuccessHandler FriendshipsDestroySuccess;
+        public event FriendshipsDestroyFailedHandler FriendshipsDestroyFailed;
+        public event FriendshipsRequestsSuccessHandler FriendshipsRequestsSuccess;
+        public event FriendshipsRequestsFailedHandler FriendshipsRequestsFailed;
+        public event FriendshipsAcceptSuccessHandler FriendshipsAcceptSuccess;
+        public event FriendshipsAcceptFailedHandler FriendshipsAcceptFailed;
+        public event FriendshipsDenySuccessHandler FriendshipsDenySuccess;
+        public event FriendshipsDenyFailedHandler FriendshipsDenyFailed;
 
         private static FanfouAPI instance;
         public static FanfouAPI Instance
@@ -131,15 +169,16 @@ namespace FanfouWP.API
             this.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
             this.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
 
-           storage.WriteDataSuccess += JsonStorage_WriteDataSuccess;
-           storage.WriteDataFailed += JsonStorage_WriteDataFailed;
-           storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
-           storage.ReadDataFailed += JsonStorage_ReadDataFailed;
+            storage.WriteDataSuccess += JsonStorage_WriteDataSuccess;
+            storage.WriteDataFailed += JsonStorage_WriteDataFailed;
+            storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
+            storage.ReadDataFailed += JsonStorage_ReadDataFailed;
         }
-        
+
         void JsonStorage_ReadDataSuccess(object sender, UserTimelineEventArgs<Items.Status> e)
         {
-            switch (sender as string) { 
+            switch (sender as string)
+            {
                 case "home":
                     this.HomeTimeLineStatus = e.UserStatus;
                     break;
@@ -148,7 +187,7 @@ namespace FanfouWP.API
                     break;
                 case "mention":
                     this.MentionTimeLineStatus = e.UserStatus;
-                    break;            
+                    break;
             }
         }
 
@@ -166,16 +205,16 @@ namespace FanfouWP.API
 
         private void HomeTimeLineStatusChanged()
         {
-           storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
+            storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
         }
         private void PublicTimeLineStatusChanged()
         {
-           storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
+            storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
         }
 
         private void MentionTimeLineStatusChanged()
         {
-           storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
+            storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
         }
         public void TryRestoreData()
         {
@@ -190,11 +229,11 @@ namespace FanfouWP.API
                 this.LoginSuccess += (o, e) => { };
                 this.LoginFailed += (o, e) => { };
                 this.Login(username, password);
-               storage.ReadDataFromIsolatedStorage("home");
-               storage.ReadDataFromIsolatedStorage("public");
-               storage.ReadDataFromIsolatedStorage("mention");
+                storage.ReadDataFromIsolatedStorage("home");
+                storage.ReadDataFromIsolatedStorage("public");
+                storage.ReadDataFromIsolatedStorage("mention");
 
-               RestoreDataSuccess(this, new EventArgs());
+                RestoreDataSuccess(this, new EventArgs());
             }
             RestoreDataFailed(this, new FailedEventArgs());
         }
@@ -230,6 +269,7 @@ namespace FanfouWP.API
             }
         }
 
+        #region account
         public void Login(string username, string password)
         {
             this.username = username;
@@ -285,6 +325,38 @@ namespace FanfouWP.API
             });
         }
 
+
+        public void VerifyCredentials()
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.VERIFY_CREDENTIALS,
+                Method = Hammock.Web.WebMethod.Get
+            };
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.User user = new Items.User();
+                    var ds = new DataContractJsonSerializer(user.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    user = ds.ReadObject(ms) as Items.User;
+                    ms.Close();
+                    this.CurrentUser = user;
+                    EventArgs e = new EventArgs();
+                    VerifyCredentialsSuccess(this, e);
+
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    VerifyCredentialsFailed(this, e);
+                }
+            });
+        }
+        #endregion
+        #region status
         public void StatusUpdate(string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -330,36 +402,6 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void VerifyCredentials()
-        {
-            Hammock.RestRequest restRequest = new Hammock.RestRequest
-            {
-                Path = FanfouConsts.VERIFY_CREDENTIALS,
-                Method = Hammock.Web.WebMethod.Get
-            };
-
-            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
-            {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    Items.User user = new Items.User();
-                    var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    user = ds.ReadObject(ms) as Items.User;
-                    ms.Close();
-                    this.CurrentUser = user;
-                    EventArgs e = new EventArgs();
-                    VerifyCredentialsSuccess(this, e);
-
-                }
-                else
-                {
-                    FailedEventArgs e = new FailedEventArgs();
-                    VerifyCredentialsFailed(this, e);
-                }
-            });
-        }
-        #region status
         public void StatusUserTimeline(string user_id)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -577,16 +619,16 @@ namespace FanfouWP.API
             });
         }
         #endregion
-
         #region favorites
 
         public void FavoritesId(string id, int page = 1)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
-                Path = FanfouConsts.FAVORITES_ID + HttpUtility.UrlEncode(id) + ".json",
+                Path = FanfouConsts.FAVORITES_ID,
                 Method = Hammock.Web.WebMethod.Get
             };
+            restRequest.AddParameter("id", id);
             restRequest.AddParameter("page", page.ToString());
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -725,6 +767,9 @@ namespace FanfouWP.API
             });
         }
 
+        #endregion
+        #region search
+
         public void SearchTimeline(string q)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -764,7 +809,7 @@ namespace FanfouWP.API
                 Path = FanfouConsts.TRENDS_LIST,
                 Method = Hammock.Web.WebMethod.Get
             };
-       
+
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -787,14 +832,14 @@ namespace FanfouWP.API
             });
         }
 
-        public void TaggedList(string id )
+        public void TaggedList(string id)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
                 Path = FanfouConsts.USER_TAG_LIST,
                 Method = Hammock.Web.WebMethod.Get
             };
-            restRequest.AddParameter("id",id);
+            restRequest.AddParameter("id", id);
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -831,7 +876,7 @@ namespace FanfouWP.API
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                   ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
+                    ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
                     var ds = new DataContractJsonSerializer(users.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                     users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
@@ -849,8 +894,286 @@ namespace FanfouWP.API
             });
         }
         #endregion
+        #region user
+        public void UsersFollowers(string id, int count = 20, int page = 1)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.USERS_FOLLOWERS,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id", id);
+            restRequest.AddParameter("count", count.ToString());
+            restRequest.AddParameter("page", page.ToString());
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                    var ds = new DataContractJsonSerializer(user.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                    ms.Close();
+
+                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                    e.UserStatus = user;
+                    UsersFollowersSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    UsersFollowersFailed(this, e);
+                }
+            });
 
 
+        }
 
+        public void UsersFriends(string id, int count = 20, int page = 1)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.USERS_FRIENDS,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id", id);
+            restRequest.AddParameter("count", count.ToString());
+            restRequest.AddParameter("page", page.ToString());
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                    var ds = new DataContractJsonSerializer(user.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                    ms.Close();
+
+                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                    e.UserStatus = user;
+                    UsersFriendsSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    UsersFriendsFailed(this, e);
+                }
+            });
+        }
+        #endregion
+        #region friendship
+        public void FriendshipCreate(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_CREATE,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+            restRequest.AddParameter("id", id);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.User s = new Items.User();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.User;
+                    ms.Close();
+                        
+                    EventArgs e = new EventArgs();
+                    FriendshipsCreateSuccess(s, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsCreateFailed(this, e);
+                }
+            });
+        }
+        public void FriendshipDestroy(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_DESTROY,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+            restRequest.AddParameter("id", id);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.User s = new Items.User();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.User;
+                    ms.Close();
+
+                    EventArgs e = new EventArgs();
+                    FriendshipsDestroySuccess(s, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsDestroyFailed(this, e);
+                }
+            });
+        }
+        public void FriendshipRequests(int page = 1)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_REQUESTS,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("page", page.ToString());
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                    var ds = new DataContractJsonSerializer(user.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                    ms.Close();
+
+                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                    e.UserStatus = user;
+                    FriendshipsRequestsSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsRequestsFailed(this, e);
+                }
+            });
+        }
+
+        public void FriendshipAccept(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_ACCEPT,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+            restRequest.AddParameter("id", id);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.User s = new Items.User();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.User;
+                    ms.Close();
+
+                    EventArgs e = new EventArgs();
+                    FriendshipsAcceptSuccess(s, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsAcceptFailed(this, e);
+                }
+            });
+        }
+
+        public void FriendshipDeny(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_DENY,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+            restRequest.AddParameter("id", id);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.User s = new Items.User();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.User;
+                    ms.Close();
+
+                    EventArgs e = new EventArgs();
+                    FriendshipsDenySuccess(s, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsDenyFailed(this, e);
+                }
+            });
+        }
+        #endregion
+
+        #region photo
+        public void PhotoUpload(string status, WriteableBitmap photo, string location = "")
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.PHOTOS_UPLOAD,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+
+            if (location != "")
+                restRequest.AddParameter("location", location);
+            
+            restRequest.AddHeader("Content-Type", "multipart/form-data");
+
+            var stream = new MemoryStream();
+            photo.SaveJpeg(stream, photo.PixelWidth, photo.PixelHeight, 0, 70);
+
+            restRequest.AddFile("photo", "photo.jpeg", stream, "image/jpg");
+
+            restRequest.AddParameter("status", status);
+            
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.Status s = new Items.Status();
+                    var ds = new DataContractJsonSerializer(s.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    s = ds.ReadObject(ms) as Items.Status;
+                    ms.Close();
+                    var l = new ObservableCollection<Items.Status>();
+                    l.Add(s);
+                    foreach (var item in HomeTimeLineStatus)
+                        l.Add(item);
+                    this.HomeTimeLineStatus = l;
+                    HomeTimeLineStatusChanged();
+                    EventArgs e = new EventArgs();
+                    PhotosUploadSuccess(this, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    PhotosUploadFailed(this, e);
+                }
+            });
+        }
+        #endregion
     }
 }

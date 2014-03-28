@@ -11,7 +11,7 @@
     d:DesignHeight="480" d:DesignWidth="480"  >
 
     <Grid x:Name="LayoutRoot" >
-        <Image HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="42" Width="180" Source="/Assets/fanfou_beta.png"/>
+        <Image HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="48" Width="180" Source="/Assets/fanfou_beta.png"/>
         <Image HorizontalAlignment="Left" Height="42" Margin="195,10,0,0" VerticalAlignment="Top" Width="42" x:Name="AvatarImage" Source="{Binding profile_image_url}"/>
     </Grid>
 </UserControl>

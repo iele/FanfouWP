@@ -14,7 +14,7 @@
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
-            <converter:BoolToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToVisibilityConverter" />
+            <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.FontFamily>
@@ -36,13 +36,13 @@
                 </toolkit:ContextMenu>
             </toolkit:ContextMenuService.ContextMenu>
             <Image Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42"/>
-            <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
             <StackPanel VerticalAlignment="Top" Margin="89,10,10,0">
                 <TextBlock Margin="10,0" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"/>
                 <StackPanel Margin="0" Orientation="Horizontal">
                     <TextBlock Margin="10,5,0,0" Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                     <TextBlock Margin="10,5,0,0" Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-                    <TextBlock Margin="10,5,0,0" Visibility="{Binding favorited, Converter={StaticResource BoolToVisibilityConverter}}" Text="已收藏" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                    <TextBlock Margin="10,5,0,0" Text="{Binding favorited,  Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="20,81,15,0">

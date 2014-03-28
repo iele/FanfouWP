@@ -14,7 +14,7 @@ namespace FanfouWP
 {
     public partial class SearchPage : PhoneApplicationPage
     {
-        private string keyword = "";
+        private string keyword;
         public SearchPage()
         {
             InitializeComponent();
@@ -30,13 +30,18 @@ namespace FanfouWP
 
         void SearchPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.SearchText.Text = keyword;
-            });
-
             FanfouWP.API.FanfouAPI.Instance.SearchTimelineSuccess += Instance_SearchTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.SearchTimelineFailed += Instance_SearchTimelineFailed;
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (keyword != null)
+                {
+                    this.SearchText.Text = keyword;
+                    FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
+                }
+            });
+
         }
 
         void Instance_SearchTimelineFailed(object sender, FailedEventArgs e)

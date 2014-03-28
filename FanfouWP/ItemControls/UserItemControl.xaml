@@ -15,17 +15,21 @@
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
-            <converter:BoolToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToVisibilityConverter" />
+            <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid x:Name="LayoutRoot">
         <Grid Margin="0,5">
-           <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
            <StackPanel Margin="20,10,0,0" VerticalAlignment="Top">
            	<StackPanel Margin="0" Orientation="Horizontal">
            		<Image HorizontalAlignment="Left" Height="64" Margin="0" VerticalAlignment="Top" Width="64" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" RenderTransformOrigin="0.55,1"/>
-           		<TextBlock TextWrapping="Wrap" Text="{Binding screen_name}" FontSize="32" Margin="5,0,0,0"/>
+           		<TextBlock TextWrapping="Wrap" Text="{Binding screen_name}" FontSize="32" Margin="5,0,0,0">
+           			<TextBlock.Foreground>
+           				<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+           			</TextBlock.Foreground>
+           		</TextBlock>
            	</StackPanel>
            	<StackPanel Orientation="Horizontal" Margin="0,5,0,0">
            		<TextBlock TextWrapping="Wrap" Text="{Binding location}" Margin="0" FontSize="24" Foreground="#DE878686"/>

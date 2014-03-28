@@ -18,6 +18,8 @@ namespace FanfouWP
         {
             InitializeComponent();
 
+            Dispatcher.BeginInvoke(async () => await Utils.GeoLocatorUtils.getGeolocator());
+
             this.Loaded += MainPage_Loaded;
         }
 

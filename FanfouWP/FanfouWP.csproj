@@ -111,6 +111,9 @@
     <Compile Include="ItemControls\TrendsItemControl.xaml.cs">
       <DependentUpon>TrendsItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PhotoPage.xaml.cs">
+      <DependentUpon>PhotoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TagPage.xaml.cs">
       <DependentUpon>TagPage.xaml</DependentUpon>
     </Compile>
@@ -123,7 +126,7 @@
     <Compile Include="ItemControls\StatusItemControl.xaml.cs">
       <DependentUpon>StatusItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControls\ValueConverter\BoolToVisibilityConverter.cs" />
+    <Compile Include="ItemControls\ValueConverter\BoolToFavoritedConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\ImageSourceToCacheConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\StatusToFillColorConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\TextToLeftCountTextConverter.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\GeoLocatorUtils.cs" />
     <Compile Include="Utils\TiltEffect.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +177,10 @@
     <Page Include="ItemControls\TrendsItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PhotoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TagPage.xaml">
       <SubType>Designer</SubType>
@@ -258,6 +266,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\fanfou_beta.png" />
+    <Content Include="Assets\icon-medium.png" />
+    <Content Include="Assets\icon-small.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -273,6 +283,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\SplashScreenImage.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -308,6 +319,9 @@
     </Reference>
     <Reference Include="Nokia.Graphics.Imaging.Managed">
       <HintPath>..\packages\NokiaImagingSDK.1.1.177\lib\wp8\Nokia.Graphics.Imaging.Managed.dll</HintPath>
+    </Reference>
+    <Reference Include="NokiaMapSDK">
+      <HintPath>..\packages\NokiaMapSDK.1.0\lib\sl4-wp71\NokiaMapSDK.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
@@ -351,4 +365,5 @@
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="..\packages\NokiaImagingSDK.1.1.177\build\wp8\NokiaImagingSDK.targets" Condition="Exists('..\packages\NokiaImagingSDK.1.1.177\build\wp8\NokiaImagingSDK.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\WindowsPhone\v8.0\Microsoft.Expression.Blend.WindowsPhone.targets" />
 </Project>

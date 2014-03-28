@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
+using System.Windows.Media.Imaging;
 
 namespace FanfouWP
 {
@@ -21,6 +22,9 @@ namespace FanfouWP
         private dynamic is_sending = false;
         private FanfouWP.API.Items.Status status;
 
+        private WriteableBitmap image;
+
+        private string position = "";
         public SendPage()
         {
             InitializeComponent();
@@ -37,12 +41,25 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Remove("Reply");
                 currentPageType = PageType.Reply;
             }
+            if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Image"))
+            {
+                image = PhoneApplicationService.Current.State["SendPage_Image"] as WriteableBitmap;
+                PhoneApplicationService.Current.State.Remove("SendPage_Image");
+            }
         }
 
         private void SendPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouAPI.StatusUpdateSuccess += FanfouAPI_StatusUpdateSuccess;
             FanfouAPI.StatusUpdateFailed += FanfouAPI_StatusUpdateFailed;
+            FanfouAPI.PhotosUploadSuccess += FanfouAPI_PhotosUploadSuccess;
+            FanfouAPI.PhotosUploadFailed += FanfouAPI_PhotosUploadFailed;
+
+            Dispatcher.BeginInvoke(async () =>
+            {
+                position = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
+                this.location.Text = position;
+            });
 
             switch (currentPageType)
             {
@@ -67,6 +84,25 @@ namespace FanfouWP
                 default:
                     break;
             }
+
+            if (image != null)
+            {
+                this.Image.Source = image;
+            }
+        }
+
+        void FanfouAPI_PhotosUploadFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            is_sending = false;
+        }
+
+        void FanfouAPI_PhotosUploadSuccess(object sender, EventArgs e)
+        {
+            is_sending = false;
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.NavigationService.GoBack();
+            });
         }
 
         void FanfouAPI_StatusUpdateFailed(object sender, API.Event.FailedEventArgs e)
@@ -85,6 +121,12 @@ namespace FanfouWP
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            if (image != null)
+            {
+                FanfouAPI.PhotoUpload(this.Status.Text, image);
+                return;
+            }
+
             if (this.Status.Text.Count() == 0)
                 return;
 
@@ -94,13 +136,13 @@ namespace FanfouWP
                 switch (currentPageType)
                 {
                     case PageType.Normal:
-                        FanfouAPI.StatusUpdate(this.Status.Text);
+                        FanfouAPI.StatusUpdate(this.Status.Text, location: this.position);
                         break;
                     case PageType.Resend:
-                        FanfouAPI.StatusUpdate(this.Status.Text, "", "", status.id);
+                        FanfouAPI.StatusUpdate(this.Status.Text, "", "", status.id, location: this.position);
                         break;
                     case PageType.Reply:
-                        FanfouAPI.StatusUpdate(this.Status.Text, status.id, status.user.id);
+                        FanfouAPI.StatusUpdate(this.Status.Text, status.id, status.user.id, location: this.position);
                         break;
                     default:
                         break;
