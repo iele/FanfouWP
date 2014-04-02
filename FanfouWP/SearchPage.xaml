@@ -5,8 +5,8 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
+   xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:utils="clr-namespace:FanfouWP.Utils"
    FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -19,15 +19,18 @@
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="155"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1" Height="0">
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0">
+        	<TextBlock x:Name="title" Text="搜索时间线 可用&quot;|&quot;分割多个关键字" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,17,12,56"/>
+        	<TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,70,12,0"/>
+        	<Rectangle Fill="#FF72CBE1" Margin="0" Canvas.ZIndex="-1" Height="60" VerticalAlignment="Top"/>
+        </Grid>
         <!--TitlePanel 包含应用程序的名称和页标题-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="title" Text="搜索时间线 可用&quot;|&quot;分割多个关键字" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,0,12,0"/>
-        </StackPanel>
 
 
         <!--ContentPanel - 在此处放置其他内容-->
@@ -46,4 +49,27 @@
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+   
 </phone:PhoneApplicationPage>

@@ -33,13 +33,16 @@ namespace FanfouWP
 
             FanfouWP.API.FanfouAPI.Instance.TaggedSuccess += Instance_TaggedSuccess;
             FanfouWP.API.FanfouAPI.Instance.TaggedFailed += Instance_TaggedFailed;
-            this.TagPicker.SelectionChanged += TagPicker_SelectionChanged;           
+            this.TagPicker.SelectionChanged += TagPicker_SelectionChanged;
             FanfouWP.API.FanfouAPI.Instance.TaggedList(user.id);
         }
 
         void Instance_TaggedFailed(object sender, API.Event.FailedEventArgs e)
         {
-            throw new NotImplementedException();
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_TaggedSuccess(object sender, API.Event.UserTimelineEventArgs<API.Items.User> e)
@@ -47,11 +50,16 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.ListBox.ItemsSource = e.UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
         void Instance_TagListFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_TagListSuccess(object sender, API.Event.ListEventArgs<string> e)
@@ -59,14 +67,21 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.TagPicker.ItemsSource = e.Result;
-             });
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         private void TagPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string tag = ((sender as ListPicker).SelectedItem as string);
             if (tag != null)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                });
                 FanfouWP.API.FanfouAPI.Instance.Tagged(tag);
+            }
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

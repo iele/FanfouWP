@@ -5,7 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  
      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
@@ -23,20 +23,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1">
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
+        <Grid Margin="0,0,0,28">
+        	<TextBlock Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,17,12,73"/>
+        	<toolkit:ListPicker x:Name="TagPicker" ItemsSource="{Binding}"  Margin="12,61,12,1"  >
+        		<toolkit:ListPicker.ItemTemplate>
+        			<DataTemplate>
+        				<StackPanel Orientation="Horizontal">
+        					<TextBlock Text="{Binding}"/>
+        				</StackPanel>
+        			</DataTemplate>
+        		</toolkit:ListPicker.ItemTemplate>
+        	</toolkit:ListPicker>
+        	<Rectangle Fill="#FF72CBE1" Margin="0,0,0,68" Canvas.ZIndex="-4" Height="56" VerticalAlignment="Top"/>
+        </Grid>
         <!--TitlePanel 包含应用程序的名称和页标题-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <toolkit:ListPicker x:Name="TagPicker" ItemsSource="{Binding}"  >
-                <toolkit:ListPicker.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding}"></TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </toolkit:ListPicker.ItemTemplate>
-            </toolkit:ListPicker>
-        </StackPanel>
         
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
@@ -50,5 +53,26 @@
             </ListBox>
         </Grid>
     </Grid>
-
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    
+      
 </phone:PhoneApplicationPage>

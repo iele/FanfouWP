@@ -156,6 +156,8 @@
     <Compile Include="UserControls\PanoramaTitleControl.xaml.cs">
       <DependentUpon>PanoramaTitleControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\RefreshableListBox.cs" />
+    <Compile Include="UserControls\RefreshableListBoxMethods.cs" />
     <Compile Include="UserControls\ToolsControl.xaml.cs">
       <DependentUpon>ToolsControl.xaml</DependentUpon>
     </Compile>
@@ -185,6 +187,10 @@
     <Page Include="TagPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TrendsPage.xaml">
       <SubType>Designer</SubType>
@@ -291,6 +297,9 @@
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Coding4Fun.Toolkit.Controls">
+      <HintPath>..\packages\Coding4Fun.Toolkit (Windows Phone 8)\Coding4Fun.Toolkit.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="Hammock.WindowsPhone">
       <HintPath>..\packages\Hammock.1.3.1\lib\sl4-wp\Hammock.WindowsPhone.dll</HintPath>
     </Reference>
@@ -348,6 +357,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

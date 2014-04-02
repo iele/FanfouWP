@@ -4,10 +4,10 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      xmlns:utils="clr-namespace:FanfouWP.Utils"
      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
-    xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
     x:Class="FanfouWP.UserPage"
     mc:Ignorable="d"
@@ -26,12 +26,15 @@
     </phone:PhoneApplicationPage.Resources>
 	 <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
             <phone:PivotItem Header="资料">
                 <ScrollViewer Margin="0">
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
-							Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"/>
+							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
                         <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
                         <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
                             <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,12"/>
@@ -92,6 +95,14 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
+        <Rectangle Height="160" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        	<Rectangle.Fill>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="White" Offset="1"/>
+        			<GradientStop Color="#FF72CBE1"/>
+        		</LinearGradientBrush>
+        	</Rectangle.Fill>
+        </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Minimized"  Opacity="1" IsMenuEnabled="True"  IsVisible="True">
@@ -100,4 +111,25 @@
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
+   
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
 </phone:PhoneApplicationPage>

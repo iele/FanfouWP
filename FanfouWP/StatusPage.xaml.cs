@@ -68,53 +68,25 @@ namespace FanfouWP
                     }
                 }
 
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
 
             });
         }
 
         private void NewAppBar()
         {
-            ApplicationBar = new ApplicationBar();
-
-            ApplicationBar.Mode = ApplicationBarMode.Default;
-            ApplicationBar.Opacity = 1.0;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
-            ApplicationBarIconButton UserButton = new ApplicationBarIconButton();
-            UserButton.IconUri = new Uri("/Assets/AppBar/feature.calendar.png", UriKind.Relative);
-            UserButton.Text = "个人资料";
-            ApplicationBar.Buttons.Add(UserButton);
-            UserButton.Click += new EventHandler(UserButton_Click);
-
-            ApplicationBarIconButton ResendButton = new ApplicationBarIconButton();
-            ResendButton.IconUri = new Uri("/Assets/AppBar/share.png", UriKind.Relative);
-            ResendButton.Text = "转发";
-            ApplicationBar.Buttons.Add(ResendButton);
-            ResendButton.Click += new EventHandler(ResendButton_Click);
-
             if (!status.favorited)
             {
-                ApplicationBarIconButton FavButton = new ApplicationBarIconButton();
+                ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/favs.addto.png", UriKind.Relative);
                 FavButton.Text = "收藏";
-                ApplicationBar.Buttons.Add(FavButton);
-                FavButton.Click += new EventHandler(FavButton_Click);
             }
             else
             {
-                ApplicationBarIconButton FavButton = new ApplicationBarIconButton();
+                ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/minus.png", UriKind.Relative);
                 FavButton.Text = "取消收藏";
-                ApplicationBar.Buttons.Add(FavButton);
-                FavButton.Click += new EventHandler(FavButton_Click);
             }
-
-            ApplicationBarIconButton ReplyButton = new ApplicationBarIconButton();
-            ReplyButton.IconUri = new Uri("/Assets/AppBar/upload.png", UriKind.Relative);
-            ReplyButton.Text = "回复";
-            ApplicationBar.Buttons.Add(ReplyButton);
-            ReplyButton.Click += new EventHandler(ReplyButton_Click);
-
         }
 
         private void UserButton_Click(object sender, EventArgs e)
@@ -139,6 +111,11 @@ namespace FanfouWP
 
         private void FavButton_Click(object sender, EventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
+
             if (status.favorited == false)
             {
                 FanfouWP.API.FanfouAPI.Instance.FavoritesCreate(status.id);
@@ -155,6 +132,10 @@ namespace FanfouWP
 
         void Instance_FavoritesDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
         }
@@ -163,15 +144,21 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
+                status.favorited = false;
                 this.DataContext = status;
                 NewAppBar();
-                FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
-                FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
+            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
         }
 
         void Instance_FavoritesCreateFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
         }
@@ -180,9 +167,10 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
+                status.favorited = true;
                 this.DataContext = status;
                 NewAppBar();
-
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;

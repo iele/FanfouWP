@@ -28,12 +28,17 @@ namespace FanfouWP
 
         void Instance_TrendsListFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = Visibility.Collapsed;
+            });
         }
 
         void Instance_TrendsListSuccess(object sender, API.Event.TrendsListEventArgs e)
         {
             Dispatcher.BeginInvoke(()=>{
                 this.TrendsListBox.ItemsSource = e.trendsList.trends;
+                this.loading.Visibility = Visibility.Collapsed;
             });
         }
 

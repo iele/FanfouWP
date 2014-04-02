@@ -59,12 +59,17 @@ namespace FanfouWP
 
         void Instance_FavoritesFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_FavoritesSuccess(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 if ((e as UserTimelineEventArgs<Status>).UserStatus.Count != 0)
                 {
                     this.FavStatusListBox.ItemsSource = (e as UserTimelineEventArgs<Status>).UserStatus;
@@ -95,6 +100,10 @@ namespace FanfouWP
 
         private void ForeButton_Click(object sender, EventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                  this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
             if (currentPage >= 1)
             {
                 currentPage--;
@@ -105,6 +114,10 @@ namespace FanfouWP
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
             currentPage++;
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(user.id, currentPage);
             changeMenu(false, true);

@@ -230,7 +230,6 @@ namespace FanfouWP.API
                 this.LoginFailed += (o, e) => { };
                 this.Login(username, password);
                 storage.ReadDataFromIsolatedStorage("home");
-                storage.ReadDataFromIsolatedStorage("public");
                 storage.ReadDataFromIsolatedStorage("mention");
 
                 RestoreDataSuccess(this, new EventArgs());

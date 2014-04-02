@@ -24,7 +24,7 @@ namespace FanfouWP
                 keyword = (PhoneApplicationService.Current.State["SearchPage"] as FanfouWP.API.Items.Trends).query;
                 PhoneApplicationService.Current.State.Remove("SearchPage");
             }
-      
+
             this.Loaded += SearchPage_Loaded;
         }
 
@@ -38,6 +38,8 @@ namespace FanfouWP
                 if (keyword != null)
                 {
                     this.SearchText.Text = keyword;
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
                 }
             });
@@ -46,13 +48,20 @@ namespace FanfouWP
 
         void Instance_SearchTimelineFailed(object sender, FailedEventArgs e)
         {
-
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            });
         }
 
         void Instance_SearchTimelineSuccess(object sender, UserTimelineEventArgs<Status> e)
         {
-            Dispatcher.BeginInvoke(() => {
-                this.SearchStatusListBox.ItemsSource = e.UserStatus;            
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.SearchStatusListBox.ItemsSource = e.UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             });
         }
 
@@ -60,6 +69,11 @@ namespace FanfouWP
         {
             if (SearchText.Text.Count() != 0)
             {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                });
                 FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
             }
         }

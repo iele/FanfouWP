@@ -41,26 +41,40 @@ namespace FanfouWP
 
         void Instance_FriendshipsDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_FriendshipsDestroySuccess(object sender, EventArgs e)
         {
             user = sender as FanfouWP.API.Items.User;
+            this.loading.Visibility = System.Windows.Visibility.Collapsed;
             checkMenu();
         }
 
         void Instance_FriendshipsCreateFailed(object sender, API.Event.FailedEventArgs e)
         {
-      }
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
 
         void Instance_FriendshipsCreateSuccess(object sender, EventArgs e)
         {
             user = sender as FanfouWP.API.Items.User;
+            this.loading.Visibility = System.Windows.Visibility.Collapsed;
             checkMenu();
         }
 
         void Instance_UsersFollowersFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_UsersFollowersSuccess(object sender, API.Event.UserTimelineEventArgs<API.Items.User> e)
@@ -68,11 +82,16 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.FollowersListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
         void Instance_UsersFriendsFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void Instance_UsersFriendsSuccess(object sender, API.Event.UserTimelineEventArgs<API.Items.User> e)
@@ -80,11 +99,16 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.FriendsListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
         private void Instance_FavoritesFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         private void Instance_FavoritesSuccess(object sender, EventArgs e)
@@ -92,6 +116,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.FavListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.Status>).UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
@@ -102,11 +127,16 @@ namespace FanfouWP
                 status = e.UserStatus;
                 this.TimeLineListBox.ItemsSource = status;
                 this.FirstStatusText.Text = status.First().text;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
         void Instance_UserTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void UserPage_Loaded(object sender, RoutedEventArgs e)
@@ -116,7 +146,6 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
-
             checkMenu();
         }
 
@@ -134,18 +163,6 @@ namespace FanfouWP
         {
 
         }
-
-        private void FavButton_Click(object sender, EventArgs e)
-        {
-
-            //if (PhoneApplicationService.Current.State.ContainsKey("FavStatusPage"))
-            //{
-            //    PhoneApplicationService.Current.State.Remove("FavStatusPage");
-            //}
-            //PhoneApplicationService.Current.State.Add("FavStatusPage", user);
-            //NavigationService.Navigate(new Uri("/FavStatusPage.xaml", UriKind.Relative));
-        }
-
 
         private void StackPanel_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -213,8 +230,14 @@ namespace FanfouWP
 
         private void FriendMenu_Click(object sender, EventArgs e)
         {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
             if (user.following)
+            {
                 FanfouWP.API.FanfouAPI.Instance.FriendshipDestroy(user.id);
+            }
             else
                 FanfouWP.API.FanfouAPI.Instance.FriendshipCreate(user.id);
         }

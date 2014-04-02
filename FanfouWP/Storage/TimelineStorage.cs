@@ -52,25 +52,22 @@ namespace FanfouWP.Storage
                 Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
 
-                Windows.Storage.StorageFile storageFile = await dataFolder.CreateFileAsync(name + ".store", CreationCollisionOption.OpenIfExists);
-                if (storageFile != null)
+                using (var readStream = await dataFolder.OpenStreamForReadAsync(name + ".store"))
                 {
-                    Stream rs = await storageFile.OpenStreamForReadAsync();
-                    byte[] buff = new byte[rs.Length];
-                    await rs.ReadAsync(buff, 0, buff.Length);
+                    byte[] buff = new byte[readStream.Length];
+                    await readStream.ReadAsync(buff, 0, buff.Length);
                     MemoryStream stream = new MemoryStream();
                     await stream.WriteAsync(buff, 0, buff.Length);
                     ObservableCollection<T> c = new ObservableCollection<T>();
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(c.GetType());
                     c = serializer.ReadObject(stream) as ObservableCollection<T>;
-                    ReadDataSuccess(name, new UserTimelineEventArgs<T>(c));
+                    if (c != null)
+                        ReadDataSuccess(name, new UserTimelineEventArgs<T>(c));
+                    else
+                        ReadDataFailed(null, new FailedEventArgs());
                     return;
                 }
-                else
-                {
-                    ReadDataFailed(null, new FailedEventArgs());
-                    return;
-                }
+
             }
             catch (Exception e)
             {

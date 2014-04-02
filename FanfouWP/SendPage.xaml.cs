@@ -94,6 +94,10 @@ namespace FanfouWP
         void FanfouAPI_PhotosUploadFailed(object sender, API.Event.FailedEventArgs e)
         {
             is_sending = false;
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void FanfouAPI_PhotosUploadSuccess(object sender, EventArgs e)
@@ -101,6 +105,7 @@ namespace FanfouWP
             is_sending = false;
             Dispatcher.BeginInvoke(() =>
             {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.NavigationService.GoBack();
             });
         }
@@ -108,6 +113,11 @@ namespace FanfouWP
         void FanfouAPI_StatusUpdateFailed(object sender, API.Event.FailedEventArgs e)
         {
             is_sending = false;
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
         }
 
         void FanfouAPI_StatusUpdateSuccess(object sender, EventArgs e)
@@ -115,6 +125,7 @@ namespace FanfouWP
             is_sending = false;
             Dispatcher.BeginInvoke(() =>
             {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.NavigationService.GoBack();
             });
         }
@@ -133,6 +144,12 @@ namespace FanfouWP
             if (!is_sending)
             {
                 is_sending = true;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                });
+
                 switch (currentPageType)
                 {
                     case PageType.Normal:
