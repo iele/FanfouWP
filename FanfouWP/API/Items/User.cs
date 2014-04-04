@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -7,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace FanfouWP.API.Items
 {
+    public class UserList : Item
+    {
+        public int total_number { get; set; }
+        public ObservableCollection<User> users { get; set; }
+    }
     public class User : Item
     {
 

@@ -31,7 +31,7 @@
        
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="AddButton" Click="AddButton_Click"  IconUri="/Assets/AppBar/add.png" Text="添加" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

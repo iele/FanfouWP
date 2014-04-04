@@ -24,7 +24,7 @@
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
         </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
-	 <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
@@ -37,6 +37,18 @@
 							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
                         <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
                         <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
+                            <ListBox x:Name="tags" VerticalAlignment="Top" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding}" Tap="tags_Tap" >
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <toolkit:WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="0,12,5,12" FontSize="24"></TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                             <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,12"/>
                             <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_1" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
@@ -96,22 +108,22 @@
             </phone:PivotItem>
         </phone:Pivot>
         <Rectangle Height="160" VerticalAlignment="Top" Canvas.ZIndex="-1">
-        	<Rectangle.Fill>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="White" Offset="1"/>
-        			<GradientStop Color="#FF72CBE1"/>
-        		</LinearGradientBrush>
-        	</Rectangle.Fill>
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF72CBE1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Minimized"  Opacity="1" IsMenuEnabled="True"  IsVisible="True">
+        <shell:ApplicationBar Mode="Minimized"  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-   
+
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>

@@ -32,6 +32,8 @@ namespace FanfouWP
         {
             FanfouWP.API.FanfouAPI.Instance.SearchTimelineSuccess += Instance_SearchTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.SearchTimelineFailed += Instance_SearchTimelineFailed;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserSuccess += Instance_SearchUserSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -44,6 +46,25 @@ namespace FanfouWP
                 }
             });
 
+        }
+
+        void Instance_SearchUserFailed(object sender, FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            });
+        }
+
+        void Instance_SearchUserSuccess(object sender, UserTimelineEventArgs<User> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.UserStatusListBox.ItemsSource = e.UserStatus;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            });
         }
 
         void Instance_SearchTimelineFailed(object sender, FailedEventArgs e)
@@ -67,14 +88,17 @@ namespace FanfouWP
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            if (SearchText.Text.Count() != 0)
+            if ((SearchText.Text.Count() != 0 && this.Pivot.SelectedIndex == 0) || (UserSearchText.Text.Count() != 0 && this.Pivot.SelectedIndex == 1))
             {
                 Dispatcher.BeginInvoke(() =>
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                 });
-                FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
+                if (this.Pivot.SelectedIndex == 0)
+                    FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
+                else if (this.Pivot.SelectedIndex == 1)
+                    FanfouWP.API.FanfouAPI.Instance.SearchUser(this.UserSearchText.Text);
             }
         }
 
@@ -93,7 +117,19 @@ namespace FanfouWP
             }
         }
 
+        private void UserStatusListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.UserStatusListBox.SelectedItem != null)
+            {
+                var item = this.UserStatusListBox.SelectedItem;
 
-
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", item);
+                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            }
+        }
     }
 }

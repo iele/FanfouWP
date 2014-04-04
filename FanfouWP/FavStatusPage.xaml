@@ -22,7 +22,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1" Visibility="Collapsed">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical">
@@ -52,7 +52,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
             <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
         </shell:ApplicationBar>

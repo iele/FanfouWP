@@ -13,9 +13,19 @@ namespace FanfouWP.UserControls
 {
     public partial class PanoramaTitleControl : UserControl
     {
+        public delegate void AvatarTapHandler(object sender, EventArgs e);
+        public event AvatarTapHandler AvatarTap;
+
+
         public PanoramaTitleControl()
         {
             InitializeComponent();
+        }
+
+        private void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (AvatarTap != null)
+                AvatarTap(this, new EventArgs());
         }
 
     }

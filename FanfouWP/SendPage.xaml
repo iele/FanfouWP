@@ -19,26 +19,28 @@
         </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
 
-    <StackPanel x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
 
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <Grid Margin="0" Background="#FF72CBE1" >
+        <Grid Margin="0" Background="#FF72CBE1" VerticalAlignment="Top" >
             <TextBlock HorizontalAlignment="Left" Margin="12,12,0,12" TextWrapping="Wrap" FontSize="24" x:Name="titleText"/>
             <TextBlock HorizontalAlignment="Right" Margin="10,12,22,12" TextWrapping="Wrap" Text="{Binding Text, Converter={StaticResource TextToLeftCountTextConverter}, ElementName=Status}" FontSize="24" Width="85" Foreground="#FF767676"/>
         </Grid>
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <TextBox x:Name="Status" Margin="0,10,0,0" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
-        </Grid>
-        <TextBlock x:Name="location" TextWrapping="Wrap" Margin="24,0" Foreground="#FF858585"/>
-        <Image Height="247" x:Name="Image" VerticalAlignment="Top" Margin="24,10,24,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
+        <StackPanel Margin="0,60,0,0" Orientation="Vertical">
+        	<TextBox x:Name="Status" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
+        	<TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,0" Foreground="#FF858585" VerticalAlignment="Top" Height="0"/>
+        	<Image Height="300" x:Name="Image" VerticalAlignment="Top" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
 
 
-    </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
-            <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/upload.png" Text="发送" />
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+            <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/Send-message.png" Text="发送" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

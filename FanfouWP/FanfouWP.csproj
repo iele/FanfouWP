@@ -91,12 +91,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\Events\ModeEventArgs.cs" />
     <Compile Include="API\Events\TrendsListEventArgs.cs" />
     <Compile Include="API\Events\ListEventArgs.cs" />
     <Compile Include="API\Events\UserTimelineEventArgs.cs" />
     <Compile Include="API\Events\FailedEventArgs.cs" />
     <Compile Include="API\FanfouAPI.cs" />
     <Compile Include="API\FanfouConsts.cs" />
+    <Compile Include="API\Items\DirectMessage.cs" />
     <Compile Include="API\Items\Item.cs" />
     <Compile Include="API\Items\Trends.cs" />
     <Compile Include="API\Items\Photo.cs" />
@@ -104,6 +106,16 @@
     <Compile Include="API\Items\User.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConversationsPage.xaml.cs">
+      <DependentUpon>ConversationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemControls\ConversationControl.xaml.cs">
+      <DependentUpon>ConversationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemControls\ValueConverter\TextToReplyTextConverter.cs" />
+    <Compile Include="PublicPage.xaml.cs">
+      <DependentUpon>PublicPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemControls\UserItemControl.xaml.cs">
       <DependentUpon>UserItemControl.xaml</DependentUpon>
@@ -165,6 +177,7 @@
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\GeoLocatorUtils.cs" />
+    <Compile Include="Utils\ThemeManager.cs" />
     <Compile Include="Utils\TiltEffect.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +185,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="ConversationsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ItemControls\ConversationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PublicPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ItemControls\UserItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -346,6 +371,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AppBar\Send-message.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Info.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Align-center.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Redo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Repeat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Delete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\AppBar\Camera.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\contact.png" />
     <Resource Include="Assets\email.png" />
     <Resource Include="Assets\equaliser.png" />

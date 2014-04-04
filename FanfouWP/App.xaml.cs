@@ -6,6 +6,7 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Windows.Media;
 
 namespace FanfouWP
 {
@@ -33,6 +34,11 @@ namespace FanfouWP
 
             // 语言显示初始化
             InitializeLanguage();
+
+
+            ThemeManager.ToLightTheme();
+
+            RootFrame.Background = new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0xff, 0xff));
 
             // 调试时显示图形分析信息。
             if (Debugger.IsAttached)
@@ -93,11 +99,8 @@ namespace FanfouWP
         // 出现未处理的异常时执行的代码
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (Debugger.IsAttached)
-            {
-                // 出现未处理的异常；强行进入调试器
-                Debugger.Break();
-            }
+            e.Handled = true;
+            MessageBox.Show("异常内容" + e.ExceptionObject.ToString(), "抱歉出现未处理异常", MessageBoxButton.OK);
         }
 
         #region 电话应用程序初始化
@@ -113,7 +116,7 @@ namespace FanfouWP
 
             // 创建框架但先不将它设置为 RootVisual；这允许初始
             // 屏幕保持活动状态，直到准备呈现应用程序时。
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // 处理导航故障
@@ -199,7 +202,7 @@ namespace FanfouWP
                 //
                 // 如果命中编译器错误，则表示以下对象中缺少 ResourceFlowDirection
                 // 资源文件。
-                FlowDirection flow =  FlowDirection.LeftToRight;
+                FlowDirection flow = FlowDirection.LeftToRight;
                 RootFrame.FlowDirection = flow;
             }
             catch

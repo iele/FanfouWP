@@ -20,6 +20,7 @@ namespace FanfouWP.UserControls
         private void DirectMsgTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
+            App.RootFrame.Navigate(new Uri("/ConversationsPage.xaml", UriKind.Relative));
         }
 
         private void FavTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)

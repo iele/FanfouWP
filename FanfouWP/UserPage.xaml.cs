@@ -33,10 +33,30 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.UsersFollowersSuccess += Instance_UsersFollowersSuccess;
             FanfouWP.API.FanfouAPI.Instance.UsersFollowersFailed += Instance_UsersFollowersFailed;
 
+            FanfouWP.API.FanfouAPI.Instance.TagListSuccess += Instance_TagListSuccess;
+            FanfouWP.API.FanfouAPI.Instance.TagListFailed += Instance_TagListFailed;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsCreateSuccess += Instance_FriendshipsCreateSuccess;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsCreateFailed += Instance_FriendshipsCreateFailed;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroySuccess += Instance_FriendshipsDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroyFailed += Instance_FriendshipsDestroyFailed;
+        }
+
+        void Instance_TagListFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+
+        void Instance_TagListSuccess(object sender, API.Event.ListEventArgs<string> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+
+                tags.ItemsSource = e.Result;
+            });
         }
 
         void Instance_FriendshipsDestroyFailed(object sender, API.Event.FailedEventArgs e)
@@ -126,7 +146,10 @@ namespace FanfouWP
             {
                 status = e.UserStatus;
                 this.TimeLineListBox.ItemsSource = status;
-                this.FirstStatusText.Text = status.First().text;
+                if (status == null || status.Count == 0)
+                    this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
+                else
+                    this.FirstStatusText.Text = status.First().text;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -146,6 +169,7 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
             checkMenu();
         }
 
@@ -153,6 +177,11 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
+                if (this.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
+                {
+                    (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = false;
+                    return;
+                }
                 if (user.following)
                     (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).Text = "解除好友";
                 else
@@ -240,6 +269,17 @@ namespace FanfouWP
             }
             else
                 FanfouWP.API.FanfouAPI.Instance.FriendshipCreate(user.id);
+        }
+
+        private void tags_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("TagPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("TagPage");
+            }
+            PhoneApplicationService.Current.State.Add("TagPage", this.user);
+            App.RootFrame.Navigate(new Uri("/TagPage.xaml", UriKind.Relative));
+
         }
 
     }

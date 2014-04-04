@@ -19,6 +19,7 @@ namespace FanfouWP.API
         public const string STATUS_USER_TIMELINE = "statuses/user_timeline.json";
         public const string STATUS_MENTION_TIMELINE = "statuses/mentions.json";
         public const string STATUS_UPDATE = "statuses/update.json";
+        public const string STATUS_DESTROY = "statuses/destroy.json";
         public const string FAVORITES_ID = "favorites/id.json";
         public const string FAVORITES_CREATE_ID = "favorites/create/";
         public const string FAVORITES_DESTROY_ID = "favorites/destroy/";
@@ -35,5 +36,9 @@ namespace FanfouWP.API
         public const string FRIENDSHIPS_REQUESTS = "friendships/requests.json";
         public const string FRIENDSHIPS_DENY = "friendships/deny.json";
         public const string FRIENDSHIPS_ACCEPT = "friendships/accept.json";
+        public const string DIRECT_MESSAGES_CONVERSATION_LIST = "direct_messages/conversation_list.json";
+        public const string DIRECT_MESSAGES_CONVERSATION = "direct_messages/conversation.json";
+        public const string DIRECT_MESSAGES_DESTROY = "direct_messages/destroy.json";
+        public const string DIRECT_MESSAGES_NEW = "direct_messages/new.json";
     }
 }

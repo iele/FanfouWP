@@ -37,6 +37,11 @@ namespace FanfouWP
 
         void Instance_RestoreDataSuccess(object sender, EventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage");
+            }
+            PhoneApplicationService.Current.State["TimelinePage"] = true;
             NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
         }
 

@@ -87,10 +87,15 @@
         <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
     </phone:PhoneApplicationPage.FontFamily>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        	<shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="个人资料" Click="ApplicationBarMenuItem_Click_1"/>
+                <shell:ApplicationBarMenuItem Text="随便看看" Click="ApplicationBarMenuItem_Click_2"/>
+                <shell:ApplicationBarMenuItem Text="设置" Click="ApplicationBarMenuItem_Click_3"/>
+            </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
             <shell:ApplicationBarIconButton x:Name="NewButton" Click="NewButton_Click"  IconUri="/Assets/AppBar/edit.png" Text="新饭" />
-            <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/feature.camera.png" Text="照片" />
+            <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -130,8 +135,8 @@
                     <TextBlock Text="我的消息" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
                 </phone:PivotItem.Header>
 
-                <usercontrols:RefreshableListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"
-					RefreshTriggered="HomeTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" Background="Black">
+                <usercontrols:RefreshableListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="Control" utils:TiltEffect.IsTiltEnabled="True"
+					RefreshTriggered="HomeTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" Background="Black" ItemRealized="HomeTimeLineListBox_ItemRealized">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -143,7 +148,7 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="提及我的" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
                 </phone:PivotItem.Header>
-                <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0">
+                <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="Control" utils:TiltEffect.IsTiltEnabled="True"  RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" ItemRealized="MentionTimeLineListBox_ItemRealized">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -152,12 +157,12 @@
                       </usercontrols:RefreshableListBox>
             </phone:PivotItem>
 
-            <phone:PivotItem  >
+            <phone:PivotItem Margin="12,0"  >
                 <phone:PivotItem.Header>
                     <TextBlock Text="工具箱" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
                 </phone:PivotItem.Header>
-                <ScrollViewer Margin="0,0,0,0">
-                    <usercontrols:ToolsControl x:Name="Toolbox"  HorizontalAlignment="Left" />
+                <ScrollViewer Margin="0,10,0,0">
+                    <usercontrols:ToolsControl Margin="0" x:Name="Toolbox"  HorizontalAlignment="Left" />
                 </ScrollViewer>
             </phone:PivotItem>
 

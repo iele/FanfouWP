@@ -36,7 +36,7 @@
                 </toolkit:ContextMenu>
             </toolkit:ContextMenuService.ContextMenu>
             <Image Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42"/>
-            <Rectangle Fill="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding user.profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding user.profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
             <StackPanel VerticalAlignment="Top" Margin="89,10,10,0">
                 <TextBlock Margin="10,0" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"/>
                 <StackPanel Margin="0" Orientation="Horizontal">

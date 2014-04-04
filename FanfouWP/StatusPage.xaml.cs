@@ -28,7 +28,28 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Remove("StatusPage");
             }
 
+            FanfouWP.API.FanfouAPI.Instance.StatusDestroySuccess += Instance_StatusDestroySuccess;
+
+            FanfouWP.API.FanfouAPI.Instance.StatusDestroyFailed += Instance_StatusDestroyFailed;
+
             Loaded += StatusPage_Loaded;
+        }
+
+        void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+
+        void Instance_StatusDestroySuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.NavigationService.GoBack();
+            });
         }
 
         private void StatusPage_Loaded(object sender, RoutedEventArgs e)
@@ -86,6 +107,14 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/minus.png", UriKind.Relative);
                 FavButton.Text = "取消收藏";
+            
+          }
+            if (this.status.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
+            {
+                (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = true;
+            }
+            else {
+                (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = false;
             }
         }
 
@@ -184,6 +213,15 @@ namespace FanfouWP
             }
             PhoneApplicationService.Current.State.Add("Reply", status);
             NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
+        }
+
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
+            FanfouWP.API.FanfouAPI.Instance.StatusDestroy(this.status.id);
         }
     }
 }
