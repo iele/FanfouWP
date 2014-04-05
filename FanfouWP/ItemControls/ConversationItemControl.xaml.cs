@@ -12,9 +12,9 @@ using FanfouWP.API;
 
 namespace FanfouWP.ItemControls
 {
-    public partial class ConversationControl : UserControl
+    public partial class ConversationItemControl : UserControl
     {
-        public ConversationControl()
+        public ConversationItemControl()
         {
             InitializeComponent();
 

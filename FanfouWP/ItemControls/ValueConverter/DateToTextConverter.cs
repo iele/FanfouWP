@@ -26,8 +26,13 @@ namespace FanfouWP.ItemControls.ValueConverter
                 TimeSpan ts2 = new TimeSpan(datetime.Ticks);
                 TimeSpan ts = ts1.Subtract(ts2).Duration();
                 if (ts.Days != 0)
-                    return ts.Days.ToString() + "天";
-                if (ts.Hours!= 0)
+                {
+                    if (ts.Days < 30)
+                        return ts.Days.ToString() + "天";
+                    else
+                        return datetime.Year + "年" + datetime.Month + "月" + datetime.Day + "日";
+                }
+                if (ts.Hours != 0)
                     return ts.Hours.ToString() + "小时";
                 if (ts.Minutes != 0)
                     return ts.Minutes.ToString() + "分钟";
@@ -38,7 +43,7 @@ namespace FanfouWP.ItemControls.ValueConverter
             {
 
             }
-            return dateDiff;   
+            return dateDiff;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)

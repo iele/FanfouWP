@@ -11,17 +11,17 @@ using System.Windows.Navigation;
 
 namespace FanfouWP
 {
-    public partial class UserPage : PhoneApplicationPage
+    public partial class UserPage2 : PhoneApplicationPage
     {
         private API.Items.User user;
         private ObservableCollection<FanfouWP.API.Items.Status> status = new ObservableCollection<API.Items.Status>();
-        public UserPage()
+        public UserPage2()
         {
             InitializeComponent();
-            if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+            if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
             {
-                user = PhoneApplicationService.Current.State["UserPage"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("UserPage");
+                user = PhoneApplicationService.Current.State["UserPage2"] as FanfouWP.API.Items.User;
+                PhoneApplicationService.Current.State.Remove("UserPage2");
             }
             this.Loaded += UserPage_Loaded;
             FanfouWP.API.FanfouAPI.Instance.UserTimelineSuccess += Instance_UserTimelineSuccess;
@@ -70,10 +70,7 @@ namespace FanfouWP
         void Instance_FriendshipsDestroySuccess(object sender, EventArgs e)
         {
             user = sender as FanfouWP.API.Items.User;
-            Dispatcher.BeginInvoke(() =>
-            {
-              this.loading.Visibility = System.Windows.Visibility.Collapsed;
-            });
+            this.loading.Visibility = System.Windows.Visibility.Collapsed;
             checkMenu();
         }
 
@@ -195,7 +192,7 @@ namespace FanfouWP
                     (this.ApplicationBar.MenuItems[1] as ApplicationBarMenuItem).IsEnabled = false;
                     return;
                 }
-
+           
             });
         }
         private void TimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -243,12 +240,12 @@ namespace FanfouWP
             {
                 var item = this.FollowersListBox.SelectedItem;
 
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
-                    PhoneApplicationService.Current.State.Remove("UserPage2");
+                    PhoneApplicationService.Current.State.Remove("UserPage");
                 }
-                PhoneApplicationService.Current.State.Add("UserPage2", item);
-                App.RootFrame.Navigate(new Uri("/UserPage2.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State.Add("UserPage", item);
+                App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
 
@@ -258,12 +255,12 @@ namespace FanfouWP
             {
                 var item = this.FriendsListBox.SelectedItem;
 
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
-                    PhoneApplicationService.Current.State.Remove("UserPage2");
+                    PhoneApplicationService.Current.State.Remove("UserPage");
                 }
-                PhoneApplicationService.Current.State.Add("UserPage2", item);
-                App.RootFrame.Navigate(new Uri("/UserPage2.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State.Add("UserPage", item);
+                App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
 

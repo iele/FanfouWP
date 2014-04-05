@@ -9,7 +9,7 @@
      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
-    x:Class="FanfouWP.UserPage"
+    x:Class="FanfouWP.UserPage2"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"

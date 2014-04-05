@@ -277,7 +277,7 @@ namespace FanfouWP
         }
         private void ApplicationBarMenuItem_Click_3(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));    
         }
     }
 }

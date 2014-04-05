@@ -110,10 +110,16 @@
     <Compile Include="ConversationsPage.xaml.cs">
       <DependentUpon>ConversationsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControls\ConversationControl.xaml.cs">
-      <DependentUpon>ConversationControl.xaml</DependentUpon>
+    <Compile Include="ItemControls\ConversationItemControl.xaml.cs">
+      <DependentUpon>ConversationItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemControls\ValueConverter\TextToReplyTextConverter.cs" />
+    <Compile Include="ItemControls\MessageItemControl.xaml.cs">
+      <DependentUpon>MessageItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessagePage.xaml.cs">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PublicPage.xaml.cs">
       <DependentUpon>PublicPage.xaml</DependentUpon>
     </Compile>
@@ -125,6 +131,9 @@
     </Compile>
     <Compile Include="PhotoPage.xaml.cs">
       <DependentUpon>PhotoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TagPage.xaml.cs">
       <DependentUpon>TagPage.xaml</DependentUpon>
@@ -173,6 +182,9 @@
     <Compile Include="UserControls\ToolsControl.xaml.cs">
       <DependentUpon>ToolsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPage2.xaml.cs">
+      <DependentUpon>UserPage2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -189,9 +201,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ItemControls\ConversationControl.xaml">
+    <Page Include="ItemControls\ConversationItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ItemControls\MessageItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PublicPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +228,10 @@
     <Page Include="PhotoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TagPage.xaml">
       <SubType>Designer</SubType>
@@ -260,6 +284,10 @@
     <Page Include="UserControls\ToolsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPage2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserPage.xaml">
       <SubType>Designer</SubType>
@@ -400,6 +428,7 @@
     <Resource Include="Assets\search.png" />
     <Resource Include="Assets\spareparts.png" />
     <Resource Include="Assets\stocks.png" />
+    <Resource Include="Assets\loginback.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

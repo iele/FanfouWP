@@ -170,11 +170,15 @@ namespace FanfouWP.API
         public delegate void DirectMessageConversationListFailedHandler(object sender, FailedEventArgs e);
         public delegate void DirectMessageConversationSuccessHandler(object sender, UserTimelineEventArgs<Items.DirectMessage> e);
         public delegate void DirectMessageConversationFailedHandler(object sender, FailedEventArgs e);
+        public delegate void DirectMessageNewSuccessHandler(object sender, EventArgs e);
+        public delegate void DirectMessageNewFailedHandler(object sender, FailedEventArgs e);
 
         public event DirectMessageConversationListSuccessHandler DirectMessageConversationListSuccess;
         public event DirectMessageConversationListFailedHandler DirectMessageConversationListFailed;
         public event DirectMessageConversationSuccessHandler DirectMessageConversationSuccess;
         public event DirectMessageConversationFailedHandler DirectMessageConversationFailed;
+        public event DirectMessageNewSuccessHandler DirectMessageNewSuccess;
+        public event DirectMessageNewFailedHandler DirectMessageNewFailed;
 
 
         private static FanfouAPI instance;
@@ -986,7 +990,7 @@ namespace FanfouWP.API
         }
         #endregion
         #region user
-        public void UsersFollowers(string id, int count = 20, int page = 1)
+        public void UsersFollowers(string id, int count = 60, int page = 1)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1021,7 +1025,7 @@ namespace FanfouWP.API
 
         }
 
-        public void UsersFriends(string id, int count = 20, int page = 1)
+        public void UsersFriends(string id, int count = 60, int page = 1)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1267,8 +1271,8 @@ namespace FanfouWP.API
         }
         #endregion
 
-        #region
-        public void DirectMessagesConversationList(int page = 1,int count = 20)
+        #region direct
+        public void DirectMessagesConversationList(int page = 1, int count = 20)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1329,6 +1333,41 @@ namespace FanfouWP.API
                 {
                     FailedEventArgs e = new FailedEventArgs();
                     DirectMessageConversationFailed(this, e);
+                }
+            });
+        }
+
+        public void DirectMessagesNew(string user, string text, string in_reply_to_id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.DIRECT_MESSAGES_NEW,
+                Method = Hammock.Web.WebMethod.Post
+            };
+
+            var client = GetClient();
+            client.AddHeader("content-type", "application/x-www-form-urlencoded");
+            restRequest.AddParameter("user", user);
+            restRequest.AddParameter("text", text);
+            if (in_reply_to_id != null)
+                restRequest.AddParameter("in_reply_to_id", in_reply_to_id);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.DirectMessage d = new Items.DirectMessage();
+                    var ds = new DataContractJsonSerializer(d.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    d = ds.ReadObject(ms) as Items.DirectMessage;
+                    ms.Close();
+                    EventArgs e = new EventArgs();
+                    DirectMessageNewSuccess(d, e);
+                }
+                else
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    DirectMessageNewFailed(this, e);
                 }
             });
         }

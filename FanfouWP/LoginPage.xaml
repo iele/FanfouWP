@@ -14,19 +14,26 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed">
-            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        	<ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <!--TitlePanel 包含应用程序的名称和页标题-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        <StackPanel Margin="0" Orientation="Vertical">
+        	<StackPanel.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="#FF72CBE1" Offset="0"/>
+        			<GradientStop Color="White" Offset="1"/>
+        		</LinearGradientBrush>
+        	</StackPanel.Background>
+        	<StackPanel Height="116" Margin="12,17,0,28">
+        		<TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
+        		<TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        	</StackPanel>
+
         </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->

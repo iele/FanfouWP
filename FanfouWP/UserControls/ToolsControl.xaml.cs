@@ -59,7 +59,7 @@ namespace FanfouWP.UserControls
 
         private void SettingTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            App.RootFrame.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
         }
     }
 }
