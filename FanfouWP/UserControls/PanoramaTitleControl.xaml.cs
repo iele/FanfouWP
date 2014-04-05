@@ -8,15 +8,13 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
+using FanfouWP.API;
 
 namespace FanfouWP.UserControls
 {
     public partial class PanoramaTitleControl : UserControl
     {
-        public delegate void AvatarTapHandler(object sender, EventArgs e);
-        public event AvatarTapHandler AvatarTap;
-
-
+      
         public PanoramaTitleControl()
         {
             InitializeComponent();
@@ -24,8 +22,15 @@ namespace FanfouWP.UserControls
 
         private void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (AvatarTap != null)
-                AvatarTap(this, new EventArgs());
+            if (FanfouAPI.Instance.CurrentUser != null)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", FanfouAPI.Instance.CurrentUser);
+                App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            }
         }
 
     }

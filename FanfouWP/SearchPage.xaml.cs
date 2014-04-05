@@ -14,7 +14,8 @@ namespace FanfouWP
 {
     public partial class SearchPage : PhoneApplicationPage
     {
-        private string keyword;
+        private string keyword, keyword_user;
+
         public SearchPage()
         {
             InitializeComponent();
@@ -23,6 +24,12 @@ namespace FanfouWP
             {
                 keyword = (PhoneApplicationService.Current.State["SearchPage"] as FanfouWP.API.Items.Trends).query;
                 PhoneApplicationService.Current.State.Remove("SearchPage");
+            }
+
+            if (PhoneApplicationService.Current.State.ContainsKey("SearchPage_User"))
+            {
+                keyword_user = (PhoneApplicationService.Current.State["SearchPage_User"] as FanfouWP.API.Items.Trends).query;
+                PhoneApplicationService.Current.State.Remove("SearchPage_User");
             }
 
             this.Loaded += SearchPage_Loaded;
@@ -43,6 +50,16 @@ namespace FanfouWP
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
+                    this.Pivot.SelectedIndex = 0;
+                }
+
+                if (keyword_user != null)
+                {
+                    this.UserSearchText.Text = keyword_user;
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                    FanfouWP.API.FanfouAPI.Instance.SearchUser(this.UserSearchText.Text);
+                    this.Pivot.SelectedIndex = 1;
                 }
             });
 

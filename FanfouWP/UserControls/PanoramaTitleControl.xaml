@@ -27,6 +27,6 @@
     	</Grid.Background>
         <Image HorizontalAlignment="Right" Margin="0,12,18,12" VerticalAlignment="Top" Height="48" Width="180" Source="/Assets/fanfou_beta.png"/>
         <Image HorizontalAlignment="Left" Height="42" Margin="24,12,0,12" VerticalAlignment="Top" Width="42" x:Name="AvatarImage" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="AvatarImage_Tap"/>
-        <TextBlock Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="71,12,0,12" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="200" FontSize="32"/>
+        <TextBlock Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="71,12,0,12" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="200" FontSize="32" Tap="AvatarImage_Tap" />
     </Grid>
 </UserControl>

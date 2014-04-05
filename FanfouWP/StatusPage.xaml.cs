@@ -12,12 +12,17 @@ using Microsoft.Phone.Maps.Services;
 using System.Device.Location;
 using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Documents;
+using FanfouWP.API.Items;
+using Microsoft.Phone.Tasks;
 
 namespace FanfouWP
 {
     public partial class StatusPage : PhoneApplicationPage
     {
         private FanfouWP.API.Items.Status status;
+
+        private enum TextMode { Text, Url, At, Search };
         public StatusPage()
         {
             InitializeComponent();
@@ -89,9 +94,179 @@ namespace FanfouWP
                     }
                 }
 
+                string text = this.status.text;
+                List<string> sep = new List<string>();
+                List<TextMode> t = new List<TextMode>();
+                textStateParser(text, out sep, out t);
+
+                Paragraph myParagraph = new Paragraph();
+                myParagraph.FontSize = 24;
+                for (int i = 0; i < sep.Count; i++)
+                {
+                    switch (t[i])
+                    {
+                        case TextMode.Text:
+                            Run run = new Run();
+                            run.FontSize = 24;
+                            run.Text = sep[i];
+                            myParagraph.Inlines.Add(run);
+                            break;
+                        case TextMode.At:
+                            Hyperlink link2 = new Hyperlink();
+                            var count1 = i;
+                            link2.Inlines.Add(sep[i]);
+                            link2.Foreground = new SolidColorBrush(Colors.Black);
+                            link2.FontSize = 24;
+                            link2.Click += (s, et) =>
+                            {
+                                var item = new FanfouWP.API.Items.Trends();
+                                item.query = sep[count1];
+
+                                if (PhoneApplicationService.Current.State.ContainsKey("SearchPage_User"))
+                                {
+                                    PhoneApplicationService.Current.State.Remove("SearchPage_User");
+                                }
+                                PhoneApplicationService.Current.State.Add("SearchPage_User", item);
+                                NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
+                            };
+                          
+                            myParagraph.Inlines.Add("@");
+                            myParagraph.Inlines.Add(link2);
+                            myParagraph.Inlines.Add(" ");
+                            break;
+                        case TextMode.Url:
+                            Hyperlink link = new Hyperlink();
+                            link.Inlines.Add(sep[i]);
+                            link.FontSize = 24;
+                            link.Foreground = new SolidColorBrush(Colors.Black);
+                            link.NavigateUri = new Uri(sep[i]);
+                            link.TargetName = "_blank";
+                            myParagraph.Inlines.Add(" ");
+                            myParagraph.Inlines.Add(link);
+                            myParagraph.Inlines.Add(" ");
+                            break;
+                        case TextMode.Search:
+                            Hyperlink link3 = new Hyperlink();
+                            var count2 = i;
+                            link3.Inlines.Add(sep[i]);
+                            link3.Foreground = new SolidColorBrush(Colors.Black);
+                            link3.FontSize = 24;
+                            link3.Click += (s, et) =>
+                            {
+                                var item = new FanfouWP.API.Items.Trends();
+                                item.query = sep[count2];
+
+                                if (PhoneApplicationService.Current.State.ContainsKey("SearchPage"))
+                                {
+                                    PhoneApplicationService.Current.State.Remove("SearchPage");
+                                }
+                                PhoneApplicationService.Current.State.Add("SearchPage", item);
+                                NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
+                            };
+
+                            myParagraph.Inlines.Add(" #");
+                            myParagraph.Inlines.Add(link3);
+                            myParagraph.Inlines.Add("# ");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                this.richText.Blocks.Clear();
+                this.richText.Blocks.Add(myParagraph);
+
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
 
             });
+        }
+
+        private void textStateParser(string text, out List<string> sep, out List<TextMode> t)
+        {
+            TextMode state = TextMode.Text;
+
+            sep = new List<string>();
+            t = new List<TextMode>();
+
+            int count = 0;
+            string tmp = "";
+            foreach (var c in text)
+            {
+                count++;
+                switch (state)
+                {
+                    case TextMode.Text:
+                        if (c == '#')
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.Search;
+                            tmp = "";
+                        }
+                        else if (c == '@')
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.At;
+                            tmp = "";
+                        }
+                        else if (text.Length > count + 7 && text.Substring(count, 7) == "http://")
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.Url;
+                            tmp = "";
+                        }
+                        else
+                        {
+                            tmp += c;
+                        }
+                        break;
+                    case TextMode.Url:
+                        if (c == ' ')
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.Text;
+                            tmp = "";
+                        }
+                        else
+                        {
+                            tmp += c;
+                        }
+                        break;
+                    case TextMode.At:
+                        if (c == ' ')
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.Text;
+                            tmp = "";
+                        }
+                        else
+                        {
+                            tmp += c;
+                        }
+                        break;
+                    case TextMode.Search:
+                        if (c == '#')
+                        {
+                            sep.Add(tmp);
+                            t.Add(state);
+                            state = TextMode.Text;
+                            tmp = "";
+                        }
+                        else
+                        {
+                            tmp += c;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            sep.Add(tmp);
+            t.Add(state);
         }
 
         private void NewAppBar()
@@ -107,13 +282,14 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/minus.png", UriKind.Relative);
                 FavButton.Text = "取消收藏";
-            
-          }
+
+            }
             if (this.status.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
             {
                 (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = true;
             }
-            else {
+            else
+            {
                 (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = false;
             }
         }
@@ -177,6 +353,7 @@ namespace FanfouWP
                 this.DataContext = status;
                 NewAppBar();
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.fav.Text = "";
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
@@ -198,6 +375,7 @@ namespace FanfouWP
             {
                 status.favorited = true;
                 this.DataContext = status;
+                this.fav.Text = "已收藏";
                 NewAppBar();
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });

@@ -197,7 +197,17 @@ namespace FanfouWP
         }
         private void TimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (this.TimeLineListBox.SelectedItem != null)
+            {
+                var item = this.TimeLineListBox.SelectedItem;
 
+                if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("StatusPage");
+                }
+                PhoneApplicationService.Current.State.Add("StatusPage", item);
+                NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+            }
         }
 
         private void StackPanel_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)

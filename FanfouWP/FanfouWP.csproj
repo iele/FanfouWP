@@ -113,6 +113,7 @@
     <Compile Include="ItemControls\ConversationItemControl.xaml.cs">
       <DependentUpon>ConversationItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ValueConverter\IntToMsgCountStringConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\TextToReplyTextConverter.cs" />
     <Compile Include="ItemControls\MessageItemControl.xaml.cs">
       <DependentUpon>MessageItemControl.xaml</DependentUpon>

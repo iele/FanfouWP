@@ -40,7 +40,7 @@
         		<RowDefinition/>
         		<RowDefinition Height="Auto"/>
         	</Grid.RowDefinitions>
-            <phone:LongListSelector Margin="0.16,0,-0.16,0" ItemsSource="{Binding}" x:Name="MessageListBox" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Grid.Row="0" VerticalAlignment="Top" >
+            <phone:LongListSelector Margin="6,0" ItemsSource="{Binding}" x:Name="MessageListBox" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Grid.Row="0" VerticalAlignment="Top" >
             	<phone:LongListSelector.RenderTransform>
             		<CompositeTransform SkewX="-0.106" TranslateX="-0.623"/>
             	</phone:LongListSelector.RenderTransform>
@@ -60,5 +60,26 @@
             </Grid>
         </Grid>
     </Grid>
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
 
 </phone:PhoneApplicationPage>

@@ -16,6 +16,7 @@
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
             <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
+            <converter:IntToMsgCountStringConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="IntToMsgCountStringConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.FontFamily>
@@ -37,7 +38,10 @@
             </StackPanel>
             <StackPanel Margin="20,81,15,0">
               <TextBlock TextWrapping="Wrap" Text="{Binding dm.text}" FontSize="24"/>
-                <TextBlock Text="{Binding dm.created_at,Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" />
+              <StackPanel Orientation="Horizontal">
+              	<TextBlock Text="{Binding dm.created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" HorizontalAlignment="Left" />
+                    <TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
+              </StackPanel>
             </StackPanel>
         </Grid>
 
