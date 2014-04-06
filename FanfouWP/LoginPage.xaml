@@ -5,7 +5,9 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"   xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"   
+    xmlns:usercontrol="clr-namespace:FanfouWP.UserControls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -20,25 +22,28 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed">
-        	<ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrol:ToastControl x:Name="toast"/>
         </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical">
-        	<StackPanel.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF72CBE1" Offset="0"/>
-        			<GradientStop Color="White" Offset="1"/>
-        		</LinearGradientBrush>
-        	</StackPanel.Background>
-        	<StackPanel Height="116" Margin="12,17,0,28">
-        		<TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
-        		<TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        	</StackPanel>
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF72CBE1" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
+            <StackPanel Height="116" Margin="12,17,0,28">
+                <TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
 
         </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-          <TextBox x:Name="UsernameTest" Margin="3,0,3,0" TextWrapping="Wrap" VerticalAlignment="Top" Text=""/>
+            <TextBox x:Name="UsernameTest" Margin="3,0,3,0" TextWrapping="Wrap" VerticalAlignment="Top" Text=""/>
             <PasswordBox x:Name="PasswordBox" Margin="3,72,3,0" VerticalAlignment="Top" Password=""/>
         </Grid>
     </Grid>
@@ -70,5 +75,5 @@
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
 
-    
+
 </phone:PhoneApplicationPage>

@@ -22,6 +22,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrols:ToastControl x:Name="toast"/>
+        </coding:ProgressOverlay>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1" Visibility="Collapsed">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>

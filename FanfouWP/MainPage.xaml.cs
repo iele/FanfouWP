@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
 using System.Threading.Tasks;
+using Microsoft.Phone.Scheduler;
 
 namespace FanfouWP
 {
@@ -28,7 +29,7 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.RestoreDataSuccess += Instance_RestoreDataSuccess;
             FanfouWP.API.FanfouAPI.Instance.RestoreDataFailed += Instance_RestoreDataFailed;
             FanfouWP.API.FanfouAPI.Instance.TryRestoreData();
-        }
+     }
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -45,6 +46,6 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
         }
 
-
+      
     }
 }

@@ -1,0 +1,57 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="FanfouWP.ViewerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
+    xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:utils="clr-namespace:FanfouWP.Utils"  xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d">
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrols:ToastControl x:Name="toast"/>
+        </coding:ProgressOverlay>
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1">
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <StackPanel Margin="0" Orientation="Vertical" Background="#FF72CBE1">
+            <StackPanel Height="27" Margin="12,17,0,17">
+                <TextBlock x:Name="title" Text="" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
+            <ListBox x:Name="images" Margin="0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ListBox_SelectionChanged" utils:TiltEffect.IsTiltEnabled="True"  >
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <toolkit:WrapPanel></toolkit:WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <itemcontrols:ImagesItemControl />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

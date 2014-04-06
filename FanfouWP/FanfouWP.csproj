@@ -99,6 +99,7 @@
     <Compile Include="API\FanfouAPI.cs" />
     <Compile Include="API\FanfouConsts.cs" />
     <Compile Include="API\Items\DirectMessage.cs" />
+    <Compile Include="API\Items\Error.cs" />
     <Compile Include="API\Items\Item.cs" />
     <Compile Include="API\Items\Trends.cs" />
     <Compile Include="API\Items\Photo.cs" />
@@ -113,6 +114,11 @@
     <Compile Include="ItemControls\ConversationItemControl.xaml.cs">
       <DependentUpon>ConversationItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ImagesItemControl.xaml.cs">
+      <DependentUpon>ImagesItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemControls\ValueConverter\HtmlToTextConverter.cs" />
+    <Compile Include="ItemControls\ValueConverter\CountToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\IntToMsgCountStringConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\TextToReplyTextConverter.cs" />
     <Compile Include="ItemControls\MessageItemControl.xaml.cs">
@@ -136,6 +142,7 @@
     <Compile Include="SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Storage\AgentWriter.cs" />
     <Compile Include="TagPage.xaml.cs">
       <DependentUpon>TagPage.xaml</DependentUpon>
     </Compile>
@@ -180,6 +187,9 @@
     </Compile>
     <Compile Include="UserControls\RefreshableListBox.cs" />
     <Compile Include="UserControls\RefreshableListBoxMethods.cs" />
+    <Compile Include="UserControls\ToastControl.xaml.cs">
+      <DependentUpon>ToastControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToolsControl.xaml.cs">
       <DependentUpon>ToolsControl.xaml</DependentUpon>
     </Compile>
@@ -192,6 +202,9 @@
     <Compile Include="Utils\GeoLocatorUtils.cs" />
     <Compile Include="Utils\ThemeManager.cs" />
     <Compile Include="Utils\TiltEffect.cs" />
+    <Compile Include="ViewerPage.xaml.cs">
+      <DependentUpon>ViewerPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -205,6 +218,10 @@
     <Page Include="ItemControls\ConversationItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ItemControls\ImagesItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemControls\MessageItemControl.xaml">
       <SubType>Designer</SubType>
@@ -282,6 +299,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ToastControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ToolsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,6 +312,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -421,6 +446,9 @@
     <Content Include="Assets\AppBar\Camera.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\AppBar\Picture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\contact.png" />
     <Resource Include="Assets\email.png" />
     <Resource Include="Assets\equaliser.png" />
@@ -436,6 +464,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FanfouWPTaskAgent\FanfouWPTaskAgent.csproj">
+      <Project>{92268E77-799B-4F91-B425-C3C3228B5B98}</Project>
+      <Name>FanfouWPTaskAgent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

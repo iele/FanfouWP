@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
+            <converter:HtmlToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="HtmlToTextConverter" />
             <converter:TextToReplyTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="TextToReplyTextConverter" />
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
@@ -31,7 +32,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="0,5">
+    <Grid Margin="12,5">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"/>
 			<ColumnDefinition/>
@@ -41,7 +42,7 @@
 
         <edc:Callout AnchorPoint="0.019,-0.117" Fill="#FFEDEDED" FontSize="21.333" Margin="10,74,0,0" VerticalAlignment="Top" Grid.Column="1" Padding="10" StrokeThickness="0" HorizontalContentAlignment="Stretch" Style="{StaticResource CalloutStyle}">
         	<StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-        		<TextBlock TextWrapping="Wrap" Text="{Binding text}" Margin="5" HorizontalAlignment="Left"/>
+        		<TextBlock TextWrapping="Wrap" Text="{Binding text, Converter={StaticResource HtmlToTextConverter}}" Margin="5" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Margin="5" Foreground="#DE676767" HorizontalAlignment="Left" />
         	</StackPanel>
         </edc:Callout>

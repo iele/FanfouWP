@@ -97,6 +97,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("照片上传失败:( " +e.error.error);
             });
         }
 
@@ -117,6 +118,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("消息发送失败:( " + e.error.error);
             });
         }
 

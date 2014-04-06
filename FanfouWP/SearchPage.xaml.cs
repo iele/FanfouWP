@@ -71,6 +71,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                this.toast.NewToast("用户搜索失败:( " + e.error.error);
             });
         }
 
@@ -90,6 +91,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                this.toast.NewToast("时间线搜索失败:( " + e.error.error);
             });
         }
 
@@ -124,6 +126,7 @@ namespace FanfouWP
             if (this.SearchStatusListBox.SelectedItem != null)
             {
                 var item = this.SearchStatusListBox.SelectedItem;
+                this.SearchStatusListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -139,6 +142,7 @@ namespace FanfouWP
             if (this.UserStatusListBox.SelectedItem != null)
             {
                 var item = this.UserStatusListBox.SelectedItem;
+                this.UserStatusListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {

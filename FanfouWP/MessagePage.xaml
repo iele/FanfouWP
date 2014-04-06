@@ -23,6 +23,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrols:ToastControl x:Name="toast"/>
+        </coding:ProgressOverlay>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1" Visibility="Collapsed">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
@@ -40,7 +43,7 @@
         		<RowDefinition/>
         		<RowDefinition Height="Auto"/>
         	</Grid.RowDefinitions>
-            <phone:LongListSelector Margin="6,0" ItemsSource="{Binding}" x:Name="MessageListBox" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Grid.Row="0" VerticalAlignment="Top" >
+            <phone:LongListSelector Margin="0" ItemsSource="{Binding}" x:Name="MessageListBox" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Grid.Row="0" VerticalAlignment="Top" >
             	<phone:LongListSelector.RenderTransform>
             		<CompositeTransform SkewX="-0.106" TranslateX="-0.623"/>
             	</phone:LongListSelector.RenderTransform>

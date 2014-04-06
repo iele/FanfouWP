@@ -31,6 +31,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = Visibility.Collapsed;
+                this.toast.NewToast("热门话题获取失败;( " + e.error.error);
             });
         }
 
@@ -47,7 +48,7 @@ namespace FanfouWP
             if (this.TrendsListBox.SelectedItem != null)
             {
                 var item = this.TrendsListBox.SelectedItem;
-
+                this.TrendsListBox.SelectedItem = null;
                 if (PhoneApplicationService.Current.State.ContainsKey("SearchPage"))
                 {
                     PhoneApplicationService.Current.State.Remove("SearchPage");

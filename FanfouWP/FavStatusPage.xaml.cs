@@ -62,6 +62,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("收藏列表获取失败:( " + e.error.error);
             });
         }
 
@@ -88,6 +89,7 @@ namespace FanfouWP
             if (this.FavStatusListBox.SelectedItem != null)
             {
                 var item = this.FavStatusListBox.SelectedItem;
+                this.FavStatusListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {

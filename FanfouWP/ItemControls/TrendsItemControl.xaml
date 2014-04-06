@@ -8,7 +8,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="FanfouWP.ItemControls.TrendsItemControl"  
     mc:Ignorable="d"
     d:DesignHeight="480" d:DesignWidth="480"   >
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="12,0">
         <Grid Margin="0,5">
            <Rectangle Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="0"/>
             <TextBlock TextWrapping="Wrap" Text="{Binding name}" FontSize="36" Margin="20,10,0,0"/>

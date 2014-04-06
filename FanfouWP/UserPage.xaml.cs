@@ -47,6 +47,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("标签列表获取失败:( " + e.error); });
         }
 
         void Instance_TagListSuccess(object sender, API.Event.ListEventArgs<string> e)
@@ -65,6 +66,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友失败:( " + e.error); });
         }
 
         void Instance_FriendshipsDestroySuccess(object sender, EventArgs e)
@@ -72,9 +74,10 @@ namespace FanfouWP
             user = sender as FanfouWP.API.Items.User;
             Dispatcher.BeginInvoke(() =>
             {
-              this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
             checkMenu();
+            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友成功.. "); });
         }
 
         void Instance_FriendshipsCreateFailed(object sender, API.Event.FailedEventArgs e)
@@ -83,13 +86,18 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友失败:( " + e.error); });
         }
 
         void Instance_FriendshipsCreateSuccess(object sender, EventArgs e)
         {
             user = sender as FanfouWP.API.Items.User;
-            this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
             checkMenu();
+            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友成功:)"); });
         }
 
         void Instance_UsersFollowersFailed(object sender, API.Event.FailedEventArgs e)
@@ -97,6 +105,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                Dispatcher.BeginInvoke(() => { toast.NewToast("关注列表获取失败:( " + e.error); });
             });
         }
 
@@ -114,6 +123,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                Dispatcher.BeginInvoke(() => { toast.NewToast("好友列表获取失败:( " + e.error); });
             });
         }
 
@@ -131,6 +141,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                Dispatcher.BeginInvoke(() => { toast.NewToast("收藏列表获取失败:( " + e.error); });
             });
         }
 
@@ -152,7 +163,7 @@ namespace FanfouWP
                 if (status == null || status.Count == 0)
                     this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
                 else
-                    this.FirstStatusText.Text = status.First().text;
+                    this.FirstStatusText.Text = HttpUtility.HtmlDecode(status.First().text);
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -163,6 +174,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error); });
         }
 
         void UserPage_Loaded(object sender, RoutedEventArgs e)
@@ -203,6 +215,7 @@ namespace FanfouWP
             if (this.TimeLineListBox.SelectedItem != null)
             {
                 var item = this.TimeLineListBox.SelectedItem;
+                this.TimeLineListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -237,6 +250,7 @@ namespace FanfouWP
             if (this.FavListBox.SelectedItem != null)
             {
                 var item = this.FavListBox.SelectedItem;
+                this.FavListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -252,6 +266,7 @@ namespace FanfouWP
             if (this.FollowersListBox.SelectedItem != null)
             {
                 var item = this.FollowersListBox.SelectedItem;
+                this.FollowersListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
                 {
@@ -267,6 +282,7 @@ namespace FanfouWP
             if (this.FriendsListBox.SelectedItem != null)
             {
                 var item = this.FriendsListBox.SelectedItem;
+                this.FriendsListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
                 {
@@ -298,7 +314,7 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Remove("TagPage");
             }
             PhoneApplicationService.Current.State.Add("TagPage", this.user);
-            App.RootFrame.Navigate(new Uri("/TagPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/TagPage.xaml", UriKind.Relative));
 
         }
 
@@ -309,7 +325,18 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Remove("MessagePage_User");
             }
             PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
-            App.RootFrame.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
+
+        }
+
+        private void PhotosMenu_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("ViewerPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("ViewerPage");
+            }
+            PhoneApplicationService.Current.State.Add("ViewerPage", this.user);
+            NavigationService.Navigate(new Uri("/ViewerPage.xaml", UriKind.Relative));
 
         }
 

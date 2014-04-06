@@ -29,13 +29,78 @@ namespace FanfouWP.API
         private TimelineStorage<Items.Status> storage = new TimelineStorage<Items.Status>();
 
         public Items.User CurrentUser { get; set; }
-        public ObservableCollection<Items.Status> HomeTimeLineStatus { get; set; }
+
+        public int HomeTimeLineStatusCount = 0;
+        private ObservableCollection<Items.Status> __HomeTimeLineStatus;
+        public ObservableCollection<Items.Status> HomeTimeLineStatus
+        {
+            get
+            {
+                return __HomeTimeLineStatus;
+            }
+            set
+            {
+                var l = new ObservableCollection<Items.Status>();
+                foreach (var i in value)
+                {
+                    var r = from v in l where i.id == v.id select v;
+                    if (r.Count() == 0)
+                    {
+                        l.Add(i);
+                    }
+                }
+                __HomeTimeLineStatus = l;
+            }
+        }
+        private ObservableCollection<Items.Status> __PublicTimeLineStatus;
+        public ObservableCollection<Items.Status> PublicTimeLineStatus
+        {
+            get
+            {
+                return __PublicTimeLineStatus;
+            }
+            set
+            {
+                var l = new ObservableCollection<Items.Status>();
+                foreach (var i in value)
+                {
+                    var r = from v in l where i.id == v.id select v;
+                    if (r.Count() == 0)
+                    {
+                        l.Add(i);
+                    }
+                }
+                __PublicTimeLineStatus = l;
+
+            }
+        }
+        public int MentionTimeLineStatusCount = 0;
+
+        private ObservableCollection<Items.Status> __MentionTimeLineStatus;
+        public ObservableCollection<Items.Status> MentionTimeLineStatus
+        {
+            get
+            {
+                return __MentionTimeLineStatus;
+            }
+            set
+            {
+                var l = new ObservableCollection<Items.Status>();
+                foreach (var i in value)
+                {
+                    var r = from v in l where i.id == v.id select v;
+                    if (r.Count() == 0)
+                    {
+                        l.Add(i);
+                    }
+                }
+                __MentionTimeLineStatus = l;
+            }
+        }
         public string firstHomeTimeLineStatusId { get { return HomeTimeLineStatus.Count == 0 ? "" : HomeTimeLineStatus.First().id; } private set { } }
         public string lastHomeTimeLineStatusId { get { return HomeTimeLineStatus.Count == 0 ? "" : HomeTimeLineStatus.Last().id; } private set { } }
-        public ObservableCollection<Items.Status> PublicTimeLineStatus { get; set; }
         public string firstPublicTimeLineStatusId { get { return PublicTimeLineStatus.Count == 0 ? "" : PublicTimeLineStatus.First().id; } private set { } }
         public string lastPublicTimeLineStatussId { get { return PublicTimeLineStatus.Count == 0 ? "" : PublicTimeLineStatus.Last().id; } private set { } }
-        public ObservableCollection<Items.Status> MentionTimeLineStatus { get; set; }
         public string firstMentionTimeLineStatusId { get { return MentionTimeLineStatus.Count == 0 ? "" : MentionTimeLineStatus.First().id; } private set { } }
         public string lastMentionTimeLineStatusId { get { return MentionTimeLineStatus.Count == 0 ? "" : MentionTimeLineStatus.Last().id; } private set { } }
 
@@ -140,9 +205,13 @@ namespace FanfouWP.API
 
         public delegate void PhotosUploadSuccessHandler(object sender, EventArgs e);
         public delegate void PhotosUploadFailedHandler(object sender, FailedEventArgs e);
+        public delegate void PhotosUserTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
+        public delegate void PhotosUserTimelineFailedHandler(object sender, FailedEventArgs e);
 
         public event PhotosUploadSuccessHandler PhotosUploadSuccess;
         public event PhotosUploadFailedHandler PhotosUploadFailed;
+        public event PhotosUserTimelineSuccessHandler PhotosUserTimelineSuccess;
+        public event PhotosUserTimelineFailedHandler PhotosUserTimelineFailed;
 
         public delegate void FriendshipsCreateSuccessHandler(object sender, EventArgs e);
         public delegate void FriendshipsCreateFailedHandler(object sender, FailedEventArgs e);
@@ -381,7 +450,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     VerifyCredentialsFailed(this, e);
                 }
             });
@@ -428,7 +502,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     StatusUpdateFailed(this, e);
                 }
             });
@@ -460,7 +539,11 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     StatusDestroyFailed(this, e);
                 }
             });
@@ -490,7 +573,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     UserTimelineFailed(this, e);
                 }
             });
@@ -546,13 +634,19 @@ namespace FanfouWP.API
                         default: break;
                     }
                     this.HomeTimeLineStatus = l;
+                    HomeTimeLineStatusCount = status.Count();
                     HomeTimeLineStatusChanged();
                     ModeEventArgs e = new ModeEventArgs(mode);
                     HomeTimelineSuccess(this, e);
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     HomeTimelineFailed(this, e);
                 }
             });
@@ -615,7 +709,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     PublicTimelineFailed(this, e);
                 }
             });
@@ -670,13 +769,19 @@ namespace FanfouWP.API
                         default: break;
                     }
                     this.MentionTimeLineStatus = l;
+                    MentionTimeLineStatusCount = status.Count();
                     MentionTimeLineStatusChanged();
                     ModeEventArgs e = new ModeEventArgs(mode);
                     MentionTimelineSuccess(this, e);
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     MentionTimelineFailed(this, e);
                 }
             });
@@ -710,7 +815,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FavoritesFailed(this, e);
                 }
             });
@@ -766,7 +876,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FavoritesCreateFailed(this, e);
                 }
             });
@@ -824,7 +939,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FavoritesDestroyFailed(this, e);
                 }
             });
@@ -859,7 +979,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     SearchTimelineFailed(this, e);
                 }
             });
@@ -891,7 +1016,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     SearchUserFailed(this, e);
                 }
             });
@@ -921,7 +1051,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     TrendsListFailed(this, e);
                 }
             });
@@ -952,7 +1087,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     TagListFailed(this, e);
                 }
             });
@@ -983,7 +1123,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     TaggedFailed(this, e);
                 }
             });
@@ -1017,7 +1162,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     UsersFollowersFailed(this, e);
                 }
             });
@@ -1052,7 +1202,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     UsersFriendsFailed(this, e);
                 }
             });
@@ -1086,7 +1241,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsCreateFailed(this, e);
                 }
             });
@@ -1118,7 +1278,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsDestroyFailed(this, e);
                 }
             });
@@ -1148,7 +1313,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsRequestsFailed(this, e);
                 }
             });
@@ -1181,7 +1351,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsAcceptFailed(this, e);
                 }
             });
@@ -1214,14 +1389,54 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsDenyFailed(this, e);
                 }
             });
         }
         #endregion
-
         #region photo
+        public void PhotosUserTimeline(string id, int count = 60)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.PHOTOS_USER_TIMELINE,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id", id);
+            restRequest.AddParameter("count", count.ToString());
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                    var ds = new DataContractJsonSerializer(status.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                    ms.Close();
+
+                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                    e.UserStatus = status;
+                    PhotosUserTimelineSuccess(this, e);
+                }
+                else
+                {
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
+                    PhotosUserTimelineFailed(this, e);
+                }
+            });
+        }
         public void PhotoUpload(string status, WriteableBitmap photo, string location = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -1264,13 +1479,17 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     PhotosUploadFailed(this, e);
                 }
             });
         }
         #endregion
-
         #region direct
         public void DirectMessagesConversationList(int page = 1, int count = 20)
         {
@@ -1298,7 +1517,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error; 
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     DirectMessageConversationListFailed(this, e);
                 }
             });
@@ -1331,7 +1555,12 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
                     DirectMessageConversationFailed(this, e);
                 }
             });
@@ -1366,7 +1595,13 @@ namespace FanfouWP.API
                 }
                 else
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
+
                     DirectMessageNewFailed(this, e);
                 }
             });

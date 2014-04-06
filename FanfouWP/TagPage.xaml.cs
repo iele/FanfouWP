@@ -42,6 +42,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("用户列表获取失败:( "  + e.error.error);
             });
         }
 
@@ -59,6 +60,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("标签列表获取失败:( " + e.error.error);
             });
         }
 
@@ -87,7 +89,7 @@ namespace FanfouWP
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = this.ListBox.SelectedItem as FanfouWP.API.Items.User;
-
+            this.ListBox.SelectedIndex = -1;
             if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
             {
                 PhoneApplicationService.Current.State.Remove("UserPage");

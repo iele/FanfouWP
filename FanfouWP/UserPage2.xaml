@@ -11,10 +11,10 @@
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
     x:Class="FanfouWP.UserPage2"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="Portable User Interface"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Landscape"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
         <ResourceDictionary>
@@ -26,11 +26,14 @@
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrols:ToastControl x:Name="toast"/>
+        </coding:ProgressOverlay>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
-            <phone:PivotItem Header="资料" Margin="0,28,0,0">
+            <phone:PivotItem Header="资料" Margin="12,28,12,0">
                 <ScrollViewer Margin="0">
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
@@ -71,13 +74,13 @@
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem Header="消息" Margin="0,28,0,0">
-                <ListBox x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:StatusItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+            	<ListBox x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
+            		<ListBox.ItemTemplate>
+            			<DataTemplate>
+            				<itemcontrols:StatusItemControl />
+            			</DataTemplate>
+            		</ListBox.ItemTemplate>
+            	</ListBox>
             </phone:PivotItem>
             <phone:PivotItem Header="听众" Margin="0,28,0,0">
                 <ListBox x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
@@ -97,7 +100,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Header="收藏" Margin="0,28,0,0">
+            <phone:PivotItem Header="收藏" Margin="0,28,-7,0">
                 <ListBox x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -121,6 +124,7 @@
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
                 <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />
+                <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

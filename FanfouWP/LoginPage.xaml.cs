@@ -34,8 +34,8 @@ namespace FanfouWP
         {
             this.Dispatcher.BeginInvoke(() =>
             {
-                MessageBox.Show("登录失败");
-                this.loading.Visibility = System.Windows.Visibility.Visible;
+                toast.NewToast("登录失败，请检查用户名或密码后再试");
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             });
         }
@@ -44,7 +44,7 @@ namespace FanfouWP
         {
             this.Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Visible;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             });

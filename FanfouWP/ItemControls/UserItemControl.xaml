@@ -14,14 +14,15 @@
             <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
+            <converter:HtmlToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="HtmlToTextConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
             <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="12,0">
         <Grid Margin="0,5">
-            <Rectangle Fill="{Binding profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding profile_background_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
             <StackPanel Margin="20,10,0,0" VerticalAlignment="Top">
                 <StackPanel Margin="0" Orientation="Horizontal">
                     <Image HorizontalAlignment="Left" Height="64" Margin="0" VerticalAlignment="Top" Width="64" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" RenderTransformOrigin="0.55,1"/>
@@ -35,7 +36,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding friends_count}" Margin="5,0,0,0" FontSize="24" Foreground="#DE878686"/>
                 </StackPanel>
             </StackPanel>
-            <TextBlock x:Name="message" TextWrapping="Wrap" Text="{Binding status.text}" FontSize="21.333" Margin="20,116,0,0" Foreground="#DE7E7B7B"/>
+            <TextBlock x:Name="message" TextWrapping="Wrap" Text="{Binding text, Converter={StaticResource HtmlToTextConverter}}" FontSize="21.333" Margin="20,116,0,0" Foreground="#DE7E7B7B"/>
         </Grid>
 
     </Grid>

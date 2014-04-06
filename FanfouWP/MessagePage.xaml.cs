@@ -69,6 +69,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+
+                this.toast.NewToast("私信列表获取失败:( " + e.error.error);
             });
         }
 
@@ -103,6 +105,7 @@ namespace FanfouWP
                 this.send.IsEnabled = true;
                 this.message.IsEnabled = true;
                 this.message.Text = "";
+                this.toast.NewToast("私信发送失败:( " + e.error.error);
             });
         }
 

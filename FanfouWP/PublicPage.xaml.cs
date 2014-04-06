@@ -33,6 +33,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("时间线获取失败:( " + e.error.error);
             });
         }
 
@@ -52,6 +53,7 @@ namespace FanfouWP
             if (this.PublicStatusListBox.SelectedItem != null)
             {
                 var item = this.PublicStatusListBox.SelectedItem;
+                this.PublicStatusListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {

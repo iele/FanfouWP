@@ -31,6 +31,7 @@ namespace FanfouWP.API
         public const string USERS_FOLLOWERS = "users/followers.json";
         public const string USERS_FRIENDS = "users/friends.json";
         public const string PHOTOS_UPLOAD = "photos/upload.json";
+        public const string PHOTOS_USER_TIMELINE = "photos/user_timeline.json";
         public const string FRIENDSHIPS_CREATE = "friendships/create.json";
         public const string FRIENDSHIPS_DESTROY = "friendships/destroy.json";
         public const string FRIENDSHIPS_REQUESTS = "friendships/requests.json";

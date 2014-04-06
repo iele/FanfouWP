@@ -40,6 +40,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.toast.NewToast("私信列表获取失败:( " + e.error.error);
+
             });
         }
 
@@ -107,6 +109,7 @@ namespace FanfouWP
             if (this.ConversationListBox.SelectedItem != null)
             {
                 var item = this.ConversationListBox.SelectedItem;
+                this.ConversationListBox.SelectedIndex = -1;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("MessagePage"))
                 {

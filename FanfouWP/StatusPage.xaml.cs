@@ -46,6 +46,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除失败:( " + e.error.error); });
         }
 
         void Instance_StatusDestroySuccess(object sender, EventArgs e)
@@ -54,6 +55,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.NavigationService.GoBack();
+                Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除成功:)"); });
             });
         }
 
@@ -94,7 +96,7 @@ namespace FanfouWP
                     }
                 }
 
-                string text = this.status.text;
+                string text = HttpUtility.HtmlDecode(this.status.text);
                 List<string> sep = new List<string>();
                 List<TextMode> t = new List<TextMode>();
                 textStateParser(text, out sep, out t);
@@ -276,13 +278,14 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/favs.addto.png", UriKind.Relative);
                 FavButton.Text = "收藏";
+                FavButton.IsEnabled = true;
             }
             else
             {
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IconUri = new Uri("/Assets/AppBar/minus.png", UriKind.Relative);
                 FavButton.Text = "取消收藏";
-
+                FavButton.IsEnabled = true;
             }
             if (this.status.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
             {
@@ -319,6 +322,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
+                ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
+                FavButton.IsEnabled = false;
             });
 
             if (status.favorited == false)
@@ -339,10 +344,14 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.loading.Visibility = System.Windows.Visibility.Collapsed; 
+                ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
+                FavButton.IsEnabled = false;
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
+
+            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消失败:( " + e.error.error); });
         }
 
         void Instance_FavoritesDestroySuccess(object sender, EventArgs e)
@@ -357,6 +366,7 @@ namespace FanfouWP
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
+            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消成功:)"); });
         }
 
         void Instance_FavoritesCreateFailed(object sender, API.Event.FailedEventArgs e)
@@ -364,9 +374,12 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
+                FavButton.IsEnabled = false;
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
+            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建失败:( " + e.error.error); });
         }
 
         void Instance_FavoritesCreateSuccess(object sender, EventArgs e)
@@ -381,6 +394,9 @@ namespace FanfouWP
             });
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
+
+            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建成功:)"); });
+
         }
 
         private void ReplyButton_Click(object sender, EventArgs e)

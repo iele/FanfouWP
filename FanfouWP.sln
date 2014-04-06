@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanfouWP", "FanfouWP\FanfouWP.csproj", "{993E4E45-AE65-45F4-9269-FA0A8494BCD9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FanfouWPTaskAgent", "FanfouWPTaskAgent\FanfouWPTaskAgent.csproj", "{92268E77-799B-4F91-B425-C3C3228B5B98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,18 @@ Global
 		{993E4E45-AE65-45F4-9269-FA0A8494BCD9}.Release|x86.ActiveCfg = Release|x86
 		{993E4E45-AE65-45F4-9269-FA0A8494BCD9}.Release|x86.Build.0 = Release|x86
 		{993E4E45-AE65-45F4-9269-FA0A8494BCD9}.Release|x86.Deploy.0 = Release|x86
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|ARM.ActiveCfg = Debug|ARM
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|ARM.Build.0 = Debug|ARM
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|x86.ActiveCfg = Debug|x86
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Debug|x86.Build.0 = Debug|x86
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|ARM.ActiveCfg = Release|ARM
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|ARM.Build.0 = Release|ARM
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|x86.ActiveCfg = Release|x86
+		{92268E77-799B-4F91-B425-C3C3228B5B98}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
