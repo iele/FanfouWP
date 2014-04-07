@@ -18,32 +18,44 @@
 </phone:PhoneApplicationPage.Resources>
 <Grid x:Name="LayoutRoot">
     <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot">
-        <controls:PivotItem Header="关于" >
-            <ScrollViewer Margin="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Margin="14,24,0,24" Height="32" Width="8" Fill="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center" />
-                        <TextBlock HorizontalAlignment="Left" Margin="4,-4,0,0" Text="关于饭否" VerticalAlignment="Center" Width="161" FontSize="32"/>
-                    </StackPanel>
-                    <TextBlock Margin="12,0,12,6" FontSize="24" TextWrapping="Wrap" Text="饭否是一个 140 字的迷你博客。在这里，你可以告诉大家你在做什么，可以随便看看大家都在做什么，也可以关注一些有趣的人。" />
-                    <TextBlock Margin="12,0" FontSize="24" >
-                        	<Run Text="桌面访问：http://"/>
-                        	<Run Text="fanfou.com"/>
-                        	<Run Text="了解更多"/>
-                    </TextBlock>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Margin="14,24,0,24" Height="32" Width="8" Fill="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center" />
-                        <TextBlock HorizontalAlignment="Left" Margin="4,-4,0,0" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
-                    </StackPanel>
-                    <TextBlock Margin="12,0,12,6" FontSize="24" Text="饭窗 for Windows Phone 1.0.0" Height="30" />
-                    <TextBlock FontSize="24" TextWrapping="Wrap" Margin="12,0,12,6" Text="v1.0.0 首次发布" />
-                    <TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="开发者：iEle, Windows Phone Developer" />
-                    <TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="饭否主页：@iEle" />
-                    <TextBlock Margin="12,0,12,6" FontSize="24" TextWrapping="Wrap" Text="邮箱：melephas@outlook.com" />
-                    <TextBlock Margin="12,6,12,0" FontSize="24" ><Run Text="感谢您对该应用的使用和支持。"/></TextBlock>
-                </StackPanel>
-            </ScrollViewer>
+        <controls:PivotItem Header="设置" Margin="12,28,12,0">
+    		<Button Content="Button" Margin="12,0" VerticalAlignment="Top" x:Name="LogoutButton" Click="LogoutButton_Click"/>
+    	</controls:PivotItem>
+        <controls:PivotItem Header="建议">
+        	<ScrollViewer Margin="0" >
+        		<StackPanel Orientation="Vertical">
+        			<Button Content="关注应用账号@饭窗" VerticalAlignment="Top"/>
+        			<Button Content="写邮件给作者本人" VerticalAlignment="Top"/>
+        			<Button Content="到市场提出意见" VerticalAlignment="Top"/>
+        		</StackPanel>
+        	</ScrollViewer>
         </controls:PivotItem>
+        <controls:PivotItem Header="关于" Margin="12,28,12,0" >
+    		<ScrollViewer Margin="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    			<StackPanel>
+    				<StackPanel Orientation="Horizontal">
+    					<Rectangle Margin="14,24,0,24" Height="32" Width="8" Fill="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center" />
+    					<TextBlock HorizontalAlignment="Left" Margin="4,-4,0,0" Text="关于饭否" VerticalAlignment="Center" Width="161" FontSize="32"/>
+    				</StackPanel>
+    				<TextBlock Margin="12,0,12,6" FontSize="24" TextWrapping="Wrap" Text="饭否是一个 140 字的迷你博客。在这里，你可以告诉大家你在做什么，可以随便看看大家都在做什么，也可以关注一些有趣的人。" />
+    				<TextBlock Margin="12,0" FontSize="24" >
+    					<Run Text="桌面访问：http://"/>
+    					<Run Text="fanfou.com"/>
+    					<Run Text="了解更多"/>
+    				</TextBlock>
+    				<StackPanel Orientation="Horizontal">
+    					<Rectangle Margin="14,24,0,24" Height="32" Width="8" Fill="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center" />
+    					<TextBlock HorizontalAlignment="Left" Margin="4,-4,0,0" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
+    				</StackPanel>
+    				<TextBlock Margin="12,0,12,6" FontSize="24" Text="饭窗 for Windows Phone 1.0.0" Height="30" />
+    				<TextBlock FontSize="24" TextWrapping="Wrap" Margin="12,0,12,6" Text="v1.0.0 首次发布" />
+    				<TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="开发者：iEle, Windows Phone Developer" />
+    				<TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="饭否主页：@iEle" />
+    				<TextBlock Margin="12,0,12,6" FontSize="24" TextWrapping="Wrap" Text="邮箱：melephas@outlook.com" />
+    				<TextBlock Margin="12,6,12,0" FontSize="24" ><Run Text="感谢您对该应用的使用和支持。"/></TextBlock>
+    			</StackPanel>
+    		</ScrollViewer>
+    	</controls:PivotItem>
     </controls:Pivot>
     <Rectangle Height="160" Margin="0" Stroke="Black" VerticalAlignment="Top" Canvas.ZIndex="-1" StrokeThickness="0">
         <Rectangle.Fill>

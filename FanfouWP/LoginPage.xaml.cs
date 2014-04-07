@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
 using FanfouWP.Storage;
+using Microsoft.Phone.Tasks;
 
 namespace FanfouWP
 {
@@ -59,6 +60,13 @@ namespace FanfouWP
                 this.loading.Visibility = System.Windows.Visibility.Visible;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
             });
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri("http://m.fanfou.com/register/");
+            wbt.Show();
         }
     }
 }

@@ -18,6 +18,9 @@ using FanfouWP.API.Event;
 using Microsoft.Phone.Scheduler;
 using FanfouWP.Storage;
 using System.Collections.ObjectModel;
+using System.IO;
+using Windows.Storage;
+using System.Windows.Media.Imaging;
 
 namespace FanfouWP
 {
@@ -41,6 +44,7 @@ namespace FanfouWP
         private SettingManager setting = SettingManager.GetInstance();
 
         private bool is_session_restored = false;
+        private bool run_once = true;
         public TimelinePage()
         {
             InitializeComponent();
@@ -180,44 +184,57 @@ namespace FanfouWP
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Pivot.Visibility = Visibility.Collapsed;
-            pdi = new ObservableCollection<PivotDataItem>();
-            pdi.Add(new PivotDataItem("我的消息", "0"));
-            pdi.Add(new PivotDataItem("提及我的", "0"));
-            pdi.Add(new PivotDataItem("工具箱", "0"));
-            (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
-            (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
-            (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
-
-            this.Pivot.Visibility = Visibility.Visible;
-            this.toast.Visibility = Visibility.Visible;
-            NavigationService.RemoveBackEntry();
-
-            if (this.is_session_restored)
+            if (run_once == true)
             {
-                this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
-                Toolbox.DataContext = FanfouAPI.CurrentUser;
-                FanfouAPI.VerifyCredentials();
+                this.Pivot.Visibility = Visibility.Collapsed;
+                pdi = new ObservableCollection<PivotDataItem>();
+                pdi.Add(new PivotDataItem("我的消息", "0"));
+                pdi.Add(new PivotDataItem("提及我的", "0"));
+                pdi.Add(new PivotDataItem("工具箱", "0"));
+                (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
+                (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
+                (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
 
-                if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                this.Pivot.Visibility = Visibility.Visible;
+                this.toast.Visibility = Visibility.Visible;
+                NavigationService.RemoveBackEntry();
+
+                if (this.is_session_restored)
                 {
-                    this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                    FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
+                    this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
+                    Toolbox.DataContext = FanfouAPI.CurrentUser;
+                    FanfouAPI.VerifyCredentials();
+
+                    if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                    {
+                        this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
+                        FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
+                    }
+                    else
+                    {
+                        FanfouAPI.StatusHomeTimeline();
+                    }
+                    if (FanfouAPI.MentionTimeLineStatus.Count != 0)
+                    {
+                        this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
+                        FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+                    }
+                    else
+                    {
+                        FanfouAPI.StatusMentionTimeline();
+
+                    }
+
                 }
-                if (FanfouAPI.MentionTimeLineStatus.Count != 0)
+                else
                 {
-                    this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                    FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+                    FanfouAPI.StatusHomeTimeline();
+                    FanfouAPI.StatusMentionTimeline();
+                    FanfouAPI.VerifyCredentials();
+
                 }
             }
-            else
-            {
-                FanfouAPI.StatusHomeTimeline();
-                FanfouAPI.StatusMentionTimeline();
-                FanfouAPI.VerifyCredentials();
-
-            }
-
+            run_once = false;
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -263,10 +280,14 @@ namespace FanfouWP
 
         private void CameraButton_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/PhotoPage.xaml", UriKind.Relative));
+            if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Image"))
+            {
+                PhoneApplicationService.Current.State.Remove("SendPage_Image");
+            }
+            PhoneApplicationService.Current.State.Add("SendPage_Image", true);
+            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
+
         }
-
-
 
         private void SearchButton_Click(object sender, EventArgs e)
         {

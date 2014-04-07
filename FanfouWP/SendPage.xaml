@@ -45,6 +45,9 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/Send-message.png" Text="发送" />
+            <shell:ApplicationBarIconButton x:Name="PictureButton" Click="PictureButton_Click"  IconUri="/Assets/AppBar/Camera.png" Text="照片" />
+            <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/Clipboard.png" Text="话题" />
+            <shell:ApplicationBarIconButton x:Name="MusicButton" Click="MusicButton_Click"  IconUri="/Assets/AppBar/Music.png" Text="正在播放" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

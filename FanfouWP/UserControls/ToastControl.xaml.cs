@@ -23,32 +23,37 @@ namespace FanfouWP.UserControls
 
         public void NewToast(string text)
         {
-            ToastIn.Stop();
-            ToastOut.Stop();
-            this.Text.Text = text;
-            ToastIn.Begin();
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.LayoutRoot.Visibility = Visibility.Visible;
+
+                ToastIn.Stop();
+                ToastOut.Stop();
+                this.Text.Text = text;
+                ToastIn.Begin();
+            });
         }
 
         void ToastControl_Loaded(object sender, RoutedEventArgs e)
         {
-            this.LayoutRoot.RenderTransform = this.TranslateTransform;
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.LayoutRoot.Visibility = Visibility.Collapsed;
+                this.LayoutRoot.RenderTransform = this.TranslateTransform;
+            });
         }
 
         private void ToastIn_Completed(object sender, EventArgs e)
         {
-            Timer t = new Timer((o) =>
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    this.ToastOut.Begin();
-                });
-            }, null, 1000, Timeout.Infinite);
-
+            Dispatcher.BeginInvoke(() =>
+              {
+                  this.ToastOut.Begin();
+              });
         }
 
         private void ToastOut_Completed(object sender, EventArgs e)
         {
-
+            this.LayoutRoot.Visibility = Visibility.Collapsed;
         }
     }
 }

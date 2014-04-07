@@ -21,7 +21,7 @@
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </UserControl.Foreground>
 
-    <Grid x:Name="LayoutRoot" Height="64" VerticalAlignment="Top" >
+    <Grid x:Name="LayoutRoot" Height="64" VerticalAlignment="Top" Visibility="Collapsed" >
         <Grid.Resources>
             <Storyboard x:Name="ToastIn" Completed="ToastIn_Completed">
                 <DoubleAnimation Storyboard.TargetName="TranslateTransform" Storyboard.TargetProperty="Y" From="-64" To="0" Duration="0:0:0.5" >
@@ -31,7 +31,7 @@
                 </DoubleAnimation>
             </Storyboard>
             <Storyboard x:Name="ToastOut" Completed="ToastOut_Completed">
-                <DoubleAnimation Storyboard.TargetName="TranslateTransform" Storyboard.TargetProperty="Y" From="0" To="-64" Duration="0:0:0.5">
+                <DoubleAnimation Storyboard.TargetName="TranslateTransform" Storyboard.TargetProperty="Y" From="0" To="-64" Duration="0:0:1.5" BeginTime="0:0:1">
                     <DoubleAnimation.EasingFunction>
                         <CubicEase EasingMode="EaseOut" />
                     </DoubleAnimation.EasingFunction>

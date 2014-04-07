@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API;
 using System.Threading.Tasks;
 using Microsoft.Phone.Scheduler;
+using System.Threading;
 
 namespace FanfouWP
 {
@@ -28,6 +29,9 @@ namespace FanfouWP
         {
             FanfouWP.API.FanfouAPI.Instance.RestoreDataSuccess += Instance_RestoreDataSuccess;
             FanfouWP.API.FanfouAPI.Instance.RestoreDataFailed += Instance_RestoreDataFailed;
+
+            Thread.Sleep(500);
+
             FanfouWP.API.FanfouAPI.Instance.TryRestoreData();
      }
 

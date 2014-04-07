@@ -14,5 +14,7 @@ namespace FanfouWPTaskAgent.Agent
         public const string API_URL = "http://api.fanfou.com";
         public const string ACCESS_TOKEN = "oauth/access_token";
         public const string ACCOUNT_NOTIFICATION = "account/notification.json";
+        public const string STATUS_MENTION_TIMELINE = "statuses/mentions.json";
+    
     }
 }

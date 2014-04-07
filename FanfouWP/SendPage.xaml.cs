@@ -9,6 +9,10 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Tasks;
+using System.IO;
+using System.Windows.Media;
+using Coding4Fun.Toolkit.Controls;
 
 namespace FanfouWP
 {
@@ -22,6 +26,7 @@ namespace FanfouWP
         private dynamic is_sending = false;
         private FanfouWP.API.Items.Status status;
 
+        private bool is_image;
         private WriteableBitmap image;
 
         private string position = "";
@@ -43,7 +48,7 @@ namespace FanfouWP
             }
             if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Image"))
             {
-                image = PhoneApplicationService.Current.State["SendPage_Image"] as WriteableBitmap;
+                is_image = true;
                 PhoneApplicationService.Current.State.Remove("SendPage_Image");
             }
         }
@@ -85,19 +90,39 @@ namespace FanfouWP
                     break;
             }
 
-            if (image != null)
+            if (is_image == true)
             {
-                this.Image.Source = image;
+                addPicture();
             }
         }
+
+        private void addPicture()
+        {
+            PhotoChooserTask cpt = new PhotoChooserTask();
+            cpt.Completed += (s, e2) =>
+            {
+                if (e2.TaskResult == TaskResult.Cancel)
+                {
+                    return;
+                }
+
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.SetSource(e2.ChosenPhoto);
+                this.image = new WriteableBitmap(bitmapImage);
+                this.Image.Source = image;
+            };
+            cpt.Show();
+        }
+
 
         void FanfouAPI_PhotosUploadFailed(object sender, API.Event.FailedEventArgs e)
         {
             is_sending = false;
             Dispatcher.BeginInvoke(() =>
             {
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.toast.NewToast("照片上传失败:( " +e.error.error);
+                this.toast.NewToast("照片上传失败:( " + e.error.error);
             });
         }
 
@@ -117,6 +142,7 @@ namespace FanfouWP
 
             Dispatcher.BeginInvoke(() =>
             {
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.toast.NewToast("消息发送失败:( " + e.error.error);
             });
@@ -136,6 +162,12 @@ namespace FanfouWP
         {
             if (image != null)
             {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                });
+
                 FanfouAPI.PhotoUpload(this.Status.Text, image);
                 return;
             }
@@ -150,6 +182,7 @@ namespace FanfouWP
                 Dispatcher.BeginInvoke(() =>
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                 });
 
                 switch (currentPageType)
@@ -167,6 +200,53 @@ namespace FanfouWP
                         break;
                 }
             }
+        }
+
+        private void PictureButton_Click(object sender, EventArgs e)
+        {
+            addPicture();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            var input = new InputPrompt
+            {
+                Title = "话题",
+                Message = "输入你想提到的话题",
+            };
+            input.Completed += (s, e1) =>
+            {
+                if (e1.PopUpResult == PopUpResult.Ok)
+                {
+                    this.Status.Text = this.Status.Text + "#" + e1.Result + "#";
+                }
+            };
+
+            input.Show();
+        }
+
+        private void MusicButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string name = Microsoft.Xna.Framework.Media.MediaPlayer.Queue.ActiveSong.Name;
+                string album = Microsoft.Xna.Framework.Media.MediaPlayer.Queue.ActiveSong.Album.Name;
+
+                if (name != null && album != null)
+                {
+                    this.Status.Text = this.Status.Text + "#我正在听#" + name + " - " + album;
+                    return;
+                }
+                else
+                {
+                    goto Noplaying;
+                }
+            }
+            catch (Exception) { }
+
+        Noplaying:
+            MessageBox.Show("当前没有播放音乐:(");
+
         }
     }
 }

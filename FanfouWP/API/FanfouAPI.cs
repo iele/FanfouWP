@@ -18,11 +18,11 @@ namespace FanfouWP.API
 {
     public class FanfouAPI
     {
-        private string oauthToken;
-        private string oauthSecret;
+        public string oauthToken;
+        public string oauthSecret;
 
-        private string username;
-        private string password;
+        public string username;
+        public string password;
 
         public enum RefreshMode { New, Behind, Back };
 
@@ -1439,55 +1439,28 @@ namespace FanfouWP.API
         }
         public void PhotoUpload(string status, WriteableBitmap photo, string location = "")
         {
-            Hammock.RestRequest restRequest = new Hammock.RestRequest
-            {
-                Path = FanfouConsts.PHOTOS_UPLOAD,
-                Method = Hammock.Web.WebMethod.Post
-            };
-
-            var client = GetClient();
-
-            if (location != "")
-                restRequest.AddParameter("location", location);
-
-            restRequest.AddHeader("Content-Type", "multipart/form-data");
-
-            var stream = new MemoryStream();
+             var stream = new MemoryStream();
             photo.SaveJpeg(stream, photo.PixelWidth, photo.PixelHeight, 0, 70);
+            var buff = stream.ToArray();
+            Utils.PhotoUploader.PhotosUploadSuccess += PhotoUploader_PhotosUploadSuccess;
+            Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;            
+            Utils.PhotoUploader.uploadPhoto(buff,status, location);
+        }
 
-            restRequest.AddFile("photo", "photo.jpeg", stream, "image/jpg");
+        void PhotoUploader_PhotosUploadFailed(object sender, FailedEventArgs e)
+        {
+            PhotosUploadFailed(this, new FailedEventArgs(new Error()));
+        }
 
-            restRequest.AddParameter("status", status);
-
-            client.BeginRequest(restRequest, (request, response, userstate) =>
-            {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    Items.Status s = new Items.Status();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.Status;
-                    ms.Close();
-                    var l = new ObservableCollection<Items.Status>();
-                    l.Add(s);
-                    foreach (var item in HomeTimeLineStatus)
-                        l.Add(item);
-                    this.HomeTimeLineStatus = l;
-                    HomeTimeLineStatusChanged();
-                    EventArgs e = new EventArgs();
-                    PhotosUploadSuccess(this, e);
-                }
-                else
-                {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
-                    PhotosUploadFailed(this, e);
-                }
-            });
+        void PhotoUploader_PhotosUploadSuccess(object sender, EventArgs e)
+        {
+            var l = new ObservableCollection<Items.Status>();
+            l.Add(sender as Items.Status);
+            foreach (var item in HomeTimeLineStatus)
+                l.Add(item);
+            this.HomeTimeLineStatus = l;
+            HomeTimeLineStatusChanged();
+            PhotosUploadSuccess(this, e);
         }
         #endregion
         #region direct
