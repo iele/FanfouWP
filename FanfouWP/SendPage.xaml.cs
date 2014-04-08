@@ -40,7 +40,8 @@ namespace FanfouWP
                 status = PhoneApplicationService.Current.State["ReSend"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("ReSend");
                 currentPageType = PageType.Resend;
-            } if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
             {
                 status = PhoneApplicationService.Current.State["Reply"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("Reply");

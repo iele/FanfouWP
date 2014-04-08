@@ -17,7 +17,7 @@ namespace FanfouWP.ItemControls.ValueConverter
         {
             if (value == null)
                 return "";
-            return HttpUtility.HtmlDecode(value as string);
+            return HttpUtility.HtmlDecode(value as string).Replace("<strong>", "").Replace("</strong>", "");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)
