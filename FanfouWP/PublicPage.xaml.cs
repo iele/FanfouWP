@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using FanfouWP.API;
 
 namespace FanfouWP
 {
@@ -72,6 +73,5 @@ namespace FanfouWP
             }); 
             FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();      
         }
-
     }
 }

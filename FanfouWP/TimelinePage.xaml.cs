@@ -278,7 +278,7 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Add("StatusPage", e.AddedItems[0]);
                 NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
             }
-            this.HomeTimeLineListBox.SelectedItem = null;
+            this.MentionTimeLineListBox.SelectedItem = null;
         }
 
         private void MainButton_Click(object sender, EventArgs e)

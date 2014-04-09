@@ -365,7 +365,10 @@ namespace FanfouWP.API
 
                 RestoreDataSuccess(this, new EventArgs());
             }
-            RestoreDataFailed(this, new FailedEventArgs());
+            else
+            {
+                RestoreDataFailed(this, new FailedEventArgs());
+            }
         }
 
         private SettingManager settings = SettingManager.GetInstance();
@@ -419,7 +422,8 @@ namespace FanfouWP.API
                     ms.Close();
                     AccountNotificationSuccess(i, new EventArgs());
                 }
-                else {
+                else
+                {
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));

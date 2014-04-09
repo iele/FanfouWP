@@ -11,6 +11,7 @@ using FanfouWP.API;
 using System.Threading.Tasks;
 using Microsoft.Phone.Scheduler;
 using System.Threading;
+using Windows.Phone.Speech.VoiceCommands;
 
 namespace FanfouWP
 {
@@ -19,6 +20,12 @@ namespace FanfouWP
         public MainPage()
         {
             InitializeComponent();
+
+            Dispatcher.BeginInvoke(async () =>
+            {
+                await VoiceCommandService.InstallCommandSetsFromFileAsync(new Uri("ms-appx:///VoiceCommandDefinition.xml"));
+            });
+
 
             Dispatcher.BeginInvoke(async () => await Utils.GeoLocatorUtils.getGeolocator());
 
@@ -33,7 +40,7 @@ namespace FanfouWP
             Thread.Sleep(500);
 
             FanfouWP.API.FanfouAPI.Instance.TryRestoreData();
-     }
+        }
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -50,6 +57,6 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
         }
 
-      
+
     }
 }

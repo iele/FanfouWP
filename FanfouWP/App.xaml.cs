@@ -104,7 +104,7 @@ namespace FanfouWP
             if (MessageBox.Show("饭窗出现异常.是否愿意发送邮件给作者异常信息?", "抱歉", MessageBoxButton.OKCancel) == MessageBoxResult.OK) {
                 EmailComposeTask ect = new EmailComposeTask();
                 ect.To = "melephas@outlook.com";
-                ect.Subject = "关于饭窗的建议";
+                ect.Subject = "关于饭窗的异常报告";
                 ect.Body = e.ExceptionObject.ToString();
                 ect.Show();             
             }             

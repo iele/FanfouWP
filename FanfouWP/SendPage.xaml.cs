@@ -144,8 +144,18 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
+                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
                     this.NavigationService.GoBack();
+                else
+                {
+                    this.status.text = "";
+                    this.toast.NewToast("新消息发送成功:)");
+
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
+                }
             });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
@@ -177,9 +187,19 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
+                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
                     this.NavigationService.GoBack();
-            });
+                else
+                {
+                    this.status.text = "";
+                    this.toast.NewToast("图片发送成功:)");
+
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
+                }
+          });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
             {
@@ -285,5 +305,59 @@ namespace FanfouWP
             MessageBox.Show("当前没有播放音乐:(");
 
         }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
+            {
+
+                if (NavigationContext.QueryString.ContainsKey("voiceCommandName"))
+                {
+
+                    string voiceCommandName
+                      = NavigationContext.QueryString["voiceCommandName"];
+
+                    switch (voiceCommandName)
+                    {
+                        case "发送新消息":
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                            });
+                            FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
+                            FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed; 
+                            FanfouAPI.TryRestoreData();
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            }
+        }
+
+        void FanfouAPI_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            MessageBox.Show("你现在都没登录呢,怎么直接发送消息呢。。","没登录怎么办?",MessageBoxButton.OK);
+        }
+
+        void FanfouAPI_RestoreDataSuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
+            });
+        }
+
+
     }
+
 }
