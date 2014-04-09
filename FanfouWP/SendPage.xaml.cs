@@ -147,6 +147,13 @@ namespace FanfouWP
                 if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
                     this.NavigationService.GoBack();
             });
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
+
         }
 
         void FanfouAPI_StatusUpdateFailed(object sender, API.Event.FailedEventArgs e)
@@ -173,6 +180,13 @@ namespace FanfouWP
                 if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
                     this.NavigationService.GoBack();
             });
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
+
         }
 
         private void SendButton_Click(object sender, EventArgs e)

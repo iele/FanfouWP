@@ -75,7 +75,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.Toolbox.DirectMsgTile.Notification = "你有" + (sender as FanfouWP.API.Items.Notifications).direct_messages +"条新私信";
+                if ((sender as FanfouWP.API.Items.Notifications).direct_messages != 0)
+                    this.Toolbox.DirectMsgTile.Notification = (sender as FanfouWP.API.Items.Notifications).direct_messages + "条新私信";
 
             });
         }
@@ -247,7 +248,6 @@ namespace FanfouWP
                     FanfouAPI.StatusHomeTimeline();
                     FanfouAPI.StatusMentionTimeline();
                     FanfouAPI.VerifyCredentials();
-
                 }
             }
             run_once = false;
@@ -416,7 +416,22 @@ namespace FanfouWP
         }
         #endregion
 
-        #region tile
+        #region Navigation
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            FanfouAPI.AccountNotification();
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
+                this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)

@@ -210,7 +210,7 @@ namespace FanfouWP.Storage
             if (settings.TryGetValue("quit_confirm", out quit_confirm) && quit_confirm != null)
                 this.quit_confirm = (Boolean)quit_confirm;
             else
-                this.quit_confirm = false;
+                this.quit_confirm = true;
             if (settings.TryGetValue("username", out username) && username != null)
                 this.username = (string)username;
             else
@@ -231,11 +231,11 @@ namespace FanfouWP.Storage
             if (settings.TryGetValue("displayImage", out displayImage) && displayImage != null)
                 this.displayImage = (Boolean)displayImage;
             else
-                this.displayImage = false;
+                this.displayImage = true;
             if (settings.TryGetValue("enableLocation", out enableLocation) && enableLocation != null)
                 this.enableLocation = (Boolean)enableLocation;
             else
-                this.enableLocation = false;
+                this.enableLocation = true;
             if (settings.TryGetValue("imageQuality", out imageQuality) && imageQuality != null)
                 this.imageQuality = (int)imageQuality;
             else

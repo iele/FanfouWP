@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using FanfouWP.API;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace FanfouWP
 {
@@ -63,6 +64,15 @@ namespace FanfouWP
             {
                 this.title.Text = "与" + this.user.screen_name + "的对话";
             });
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(60);
+            timer.Tick += (s, et) =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+                FanfouWP.API.FanfouAPI.Instance.DirectMessagesConversation(this.user.id);
+            };
+            timer.Start();
         }
 
         void Instance_DirectMessageConversationFailed(object sender, API.Event.FailedEventArgs e)

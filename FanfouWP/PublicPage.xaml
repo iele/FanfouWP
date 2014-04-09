@@ -43,7 +43,7 @@
 
 
         <!--ContentPanel - 在此处放置其他内容-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,-20,0,0">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
             <ListBox x:Name="PublicStatusListBox" ItemsSource="{Binding}" SelectionChanged="PublicStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

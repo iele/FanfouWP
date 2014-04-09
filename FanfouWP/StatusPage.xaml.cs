@@ -57,6 +57,13 @@ namespace FanfouWP
                 this.NavigationService.GoBack();
                 Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除成功:)"); });
             });
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
+
         }
 
         private void StatusPage_Loaded(object sender, RoutedEventArgs e)
@@ -367,6 +374,14 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消成功:)"); });
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
+
+
         }
 
         void Instance_FavoritesCreateFailed(object sender, API.Event.FailedEventArgs e)
@@ -396,6 +411,12 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
 
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建成功:)"); });
+       
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
 
         }
 
