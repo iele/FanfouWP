@@ -13,6 +13,7 @@ using Microsoft.Phone.Tasks;
 using System.IO;
 using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
+using FanfouWP.Storage;
 
 namespace FanfouWP
 {
@@ -63,8 +64,15 @@ namespace FanfouWP
 
             Dispatcher.BeginInvoke(async () =>
             {
-                position = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
-                this.location.Text = position;
+                if (SettingManager.GetInstance().enableLocation == true)
+                {
+                    position = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
+                    this.location.Text = position;
+                }
+                else
+                {
+                    this.location.Text = "";
+                }
             });
 
             switch (currentPageType)
@@ -84,7 +92,7 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         titleText.Text = "回复" + status.user.screen_name;
-                        this.Status.Text = "@" + this.status.user.screen_name;
+                        this.Status.Text = "@" + this.status.user.screen_name + " ";
                     });
                     break;
                 default:
@@ -122,6 +130,9 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.toast.NewToast("照片上传失败:( " + e.error.error);
             });
@@ -133,7 +144,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.NavigationService.GoBack();
+                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
+                    this.NavigationService.GoBack();
             });
         }
 
@@ -144,6 +156,9 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.toast.NewToast("消息发送失败:( " + e.error.error);
             });
@@ -155,7 +170,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.NavigationService.GoBack();
+                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative))
+                    this.NavigationService.GoBack();
             });
         }
 
@@ -167,6 +183,9 @@ namespace FanfouWP
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
                 });
 
                 FanfouAPI.PhotoUpload(this.Status.Text, image);
@@ -184,6 +203,9 @@ namespace FanfouWP
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
                 });
 
                 switch (currentPageType)

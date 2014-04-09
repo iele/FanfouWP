@@ -119,11 +119,15 @@ namespace FanfouWP.API
         public delegate void LoginFailedHandler(object sender, FailedEventArgs e);
         public delegate void VerifyCredentialsSuccessHandler(object sender, EventArgs e);
         public delegate void VerifyCredentialsFailedHandler(object sender, FailedEventArgs e);
+        public delegate void AccountNotificationSuccessHandler(object sender, EventArgs e);
+        public delegate void AccountNotificationFailedHandler(object sender, FailedEventArgs e);
 
         public event LoginSuccessHandler LoginSuccess;
         public event LoginFailedHandler LoginFailed;
         public event VerifyCredentialsSuccessHandler VerifyCredentialsSuccess;
         public event VerifyCredentialsFailedHandler VerifyCredentialsFailed;
+        public event AccountNotificationSuccessHandler AccountNotificationSuccess;
+        public event AccountNotificationFailedHandler AccountNotificationFailed;
 
         public delegate void StatusUpdateSuccessHandler(object sender, EventArgs e);
         public delegate void StatusUpdateFailedHandler(object sender, FailedEventArgs e);
@@ -304,18 +308,44 @@ namespace FanfouWP.API
         {
         }
 
+        private int[] CountIndex = { 100, 300, 500, 1000 };
         private void HomeTimeLineStatusChanged()
         {
-            storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
+            if (this.HomeTimeLineStatus.Count > CountIndex[settings.cacheSize])
+            {
+                var l = new ObservableCollection<Items.Status>();
+                for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
+                    l.Add(this.HomeTimeLineStatus[i]);
+                storage.SaveDataToIsolatedStorage("home", l);
+            }
+            else
+                storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
         }
         private void PublicTimeLineStatusChanged()
         {
-            storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
+            if (this.PublicTimeLineStatus.Count > CountIndex[settings.cacheSize])
+            {
+                var l = new ObservableCollection<Items.Status>();
+                for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
+                    l.Add(this.PublicTimeLineStatus[i]);
+                storage.SaveDataToIsolatedStorage("home", l);
+            }
+            else
+                storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
         }
 
         private void MentionTimeLineStatusChanged()
         {
-            storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
+            if (this.MentionTimeLineStatus.Count > CountIndex[settings.cacheSize])
+            {
+                var l = new ObservableCollection<Items.Status>();
+                for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
+                    l.Add(this.MentionTimeLineStatus[i]);
+                storage.SaveDataToIsolatedStorage("home", l);
+            }
+            else
+
+                storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
         }
         public void TryRestoreData()
         {
@@ -370,6 +400,37 @@ namespace FanfouWP.API
         }
 
         #region account
+        public void AccountNotification()
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+                {
+                    Path = FanfouConsts.ACCOUNT_NOTIFICATION,
+                    Method = Hammock.Web.WebMethod.Get
+                };
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Items.Notifications i = new Items.Notifications();
+                    var ds = new DataContractJsonSerializer(i.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    i = ds.ReadObject(ms) as Items.Notifications;
+                    ms.Close();
+                    AccountNotificationSuccess(i, new EventArgs());
+                }
+                else {
+                    Items.Error er = new Items.Error();
+                    var ds = new DataContractJsonSerializer(er.GetType());
+                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                    er = ds.ReadObject(ms) as Items.Error;
+                    ms.Close();
+                    FailedEventArgs e = new FailedEventArgs(er);
+                    AccountNotificationFailed(this, e);
+                }
+            });
+        }
+
         public void Login(string username, string password)
         {
             this.username = username;
@@ -505,7 +566,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     StatusUpdateFailed(this, e);
@@ -576,7 +637,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     UserTimelineFailed(this, e);
@@ -712,7 +773,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     PublicTimelineFailed(this, e);
@@ -779,7 +840,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     MentionTimelineFailed(this, e);
@@ -942,7 +1003,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     FavoritesDestroyFailed(this, e);
@@ -1054,7 +1115,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     TrendsListFailed(this, e);
@@ -1090,7 +1151,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     TagListFailed(this, e);
@@ -1205,7 +1266,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     UsersFriendsFailed(this, e);
@@ -1281,7 +1342,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsDestroyFailed(this, e);
@@ -1316,7 +1377,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsRequestsFailed(this, e);
@@ -1392,7 +1453,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     FriendshipsDenyFailed(this, e);
@@ -1430,7 +1491,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     PhotosUserTimelineFailed(this, e);
@@ -1439,12 +1500,88 @@ namespace FanfouWP.API
         }
         public void PhotoUpload(string status, WriteableBitmap photo, string location = "")
         {
-             var stream = new MemoryStream();
-            photo.SaveJpeg(stream, photo.PixelWidth, photo.PixelHeight, 0, 70);
+            var stream = new MemoryStream();
+            var q = settings.imageQuality;
+
+            var b = photo.PixelWidth > photo.PixelHeight ? true : false;
+            var width = 0;
+            var height = 0;
+            var quality = 0;
+            switch (q)
+            {
+                case 0:
+                    width = b ? 300 : (int)(photo.PixelWidth * 300 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 300 / photo.PixelWidth) : 300;
+                    if (b == true && photo.PixelWidth < 300)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    else if (b == false && photo.PixelHeight < 300)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+
+                    quality = 70;
+                    break;
+                case 1:
+                    width = b ? 640 : (int)(photo.PixelWidth * 640 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 640 / photo.PixelWidth) : 640;
+                    if (b == true && photo.PixelWidth < 640)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    else if (b == false && photo.PixelHeight < 640)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    quality = 80;
+                    break;
+                case 2:
+                    width = b ? 1280 : (int)(photo.PixelWidth * 1280 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 1280 / photo.PixelWidth) : 1280;
+                    if (b == true && photo.PixelWidth < 1280)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    else if (b == false && photo.PixelHeight < 1280)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    quality = 90;
+                    break;
+                case 3:
+                    width = photo.PixelWidth;
+                    height = photo.PixelHeight;
+                    quality = 100;
+                    break;
+                default:
+                    width = b ? 300 : (int)(photo.PixelWidth * 300 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 300 / photo.PixelWidth) : 300;
+                    if (b == true && photo.PixelWidth < 300)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    else if (b == false && photo.PixelHeight < 300)
+                    {
+                        width = photo.PixelWidth;
+                        height = photo.PixelHeight;
+                    }
+                    quality = 70;
+                    break;
+            }
+            photo.SaveJpeg(stream, width, height, 0, quality);
+
             var buff = stream.ToArray();
             Utils.PhotoUploader.PhotosUploadSuccess += PhotoUploader_PhotosUploadSuccess;
-            Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;            
-            Utils.PhotoUploader.uploadPhoto(buff,status, location);
+            Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;
+            Utils.PhotoUploader.uploadPhoto(buff, status, location);
         }
 
         void PhotoUploader_PhotosUploadFailed(object sender, FailedEventArgs e)
@@ -1493,7 +1630,7 @@ namespace FanfouWP.API
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; 
+                    er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
                     DirectMessageConversationListFailed(this, e);

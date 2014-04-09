@@ -12,7 +12,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
     mc:Ignorable="d">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->

@@ -1,4 +1,5 @@
-﻿using Microsoft.Phone.Net.NetworkInformation;
+﻿using FanfouWP.Storage;
+using Microsoft.Phone.Net.NetworkInformation;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

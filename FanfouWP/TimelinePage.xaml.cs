@@ -63,6 +63,21 @@ namespace FanfouWP
             FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
             FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
             FanfouAPI.RestoreDataCompleted += FanfouAPI_RestoreDataCompleted;
+            FanfouAPI.AccountNotificationSuccess += FanfouAPI_AccountNotificationSuccess;
+            FanfouAPI.AccountNotificationFailed += FanfouAPI_AccountNotificationFailed;
+        }
+
+        void FanfouAPI_AccountNotificationFailed(object sender, FailedEventArgs e)
+        {
+        }
+
+        void FanfouAPI_AccountNotificationSuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.Toolbox.DirectMsgTile.Notification = "你有" + (sender as FanfouWP.API.Items.Notifications).direct_messages +"条新私信";
+
+            });
         }
 
         void FanfouAPI_RestoreDataCompleted(object sender, EventArgs e)
@@ -115,10 +130,11 @@ namespace FanfouWP
              {
                  this.TitleControl.DataContext = FanfouAPI.CurrentUser;
                  Toolbox.DataContext = FanfouAPI.CurrentUser;
+                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Collapsed);
              });
+            FanfouAPI.AccountNotification();
 
-            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret);
-            StartPeriodicAgent();
+            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
         }
 
         private void FanfouAPI_MentionTimelineFailed(object sender, API.Event.FailedEventArgs e)
@@ -386,7 +402,6 @@ namespace FanfouWP
             {
                 if (exception.Message.Contains("BNS Error: The action is disabled"))
                 {
-                    MessageBox.Show("Background agents for this application have been disabled by the user.");
                     agentsAreEnabled = false;
                 }
 
@@ -406,13 +421,14 @@ namespace FanfouWP
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
+
                 var item = ShellTile.ActiveTiles.First();
                 var data = new IconicTileData();
                 data.Title = "饭窗";
                 data.WideContent1 = FanfouAPI.CurrentUser.screen_name;
-                data.WideContent2 ="三围 " + FanfouAPI.CurrentUser.statuses_count + " " + FanfouAPI.CurrentUser.followers_count + " " + FanfouAPI.CurrentUser.friends_count;
+                data.WideContent2 = "三围 " + FanfouAPI.CurrentUser.statuses_count + " " + FanfouAPI.CurrentUser.followers_count + " " + FanfouAPI.CurrentUser.friends_count;
                 if (FanfouAPI.MentionTimeLineStatus != null && FanfouAPI.MentionTimeLineStatus.Count > 0)
-                    data.WideContent3 = "最近提及 " +FanfouAPI.MentionTimeLineStatus.First().user.screen_name;
+                    data.WideContent3 = "最近提及 " + FanfouAPI.MentionTimeLineStatus.First().user.screen_name;
                 else
                     data.WideContent3 = "最近提及 无";
                 item.Update(data);
@@ -422,7 +438,18 @@ namespace FanfouWP
             base.OnNavigatedFrom(e);
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (setting.quit_confirm == true)
+            {
+                if (MessageBox.Show("是否退出饭窗?", "确认退出?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
 
+            base.OnBackKeyPress(e);
+        }
         #endregion
     }
 }

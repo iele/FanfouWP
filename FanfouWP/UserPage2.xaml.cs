@@ -47,7 +47,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("标签列表获取失败:( " + e.error.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("标签列表获取失败:( " + e.error); });
         }
 
         void Instance_TagListSuccess(object sender, API.Event.ListEventArgs<string> e)
@@ -66,7 +66,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友失败:( " + e.error.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友失败:( " + e.error); });
         }
 
         void Instance_FriendshipsDestroySuccess(object sender, EventArgs e)
@@ -86,7 +86,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友失败:( " + e.error.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友失败:( " + e.error); });
         }
 
         void Instance_FriendshipsCreateSuccess(object sender, EventArgs e)
@@ -105,7 +105,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("关注列表获取失败:( " + e.error.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("关注列表获取失败:( " + e.error); });
             });
         }
 
@@ -123,7 +123,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("好友列表获取失败:( " + e.error.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("好友列表获取失败:( " + e.error); });
             });
         }
 
@@ -141,7 +141,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("收藏列表获取失败:( " + e.error.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("收藏列表获取失败:( " + e.error); });
             });
         }
 
@@ -174,7 +174,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error); });
         }
 
         void UserPage_Loaded(object sender, RoutedEventArgs e)
@@ -338,6 +338,31 @@ namespace FanfouWP
             PhoneApplicationService.Current.State.Add("ViewerPage", this.user);
             NavigationService.Navigate(new Uri("/ViewerPage.xaml", UriKind.Relative));
 
+        }
+
+        private void ReplayButton_Click(object sender, EventArgs e)
+        {
+            FanfouWP.API.Items.Status status = new FanfouWP.API.Items.Status();
+            status.id = "";
+            status.user = this.user;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
+            {
+                PhoneApplicationService.Current.State.Remove("Reply");
+            }
+            PhoneApplicationService.Current.State.Add("Reply", status);
+            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
+        }
+
+        private void MainButton_Click(object sender, EventArgs e)
+        {
+            this.DataContext = user;
+            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
+            checkMenu();    
         }
 
     }

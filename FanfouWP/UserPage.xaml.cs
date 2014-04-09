@@ -340,5 +340,35 @@ namespace FanfouWP
 
         }
 
+        private void ReplayButton_Click(object sender, EventArgs e)
+        {
+            FanfouWP.API.Items.Status status = new FanfouWP.API.Items.Status();
+            status.id = "";
+            status.user = this.user;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
+            {
+                PhoneApplicationService.Current.State.Remove("Reply");
+            }
+            PhoneApplicationService.Current.State.Add("Reply", status);
+            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
+        }
+
+        private void MainButton_Click(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            });
+     
+            this.DataContext = user;
+            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
+            checkMenu();    
+        }
+
     }
 }

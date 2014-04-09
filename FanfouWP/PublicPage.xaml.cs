@@ -23,10 +23,10 @@ namespace FanfouWP
 
         void PublicPage_Loaded(object sender, RoutedEventArgs e)
         {
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineSuccess += Instance_PublicTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineFailed += Instance_PublicTimelineFailed;
-        }
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();
+       }
 
         void Instance_PublicTimelineFailed(object sender, FailedEventArgs e)
         {
@@ -62,6 +62,15 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Add("StatusPage", item);
                 NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
             }
+        }
+
+        private void MainButton_Click(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+            }); 
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();      
         }
 
     }

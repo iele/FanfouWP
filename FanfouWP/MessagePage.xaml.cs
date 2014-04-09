@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using FanfouWP.API;
+using System.Threading;
 
 namespace FanfouWP
 {

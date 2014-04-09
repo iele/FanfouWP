@@ -34,8 +34,8 @@
         </Grid>
         <StackPanel Margin="0,60,0,0" Orientation="Vertical">
         	<TextBox x:Name="Status" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
-        	<TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,0" Foreground="#FF858585" VerticalAlignment="Top" Height="0"/>
-        	<Image Height="300" x:Name="Image" VerticalAlignment="Top" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
+            <TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,0" Foreground="#FF858585" VerticalAlignment="Top" />
+            <Image Height="300" x:Name="Image" VerticalAlignment="Top" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
 
 
         </StackPanel>

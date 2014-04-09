@@ -23,11 +23,12 @@ namespace FanfouWPTaskAgent.Agent
                     {
                         using (StreamReader sr = new StreamReader(readStream, Encoding.Unicode))
                         {
-                            string[] ss = new string[4];
+                            string[] ss = new string[5];
                             ss[0] = sr.ReadLine();
                             ss[1] = sr.ReadLine();
                             ss[2] = sr.ReadLine();
                             ss[3] = sr.ReadLine();
+                            ss[5] = sr.ReadLine();
                             return ss;
                         }
                     }

@@ -13,7 +13,7 @@ namespace FanfouWP.Storage
 {
     public class AgentWriter
     {
-        public static void WriteAgentParameter(string username, string password, string oauthToken, string oauthSecret)
+        public static void WriteAgentParameter(string username, string password, string oauthToken, string oauthSecret, int freq)
         {
             using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -25,7 +25,7 @@ namespace FanfouWP.Storage
                 using (IsolatedStorageFileStream writeStream = new IsolatedStorageFileStream("agent.txt", System.IO.FileMode.CreateNew, FileAccess.Write, isf))
                 {
                     {
-                        var s = username + "\n" + password + "\n" + oauthToken + "\n" + oauthSecret;
+                        var s = username + "\n" + password + "\n" + oauthToken + "\n" + oauthSecret + "\n" + freq.ToString();
                         StreamWriter sw = new StreamWriter(writeStream, Encoding.Unicode);
                         sw.Write(s);
                         sw.Flush();

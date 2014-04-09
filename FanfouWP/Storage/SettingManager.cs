@@ -177,6 +177,7 @@ namespace FanfouWP.Storage
 
         private SettingManager()
         {
+            RestoreSettings();
         }
 
         public static SettingManager GetInstance()
@@ -238,15 +239,15 @@ namespace FanfouWP.Storage
             if (settings.TryGetValue("imageQuality", out imageQuality) && imageQuality != null)
                 this.imageQuality = (int)imageQuality;
             else
-                this.imageQuality = 1;
+                this.imageQuality = 0;
             if (settings.TryGetValue("cacheSize", out cacheSize) && cacheSize != null)
                 this.cacheSize = (int)cacheSize;
             else
-                this.cacheSize = 1;
+                this.cacheSize = 0;
             if (settings.TryGetValue("backgroundFeq", out backgroundFeq) && backgroundFeq != null)
                 this.backgroundFeq = (int)backgroundFeq;
             else
-                this.backgroundFeq = 1;
+                this.backgroundFeq = 0;
         }
 
     }

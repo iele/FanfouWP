@@ -16,6 +16,10 @@ namespace FanfouWPTaskAgent
     public class ScheduledAgent : ScheduledTaskAgent
     {
         private dynamic s;
+
+        private Item notification;
+
+        private int count = 0;
         static ScheduledAgent()
         {
             Deployment.Current.Dispatcher.BeginInvoke(delegate
@@ -34,7 +38,8 @@ namespace FanfouWPTaskAgent
 
         private void getMetions(Item i)
         {
-            if (i.mentions == 0) {
+            if (i.mentions == 0)
+            {
                 ShellToast st = new ShellToast();
                 st.Title = "饭窗";
                 st.Content = "你有" + i.direct_messages + "条新私信 " + i.friend_requests + "条好友请求";
@@ -93,7 +98,7 @@ namespace FanfouWPTaskAgent
                     {
                         ShellToast st = new ShellToast();
                         st.Title = "饭窗";
-                        st.Content = i.mentions.ToString() + "新提及 " +status[0].text;
+                        st.Content = i.mentions.ToString() + "新提及 " + status[0].text;
                         st.Show();
 
                         foreach (var item in ShellTile.ActiveTiles)
@@ -140,7 +145,19 @@ namespace FanfouWPTaskAgent
         {
             s = AgentReader.ReadAgentParameter();
 
-            if (s.Length != 4)
+            if (s.Length != 5)
+            {
+                NotifyComplete();
+                return;
+            }
+
+            if (int.Parse(s[5]) == 3)
+            {
+                NotifyComplete();
+                return;
+            }
+
+            if (count % int.Parse(s[5]) != 0)
             {
                 NotifyComplete();
                 return;
@@ -186,6 +203,17 @@ namespace FanfouWPTaskAgent
                         NotifyComplete();
                         return;
                     }
+
+                    if (notification != null)
+                    {
+                        if (this.notification.direct_messages == i.direct_messages && this.notification.friend_requests == i.friend_requests && this.notification.mentions == i.mentions)
+                        {
+                            NotifyComplete();
+                            return;
+                        }
+                    }
+
+                    this.notification = i;
                     getMetions(i);
                 }
             });

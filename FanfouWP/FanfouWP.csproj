@@ -101,6 +101,7 @@
     <Compile Include="API\Items\DirectMessage.cs" />
     <Compile Include="API\Items\Error.cs" />
     <Compile Include="API\Items\Item.cs" />
+    <Compile Include="API\Items\Notifications.cs" />
     <Compile Include="API\Items\Trends.cs" />
     <Compile Include="API\Items\Photo.cs" />
     <Compile Include="API\Items\Status.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ItemControls\ImagesItemControl.xaml.cs">
       <DependentUpon>ImagesItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ValueConverter\DisplayImageToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\HtmlToTextConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\CountToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\IntToMsgCountStringConverter.cs" />
