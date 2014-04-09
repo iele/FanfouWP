@@ -225,7 +225,6 @@ namespace FanfouWP
                     if (FanfouAPI.HomeTimeLineStatus.Count != 0)
                     {
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                        FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
                     }
                     else
                     {
@@ -234,12 +233,10 @@ namespace FanfouWP
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                        FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
-                    }
+                     }
                     else
                     {
                         FanfouAPI.StatusMentionTimeline();
-
                     }
 
                 }

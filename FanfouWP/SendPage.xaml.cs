@@ -148,7 +148,7 @@ namespace FanfouWP
                     this.NavigationService.GoBack();
                 else
                 {
-                    this.status.text = "";
+                    this.Status.Text = "";
                     this.toast.NewToast("新消息发送成功:)");
 
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
@@ -191,7 +191,7 @@ namespace FanfouWP
                     this.NavigationService.GoBack();
                 else
                 {
-                    this.status.text = "";
+                    this.Status.Text = "";
                     this.toast.NewToast("图片发送成功:)");
 
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
