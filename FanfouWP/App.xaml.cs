@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
+using Microsoft.Phone.Tasks;
 
 namespace FanfouWP
 {
@@ -100,7 +101,13 @@ namespace FanfouWP
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            MessageBox.Show("异常内容" + e.ExceptionObject.ToString(), "抱歉出现未处理异常", MessageBoxButton.OK);
+            if (MessageBox.Show("饭窗出现异常.是否愿意发送邮件给作者异常信息?", "抱歉", MessageBoxButton.OKCancel) == MessageBoxResult.OK) {
+                EmailComposeTask ect = new EmailComposeTask();
+                ect.To = "melephas@outlook.com";
+                ect.Subject = "关于饭窗的建议";
+                ect.Body = e.ExceptionObject.ToString();
+                ect.Show();             
+            }             
         }
 
         #region 电话应用程序初始化
