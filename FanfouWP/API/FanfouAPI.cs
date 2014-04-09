@@ -688,18 +688,31 @@ namespace FanfouWP.API
                             foreach (var item in status)
                                 l.Add(item);
                             foreach (var item in HomeTimeLineStatus)
-                                l.Add(item);
+                            {
+                                var r = from v in l where item.id == v.id select v;
+                                if (r.Count() == 0)
+                                {
+                                    l.Add(item);
+                                }
+                            }
                             break;
                         case RefreshMode.Back:
                             foreach (var item in HomeTimeLineStatus)
                                 l.Add(item);
                             foreach (var item in status)
-                                l.Add(item);
+                            {
+                                var r = from v in l where item.id == v.id select v;
+                                if (r.Count() == 0)
+                                {
+                                    l.Add(item);
+                                }
+                            }
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
+                    HomeTimeLineStatusCount = l.Count - HomeTimeLineStatus.Count;
                     this.HomeTimeLineStatus = l;
-                    HomeTimeLineStatusCount = status.Count();
                     HomeTimeLineStatusChanged();
                     ModeEventArgs e = new ModeEventArgs(mode);
                     HomeTimelineSuccess(this, e);
@@ -734,7 +747,8 @@ namespace FanfouWP.API
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastPublicTimeLineStatussId);
                     break;
-                default: break;
+                default: 
+                    break;
             }
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -765,7 +779,8 @@ namespace FanfouWP.API
                             foreach (var item in status)
                                 l.Add(item);
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                     this.PublicTimeLineStatus = l;
                     PublicTimeLineStatusChanged();
@@ -801,7 +816,8 @@ namespace FanfouWP.API
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastMentionTimeLineStatusId);
                     break;
-                default: break;
+                default: 
+                    break;
             }
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -823,18 +839,31 @@ namespace FanfouWP.API
                             foreach (var item in status)
                                 l.Add(item);
                             foreach (var item in MentionTimeLineStatus)
-                                l.Add(item);
+                            {
+                                var r = from v in l where item.id == v.id select v;
+                                if (r.Count() == 0)
+                                {
+                                    l.Add(item);
+                                }
+                            }
                             break;
                         case RefreshMode.Back:
                             foreach (var item in MentionTimeLineStatus)
                                 l.Add(item);
                             foreach (var item in status)
-                                l.Add(item);
+                            {
+                                var r = from v in l where item.id == v.id select v;
+                                if (r.Count() == 0)
+                                {
+                                    l.Add(item);
+                                }
+                            }
                             break;
-                        default: break;
+                        default: 
+                            break;
                     }
+                    MentionTimeLineStatusCount = l.Count - MentionTimeLineStatus.Count;
                     this.MentionTimeLineStatus = l;
-                    MentionTimeLineStatusCount = status.Count();
                     MentionTimeLineStatusChanged();
                     ModeEventArgs e = new ModeEventArgs(mode);
                     MentionTimelineSuccess(this, e);
