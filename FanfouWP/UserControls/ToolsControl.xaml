@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="800" d:DesignWidth="480" >
+    d:DesignHeight="800" d:DesignWidth="480"  >
 
     <ListBox x:Name="LayoutRoot" Margin="5" >
         <ListBox.ItemsPanel>

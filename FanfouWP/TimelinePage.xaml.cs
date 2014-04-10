@@ -321,7 +321,7 @@ namespace FanfouWP
 
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1])
+            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.MentionTimeLineEnded)
             {
 
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
@@ -332,7 +332,7 @@ namespace FanfouWP
 
         private void HomeTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1])
+            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded)
             {
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Back);

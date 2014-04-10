@@ -35,7 +35,7 @@
                 </LinearGradientBrush>
             </StackPanel.Background>
             <StackPanel Height="116" Margin="12,17,0,28">
-                <TextBlock Text="FanfouWP" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock Text="饭窗" Style="{StaticResource PhoneTextNormalStyle}"/>
                 <TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             </StackPanel>
 

@@ -23,7 +23,9 @@ namespace FanfouWP.API.Event
         } }
 
 
-        public FailedEventArgs() { }
+        public FailedEventArgs() {
+            this.error = new Error();
+        }
         public FailedEventArgs(Error error)
         {
             this.error = error;

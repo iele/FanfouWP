@@ -100,14 +100,7 @@ namespace FanfouWP
         // 出现未处理的异常时执行的代码
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
-            if (MessageBox.Show("饭窗出现异常.是否愿意发送邮件给作者异常信息?", "抱歉", MessageBoxButton.OKCancel) == MessageBoxResult.OK) {
-                EmailComposeTask ect = new EmailComposeTask();
-                ect.To = "melephas@outlook.com";
-                ect.Subject = "关于饭窗的异常报告";
-                ect.Body = e.ExceptionObject.ToString();
-                ect.Show();             
-            }             
+            Debugger.Break();    
         }
 
         #region 电话应用程序初始化

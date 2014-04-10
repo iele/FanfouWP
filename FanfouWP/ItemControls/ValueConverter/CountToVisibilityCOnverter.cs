@@ -16,7 +16,7 @@ namespace FanfouWP.ItemControls.ValueConverter
         {
             if (value == null)
                 return Visibility.Collapsed;
-            return (int.Parse(value as string)) != 0 ? Visibility.Visible : Visibility.Collapsed;
+            return (int.Parse(value as string)) > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)

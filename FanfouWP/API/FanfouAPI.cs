@@ -30,6 +30,9 @@ namespace FanfouWP.API
 
         public Items.User CurrentUser { get; set; }
 
+        public bool HomeTimeLineEnded = false;
+        public bool MentionTimeLineEnded = false;
+
         public int HomeTimeLineStatusCount = 0;
         private ObservableCollection<Items.Status> __HomeTimeLineStatus;
         public ObservableCollection<Items.Status> HomeTimeLineStatus
@@ -549,30 +552,38 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.Status s = new Items.Status();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.Status;
-                    ms.Close();
-                    var l = new ObservableCollection<Items.Status>();
-                    l.Add(s);
-                    foreach (var item in HomeTimeLineStatus)
-                        l.Add(item);
-                    this.HomeTimeLineStatus = l;
-                    HomeTimeLineStatusChanged();
-                    EventArgs e = new EventArgs();
-                    StatusUpdateSuccess(this, e);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.Status s = new Items.Status();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.Status;
+                        ms.Close();
+                        var l = new ObservableCollection<Items.Status>();
+                        l.Add(s);
+                        foreach (var item in HomeTimeLineStatus)
+                            l.Add(item);
+                        this.HomeTimeLineStatus = l;
+                        HomeTimeLineStatusChanged();
+                        EventArgs e = new EventArgs();
+                        StatusUpdateSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        StatusUpdateFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     StatusUpdateFailed(this, e);
                 }
             });
@@ -592,23 +603,31 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    var a = from s in this.HomeTimeLineStatus where s.id != id select s;
-                    this.HomeTimeLineStatus = new ObservableCollection<Status>(a);
-                    var b = from s in this.MentionTimeLineStatus where s.id != id select s;
-                    this.MentionTimeLineStatus = new ObservableCollection<Status>(b);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var a = from s in this.HomeTimeLineStatus where s.id != id select s;
+                        this.HomeTimeLineStatus = new ObservableCollection<Status>(a);
+                        var b = from s in this.MentionTimeLineStatus where s.id != id select s;
+                        this.MentionTimeLineStatus = new ObservableCollection<Status>(b);
 
-                    EventArgs e = new EventArgs();
-                    StatusDestroySuccess(this, e);
+                        EventArgs e = new EventArgs();
+                        StatusDestroySuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error; ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        StatusDestroyFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error; ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     StatusDestroyFailed(this, e);
                 }
             });
@@ -624,26 +643,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
-                    e.UserStatus = status;
-                    UserTimelineSuccess(this, e);
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        UserTimelineSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        UserTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     UserTimelineFailed(this, e);
                 }
             });
@@ -670,61 +697,71 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
-
-                    var l = new ObservableCollection<Items.Status>();
-                    switch (mode)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        case RefreshMode.New:
-                            l = status;
-                            break;
-                        case RefreshMode.Behind:
-                            foreach (var item in status)
-                                l.Add(item);
-                            foreach (var item in HomeTimeLineStatus)
-                            {
-                                var r = from v in l where item.id == v.id select v;
-                                if (r.Count() == 0)
-                                {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
+
+                        var l = new ObservableCollection<Items.Status>();
+                        switch (mode)
+                        {
+                            case RefreshMode.New:
+                                l = status;
+                                break;
+                            case RefreshMode.Behind:
+                                foreach (var item in status)
                                     l.Add(item);
-                                }
-                            }
-                            break;
-                        case RefreshMode.Back:
-                            foreach (var item in HomeTimeLineStatus)
-                                l.Add(item);
-                            foreach (var item in status)
-                            {
-                                var r = from v in l where item.id == v.id select v;
-                                if (r.Count() == 0)
+                                foreach (var item in HomeTimeLineStatus)
                                 {
-                                    l.Add(item);
+                                    var r = from v in l where item.id == v.id select v;
+                                    if (r.Count() == 0)
+                                    {
+                                        l.Add(item);
+                                    }
                                 }
-                            }
-                            break;
-                        default:
-                            break;
+                                break;
+                            case RefreshMode.Back:
+                                if (status.Count == 0)
+                                    HomeTimeLineEnded = true;
+                                foreach (var item in HomeTimeLineStatus)
+                                    l.Add(item);
+                                foreach (var item in status)
+                                {
+                                    var r = from v in l where item.id == v.id select v;
+                                    if (r.Count() == 0)
+                                    {
+                                        l.Add(item);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        HomeTimeLineStatusCount = l.Count - HomeTimeLineStatus.Count;
+                        this.HomeTimeLineStatus = l;
+                        HomeTimeLineStatusChanged();
+                        ModeEventArgs e = new ModeEventArgs(mode);
+                        HomeTimelineSuccess(this, e);
                     }
-                    HomeTimeLineStatusCount = l.Count - HomeTimeLineStatus.Count;
-                    this.HomeTimeLineStatus = l;
-                    HomeTimeLineStatusChanged();
-                    ModeEventArgs e = new ModeEventArgs(mode);
-                    HomeTimelineSuccess(this, e);
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        HomeTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     HomeTimelineFailed(this, e);
                 }
             });
@@ -747,54 +784,62 @@ namespace FanfouWP.API
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastPublicTimeLineStatussId);
                     break;
-                default: 
+                default:
                     break;
             }
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
-
-                    var l = new ObservableCollection<Items.Status>();
-                    switch (mode)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        case RefreshMode.New:
-                            l = status;
-                            break;
-                        case RefreshMode.Behind:
-                            foreach (var item in status)
-                                l.Add(item);
-                            foreach (var item in PublicTimeLineStatus)
-                                l.Add(item);
-                            break;
-                        case RefreshMode.Back:
-                            foreach (var item in PublicTimeLineStatus)
-                                l.Add(item);
-                            foreach (var item in status)
-                                l.Add(item);
-                            break;
-                        default:
-                            break;
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
+
+                        var l = new ObservableCollection<Items.Status>();
+                        switch (mode)
+                        {
+                            case RefreshMode.New:
+                                l = status;
+                                break;
+                            case RefreshMode.Behind:
+                                foreach (var item in status)
+                                    l.Add(item);
+                                foreach (var item in PublicTimeLineStatus)
+                                    l.Add(item);
+                                break;
+                            case RefreshMode.Back:
+                                foreach (var item in PublicTimeLineStatus)
+                                    l.Add(item);
+                                foreach (var item in status)
+                                    l.Add(item);
+                                break;
+                            default:
+                                break;
+                        }
+                        this.PublicTimeLineStatus = l;
+                        PublicTimeLineStatusChanged();
+                        ModeEventArgs e = new ModeEventArgs(mode);
+                        PublicTimelineSuccess(this, e);
                     }
-                    this.PublicTimeLineStatus = l;
-                    PublicTimeLineStatusChanged();
-                    ModeEventArgs e = new ModeEventArgs(mode);
-                    PublicTimelineSuccess(this, e);
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        PublicTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     PublicTimelineFailed(this, e);
                 }
             });
@@ -816,66 +861,76 @@ namespace FanfouWP.API
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastMentionTimeLineStatusId);
                     break;
-                default: 
+                default:
                     break;
             }
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
-                    var l = new ObservableCollection<Items.Status>();
-                    switch (mode)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        case RefreshMode.New:
-                            l = status;
-                            break;
-                        case RefreshMode.Behind:
-                            foreach (var item in status)
-                                l.Add(item);
-                            foreach (var item in MentionTimeLineStatus)
-                            {
-                                var r = from v in l where item.id == v.id select v;
-                                if (r.Count() == 0)
-                                {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
+                        var l = new ObservableCollection<Items.Status>();
+                        switch (mode)
+                        {
+                            case RefreshMode.New:
+                                l = status;
+                                break;
+                            case RefreshMode.Behind:
+                                foreach (var item in status)
                                     l.Add(item);
-                                }
-                            }
-                            break;
-                        case RefreshMode.Back:
-                            foreach (var item in MentionTimeLineStatus)
-                                l.Add(item);
-                            foreach (var item in status)
-                            {
-                                var r = from v in l where item.id == v.id select v;
-                                if (r.Count() == 0)
+                                foreach (var item in MentionTimeLineStatus)
                                 {
-                                    l.Add(item);
+                                    var r = from v in l where item.id == v.id select v;
+                                    if (r.Count() == 0)
+                                    {
+                                        l.Add(item);
+                                    }
                                 }
-                            }
-                            break;
-                        default: 
-                            break;
+                                break;
+                            case RefreshMode.Back:
+                                 if (status.Count == 0)
+                                    MentionTimeLineEnded = true;
+                                foreach (var item in MentionTimeLineStatus)
+                                    l.Add(item);
+                                foreach (var item in status)
+                                {
+                                    var r = from v in l where item.id == v.id select v;
+                                    if (r.Count() == 0)
+                                    {
+                                        l.Add(item);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        MentionTimeLineStatusCount = l.Count - MentionTimeLineStatus.Count;
+                        this.MentionTimeLineStatus = l;
+                        MentionTimeLineStatusChanged();
+                        ModeEventArgs e = new ModeEventArgs(mode);
+                        MentionTimelineSuccess(this, e);
                     }
-                    MentionTimeLineStatusCount = l.Count - MentionTimeLineStatus.Count;
-                    this.MentionTimeLineStatus = l;
-                    MentionTimeLineStatusChanged();
-                    ModeEventArgs e = new ModeEventArgs(mode);
-                    MentionTimelineSuccess(this, e);
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        MentionTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     MentionTimelineFailed(this, e);
                 }
             });
@@ -895,26 +950,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
-                    e.UserStatus = status;
-                    FavoritesSuccess(this, e);
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        FavoritesSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FavoritesFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FavoritesFailed(this, e);
                 }
             });
@@ -932,50 +995,58 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.Status s = new Items.Status();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.Status;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.Status s = new Items.Status();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.Status;
+                        ms.Close();
 
-                    if (this.HomeTimeLineStatus != null)
-                    {
-                        var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
+                        if (this.HomeTimeLineStatus != null)
                         {
-                            item.favorited = true;
+                            var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = true;
+                            }
                         }
-                    }
-                    if (this.MentionTimeLineStatus != null)
-                    {
-                        var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
+                        if (this.MentionTimeLineStatus != null)
                         {
-                            item.favorited = true;
+                            var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = true;
+                            }
                         }
-                    }
-                    if (this.PublicTimeLineStatus != null)
-                    {
+                        if (this.PublicTimeLineStatus != null)
+                        {
 
-                        var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
-                        {
-                            item.favorited = true;
+                            var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = true;
+                            }
                         }
+                        EventArgs e = new EventArgs();
+                        FavoritesCreateSuccess(this, e);
                     }
-                    EventArgs e = new EventArgs();
-                    FavoritesCreateSuccess(this, e);
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FavoritesCreateFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FavoritesCreateFailed(this, e);
                 }
             });
@@ -994,51 +1065,59 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.Status s = new Items.Status();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.Status;
-                    ms.Close();
-
-                    if (this.HomeTimeLineStatus != null)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
-                        {
-                            item.favorited = false;
-                        }
-                    }
-                    if (this.MentionTimeLineStatus != null)
-                    {
-                        var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
-                        {
-                            item.favorited = false;
-                        }
-                    }
-                    if (this.PublicTimeLineStatus != null)
-                    {
+                        Items.Status s = new Items.Status();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.Status;
+                        ms.Close();
 
-                        var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
-                        foreach (var item in items)
+                        if (this.HomeTimeLineStatus != null)
                         {
-                            item.favorited = false;
+                            var items = from status in this.HomeTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = false;
+                            }
                         }
-                    }
+                        if (this.MentionTimeLineStatus != null)
+                        {
+                            var items = from status in this.MentionTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = false;
+                            }
+                        }
+                        if (this.PublicTimeLineStatus != null)
+                        {
 
-                    EventArgs e = new EventArgs();
-                    FavoritesDestroySuccess(this, e);
+                            var items = from status in this.PublicTimeLineStatus where status.id == s.id select status;
+                            foreach (var item in items)
+                            {
+                                item.favorited = false;
+                            }
+                        }
+
+                        EventArgs e = new EventArgs();
+                        FavoritesDestroySuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FavoritesDestroyFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FavoritesDestroyFailed(this, e);
                 }
             });
@@ -1059,26 +1138,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
-                    e.UserStatus = status;
-                    SearchTimelineSuccess(this, e);
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        SearchTimelineSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        SearchTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     SearchTimelineFailed(this, e);
                 }
             });
@@ -1096,26 +1183,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    UserList user = new UserList();
-                    var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    user = ds.ReadObject(ms) as UserList;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        UserList user = new UserList();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as UserList;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
-                    e.UserStatus = user.users;
-                    SearchUserSuccess(this, e);
+                        UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                        e.UserStatus = user.users;
+                        SearchUserSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        SearchUserFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     SearchUserFailed(this, e);
                 }
             });
@@ -1131,26 +1226,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.TrendsList trends = new Items.TrendsList();
-                    var ds = new DataContractJsonSerializer(trends.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    trends = ds.ReadObject(ms) as Items.TrendsList;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.TrendsList trends = new Items.TrendsList();
+                        var ds = new DataContractJsonSerializer(trends.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        trends = ds.ReadObject(ms) as Items.TrendsList;
+                        ms.Close();
 
-                    TrendsListEventArgs e = new TrendsListEventArgs();
-                    e.trendsList = trends;
-                    TrendsListSuccess(this, e);
+                        TrendsListEventArgs e = new TrendsListEventArgs();
+                        e.trendsList = trends;
+                        TrendsListSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        TrendsListFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     TrendsListFailed(this, e);
                 }
             });
@@ -1167,26 +1270,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    List<string> tags = new List<string>();
-                    var ds = new DataContractJsonSerializer(tags.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    tags = ds.ReadObject(ms) as List<string>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        List<string> tags = new List<string>();
+                        var ds = new DataContractJsonSerializer(tags.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        tags = ds.ReadObject(ms) as List<string>;
+                        ms.Close();
 
-                    ListEventArgs<string> e = new ListEventArgs<string>();
-                    e.Result = tags;
-                    TagListSuccess(this, e);
+                        ListEventArgs<string> e = new ListEventArgs<string>();
+                        e.Result = tags;
+                        TagListSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        TagListFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     TagListFailed(this, e);
                 }
             });
@@ -1203,26 +1314,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
-                    var ds = new DataContractJsonSerializer(users.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
+                        var ds = new DataContractJsonSerializer(users.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                        ms.Close();
 
-                    var e = new UserTimelineEventArgs<Items.User>();
-                    e.UserStatus = users;
-                    TaggedSuccess(this, e);
+                        var e = new UserTimelineEventArgs<Items.User>();
+                        e.UserStatus = users;
+                        TaggedSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        TaggedFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     TaggedFailed(this, e);
                 }
             });
@@ -1242,26 +1361,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
-                    var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
-                    e.UserStatus = user;
-                    UsersFollowersSuccess(this, e);
+                        UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                        e.UserStatus = user;
+                        UsersFollowersSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        UsersFollowersFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     UsersFollowersFailed(this, e);
                 }
             });
@@ -1282,26 +1409,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
-                    var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
-                    e.UserStatus = user;
-                    UsersFriendsSuccess(this, e);
+                        UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                        e.UserStatus = user;
+                        UsersFriendsSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        UsersFriendsFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     UsersFriendsFailed(this, e);
                 }
             });
@@ -1322,25 +1457,33 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.User s = new Items.User();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.User;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User s = new Items.User();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
 
-                    EventArgs e = new EventArgs();
-                    FriendshipsCreateSuccess(s, e);
+                        EventArgs e = new EventArgs();
+                        FriendshipsCreateSuccess(s, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsCreateFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FriendshipsCreateFailed(this, e);
                 }
             });
@@ -1359,25 +1502,33 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.User s = new Items.User();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.User;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User s = new Items.User();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
 
-                    EventArgs e = new EventArgs();
-                    FriendshipsDestroySuccess(s, e);
+                        EventArgs e = new EventArgs();
+                        FriendshipsDestroySuccess(s, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsDestroyFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FriendshipsDestroyFailed(this, e);
                 }
             });
@@ -1393,26 +1544,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
-                    var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
-                    e.UserStatus = user;
-                    FriendshipsRequestsSuccess(this, e);
+                        UserTimelineEventArgs<Items.User> e = new UserTimelineEventArgs<Items.User>();
+                        e.UserStatus = user;
+                        FriendshipsRequestsSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsRequestsFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FriendshipsRequestsFailed(this, e);
                 }
             });
@@ -1432,25 +1591,33 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.User s = new Items.User();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.User;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User s = new Items.User();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
 
-                    EventArgs e = new EventArgs();
-                    FriendshipsAcceptSuccess(s, e);
+                        EventArgs e = new EventArgs();
+                        FriendshipsAcceptSuccess(s, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsAcceptFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FriendshipsAcceptFailed(this, e);
                 }
             });
@@ -1470,25 +1637,33 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.User s = new Items.User();
-                    var ds = new DataContractJsonSerializer(s.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    s = ds.ReadObject(ms) as Items.User;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User s = new Items.User();
+                        var ds = new DataContractJsonSerializer(s.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        s = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
 
-                    EventArgs e = new EventArgs();
-                    FriendshipsDenySuccess(s, e);
+                        EventArgs e = new EventArgs();
+                        FriendshipsDenySuccess(s, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsDenyFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     FriendshipsDenyFailed(this, e);
                 }
             });
@@ -1507,26 +1682,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
-                    var ds = new DataContractJsonSerializer(status.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
-                    e.UserStatus = status;
-                    PhotosUserTimelineSuccess(this, e);
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        PhotosUserTimelineSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        PhotosUserTimelineFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     PhotosUserTimelineFailed(this, e);
                 }
             });
@@ -1624,13 +1807,21 @@ namespace FanfouWP.API
 
         void PhotoUploader_PhotosUploadSuccess(object sender, EventArgs e)
         {
-            var l = new ObservableCollection<Items.Status>();
-            l.Add(sender as Items.Status);
-            foreach (var item in HomeTimeLineStatus)
-                l.Add(item);
-            this.HomeTimeLineStatus = l;
-            HomeTimeLineStatusChanged();
-            PhotosUploadSuccess(this, e);
+            try
+            {
+                var l = new ObservableCollection<Items.Status>();
+                l.Add(sender as Items.Status);
+                foreach (var item in HomeTimeLineStatus)
+                    l.Add(item);
+                this.HomeTimeLineStatus = l;
+                HomeTimeLineStatusChanged();
+                PhotosUploadSuccess(this, e);
+            }
+            catch (Exception)
+            {
+                FailedEventArgs ex = new FailedEventArgs();
+                PhotosUploadFailed(this, ex);
+            }
         }
         #endregion
         #region direct
@@ -1646,26 +1837,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.DirectMessageItem> list = new ObservableCollection<Items.DirectMessageItem>();
-                    var ds = new DataContractJsonSerializer(list.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessageItem>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.DirectMessageItem> list = new ObservableCollection<Items.DirectMessageItem>();
+                        var ds = new DataContractJsonSerializer(list.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessageItem>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.DirectMessageItem> e = new UserTimelineEventArgs<Items.DirectMessageItem>();
-                    e.UserStatus = list;
-                    DirectMessageConversationListSuccess(this, e);
+                        UserTimelineEventArgs<Items.DirectMessageItem> e = new UserTimelineEventArgs<Items.DirectMessageItem>();
+                        e.UserStatus = list;
+                        DirectMessageConversationListSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        DirectMessageConversationListFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     DirectMessageConversationListFailed(this, e);
                 }
             });
@@ -1684,26 +1883,34 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ObservableCollection<Items.DirectMessage> list = new ObservableCollection<Items.DirectMessage>();
-                    var ds = new DataContractJsonSerializer(list.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessage>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.DirectMessage> list = new ObservableCollection<Items.DirectMessage>();
+                        var ds = new DataContractJsonSerializer(list.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessage>;
+                        ms.Close();
 
-                    UserTimelineEventArgs<Items.DirectMessage> e = new UserTimelineEventArgs<Items.DirectMessage>();
-                    e.UserStatus = list;
-                    DirectMessageConversationSuccess(this, e);
+                        UserTimelineEventArgs<Items.DirectMessage> e = new UserTimelineEventArgs<Items.DirectMessage>();
+                        e.UserStatus = list;
+                        DirectMessageConversationSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        DirectMessageConversationFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    FailedEventArgs e = new FailedEventArgs();
                     DirectMessageConversationFailed(this, e);
                 }
             });
@@ -1726,25 +1933,33 @@ namespace FanfouWP.API
 
             client.BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.DirectMessage d = new Items.DirectMessage();
-                    var ds = new DataContractJsonSerializer(d.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    d = ds.ReadObject(ms) as Items.DirectMessage;
-                    ms.Close();
-                    EventArgs e = new EventArgs();
-                    DirectMessageNewSuccess(d, e);
-                }
-                else
-                {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.DirectMessage d = new Items.DirectMessage();
+                        var ds = new DataContractJsonSerializer(d.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        d = ds.ReadObject(ms) as Items.DirectMessage;
+                        ms.Close();
+                        EventArgs e = new EventArgs();
+                        DirectMessageNewSuccess(d, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
 
+                        DirectMessageNewFailed(this, e);
+                    }
+                }
+                catch (Exception)
+                {
+                    FailedEventArgs e = new FailedEventArgs();
                     DirectMessageNewFailed(this, e);
                 }
             });
