@@ -353,12 +353,14 @@ namespace FanfouWP.API
         public void TryRestoreData()
         {
             settings.RestoreSettings();
-            if (settings.username != null && settings.password != null)
+            if (settings.username != null && settings.password != null && settings.currentUser != null)
             {
                 this.username = settings.username;
                 this.password = settings.password;
                 this.oauthToken = settings.oauthToken;
                 this.oauthSecret = settings.oauthSecret;
+
+                this.CurrentUser = settings.currentUser;
 
                 this.LoginSuccess += (o, e) => { };
                 this.LoginFailed += (o, e) => { };
@@ -416,24 +418,32 @@ namespace FanfouWP.API
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    Items.Notifications i = new Items.Notifications();
-                    var ds = new DataContractJsonSerializer(i.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    i = ds.ReadObject(ms) as Items.Notifications;
-                    ms.Close();
-                    AccountNotificationSuccess(i, new EventArgs());
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.Notifications i = new Items.Notifications();
+                        var ds = new DataContractJsonSerializer(i.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        i = ds.ReadObject(ms) as Items.Notifications;
+                        ms.Close();
+                        AccountNotificationSuccess(i, new EventArgs());
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        AccountNotificationFailed(this, e);
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    Items.Error er = new Items.Error();
-                    var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    er = ds.ReadObject(ms) as Items.Error;
-                    ms.Close();
-                    FailedEventArgs e = new FailedEventArgs(er);
-                    AccountNotificationFailed(this, e);
+                    FailedEventArgs e = new FailedEventArgs();
+                    StatusDestroyFailed(this, e);
                 }
             });
         }
@@ -511,10 +521,12 @@ namespace FanfouWP.API
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                     user = ds.ReadObject(ms) as Items.User;
                     ms.Close();
+                    settings.currentUser = user;
+                    settings.SaveSettings();
                     this.CurrentUser = user;
+
                     EventArgs e = new EventArgs();
                     VerifyCredentialsSuccess(this, e);
-
                 }
                 else
                 {
@@ -895,7 +907,7 @@ namespace FanfouWP.API
                                 }
                                 break;
                             case RefreshMode.Back:
-                                 if (status.Count == 0)
+                                if (status.Count == 0)
                                     MentionTimeLineEnded = true;
                                 foreach (var item in MentionTimeLineStatus)
                                     l.Add(item);

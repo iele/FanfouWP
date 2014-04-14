@@ -59,6 +59,8 @@ namespace YueFM.Pages
             settingManager.password = null;
             settingManager.oauthToken = null;
             settingManager.oauthSecret = null;
+            settingManager.currentUser = null;
+            settingManager.SaveSettings();
 
             Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             Dispatcher.BeginInvoke(

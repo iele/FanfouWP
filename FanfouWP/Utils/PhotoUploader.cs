@@ -169,8 +169,6 @@ namespace FanfouWP.Utils
                 Stream streamResponse = response.GetResponseStream();
                 var streamRead = new StreamReader(streamResponse);
                 string responseString = streamRead.ReadToEnd();
-                streamResponse.Close();
-                streamRead.Close();
                 response.Close();
 
                 FanfouWP.API.Items.Status s = new FanfouWP.API.Items.Status();

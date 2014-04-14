@@ -60,8 +60,6 @@ namespace FanfouWP
             FanfouAPI.HomeTimelineFailed += FanfouAPI_HomeTimelineFailed;
             FanfouAPI.MentionTimelineSuccess += FanfouAPI_MentionTimelineSuccess;
             FanfouAPI.MentionTimelineFailed += FanfouAPI_MentionTimelineFailed;
-            FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
-            FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
             FanfouAPI.RestoreDataCompleted += FanfouAPI_RestoreDataCompleted;
             FanfouAPI.AccountNotificationSuccess += FanfouAPI_AccountNotificationSuccess;
             FanfouAPI.AccountNotificationFailed += FanfouAPI_AccountNotificationFailed;
@@ -118,24 +116,6 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Collapsed);
             Dispatcher.BeginInvoke(() => { toast.NewToast("创建收藏成功:）"); });
-        }
-
-        void FanfouAPI_VerifyCredentialsFailed(object sender, API.Event.FailedEventArgs e)
-        {
-            Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Collapsed);
-        }
-
-        void FanfouAPI_VerifyCredentialsSuccess(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-             {
-                 this.TitleControl.DataContext = FanfouAPI.CurrentUser;
-                 Toolbox.DataContext = FanfouAPI.CurrentUser;
-                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Collapsed);
-             });
-            FanfouAPI.AccountNotification();
-
-            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
         }
 
         private void FanfouAPI_MentionTimelineFailed(object sender, API.Event.FailedEventArgs e)
@@ -220,7 +200,6 @@ namespace FanfouWP
                 {
                     this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
                     Toolbox.DataContext = FanfouAPI.CurrentUser;
-                    FanfouAPI.VerifyCredentials();
 
                     if (FanfouAPI.HomeTimeLineStatus.Count != 0)
                     {
@@ -233,20 +212,27 @@ namespace FanfouWP
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                     }
+                    }
                     else
                     {
                         FanfouAPI.StatusMentionTimeline();
                     }
-
                 }
                 else
                 {
                     FanfouAPI.StatusHomeTimeline();
                     FanfouAPI.StatusMentionTimeline();
-                    FanfouAPI.VerifyCredentials();
                 }
             }
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.TitleControl.DataContext = FanfouAPI.CurrentUser;
+                Toolbox.DataContext = FanfouAPI.CurrentUser;
+            });
+            FanfouAPI.AccountNotification();
+
+            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
+            StartPeriodicAgent();
             run_once = false;
         }
 

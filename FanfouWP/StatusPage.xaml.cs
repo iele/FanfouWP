@@ -26,8 +26,8 @@ namespace FanfouWP
         public StatusPage()
         {
             InitializeComponent();
-
-            if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+        
+           if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
             {
                 status = PhoneApplicationService.Current.State["StatusPage"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("StatusPage");
@@ -36,7 +36,8 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.StatusDestroySuccess += Instance_StatusDestroySuccess;
 
             FanfouWP.API.FanfouAPI.Instance.StatusDestroyFailed += Instance_StatusDestroyFailed;
-
+    
+      
             Loaded += StatusPage_Loaded;
         }
 
@@ -437,6 +438,12 @@ namespace FanfouWP
                 this.loading.Visibility = System.Windows.Visibility.Visible;
             });
             FanfouWP.API.FanfouAPI.Instance.StatusDestroy(this.status.id);
+        }
+
+        private void map_Loaded(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "fa2df181-7b08-43aa-a80c-553ca63a8cf4";
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "Uq2CsIyc-vRLRRx1oKJATQ";        
         }
     }
 }

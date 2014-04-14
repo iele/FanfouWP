@@ -9,6 +9,21 @@ namespace FanfouWP.Storage
 {
     public sealed class SettingManager
     {
+        private FanfouWP.API.Items.User _currentUser;
+        public FanfouWP.API.Items.User currentUser
+        {
+            get
+            {
+                return _currentUser;
+            }
+            set
+            {
+                _currentUser = value;
+                settings["currentUser"] = value;
+
+                is_setting_changed = true;
+            }
+        }
 
         private Boolean _quit_confirm;
         public Boolean quit_confirm
@@ -169,6 +184,7 @@ namespace FanfouWP.Storage
             }
         }
 
+
         public Boolean is_setting_changed { get; set; }
 
         private static readonly SettingManager instance = new SettingManager();
@@ -189,6 +205,7 @@ namespace FanfouWP.Storage
         {
 
             settings["quit_confirm"] = this.quit_confirm;
+            settings["currentUser"] = this.currentUser;
             settings["username"] = this.username;
             settings["password"] = this.password;
             settings["oauthToken"] = this.oauthToken;
@@ -206,7 +223,11 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq;
+            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq;
+            if (settings.TryGetValue("currentUser", out currentUser) && currentUser != null)
+                this.currentUser = (FanfouWP.API.Items.User)currentUser;
+            else
+                this.currentUser = null;
             if (settings.TryGetValue("quit_confirm", out quit_confirm) && quit_confirm != null)
                 this.quit_confirm = (Boolean)quit_confirm;
             else

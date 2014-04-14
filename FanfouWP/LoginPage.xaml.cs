@@ -22,6 +22,8 @@ namespace FanfouWP
             InitializeComponent();
             FanfouAPI.LoginSuccess += FanfouAPI_LoginSuccess;
             FanfouAPI.LoginFailed += FanfouAPI_LoginFailed;
+            FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
+            FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
 
             this.Loaded += LoginPage_Loaded;
         }
@@ -42,6 +44,24 @@ namespace FanfouWP
         }
 
         void FanfouAPI_LoginSuccess(object sender, EventArgs e)
+        {
+            this.Dispatcher.BeginInvoke(() =>
+            {
+                FanfouAPI.VerifyCredentials();
+            });
+        }
+
+        void FanfouAPI_VerifyCredentialsFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            this.Dispatcher.BeginInvoke(() =>
+            {
+                toast.NewToast("登录失败，请检查用户名或密码后再试");
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            });
+        }
+
+        void FanfouAPI_VerifyCredentialsSuccess(object sender, EventArgs e)
         {
             this.Dispatcher.BeginInvoke(() =>
             {

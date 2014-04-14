@@ -41,7 +41,11 @@ namespace FanfouWP.Utils
                 current = new GeoCoordinate(geoposition.Coordinate.Latitude, geoposition.Coordinate.Latitude);
                 if (geoposition.CivicAddress == null)
                 {
-                    return geoposition.Coordinate.Latitude.ToString() + "," + geoposition.Coordinate.Longitude.ToString();
+                    double marLat = 0;
+                    double marLon = 0;
+                    EvilTransform.transform(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude, out marLat, out marLon);
+
+                    return marLat.ToString() + "," + marLon.ToString();
                 }
                 else
                 {
