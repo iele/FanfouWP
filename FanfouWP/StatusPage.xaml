@@ -19,6 +19,9 @@
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
             <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
+            <converter:NullToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="NullToVisibilityConverter" />
+            <converter:ReplyToNameConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ReplyToNameConverter" />
+            <converter:RetweetToNameConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="RetweetToNameConverter" />
         </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
 
@@ -35,7 +38,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click"/>           
+                <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="UserButton" Click="UserButton_Click"  IconUri="/Assets/AppBar/Align-center.png" Text="个人资料" />
             <shell:ApplicationBarIconButton x:Name="ResendButton" Click="ResendButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="转发" />
@@ -76,9 +79,11 @@
                 <StackPanel Margin="0">
                     <RichTextBox x:Name="richText"  VerticalAlignment="Top" Margin="-8,0"/>
                     <StackPanel VerticalAlignment="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Margin="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-                        <TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Margin="10,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-                        <TextBlock Margin="10,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" x:Name="fav" />
+                        <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Padding="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                        <TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Padding="5,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                        <TextBlock Padding="5,0,0,0" Text="{Binding favorited,  Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited,  Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
+                        <TextBlock Padding="5,0,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"/>
+                        <TextBlock Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"/>
                     </StackPanel>
                     <Image Margin="0,10,0,0" Source="{Binding photo.largeurl}"/>
                     <maps:Map x:Name="map" Margin="0,10,0,0" Height="300" Visibility="Collapsed" Loaded="map_Loaded" />

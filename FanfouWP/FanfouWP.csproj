@@ -118,10 +118,13 @@
     <Compile Include="ItemControls\ImagesItemControl.xaml.cs">
       <DependentUpon>ImagesItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ValueConverter\NullToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\DisplayImageToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\HtmlToTextConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\CountToVisibilityConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\IntToMsgCountStringConverter.cs" />
+    <Compile Include="ItemControls\ValueConverter\RetweetToNameConverter.cs" />
+    <Compile Include="ItemControls\ValueConverter\ReplyToNameConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\TextToReplyTextConverter.cs" />
     <Compile Include="ItemControls\MessageItemControl.xaml.cs">
       <DependentUpon>MessageItemControl.xaml</DependentUpon>
