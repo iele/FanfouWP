@@ -184,9 +184,6 @@
     <Compile Include="TimelinePage.xaml.cs">
       <DependentUpon>TimelinePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PanoramaTitleControl.xaml.cs">
-      <DependentUpon>PanoramaTitleControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\RefreshableListBox.cs" />
     <Compile Include="UserControls\RefreshableListBoxMethods.cs" />
     <Compile Include="UserControls\ToastControl.xaml.cs">
@@ -203,6 +200,7 @@
     </Compile>
     <Compile Include="Utils\EvilTransform.cs" />
     <Compile Include="Utils\GeoLocatorUtils.cs" />
+    <Compile Include="Utils\Pair.cs" />
     <Compile Include="Utils\PhotoUploader.cs" />
     <Compile Include="Utils\ThemeManager.cs" />
     <Compile Include="Utils\TiltEffect.cs" />
@@ -292,10 +290,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimelinePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\PanoramaTitleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

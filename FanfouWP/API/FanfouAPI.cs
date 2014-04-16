@@ -283,20 +283,20 @@ namespace FanfouWP.API
 
         void JsonStorage_ReadDataSuccess(object sender, UserTimelineEventArgs<Items.Status> e)
         {
-            if (RestoreDataCompleted != null)
-                RestoreDataCompleted(sender, e);
             switch (sender as string)
             {
-                case "home":
+                case FanfouConsts.STATUS_HOME_TIMELINE:
                     this.HomeTimeLineStatus = e.UserStatus;
                     break;
-                case "public":
+                case FanfouConsts.STATUS_PUBLIC_TIMELINE:
                     this.PublicTimeLineStatus = e.UserStatus;
                     break;
-                case "mention":
+                case FanfouConsts.STATUS_MENTION_TIMELINE:
                     this.MentionTimeLineStatus = e.UserStatus;
                     break;
             }
+            if (RestoreDataCompleted != null)
+                RestoreDataCompleted(sender, e);
         }
 
         void JsonStorage_WriteDataFailed(object sender, FailedEventArgs e)
@@ -319,10 +319,10 @@ namespace FanfouWP.API
                 var l = new ObservableCollection<Items.Status>();
                 for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
                     l.Add(this.HomeTimeLineStatus[i]);
-                storage.SaveDataToIsolatedStorage("home", l);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_HOME_TIMELINE, this.CurrentUser.id, l);
             }
             else
-                storage.SaveDataToIsolatedStorage("home", this.HomeTimeLineStatus);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_HOME_TIMELINE, this.CurrentUser.id, this.HomeTimeLineStatus);
         }
         private void PublicTimeLineStatusChanged()
         {
@@ -331,10 +331,10 @@ namespace FanfouWP.API
                 var l = new ObservableCollection<Items.Status>();
                 for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
                     l.Add(this.PublicTimeLineStatus[i]);
-                storage.SaveDataToIsolatedStorage("home", l);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_PUBLIC_TIMELINE, this.CurrentUser.id, l);
             }
             else
-                storage.SaveDataToIsolatedStorage("public", this.PublicTimeLineStatus);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_PUBLIC_TIMELINE, this.CurrentUser.id, this.PublicTimeLineStatus);
         }
 
         private void MentionTimeLineStatusChanged()
@@ -344,13 +344,13 @@ namespace FanfouWP.API
                 var l = new ObservableCollection<Items.Status>();
                 for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
                     l.Add(this.MentionTimeLineStatus[i]);
-                storage.SaveDataToIsolatedStorage("home", l);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_MENTION_TIMELINE, this.CurrentUser.id, l);
             }
             else
 
-                storage.SaveDataToIsolatedStorage("mention", this.MentionTimeLineStatus);
+                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_MENTION_TIMELINE, this.CurrentUser.id, this.MentionTimeLineStatus);
         }
-        public void TryRestoreData()
+        public async Task TryRestoreData()
         {
             settings.RestoreSettings();
             if (settings.username != null && settings.password != null && settings.currentUser != null)
@@ -365,8 +365,9 @@ namespace FanfouWP.API
                 this.LoginSuccess += (o, e) => { };
                 this.LoginFailed += (o, e) => { };
                 this.Login(username, password);
-                storage.ReadDataFromIsolatedStorage("home");
-                storage.ReadDataFromIsolatedStorage("mention");
+              
+                await storage.ReadDataFromIsolatedStorage(FanfouConsts.STATUS_HOME_TIMELINE, this.CurrentUser.id);
+                await storage.ReadDataFromIsolatedStorage(FanfouConsts.STATUS_MENTION_TIMELINE, this.CurrentUser.id);
 
                 RestoreDataSuccess(this, new EventArgs());
             }

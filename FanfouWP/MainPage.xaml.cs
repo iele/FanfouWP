@@ -39,7 +39,7 @@ namespace FanfouWP
 
             Thread.Sleep(500);
 
-            FanfouWP.API.FanfouAPI.Instance.TryRestoreData();
+            Dispatcher.BeginInvoke(async () => await FanfouWP.API.FanfouAPI.Instance.TryRestoreData());
         }
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
@@ -53,6 +53,7 @@ namespace FanfouWP
             {
                 PhoneApplicationService.Current.State.Remove("TimelinePage");
             }
+
             PhoneApplicationService.Current.State["TimelinePage"] = true;
             NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
         }

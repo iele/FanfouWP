@@ -22,14 +22,14 @@ namespace FanfouWP.Storage
         public event ReadDataSuccessHandler ReadDataSuccess;
         public event ReadDataFailedHandler ReadDataFailed;
 
-        public async void SaveDataToIsolatedStorage(string name, object data)
+        public async void SaveDataToIsolatedStorage(string name, string user, object data)
         {
             try
             {
                 Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
-                var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
-                using (var writeStream = await dataFolder.OpenStreamForWriteAsync(name + ".store", CreationCollisionOption.ReplaceExisting))
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + user, CreationCollisionOption.OpenIfExists);
+                using (var writeStream = await dataFolder.OpenStreamForWriteAsync(name.Replace("/", "").Replace(".json", "") + ".store", CreationCollisionOption.ReplaceExisting))
                 {
                     DataContractJsonSerializer serializer = new DataContractJsonSerializer(data.GetType());
                     serializer.WriteObject(writeStream, data);
@@ -45,14 +45,14 @@ namespace FanfouWP.Storage
         }
 
 
-        public async void ReadDataFromIsolatedStorage(string name)
+        public async Task ReadDataFromIsolatedStorage(string name, string user)
         {
             try
             {
                 Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + user, CreationCollisionOption.OpenIfExists);
 
-                using (var readStream = await dataFolder.OpenStreamForReadAsync(name + ".store"))
+                using (var readStream = await dataFolder.OpenStreamForReadAsync(name.Replace("/", "").Replace(".json", "") + ".store"))
                 {
                     byte[] buff = new byte[readStream.Length];
                     await readStream.ReadAsync(buff, 0, buff.Length);

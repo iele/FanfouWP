@@ -124,19 +124,28 @@
         <Grid.Resources>
             <ResourceDictionary>
                 <converter:CountToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="CountToVisibilityConverter" />
-
-            </ResourceDictionary>
-
+                <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
+                <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
+                <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
+                <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
+                <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
+            </ResourceDictionary>          
         </Grid.Resources>
-
-        <usercontrols:PanoramaTitleControl x:Name="TitleControl" VerticalAlignment="Top" Height="120">
-            <usercontrols:PanoramaTitleControl.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0"/>
+        <Grid Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="120" x:Name="TitleControl">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF72CBE1"/>
                     <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush>
-            </usercontrols:PanoramaTitleControl.Background>
-        </usercontrols:PanoramaTitleControl>
+            </Grid.Background>
+            <StackPanel x:Name="FanfouImage" Margin="282,12,18,60" Orientation="Vertical">
+                <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="48" Width="180" Source="/Assets/fanfou_beta.png"/>
+            </StackPanel>
+            <StackPanel x:Name="AvatarImage" Margin="24,12,414,66" Orientation="Vertical">
+                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true"/>
+            </StackPanel>
+            <TextBlock Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="76,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="201" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
+        </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" Visibility="Collapsed" >
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>

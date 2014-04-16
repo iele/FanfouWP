@@ -56,13 +56,45 @@ namespace FanfouWP
             }
 
             this.Loaded += TimelinePanorama_Loaded;
+
             FanfouAPI.HomeTimelineSuccess += FanfouAPI_HomeTimelineSuccess;
             FanfouAPI.HomeTimelineFailed += FanfouAPI_HomeTimelineFailed;
             FanfouAPI.MentionTimelineSuccess += FanfouAPI_MentionTimelineSuccess;
             FanfouAPI.MentionTimelineFailed += FanfouAPI_MentionTimelineFailed;
-            FanfouAPI.RestoreDataCompleted += FanfouAPI_RestoreDataCompleted;
             FanfouAPI.AccountNotificationSuccess += FanfouAPI_AccountNotificationSuccess;
             FanfouAPI.AccountNotificationFailed += FanfouAPI_AccountNotificationFailed;
+        }
+
+        void FanfouImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            switch (Pivot.SelectedIndex)
+            {
+                case 0:
+                    if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                        this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
+                    break;
+                case 1:
+                    if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                        this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+        void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (FanfouAPI.CurrentUser != null)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", FanfouAPI.CurrentUser);
+                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            }
+
         }
 
         void FanfouAPI_AccountNotificationFailed(object sender, FailedEventArgs e)
@@ -77,21 +109,6 @@ namespace FanfouWP
                     this.Toolbox.DirectMsgTile.Notification = (sender as FanfouWP.API.Items.Notifications).direct_messages + "条新私信";
 
             });
-        }
-
-        void FanfouAPI_RestoreDataCompleted(object sender, EventArgs e)
-        {
-            switch (sender as string)
-            {
-                case "home":
-                    this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                    FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
-                    break;
-                case "mention":
-                    this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                    FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
-                    break;
-            }
         }
 
         void FanfouAPI_FavoritesDestroyFailed(object sender, API.Event.FailedEventArgs e)
@@ -205,18 +222,12 @@ namespace FanfouWP
                     {
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                     }
-                    else
-                    {
-                        FanfouAPI.StatusHomeTimeline();
-                    }
+                    FanfouAPI.StatusHomeTimeline();
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                     }
-                    else
-                    {
-                        FanfouAPI.StatusMentionTimeline();
-                    }
+                    FanfouAPI.StatusMentionTimeline();
                 }
                 else
                 {
@@ -228,6 +239,9 @@ namespace FanfouWP
             {
                 this.TitleControl.DataContext = FanfouAPI.CurrentUser;
                 Toolbox.DataContext = FanfouAPI.CurrentUser;
+
+                this.AvatarImage.Tap += AvatarImage_Tap;
+                this.FanfouImage.Tap += FanfouImage_Tap;
             });
             FanfouAPI.AccountNotification();
 

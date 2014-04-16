@@ -66,8 +66,13 @@ namespace FanfouWP
             {
                 if (SettingManager.GetInstance().enableLocation == true)
                 {
-                    position = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
-                    this.location.Text = position;
+                    var result = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
+                    this.position = result.Second;
+                    if (result.First == true)
+                        this.location.Text = "已定位";
+                    else {
+                        this.location.Text = result.Second;
+                    }
                 }
                 else
                 {
@@ -84,8 +89,14 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         titleText.Text = "转发" + status.user.screen_name + "的消息";
-                        this.Status.Text = this.status.text;
-                        this.Status.IsReadOnly = true;
+                        try
+                        {
+                            this.Status.Text = ("转@" + status.user.screen_name + " " + this.status.text).Substring(0, 140);
+                        }
+                        catch (ArgumentOutOfRangeException)
+                        {
+                            this.Status.Text = "转@" + status.user.screen_name + " " + this.status.text;
+                        }
                     });
                     break;
                 case PageType.Reply:
@@ -258,7 +269,6 @@ namespace FanfouWP
                 }
             }
         }
-
         private void PictureButton_Click(object sender, EventArgs e)
         {
             addPicture();

@@ -30,7 +30,7 @@ namespace FanfouWP.Utils
             {
             }
         }
-        public async static Task<string> getGeolocator()
+        public async static Task<Pair<bool, string>> getGeolocator()
         {
             Geolocator geolocator = new Geolocator();
             geolocator.DesiredAccuracyInMeters = 50;
@@ -45,22 +45,25 @@ namespace FanfouWP.Utils
                     double marLon = 0;
                     EvilTransform.transform(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude, out marLat, out marLon);
 
-                    return marLat.ToString() + "," + marLon.ToString();
+                    return new Pair<bool, string>(true, marLat.ToString() + "," + marLon.ToString());
                 }
                 else
                 {
-                    return geoposition.CivicAddress.ToString();
+                    return new Pair<bool, string>(true, geoposition.CivicAddress.ToString());
                 }
             }
             catch (Exception ex)
             {
+                var result = "";
                 if ((uint)ex.HResult == 0x80004004)
                 {
-                    return "";
+                    result = "无法定位";
                 }
+                else
                 {
-                    return "未知地点";
+                    result = "未知地点";
                 }
+                return new Pair<bool, string>(false, result);
             }
         }
     }
