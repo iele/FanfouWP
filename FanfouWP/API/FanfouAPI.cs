@@ -100,12 +100,100 @@ namespace FanfouWP.API
                 __MentionTimeLineStatus = l;
             }
         }
-        public string firstHomeTimeLineStatusId { get { return HomeTimeLineStatus.Count == 0 ? "" : HomeTimeLineStatus.First().id; } private set { } }
-        public string lastHomeTimeLineStatusId { get { return HomeTimeLineStatus.Count == 0 ? "" : HomeTimeLineStatus.Last().id; } private set { } }
-        public string firstPublicTimeLineStatusId { get { return PublicTimeLineStatus.Count == 0 ? "" : PublicTimeLineStatus.First().id; } private set { } }
-        public string lastPublicTimeLineStatussId { get { return PublicTimeLineStatus.Count == 0 ? "" : PublicTimeLineStatus.Last().id; } private set { } }
-        public string firstMentionTimeLineStatusId { get { return MentionTimeLineStatus.Count == 0 ? "" : MentionTimeLineStatus.First().id; } private set { } }
-        public string lastMentionTimeLineStatusId { get { return MentionTimeLineStatus.Count == 0 ? "" : MentionTimeLineStatus.Last().id; } private set { } }
+        public string firstHomeTimeLineStatusId
+        {
+            get
+            {
+                try
+                {
+                    return this.HomeTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+                ;
+            }
+            private set { }
+        }
+        public string lastHomeTimeLineStatusId
+        {
+            get
+            {
+                try
+                {
+                    return HomeTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
+            private set { }
+        }
+        public string firstPublicTimeLineStatusId
+        {
+            get
+            {
+                try
+                {
+                    return PublicTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
+            private set { }
+        }
+        public string lastPublicTimeLineStatussId
+        {
+            get
+            {
+                try
+                {
+                    return PublicTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+                ;
+            }
+            private set { }
+        }
+        public string firstMentionTimeLineStatusId
+        {
+            get
+            {
+                try
+                {
+                    return MentionTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+                ;
+            }
+            private set { }
+        }
+        public string lastMentionTimeLineStatusId
+        {
+            get
+            {
+                try
+                {
+                    return MentionTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+                ;
+            }
+            private set { }
+        }
 
         public ObservableCollection<Items.DirectMessageItem> DirectMessageConversations { get; set; }
 
@@ -365,7 +453,7 @@ namespace FanfouWP.API
                 this.LoginSuccess += (o, e) => { };
                 this.LoginFailed += (o, e) => { };
                 this.Login(username, password);
-              
+
                 await storage.ReadDataFromIsolatedStorage(FanfouConsts.STATUS_HOME_TIMELINE, this.CurrentUser.id);
                 await storage.ReadDataFromIsolatedStorage(FanfouConsts.STATUS_MENTION_TIMELINE, this.CurrentUser.id);
 
