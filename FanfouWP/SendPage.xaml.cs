@@ -70,7 +70,8 @@ namespace FanfouWP
                     this.position = result.Second;
                     if (result.First == true)
                         this.location.Text = "已定位";
-                    else {
+                    else
+                    {
                         this.location.Text = result.Second;
                     }
                 }
@@ -210,7 +211,7 @@ namespace FanfouWP
                     (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
                     (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
                 }
-          });
+            });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
             {
@@ -340,8 +341,21 @@ namespace FanfouWP
                                 (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
                             });
                             FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
-                            FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed; 
-                            FanfouAPI.TryRestoreData();
+                            FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
+                            Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
+                            break;
+                        case "发送图片":
+                            Dispatcher.BeginInvoke(() =>
+                            {
+                                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                            });
+                            is_image = true;
+                            FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
+                            FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
+                            Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
                             break;
                         default:
 
@@ -353,7 +367,7 @@ namespace FanfouWP
 
         void FanfouAPI_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
-            MessageBox.Show("你现在都没登录呢,怎么直接发送消息呢。。","没登录怎么办?",MessageBoxButton.OK);
+            MessageBox.Show("你现在都没登录呢,怎么直接发送消息呢。。", "没登录怎么办?", MessageBoxButton.OK);
         }
 
         void FanfouAPI_RestoreDataSuccess(object sender, EventArgs e)
