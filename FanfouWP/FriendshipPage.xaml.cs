@@ -30,6 +30,11 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FriendshipsCreateFailed += Instance_FriendshipsCreateFailed;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroySuccess += Instance_FriendshipsDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroyFailed += Instance_FriendshipsDestroyFailed;
+
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsAcceptSuccess += Instance_FriendshipsAcceptSuccess;
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsAcceptFailed += Instance_FriendshipsAcceptFailed;
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsDenySuccess += Instance_FriendshipsDenySuccess;
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsDenyFailed += Instance_FriendshipsDenyFailed;
         }
 
 
@@ -51,6 +56,7 @@ namespace FanfouWP
             });
             checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友成功.. "); });
+                     
         }
 
         void Instance_FriendshipsCreateFailed(object sender, API.Event.FailedEventArgs e)
@@ -68,7 +74,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-            });
+             });
             checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友成功:)"); });
         }
@@ -130,6 +136,12 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.toast.NewToast("已成功接受好友请求:)");
+                if (PhoneApplicationService.Current.State.ContainsKey("RequestPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("RequestPage");              
+                }
+                PhoneApplicationService.Current.State["RequestPage"] = user;
+                NavigationService.GoBack();
             });
         }
 
@@ -148,6 +160,14 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.toast.NewToast("已成功拒绝好友请求...");
+
+                if (PhoneApplicationService.Current.State.ContainsKey("RequestPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("RequestPage");
+                }
+                PhoneApplicationService.Current.State["RequestPage"] = user;
+        
+                NavigationService.GoBack();
             });
         }
         private void DenyButton_Click(object sender, EventArgs e)

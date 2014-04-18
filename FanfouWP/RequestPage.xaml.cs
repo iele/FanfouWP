@@ -9,12 +9,15 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using System.Collections.ObjectModel;
 
 namespace FanfouWP
 {
     public partial class RequestPage : PhoneApplicationPage
     {
         private int currentPage = 1;
+
+        private ObservableCollection<User> list;
         public RequestPage()
         {
             InitializeComponent();
@@ -46,6 +49,30 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FriendshipRequests(currentPage);
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (PhoneApplicationService.Current.State.ContainsKey("RequestPage"))
+            {
+                var user = PhoneApplicationService.Current.State["RequestPage"] as User;
+
+                try
+                {
+                    var item = from i in list where user.id == i.id select i;
+                    list.Remove(item.First());
+
+                    this.RequestStatusListBox.ItemsSource = list;
+                }
+                catch (Exception) { 
+                }
+
+                PhoneApplicationService.Current.State.Remove("RequestPage");
+            }
+
+
+
+        }
 
         void Instance_FriendshipsRequestsFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -64,6 +91,7 @@ namespace FanfouWP
                 if ((e as UserTimelineEventArgs<User>).UserStatus.Count != 0)
                 {
                     this.RequestStatusListBox.ItemsSource = (e as UserTimelineEventArgs<User>).UserStatus;
+                    list = (e as UserTimelineEventArgs<User>).UserStatus;
                     changeMenu(false);
                     this.page.Text = "第" + currentPage.ToString() + "页";
                 }
