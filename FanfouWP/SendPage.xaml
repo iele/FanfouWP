@@ -34,7 +34,7 @@
         </Grid>
         <StackPanel Margin="0,60,0,0" Orientation="Vertical">
         	<TextBox x:Name="Status" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
-            <TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,0" Foreground="#FF858585" VerticalAlignment="Top" />
+            <TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,3" Foreground="#FF858585" VerticalAlignment="Top" />
             <Image Height="300" x:Name="Image" VerticalAlignment="Top" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
 
 
@@ -43,12 +43,14 @@
 
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/Send-message.png" Text="发送" />
             <shell:ApplicationBarIconButton x:Name="PictureButton" Click="PictureButton_Click"  IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/Clipboard.png" Text="话题" />
             <shell:ApplicationBarIconButton x:Name="MusicButton" Click="MusicButton_Click"  IconUri="/Assets/AppBar/Music.png" Text="正在播放" />
-
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="TileItem" Click="TileButton_Click" Text="将此页面固定为磁贴" />
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <toolkit:TransitionService.NavigationInTransition>

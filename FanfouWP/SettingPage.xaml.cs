@@ -30,7 +30,7 @@ namespace YueFM.Pages
 
         void SettingPage_Loaded(object sender, RoutedEventArgs e)
         {
-            this.QualityListPicker.ItemsSource = new string[] { "2G (最大长宽300px,压缩70%)", "3G (最大长宽640px,压缩80%)", "Wi-Fi (最大长宽1280px,压缩90%)", "无限制" };
+            this.QualityListPicker.ItemsSource = new string[] { "2G (最大长宽600px,压缩80%)", "3G (最大长宽800px,压缩90%)", "Wi-Fi (最大长宽1280px,压缩100%)", "无限制" };
             this.CacheListPicker.ItemsSource = new string[] { "100", "300", "500", "1000" };
             this.FrequencyListPicker.ItemsSource = new string[] { "30分钟", "1小时", "2小时", "关闭" };
 

@@ -238,6 +238,8 @@ namespace FanfouWP.API
         public delegate void MentionTimelineFailedHandler(object sender, FailedEventArgs e);
         public delegate void UserTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
         public delegate void UserTimelineFailedHandler(object sender, FailedEventArgs e);
+        public delegate void ContextTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
+        public delegate void ContextTimelineFailedHandler(object sender, FailedEventArgs e);
 
         public event HomeTimelineSuccessHandler HomeTimelineSuccess;
         public event HomeTimelineFailedHandler HomeTimelineFailed;
@@ -247,6 +249,8 @@ namespace FanfouWP.API
         public event MentionTimelineFailedHandler MentionTimelineFailed;
         public event UserTimelineSuccessHandler UserTimelineSuccess;
         public event UserTimelineFailedHandler UserTimelineFailed;
+        public event ContextTimelineSuccessHandler ContextTimelineSuccess;
+        public event ContextTimelineFailedHandler ContextTimelineFailed;
 
         public delegate void FavoritesCreateSuccessHandler(object sender, EventArgs e);
         public delegate void FavoritesCreateFailedHandler(object sender, FailedEventArgs e);
@@ -737,6 +741,51 @@ namespace FanfouWP.API
                 }
             });
         }
+
+        public void StatusContextTimeline(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.STATUSES_CONTEXT_TIMELINE,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id", id);
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
+
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        ContextTimelineSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        ContextTimelineFailed(this, e);
+                    }
+                }
+                catch (Exception)
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    ContextTimelineFailed(this, e);
+                }
+            });
+        }
+
         public void StatusUserTimeline(string user_id)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -1873,35 +1922,35 @@ namespace FanfouWP.API
             switch (q)
             {
                 case 0:
-                    width = b ? 300 : (int)(photo.PixelWidth * 300 / photo.PixelHeight);
-                    height = b ? (int)(photo.PixelHeight * 300 / photo.PixelWidth) : 300;
-                    if (b == true && photo.PixelWidth < 300)
+                    width = b ? 600 : (int)(photo.PixelWidth * 600 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 600 / photo.PixelWidth) : 600;
+                    if (b == true && photo.PixelWidth < 600)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    else if (b == false && photo.PixelHeight < 300)
+                    else if (b == false && photo.PixelHeight < 600)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
 
-                    quality = 70;
+                    quality = 80;
                     break;
                 case 1:
-                    width = b ? 640 : (int)(photo.PixelWidth * 640 / photo.PixelHeight);
-                    height = b ? (int)(photo.PixelHeight * 640 / photo.PixelWidth) : 640;
-                    if (b == true && photo.PixelWidth < 640)
+                    width = b ? 800 : (int)(photo.PixelWidth * 800 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 800 / photo.PixelWidth) : 800;
+                    if (b == true && photo.PixelWidth < 800)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    else if (b == false && photo.PixelHeight < 640)
+                    else if (b == false && photo.PixelHeight < 800)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    quality = 80;
+                    quality = 90;
                     break;
                 case 2:
                     width = b ? 1280 : (int)(photo.PixelWidth * 1280 / photo.PixelHeight);
@@ -1916,7 +1965,7 @@ namespace FanfouWP.API
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    quality = 90;
+                    quality = 100;
                     break;
                 case 3:
                     width = photo.PixelWidth;
@@ -1924,19 +1973,19 @@ namespace FanfouWP.API
                     quality = 100;
                     break;
                 default:
-                    width = b ? 300 : (int)(photo.PixelWidth * 300 / photo.PixelHeight);
-                    height = b ? (int)(photo.PixelHeight * 300 / photo.PixelWidth) : 300;
-                    if (b == true && photo.PixelWidth < 300)
+                    width = b ? 600 : (int)(photo.PixelWidth * 600 / photo.PixelHeight);
+                    height = b ? (int)(photo.PixelHeight * 600 / photo.PixelWidth) : 600;
+                    if (b == true && photo.PixelWidth < 600)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    else if (b == false && photo.PixelHeight < 300)
+                    else if (b == false && photo.PixelHeight < 600)
                     {
                         width = photo.PixelWidth;
                         height = photo.PixelHeight;
                     }
-                    quality = 70;
+                    quality = 80;
                     break;
             }
             photo.SaveJpeg(stream, width, height, 0, quality);

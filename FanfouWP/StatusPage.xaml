@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
    xmlns:usercontrols="clr-namespace:FanfouWP.UserControls"
+    xmlns:itemcontrols="clr-namespace:FanfouWP.ItemControls"
     xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:NokiaMapSDK="clr-namespace:NokiaMapSDK;assembly=NokiaMapSDK"
      xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
@@ -81,12 +82,14 @@
                     <StackPanel VerticalAlignment="Top" Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Padding="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                         <TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Padding="5,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-                        <TextBlock Padding="5,0,0,0" Text="{Binding favorited,  Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited,  Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
-                        <TextBlock x:Name="ReplyTextBlock" Padding="5,0,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"  Tap="TextBlock_Tap_InReply" />
-                        <TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name,  Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
+                        <TextBlock Padding="5,0,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
+                        <TextBlock x:Name="ReplyTextBlock" Padding="5,0,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name, Converter={StaticResource NullToVisibilityConverter}}"  Tap="TextBlock_Tap_InReply" />
+                        <TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
                     </StackPanel>
                     <Image Margin="0,10,0,0" Source="{Binding photo.largeurl}"/>
                     <maps:Map x:Name="map" Margin="0,10,0,0" Height="300" Visibility="Collapsed" Loaded="map_Loaded" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#FF7A7A7A" Text="此消息包含的上下文" Visibility="{Binding Visibility, ElementName=context}"/>
+                    <StackPanel x:Name="context" Margin="-10,5,0,5" Visibility="Collapsed"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

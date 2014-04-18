@@ -362,6 +362,22 @@ namespace FanfouWP
                             break;
                     }
                 }
+                else
+                {
+                    if (NavigationContext.QueryString.ContainsKey("FromTile"))
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                            {
+                                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                            });
+                        FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
+                        FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
+                        Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
+                    }
+                }
             }
         }
 
@@ -381,6 +397,20 @@ namespace FanfouWP
             });
         }
 
+        private void TileButton_Click(object sender, EventArgs e)
+        {
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("FromTile=true"));
+
+            // Create the Tile if we didn't find that it already exists.
+              if (TileToFind == null)
+              {
+                  StandardTileData data = new StandardTileData();
+                  data.BackgroundImage = new Uri("/Assets/icon-send.png",UriKind.Relative);
+                  data.Title = "饭窗 - 发送状态";
+                  ShellTile.Create(new Uri("/SendPage.xaml?FromTile=true", UriKind.Relative), data);
+                  ShellTile newTile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("FromTile=true"));
+              }          
+        }
 
     }
 

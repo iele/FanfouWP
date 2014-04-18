@@ -172,6 +172,18 @@ namespace FanfouWP
                     this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[count - 1]);
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
+
+
+                var item = ShellTile.ActiveTiles.First();
+                var data = new IconicTileData();
+                data.Title = "饭窗";
+                data.WideContent1 = FanfouAPI.CurrentUser.screen_name;
+                data.WideContent2 = "三围 " + FanfouAPI.CurrentUser.statuses_count + " " + FanfouAPI.CurrentUser.followers_count + " " + FanfouAPI.CurrentUser.friends_count;
+                if (FanfouAPI.MentionTimeLineStatus != null && FanfouAPI.MentionTimeLineStatus.Count > 0)
+                    data.WideContent3 = "最近提及 " + FanfouAPI.MentionTimeLineStatus.First().user.screen_name;
+                else
+                    data.WideContent3 = "最近提及 无";
+                item.Update(data);
             });
         }
 
@@ -431,23 +443,6 @@ namespace FanfouWP
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-
-                var item = ShellTile.ActiveTiles.First();
-                var data = new IconicTileData();
-                data.Title = "饭窗";
-                data.WideContent1 = FanfouAPI.CurrentUser.screen_name;
-                data.WideContent2 = "三围 " + FanfouAPI.CurrentUser.statuses_count + " " + FanfouAPI.CurrentUser.followers_count + " " + FanfouAPI.CurrentUser.friends_count;
-                if (FanfouAPI.MentionTimeLineStatus != null && FanfouAPI.MentionTimeLineStatus.Count > 0)
-                    data.WideContent3 = "最近提及 " + FanfouAPI.MentionTimeLineStatus.First().user.screen_name;
-                else
-                    data.WideContent3 = "最近提及 无";
-                item.Update(data);
-
-
-            }
-            base.OnNavigatedFrom(e);
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)

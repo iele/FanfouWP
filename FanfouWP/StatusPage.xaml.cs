@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Documents;
 using FanfouWP.API.Items;
 using Microsoft.Phone.Tasks;
+using FanfouWP.ItemControls;
 
 namespace FanfouWP
 {
@@ -38,7 +39,37 @@ namespace FanfouWP
 
             FanfouWP.API.FanfouAPI.Instance.UsersShowSuccess += Instance_UsersShowSuccess;
             FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
+
+            FanfouWP.API.FanfouAPI.Instance.ContextTimelineSuccess += Instance_ContextTimelineSuccess;
+            FanfouWP.API.FanfouAPI.Instance.ContextTimelineFailed += Instance_ContextTimelineFailed;
             Loaded += StatusPage_Loaded;
+        }
+
+        void Instance_ContextTimelineSuccess(object sender, API.Event.UserTimelineEventArgs<Status> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                foreach (var item in e.UserStatus)
+                {
+                    var sic = new StatusItemControl();
+                    sic.DataContext = item;
+                    this.context.Children.Add(sic);
+                }
+
+                if (e.UserStatus.Count != 0)
+                    this.context.Visibility = Visibility.Visible;
+
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+
+        void Instance_ContextTimelineFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("消息上下文获取失败:)" + e.error.error); });
         }
 
         void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
@@ -72,6 +103,16 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.DataContext = status;
+
+                if (status.in_reply_to_status_id != null && status.in_reply_to_status_id != "")
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.loading.Visibility = System.Windows.Visibility.Visible;
+                    });
+                    FanfouWP.API.FanfouAPI.Instance.StatusContextTimeline(this.status.id);
+                }
+
                 NewAppBar();
 
                 if (this.status.location != "")
@@ -499,7 +540,7 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Add("UserPage", sender as FanfouWP.API.Items.User);
                 NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             });
-       
+
         }
 
 
