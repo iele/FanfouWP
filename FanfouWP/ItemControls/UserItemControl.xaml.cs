@@ -23,12 +23,12 @@ namespace FanfouWP.ItemControls
 
         void UserItemControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((this.DataContext as FanfouWP.API.Items.User).protect == true && (this.DataContext as FanfouWP.API.Items.User).following ==false)
+            if ((this.DataContext as FanfouWP.API.Items.User).status == null)
             {
-                this.message.Text = "此用户消息未公开";          
+                this.message.Text = "此用户消息未公开";
             }
         }
 
-      
+
     }
 }
