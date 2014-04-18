@@ -1,4 +1,5 @@
-﻿using Microsoft.Phone.Controls;
+﻿using FanfouWP.Storage;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
@@ -180,7 +181,7 @@ namespace FanfouWP
         void UserPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = user;
-            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount, this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
@@ -342,15 +343,11 @@ namespace FanfouWP
 
         private void ReplayButton_Click(object sender, EventArgs e)
         {
-            FanfouWP.API.Items.Status status = new FanfouWP.API.Items.Status();
-            status.id = "";
-            status.user = this.user;
-
-            if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
+            if (PhoneApplicationService.Current.State.ContainsKey("ReplyWithoutStatus"))
             {
-                PhoneApplicationService.Current.State.Remove("Reply");
+                PhoneApplicationService.Current.State.Remove("ReplyWithoutStatus");
             }
-            PhoneApplicationService.Current.State.Add("Reply", status);
+            PhoneApplicationService.Current.State.Add("ReplyWithoutStatus", this.user);
             NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
         }
 
@@ -360,14 +357,14 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
             });
-     
+
             this.DataContext = user;
-            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount, this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
-            checkMenu();    
+            checkMenu();
         }
 
     }

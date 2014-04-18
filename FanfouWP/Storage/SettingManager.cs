@@ -184,7 +184,21 @@ namespace FanfouWP.Storage
             }
         }
 
+        private int _defaultCount;
+        public int defaultCount
+        {
+            get
+            {
+                return _defaultCount;
+            }
+            set
+            {
+                _defaultCount = value;
+                settings["defaultCount"] = value;
 
+                is_setting_changed = true;
+            }
+        }
         public Boolean is_setting_changed { get; set; }
 
         private static readonly SettingManager instance = new SettingManager();
@@ -216,6 +230,7 @@ namespace FanfouWP.Storage
             settings["imageQuality"] = this.imageQuality;
             settings["cacheSize"] = this.cacheSize;
             settings["backgroundFeq"] = this.backgroundFeq;
+            settings["defaultCount"] = this.defaultCount;
 
 
             settings.Save();
@@ -223,7 +238,11 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq;
+            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount;
+            if (settings.TryGetValue("defaultCount", out defaultCount) && defaultCount != null)
+                this.defaultCount = (int)defaultCount;
+            else
+                this.defaultCount = 20;
             if (settings.TryGetValue("currentUser", out currentUser) && currentUser != null)
                 this.currentUser = (FanfouWP.API.Items.User)currentUser;
             else

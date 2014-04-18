@@ -17,9 +17,11 @@ namespace FanfouWP.API.Event
             }
             set
             {
-            if (value.error == null)
-                value.error = "";
-            _error = value;
+                if (value == null || value.error == null)
+                {
+                    value = new Error();
+                    value.error = "";
+                } _error = value;
         } }
 
 

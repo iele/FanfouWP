@@ -234,17 +234,17 @@ namespace FanfouWP
                     {
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                     }
-                    FanfouAPI.StatusHomeTimeline();
+                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                     }
-                    FanfouAPI.StatusMentionTimeline();
+                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
                 }
                 else
                 {
-                    FanfouAPI.StatusHomeTimeline();
-                    FanfouAPI.StatusMentionTimeline();
+                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
+                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
                 }
             }
             Dispatcher.BeginInvoke(() =>
@@ -294,8 +294,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
 
-            FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
-            FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusHomeTimeline(setting.defaultCount,FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
         }
 
         private void NewButton_Click(object sender, EventArgs e)
@@ -322,13 +322,13 @@ namespace FanfouWP
         private void HomeTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
         }
 
         private void MentionTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
         }
 
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
@@ -337,7 +337,7 @@ namespace FanfouWP
             {
 
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                FanfouAPI.StatusMentionTimeline(FanfouAPI.RefreshMode.Back);
+                FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back);
                 Dispatcher.BeginInvoke(() => { toast.NewToast("正在获取"); });
             }
         }
@@ -347,7 +347,7 @@ namespace FanfouWP
             if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded)
             {
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                FanfouAPI.StatusHomeTimeline(FanfouAPI.RefreshMode.Back);
+                FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back);
                 Dispatcher.BeginInvoke(() => { toast.NewToast("正在获取"); });
             }
         }
@@ -458,5 +458,10 @@ namespace FanfouWP
             base.OnBackKeyPress(e);
         }
         #endregion
+
+        private void ApplicationBarMenuItem_Click_4(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
+        }
     }
 }

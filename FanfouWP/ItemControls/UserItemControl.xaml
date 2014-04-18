@@ -22,7 +22,7 @@
 
     <Grid x:Name="LayoutRoot" Margin="12,0">
         <Grid Margin="0,5">
-            <Rectangle Fill="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="23,10,0,0" Width="5" Stroke="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="23,55,0,0" Width="5" Stroke="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
             <Image HorizontalAlignment="Left" Height="40" Margin="5,5,0,0" VerticalAlignment="Top" Width="40" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" RenderTransformOrigin="0.55,1" Canvas.ZIndex="1"/>
             <StackPanel Margin="50,5,5,0" Orientation="Vertical">
             	<TextBlock TextWrapping="Wrap" Text="{Binding screen_name}" FontSize="32" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2" />

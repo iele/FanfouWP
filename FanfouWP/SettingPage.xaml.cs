@@ -31,6 +31,7 @@ namespace YueFM.Pages
         void SettingPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.QualityListPicker.ItemsSource = new string[] { "2G (最大长宽600px,压缩80%)", "3G (最大长宽800px,压缩90%)", "Wi-Fi (最大长宽1280px,压缩100%)", "无限制" };
+            this.CountListPicker.ItemsSource = new string[] { "20", "30", "40", "50", "60" };
             this.CacheListPicker.ItemsSource = new string[] { "100", "300", "500", "1000" };
             this.FrequencyListPicker.ItemsSource = new string[] { "30分钟", "1小时", "2小时", "关闭" };
 
@@ -42,12 +43,22 @@ namespace YueFM.Pages
                 this.QualityListPicker.SelectedIndex = settingManager.imageQuality;
                 this.CacheListPicker.SelectedIndex = settingManager.cacheSize;
                 this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq;
+                this.CountListPicker.SelectedIndex = (settingManager.defaultCount - 20) / 10;
 
+                this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
                 this.QualityListPicker.SelectionChanged += QualityListPicker_SelectionChanged;
                 this.CacheListPicker.SelectionChanged += CacheListPicker_SelectionChanged;
                 this.FrequencyListPicker.SelectionChanged += FrequencyListPicker_SelectionChanged;
             });
 
+        }
+
+        void CountListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.CountListPicker.SelectedIndex != -1)
+            {
+                settingManager.defaultCount = this.CountListPicker.SelectedIndex * 10 + 20;
+            }
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

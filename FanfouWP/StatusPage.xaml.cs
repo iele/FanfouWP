@@ -52,6 +52,7 @@ namespace FanfouWP
                 foreach (var item in e.UserStatus)
                 {
                     var sic = new StatusItemControl();
+                    sic.Tap += sic_Tap;
                     sic.DataContext = item;
                     this.context.Children.Add(sic);
                 }
@@ -61,6 +62,19 @@ namespace FanfouWP
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
+        }
+
+        void sic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if ((sender as StatusItemControl).DataContext != null)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", ((sender as StatusItemControl).DataContext as Status).user);
+                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            }
         }
 
         void Instance_ContextTimelineFailed(object sender, API.Event.FailedEventArgs e)

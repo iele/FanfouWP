@@ -49,6 +49,7 @@
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/Clipboard.png" Text="话题" />
             <shell:ApplicationBarIconButton x:Name="MusicButton" Click="MusicButton_Click"  IconUri="/Assets/AppBar/Music.png" Text="正在播放" />
             <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="AtItem" Click="AtItem_Click"  Text="提及好友" />
                 <shell:ApplicationBarMenuItem x:Name="TileItem" Click="TileButton_Click" Text="将此页面固定为磁贴" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>

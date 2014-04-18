@@ -540,7 +540,7 @@ namespace FanfouWP.API
                 catch (Exception)
                 {
                     FailedEventArgs e = new FailedEventArgs();
-                    StatusDestroyFailed(this, e);
+                    AccountNotificationFailed(this, e);
                 }
             });
         }
@@ -786,7 +786,7 @@ namespace FanfouWP.API
             });
         }
 
-        public void StatusUserTimeline(string user_id)
+        public void StatusUserTimeline(int count, string user_id)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -794,6 +794,7 @@ namespace FanfouWP.API
                 Method = Hammock.Web.WebMethod.Get
             };
             restRequest.AddParameter("user_id", user_id);
+            restRequest.AddParameter("count", count.ToString());
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -829,7 +830,7 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void StatusHomeTimeline(RefreshMode mode = RefreshMode.New)
+        public void StatusHomeTimeline(int count = 20, RefreshMode mode = RefreshMode.New)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -848,6 +849,7 @@ namespace FanfouWP.API
                     break;
                 default: break;
             }
+            restRequest.AddParameter("count", count.ToString());
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -921,7 +923,7 @@ namespace FanfouWP.API
             });
         }
 
-        public void StatusPublicTimeline(RefreshMode mode = RefreshMode.New)
+        public void StatusPublicTimeline(int count, RefreshMode mode = RefreshMode.New)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -941,6 +943,7 @@ namespace FanfouWP.API
                 default:
                     break;
             }
+            restRequest.AddParameter("count", count.ToString());
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 try
@@ -998,7 +1001,7 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void StatusMentionTimeline(RefreshMode mode = RefreshMode.New)
+        public void StatusMentionTimeline(int count, RefreshMode mode = RefreshMode.New)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1018,6 +1021,7 @@ namespace FanfouWP.API
                 default:
                     break;
             }
+            restRequest.AddParameter("count", count.ToString());
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 try

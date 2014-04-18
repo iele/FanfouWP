@@ -40,7 +40,7 @@
                 </toolkit:ContextMenu>
             </toolkit:ContextMenuService.ContextMenu>
             <Image Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="40" Margin="5,5,0,0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.8,0.42" Canvas.ZIndex="1"/>
-            <Rectangle Fill="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="23,-5,5,-5" Width="5" Stroke="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="23,56,0,6" Width="5" Stroke="{Binding user.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
             <StackPanel Margin="55,5,5,0" Orientation="Vertical">
             	<TextBlock Margin="0,2" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"/>
             	<StackPanel Margin="-3,2,0,2" Orientation="Horizontal">

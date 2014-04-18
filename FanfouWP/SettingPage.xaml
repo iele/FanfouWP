@@ -23,15 +23,17 @@
             <usercontrols:ToastControl x:Name="toast"/>
         </coding:ProgressOverlay>
         <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot">
-            <controls:PivotItem Header="设置" Margin="12,28,12,0">
-            	<ScrollViewer Margin="12,0" >
-            		<StackPanel Orientation="Vertical">
+            <controls:PivotItem Header="设置" Margin="0,28,0,0">
+            	<ScrollViewer Margin="0" >
+            		<StackPanel Orientation="Vertical" Margin="24,0">
             			<CheckBox x:Name="QuitCheckBox" Content="退出时弹出对话框" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
                         <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
                         <CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
             			<TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
             			<toolkit:ListPicker x:Name="QualityListPicker" Margin="0" VerticalAlignment="Top"/>
-            			<TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <TextBlock TextWrapping="Wrap" Text="时间线刷新消息数量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <toolkit:ListPicker x:Name="CountListPicker" Margin="0" VerticalAlignment="Top"/>
+                        <TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
             			<toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
             			<TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
             			<toolkit:ListPicker x:Name="FrequencyListPicker" Margin="0" VerticalAlignment="Top"/>
@@ -39,9 +41,9 @@
             		</StackPanel>
             	</ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="建议">
+            <controls:PivotItem Header="建议" Margin="0,28,0,0">
                 <ScrollViewer Margin="0" >
-            		<StackPanel Orientation="Vertical">
+            		<StackPanel Orientation="Vertical" Margin="12,0">
             			<Button x:Name="FollowButton" Content="关注应用账号@饭窗" VerticalAlignment="Top" Click="FollowButton_Click"/>
             			<Button x:Name="SendMessageButton" Content="发送饭否给@饭窗" VerticalAlignment="Top" Click="SendMessageButton_Click"/>
             			<Button x:Name="EmailButton" Content="写邮件给作者本人" VerticalAlignment="Top" Click="EmailButton_Click"/>
@@ -49,9 +51,9 @@
             		</StackPanel>
             	</ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="关于" Margin="12,28,12,0" >
+            <controls:PivotItem Header="关于" Margin="0,28,0,0" >
                 <ScrollViewer Margin="0">
-            		<StackPanel>
+            		<StackPanel Margin="12,0">
             			<TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于饭否" VerticalAlignment="Center" Width="161" FontSize="32"/>
             			<TextBlock Margin="12,0,12,6" FontSize="24" TextWrapping="Wrap" Text="饭否是一个 140 字的迷你博客。在这里，你可以告诉大家你在做什么，可以随便看看大家都在做什么，也可以关注一些有趣的人。" />
             			<TextBlock Margin="12,0" FontSize="24" >

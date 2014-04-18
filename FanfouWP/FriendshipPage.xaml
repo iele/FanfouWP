@@ -9,7 +9,7 @@
      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
-    x:Class="FanfouWP.UserPage2"
+    x:Class="FanfouWP.FriendshipPage"
     mc:Ignorable="d"
     FontFamily="Portable User Interface"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -29,7 +29,7 @@
         <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
             <usercontrols:ToastControl x:Name="toast"/>
         </coding:ProgressOverlay>
-        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
+        <coding:ProgressOverlay Visibility="Collapsed" x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
@@ -38,76 +38,29 @@
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
 							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
-                        <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
+                        <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText" Text="{Binding status.text}" />
                         <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
-                            <ListBox x:Name="tags" VerticalAlignment="Top" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding}" Tap="tags_Tap" >
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <toolkit:WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}" Margin="0,12,5,12" FontSize="24"></TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                      
                             <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,12"/>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_1" utils:TiltEffect.IsTiltEnabled="True" >
+                            <StackPanel Margin="0" Orientation="Vertical" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>
                             </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_2" utils:TiltEffect.IsTiltEnabled="True" >
+                            <StackPanel Margin="0" Orientation="Vertical" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="48"/>
                             </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_3" utils:TiltEffect.IsTiltEnabled="True" >
+                            <StackPanel Margin="0" Orientation="Vertical" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="48"/>
                             </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_4" utils:TiltEffect.IsTiltEnabled="True" >
+                            <StackPanel Margin="0" Orientation="Vertical" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
-            </phone:PivotItem>
-            <phone:PivotItem Header="消息" Margin="0,28,0,0">
-                <ListBox x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:StatusItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </phone:PivotItem>
-            <phone:PivotItem Header="听众" Margin="0,28,0,0">
-                <ListBox x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:UserItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </phone:PivotItem>
-            <phone:PivotItem Header="朋友" Margin="0,28,0,0">
-                <ListBox x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:UserItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </phone:PivotItem>
-            <phone:PivotItem Header="收藏" Margin="0,28,-7,0">
-                <ListBox x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <itemcontrols:StatusItemControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
         <Rectangle Height="160" VerticalAlignment="Top" Canvas.ZIndex="-1">
@@ -122,12 +75,10 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
-                <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />
-                <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />
+                <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />            
             </shell:ApplicationBar.MenuItems>
-            <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
-            <shell:ApplicationBarIconButton x:Name="ReplayButton" Text="提及TA"  Click="ReplayButton_Click" IconUri="/Assets/AppBar/Redo.png" />
+            <shell:ApplicationBarIconButton x:Name="AcceptButton" Click="AcceptButton_Click"  IconUri="/Assets/AppBar/Apply.png" Text="接受请求" />
+            <shell:ApplicationBarIconButton x:Name="DenyButton" Text="拒绝请求"  Click="DenyButton_Click" IconUri="/Assets/AppBar/Abort.png" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

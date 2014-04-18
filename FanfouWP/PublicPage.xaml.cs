@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using FanfouWP.API;
+using FanfouWP.Storage;
 
 namespace FanfouWP
 {
@@ -26,7 +27,7 @@ namespace FanfouWP
         {
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineSuccess += Instance_PublicTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineFailed += Instance_PublicTimelineFailed;
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);
        }
 
         void Instance_PublicTimelineFailed(object sender, FailedEventArgs e)
@@ -70,8 +71,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
-            }); 
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline();      
+            });
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);      
         }
     }
 }

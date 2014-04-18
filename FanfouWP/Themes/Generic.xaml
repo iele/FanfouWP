@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:local="clr-namespace:FanfouWP.UserControls">
+    xmlns:local="clr-namespace:FanfouWP.UserControls"
+    xmlns:utils="clr-namespace:FanfouWP.Utils">
 
     <Style TargetType="local:RefreshableListBox">
         <Setter Property="Template">
@@ -15,7 +16,7 @@
                                             HideEmptyGroups="{TemplateBinding HideEmptyGroups}"
                                             IsGroupingEnabled="{TemplateBinding IsGroupingEnabled}"
                                             ItemsSource="{TemplateBinding ItemsSource}"
-                                            ItemTemplate="{TemplateBinding ItemTemplate}">
+                                            ItemTemplate="{TemplateBinding ItemTemplate}" utils:TiltEffect.IsTiltEnabled="True" >
                         <phone:LongListSelector.Resources>
 
                             <DataTemplate x:Key="PrepareRefreshDataTemplate">

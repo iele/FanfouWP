@@ -42,7 +42,7 @@
                 <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="UserButton" Click="UserButton_Click"  IconUri="/Assets/AppBar/Align-center.png" Text="个人资料" />
-            <shell:ApplicationBarIconButton x:Name="ResendButton" Click="ResendButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="转发" />
+            <shell:ApplicationBarIconButton x:Name="ResendButton" Click="ResendButton_Click"  IconUri="/Assets/AppBar/Rotate.png"  Text="转发" />
             <shell:ApplicationBarIconButton x:Name="FavButton" Click="FavButton_Click" IconUri="/Assets/AppBar/minus.png" Text="收藏" />
             <shell:ApplicationBarIconButton x:Name="ReplyButton" Click="ReplyButton_Click"  IconUri="/Assets/AppBar/Redo.png" Text="回复" />
         </shell:ApplicationBar>

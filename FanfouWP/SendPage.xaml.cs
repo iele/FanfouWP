@@ -21,11 +21,12 @@ namespace FanfouWP
     {
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
 
-        private enum PageType { Normal, Resend, Reply };
+        private enum PageType { Normal, Resend, Reply, ReplyWithoutStatus };
         private PageType currentPageType = PageType.Normal;
 
         private dynamic is_sending = false;
         private FanfouWP.API.Items.Status status;
+        private FanfouWP.API.Items.User reply_user;
 
         private bool is_image;
         private WriteableBitmap image;
@@ -41,6 +42,12 @@ namespace FanfouWP
                 status = PhoneApplicationService.Current.State["ReSend"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("ReSend");
                 currentPageType = PageType.Resend;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("ReplyWithoutStatus"))
+            {
+                reply_user = PhoneApplicationService.Current.State["ReplyWithoutStatus"] as FanfouWP.API.Items.User;
+                PhoneApplicationService.Current.State.Remove("ReplyWithoutStatus");
+                currentPageType = PageType.ReplyWithoutStatus;
             }
             if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
             {
@@ -107,6 +114,13 @@ namespace FanfouWP
                         this.Status.Text = "@" + this.status.user.screen_name + " ";
                     });
                     break;
+                case PageType.ReplyWithoutStatus:
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        titleText.Text = "回复" + reply_user.screen_name;
+                        this.Status.Text = "@" + this.reply_user.screen_name + " ";
+                    });
+                    break;
                 default:
                     break;
             }
@@ -161,7 +175,7 @@ namespace FanfouWP
                 else
                 {
                     this.Status.Text = "";
-                    this.toast.NewToast("新消息发送成功:)");
+                    this.toast.NewToast("照片上传成功:)");
 
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
                     (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
@@ -189,7 +203,7 @@ namespace FanfouWP
                 (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
                 (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.toast.NewToast("消息发送失败:( " + e.error.error);
+                this.toast.NewToast("状态发送失败:( " + e.error.error);
             });
         }
 
@@ -204,7 +218,7 @@ namespace FanfouWP
                 else
                 {
                     this.Status.Text = "";
-                    this.toast.NewToast("图片发送成功:)");
+                    this.toast.NewToast("状态发送成功:)");
 
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
                     (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
@@ -264,6 +278,9 @@ namespace FanfouWP
                         break;
                     case PageType.Reply:
                         FanfouAPI.StatusUpdate(this.Status.Text, status.id, status.user.id, location: this.position);
+                        break;
+                    case PageType.ReplyWithoutStatus:
+                        FanfouAPI.StatusUpdate(this.Status.Text, in_reply_to_user_id: reply_user.id, location: this.position);
                         break;
                     default:
                         break;
@@ -379,6 +396,21 @@ namespace FanfouWP
                     }
                 }
             }
+            else if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Friend"))
+                {
+                    reply_user = PhoneApplicationService.Current.State["SendPage_Friend"] as FanfouWP.API.Items.User;
+                    PhoneApplicationService.Current.State.Remove("SendPage_Friend");
+
+                    this.currentPageType = PageType.ReplyWithoutStatus;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        titleText.Text = "回复" + reply_user.screen_name;
+                        this.Status.Text = "@" + this.reply_user.screen_name + " ";
+                    });
+                }
+            }
         }
 
         void FanfouAPI_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
@@ -402,14 +434,24 @@ namespace FanfouWP
             ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("FromTile=true"));
 
             // Create the Tile if we didn't find that it already exists.
-              if (TileToFind == null)
-              {
-                  StandardTileData data = new StandardTileData();
-                  data.BackgroundImage = new Uri("/Assets/icon-send.png",UriKind.Relative);
-                  data.Title = "饭窗 - 发送状态";
-                  ShellTile.Create(new Uri("/SendPage.xaml?FromTile=true", UriKind.Relative), data);
-                  ShellTile newTile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("FromTile=true"));
-              }          
+            if (TileToFind == null)
+            {
+                StandardTileData data = new StandardTileData();
+                data.BackgroundImage = new Uri("/Assets/icon-send.png", UriKind.Relative);
+                data.Title = "饭窗 - 发送状态";
+                ShellTile.Create(new Uri("/SendPage.xaml?FromTile=true", UriKind.Relative), data);
+                ShellTile newTile = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("FromTile=true"));
+            }
+        }
+
+        private void AtItem_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("FriendsPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("FriendsPage");
+            }
+            PhoneApplicationService.Current.State.Add("FriendsPage", FanfouAPI.Instance.CurrentUser);
+            NavigationService.Navigate(new Uri("/FriendsPage.xaml", UriKind.Relative));
         }
 
     }
