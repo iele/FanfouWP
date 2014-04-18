@@ -47,7 +47,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("标签列表获取失败:( " + e.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("标签列表获取失败:( " + e.error.error); });
         }
 
         void Instance_TagListSuccess(object sender, API.Event.ListEventArgs<string> e)
@@ -66,7 +66,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友失败:( " + e.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友失败:( " + e.error.error); });
         }
 
         void Instance_FriendshipsDestroySuccess(object sender, EventArgs e)
@@ -86,7 +86,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友失败:( " + e.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友失败:( " + e.error.error); });
         }
 
         void Instance_FriendshipsCreateSuccess(object sender, EventArgs e)
@@ -105,7 +105,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("关注列表获取失败:( " + e.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("关注列表获取失败:( " + e.error.error); });
             });
         }
 
@@ -123,7 +123,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("好友列表获取失败:( " + e.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("好友列表获取失败:( " + e.error.error); });
             });
         }
 
@@ -141,7 +141,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                Dispatcher.BeginInvoke(() => { toast.NewToast("收藏列表获取失败:( " + e.error); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("收藏列表获取失败:( " + e.error.error); });
             });
         }
 
@@ -174,7 +174,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error.error); });
         }
 
         void UserPage_Loaded(object sender, RoutedEventArgs e)

@@ -26,18 +26,18 @@ namespace FanfouWP
         public StatusPage()
         {
             InitializeComponent();
-        
-           if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+
+            if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
             {
                 status = PhoneApplicationService.Current.State["StatusPage"] as FanfouWP.API.Items.Status;
                 PhoneApplicationService.Current.State.Remove("StatusPage");
             }
 
             FanfouWP.API.FanfouAPI.Instance.StatusDestroySuccess += Instance_StatusDestroySuccess;
-
             FanfouWP.API.FanfouAPI.Instance.StatusDestroyFailed += Instance_StatusDestroyFailed;
-    
-      
+
+            FanfouWP.API.FanfouAPI.Instance.UsersShowSuccess += Instance_UsersShowSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
             Loaded += StatusPage_Loaded;
         }
 
@@ -124,6 +124,7 @@ namespace FanfouWP
                         case TextMode.At:
                             Hyperlink link2 = new Hyperlink();
                             var count1 = i;
+
                             link2.Inlines.Add(sep[i]);
                             link2.Foreground = new SolidColorBrush(Colors.Black);
                             link2.FontSize = 24;
@@ -139,7 +140,7 @@ namespace FanfouWP
                                 PhoneApplicationService.Current.State.Add("SearchPage_User", item);
                                 NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
                             };
-                          
+
                             myParagraph.Inlines.Add("@");
                             myParagraph.Inlines.Add(link2);
                             myParagraph.Inlines.Add(" ");
@@ -352,7 +353,7 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed; 
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IsEnabled = false;
             });
@@ -412,7 +413,7 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
 
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建成功:)"); });
-       
+
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
             {
                 PhoneApplicationService.Current.State.Remove("TimelinePage_To");
@@ -443,7 +444,64 @@ namespace FanfouWP
         private void map_Loaded(object sender, RoutedEventArgs e)
         {
             Microsoft.Phone.Maps.MapsSettings.ApplicationContext.ApplicationId = "fa2df181-7b08-43aa-a80c-553ca63a8cf4";
-            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "Uq2CsIyc-vRLRRx1oKJATQ";        
+            Microsoft.Phone.Maps.MapsSettings.ApplicationContext.AuthenticationToken = "Uq2CsIyc-vRLRRx1oKJATQ";
         }
+
+        private void TextBlock_Tap_InReply(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (this.status.in_reply_to_user_id != null || this.status.in_reply_to_user_id != "")
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    this.ReplyTextBlock.IsHitTestVisible = false;
+                });
+                FanfouWP.API.FanfouAPI.Instance.UsersShow(this.status.in_reply_to_user_id);
+            }
+        }
+
+        private void TextBlock_Tap_Repost(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (this.status.repost_user_id != null || this.status.repost_user_id != "")
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    this.RepostTextBlock.IsHitTestVisible = false;
+                });
+                FanfouWP.API.FanfouAPI.Instance.UsersShow(this.status.repost_user_id);
+            }
+        }
+        private void Instance_SearchUserFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.ReplyTextBlock.IsHitTestVisible = false;
+                this.RepostTextBlock.IsHitTestVisible = false;
+            });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("用户信息获取失败:( " + e.error.error); });
+
+        }
+
+        private void Instance_UsersShowSuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.ReplyTextBlock.IsHitTestVisible = false;
+                this.RepostTextBlock.IsHitTestVisible = false;
+
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", sender as FanfouWP.API.Items.User);
+                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            });
+       
+        }
+
+
     }
 }

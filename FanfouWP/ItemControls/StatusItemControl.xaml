@@ -34,7 +34,7 @@
     <Grid x:Name="LayoutRoot" Margin="12,0">
         <Grid Margin="0,5">
             <toolkit:ContextMenuService.ContextMenu>
-                <toolkit:ContextMenu x:Name="cms">
+                <toolkit:ContextMenu x:Name="cms" IsFadeEnabled="False">
                     <toolkit:MenuItem Header="回复" Tap="MenuItem1_Tap" />
                     <toolkit:MenuItem Header="转发" Tap="MenuItem2_Tap" />
                 </toolkit:ContextMenu>
@@ -47,7 +47,7 @@
                     <TextBlock Padding="5,5,0,0" Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                     <TextBlock Padding="5,5,0,0" Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
                     <TextBlock Padding="5,5,0,0" Text="{Binding favorited,  Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited,  Converter={StaticResource NullToVisibilityConverter}}"/>
-                    <TextBlock Padding="5,5,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"/>
+                    <TextBlock Padding="5,5,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"  />
                     <TextBlock Padding="5,5,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name,  Converter={StaticResource NullToVisibilityConverter}}"/>
                 </StackPanel>
             </StackPanel>

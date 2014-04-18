@@ -26,7 +26,8 @@ namespace FanfouWP.API
         public const string SEARCH_PUBLIC_TIMELINE = "search/public_timeline.json";
         public const string SEARCH_USER = "search/users.json";
         public const string TRENDS_LIST = "trends/list.json";
-        public const string USER_TAG_LIST = "users/tag_list.json";
+        public const string USERS_SHOW = "users/show.json";
+        public const string USERS_TAG_LIST = "users/tag_list.json";
         public const string USERS_TAGGED = "users/tagged.json";
         public const string USERS_FOLLOWERS = "users/followers.json";
         public const string USERS_FRIENDS = "users/friends.json";
@@ -41,6 +42,6 @@ namespace FanfouWP.API
         public const string DIRECT_MESSAGES_CONVERSATION = "direct_messages/conversation.json";
         public const string DIRECT_MESSAGES_DESTROY = "direct_messages/destroy.json";
         public const string DIRECT_MESSAGES_NEW = "direct_messages/new.json";
-        public const string ACCOUNT_NOTIFICATION = "account/notification.json";  
+        public const string ACCOUNT_NOTIFICATION = "account/notification.json";
     }
 }

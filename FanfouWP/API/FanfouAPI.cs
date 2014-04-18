@@ -288,11 +288,15 @@ namespace FanfouWP.API
         public event TaggedSuccessHandler TaggedSuccess;
         public event TaggedFailedHandler TaggedFailed;
 
+        public delegate void UsersShowSuccessHandler(object sender, EventArgs e);
+        public delegate void UsersShowFailedHandler(object sender, FailedEventArgs e);
         public delegate void UsersFollowersSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
         public delegate void UsersFollowersFailedHandler(object sender, FailedEventArgs e);
         public delegate void UsersFriendsSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
         public delegate void UsersFriendsFailedHandler(object sender, FailedEventArgs e);
 
+        public event UsersShowSuccessHandler UsersShowSuccess;
+        public event UsersShowFailedHandler UsersShowFailed;
         public event UsersFollowersSuccessHandler UsersFollowersSuccess;
         public event UsersFollowersFailedHandler UsersFollowersFailed;
         public event UsersFriendsSuccessHandler UsersFriendsSuccess;
@@ -1364,7 +1368,7 @@ namespace FanfouWP.API
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
-                Path = FanfouConsts.USER_TAG_LIST,
+                Path = FanfouConsts.USERS_TAG_LIST,
                 Method = Hammock.Web.WebMethod.Get
             };
             restRequest.AddParameter("id", id);
@@ -1449,6 +1453,48 @@ namespace FanfouWP.API
         }
         #endregion
         #region user
+        public void UsersShow(string id)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.USERS_SHOW,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("id", id);
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User user = new Items.User();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
+
+                        EventArgs e = new EventArgs();
+                        UsersShowSuccess(user, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        UsersShowFailed(this, e);
+                    }
+                }
+                catch (Exception)
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    UsersShowFailed(this, e);
+                }
+            });
+        }
         public void UsersFollowers(string id, int count = 60, int page = 1)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
