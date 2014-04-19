@@ -220,6 +220,7 @@ namespace FanfouWP
                 (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
                 (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
 
+                this.Pivot.Visibility = Visibility.Visible;
                 this.toast.Visibility = Visibility.Visible;
                 NavigationService.RemoveBackEntry();
 
@@ -460,6 +461,14 @@ namespace FanfouWP
         private void ApplicationBarMenuItem_Click_4(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
+        }
+
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Pivot.SelectedIndex == 2)
+                this.Toolbox.GroupTileAnimationEnable(true);
+            else
+                this.Toolbox.GroupTileAnimationEnable(false);
         }
     }
 }

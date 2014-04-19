@@ -13,7 +13,7 @@
     xmlns:Primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
     x:Class="FanfouWP.TimelinePage"
     mc:Ignorable="d"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Landscape"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="PivotHeadersControlStyle" TargetType="Primitives:PivotHeadersControl">
@@ -149,7 +149,7 @@
             </StackPanel>
             <TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="70,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="207" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
         </Grid>
-        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" >
+        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" Visibility="Collapsed" SelectionChanged="Pivot_SelectionChanged">
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid>

@@ -11,7 +11,7 @@
     xmlns:NokiaMapSDK="clr-namespace:NokiaMapSDK;assembly=NokiaMapSDK"
      xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     x:Class="FanfouWP.StatusPage"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
@@ -69,7 +69,7 @@
             </StackPanel.Background>
         	<Grid Margin="12,17,0,28" Height="100">
                 <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,0,0"/>
-                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100"/>
+                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
         		<Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
         
         	</Grid>

@@ -17,6 +17,14 @@ namespace FanfouWP.UserControls
             InitializeComponent();
         }
 
+        public void GroupTileAnimationEnable(bool enable)
+        {
+            if (enable)
+                HubTileService.UnfreezeGroup("tile");
+            else 
+                HubTileService.FreezeGroup("tile");
+        }
+
         private void DirectMsgTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
