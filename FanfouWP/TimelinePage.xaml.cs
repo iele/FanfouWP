@@ -212,7 +212,6 @@ namespace FanfouWP
         {
             if (run_once == true)
             {
-                this.Pivot.Visibility = Visibility.Collapsed;
                 pdi = new ObservableCollection<PivotDataItem>();
                 pdi.Add(new PivotDataItem("我的消息", "0"));
                 pdi.Add(new PivotDataItem("提及我的", "0"));
@@ -221,7 +220,6 @@ namespace FanfouWP
                 (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
                 (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
 
-                this.Pivot.Visibility = Visibility.Visible;
                 this.toast.Visibility = Visibility.Visible;
                 NavigationService.RemoveBackEntry();
 

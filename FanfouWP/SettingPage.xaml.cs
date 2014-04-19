@@ -159,6 +159,20 @@ namespace YueFM.Pages
             settingManager.quit_confirm = this.QuitCheckBox.IsChecked.HasValue ? this.QuitCheckBox.IsChecked.Value : false;
         }
 
+        private void CleanButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("该操作将删除当前用户所有缓存数据, 是否继续?", "确认清理?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                return;
+
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Dispatcher.BeginInvoke(
+            async () =>
+            {
+                var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
+                await dataFolder.DeleteAsync();
+         });
+        }
+
 
     }
 }

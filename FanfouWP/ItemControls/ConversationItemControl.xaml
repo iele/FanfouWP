@@ -34,7 +34,7 @@
         	<Image Source="{Binding dm.sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42"/>
             <Rectangle Fill="{Binding dm.sender.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding dm.sender.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
         	<StackPanel VerticalAlignment="Top" Margin="89,10,10,0">
-        		<TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667"/>
+                <TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667" FontWeight="Bold"/>
                 <TextBlock Margin="5,0" Text="{Binding dm.recipient.screen_name, Converter={StaticResource TextToReplyTextConverter}}" VerticalAlignment="Top" FontSize="24.667"  Foreground="#FF7A7A7A"/>
             </StackPanel>
             <StackPanel Margin="20,81,15,0">

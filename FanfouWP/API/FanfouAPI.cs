@@ -867,17 +867,18 @@ namespace FanfouWP.API
                         switch (mode)
                         {
                             case RefreshMode.New:
-                                l = status;
-                                break;
                             case RefreshMode.Behind:
                                 foreach (var item in status)
                                     l.Add(item);
-                                foreach (var item in HomeTimeLineStatus)
+                                if (this.HomeTimeLineStatus != null)
                                 {
-                                    var r = from v in l where item.id == v.id select v;
-                                    if (r.Count() == 0)
+                                    foreach (var item in HomeTimeLineStatus)
                                     {
-                                        l.Add(item);
+                                        var r = from v in l where item.id == v.id select v;
+                                        if (r.Count() == 0)
+                                        {
+                                            l.Add(item);
+                                        }
                                     }
                                 }
                                 break;
@@ -961,13 +962,14 @@ namespace FanfouWP.API
                         switch (mode)
                         {
                             case RefreshMode.New:
-                                l = status;
-                                break;
                             case RefreshMode.Behind:
                                 foreach (var item in status)
                                     l.Add(item);
-                                foreach (var item in PublicTimeLineStatus)
-                                    l.Add(item);
+                                if (this.PublicTimeLineStatus != null)
+                                {
+                                    foreach (var item in PublicTimeLineStatus)
+                                        l.Add(item);
+                                }
                                 break;
                             case RefreshMode.Back:
                                 foreach (var item in PublicTimeLineStatus)
@@ -1038,17 +1040,18 @@ namespace FanfouWP.API
                         switch (mode)
                         {
                             case RefreshMode.New:
-                                l = status;
-                                break;
                             case RefreshMode.Behind:
                                 foreach (var item in status)
                                     l.Add(item);
-                                foreach (var item in MentionTimeLineStatus)
+                                if (this.MentionTimeLineStatus != null)
                                 {
-                                    var r = from v in l where item.id == v.id select v;
-                                    if (r.Count() == 0)
+                                    foreach (var item in MentionTimeLineStatus)
                                     {
-                                        l.Add(item);
+                                        var r = from v in l where item.id == v.id select v;
+                                        if (r.Count() == 0)
+                                        {
+                                            l.Add(item);
+                                        }
                                     }
                                 }
                                 break;
