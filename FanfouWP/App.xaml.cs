@@ -76,17 +76,6 @@ namespace FanfouWP
         // 导航失败时执行的代码
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            if (MessageBox.Show("出现未捕获异常，是否愿意将该信息发送给作者?", "饭窗异常报告", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                e.Handled = true;
-
-                EmailComposeTask ect = new EmailComposeTask();
-                ect.To = "melephas@outlook.com";
-                ect.Subject = "饭窗异常报告";
-                ect.Body = e.Exception.InnerException.ToString();
-                ect.Show();
-            }
-
             if (Debugger.IsAttached)
             {
                 // 导航已失败；强行进入调试器
@@ -97,18 +86,11 @@ namespace FanfouWP
         // 出现未处理的异常时执行的代码
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (MessageBox.Show("出现未捕获异常，是否愿意将该信息发送给作者?", "饭窗异常报告", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (Debugger.IsAttached)
             {
-                e.Handled = true;
-
-                EmailComposeTask ect = new EmailComposeTask();
-                ect.To = "melephas@outlook.com";
-                ect.Subject = "饭窗异常报告";
-                ect.Body = e.ExceptionObject.InnerException.ToString();
-                ect.Show();
+                Debugger.Break();
             }
 
-            Debugger.Break();
         }
 
         #region 电话应用程序初始化
