@@ -130,7 +130,7 @@
                 <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
                 <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
                 <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
-            </ResourceDictionary>          
+            </ResourceDictionary>
         </Grid.Resources>
         <Grid Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="120" x:Name="TitleControl">
             <Grid.Background>
@@ -147,9 +147,9 @@
                         Orientation="Vertical">
                 <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true"/>
             </StackPanel>
-            <TextBlock Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="76,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="201" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
+            <TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="70,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="207" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
         </Grid>
-        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" Visibility="Collapsed" >
+        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" >
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid>

@@ -37,7 +37,8 @@
             			<toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
             			<TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
             			<toolkit:ListPicker x:Name="FrequencyListPicker" Margin="0" VerticalAlignment="Top"/>
-            			<Button Content="注销" VerticalAlignment="Top" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="-12,24,-12,0"/>
+                        <Button Content="清除缓存" VerticalAlignment="Top" x:Name="CleanButton" Click="CleanButton_Click" Margin="-12,12,-12,0" Visibility="Collapsed"/>
+                        <Button Content="注销" VerticalAlignment="Top" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="-12,24,-12,0"/>
             		</StackPanel>
             	</ScrollViewer>
             </controls:PivotItem>

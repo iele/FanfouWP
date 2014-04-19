@@ -105,6 +105,7 @@ namespace FanfouWP
                         {
                             this.Status.Text = "转@" + status.user.screen_name + " " + this.status.text;
                         }
+                        this.Status.SelectionStart = 0;
                     });
                     break;
                 case PageType.Reply:
@@ -169,21 +170,32 @@ namespace FanfouWP
             is_sending = false;
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
-                    this.NavigationService.GoBack();
-                else
+                ToastPrompt tp = new ToastPrompt();
+                tp.Title = "饭窗";
+                tp.Message = "照片上传成功:)";
+                tp.MillisecondsUntilHidden = 1000;
+                tp.Completed += (s2, e2) =>
                 {
-                    this.Status.Text = "";
-                    this.toast.NewToast("照片上传成功:)");
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                        if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
+                            this.NavigationService.GoBack();
+                        else
+                        {
+                            this.Status.Text = "";
+                            this.image = null;
+                            this.Image.Source = null;
 
-                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
-                }
+                            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
+                        }
+                    });
+                };
+                tp.Show();
             });
-
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
             {
                 PhoneApplicationService.Current.State.Remove("TimelinePage_To");
@@ -212,19 +224,32 @@ namespace FanfouWP
             is_sending = false;
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
-                    this.NavigationService.GoBack();
-                else
+                ToastPrompt tp = new ToastPrompt();
+                tp.Title = "饭窗";
+                tp.Message = "状态发送成功:)";
+                tp.MillisecondsUntilHidden = 1000;
+                tp.Completed += (s2, e2) =>
                 {
-                    this.Status.Text = "";
-                    this.toast.NewToast("状态发送成功:)");
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                        if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
+                            this.NavigationService.GoBack();
+                        else
+                        {
+                            this.Status.Text = "";
+                            this.image = null;
+                            this.Image.Source = null;
 
-                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
-                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
-                }
+                            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = true;
+                            (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = true;
+                        }
+                    });
+                };
+                tp.Show();
+
             });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))

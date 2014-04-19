@@ -73,7 +73,7 @@ namespace FanfouWP
 
         private void ClickButton_Click(object sender, EventArgs e)
         {
-            FanfouAPI.Login(this.UsernameTest.Text, this.PasswordBox.Password);
+            FanfouAPI.Login(this.UsernameText.Text, this.PasswordBox.Password);
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -87,6 +87,34 @@ namespace FanfouWP
             WebBrowserTask wbt = new WebBrowserTask();
             wbt.Uri = new Uri("http://m.fanfou.com/register/");
             wbt.Show();
+        }
+
+        private void UsernameText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.usernameTip.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.passwordTip.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void PasswordBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PasswordBox.Password.Length == 0)
+                this.passwordTip.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.passwordTip.Visibility = System.Windows.Visibility.Collapsed;
+
+        }
+
+        private void UsernameText_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (UsernameText.Text.Length == 0)
+                this.usernameTip.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.usernameTip.Visibility = System.Windows.Visibility.Collapsed;
+
         }
     }
 }

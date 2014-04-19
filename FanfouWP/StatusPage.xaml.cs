@@ -16,6 +16,7 @@ using System.Windows.Documents;
 using FanfouWP.API.Items;
 using Microsoft.Phone.Tasks;
 using FanfouWP.ItemControls;
+using Coding4Fun.Toolkit.Controls;
 
 namespace FanfouWP
 {
@@ -99,9 +100,20 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.NavigationService.GoBack();
-                Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除成功:)"); });
+                ToastPrompt tp = new ToastPrompt();
+                tp.Title = "饭窗";
+                tp.Message = "状态删除成功:)";
+                tp.MillisecondsUntilHidden = 1000;
+                tp.Completed += (s2, e2) =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                        if (this.NavigationService.CanGoBack)
+                            this.NavigationService.GoBack();
+                    });
+                };
+                tp.Show();
             });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
