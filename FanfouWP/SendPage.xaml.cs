@@ -119,7 +119,7 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         titleText.Text = "回复" + reply_user.screen_name;
-                        this.Status.Text = "@" + this.reply_user.screen_name + " " + this.Status.Text;
+                        this.Status.Text = "@" + this.reply_user.screen_name + " ";
                     });
                     break;
                 default:
@@ -432,6 +432,7 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         titleText.Text = "回复" + reply_user.screen_name;
+                        this.Status.Text = "@" + this.reply_user.screen_name + " " + this.Status.Text;
                     });
                 }
             }
