@@ -248,7 +248,7 @@ namespace FanfouWP
                     (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
                 });
 
-                FanfouAPI.PhotoUpload(this.Status.Text, image);
+                FanfouAPI.PhotoUpload(this.Status.Text, image, position);
                 return;
             }
 

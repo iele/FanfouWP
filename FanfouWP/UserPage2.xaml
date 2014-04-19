@@ -70,6 +70,8 @@
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
                             </StackPanel>
                         </StackPanel>
+                        <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
+                        	Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1"/>
                     </Grid>
                 </ScrollViewer>
             </phone:PivotItem>

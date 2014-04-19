@@ -67,10 +67,11 @@
                     <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <StackPanel Orientation="Horizontal" Height="100" Margin="12,17,0,28">
-                <Image Height="100" Margin="0" Width="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
-                <TextBlock Text="{Binding user.screen_name}" Margin="10,0,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-            </StackPanel>
+        	<Grid Margin="12,17,0,28" Height="100">
+                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100"/>
+        		<Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
+        		<TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,358,0"/>
+        	</Grid>
 
         </StackPanel>
 
