@@ -15,14 +15,17 @@ namespace FanfouWP
     public partial class UserPage : PhoneApplicationPage
     {
         private API.Items.User user;
-        private ObservableCollection<FanfouWP.API.Items.Status> status = new ObservableCollection<API.Items.Status>();
+        private ObservableCollection<FanfouWP.API.Items.Status> status;
+        private dynamic tag;
+        private dynamic friends;
+        private dynamic follows;
+        private dynamic fav;
         public UserPage()
         {
             InitializeComponent();
             if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
             {
                 user = PhoneApplicationService.Current.State["UserPage"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("UserPage");
             }
             this.Loaded += UserPage_Loaded;
             FanfouWP.API.FanfouAPI.Instance.UserTimelineSuccess += Instance_UserTimelineSuccess;
@@ -42,6 +45,60 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroyFailed += Instance_FriendshipsDestroyFailed;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["UserPage_user"] = this.user;
+                State["UserPage_status"] = this.status;
+                State["UserPage_tag"] = this.tag;
+                State["UserPage_friends"] = this.friends;
+                State["UserPage_follows"] = this.follows;
+                State["UserPage_fav"] = this.fav;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("UserPage_user"))
+            {
+                this.user = State["UserPage_user"] as FanfouWP.API.Items.User;
+            }
+            if (State.ContainsKey("UserPage_status"))
+            {
+                 this.status = State["UserPage_status"] as  ObservableCollection<FanfouWP.API.Items.Status> ;
+       ;
+                if (status == null || status.Count == 0)
+                    this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
+                else
+                    this.FirstStatusText.Text = HttpUtility.HtmlDecode(status.First().text);
+                this.TimeLineListBox.ItemsSource = status;
+            }
+            if (State.ContainsKey("UserPage_tag"))
+            {
+                State["UserPage_tag"] = this.tag;
+                this.tags.ItemsSource = tag;
+            }
+            if (State.ContainsKey("UserPage_friends"))
+            {
+                State["UserPage_friends"] = this.friends;
+                this.FriendsListBox.ItemsSource = friends;
+            }
+            if (State.ContainsKey("UserPage_follows"))
+            {
+                State["UserPage_follows"] = this.follows;
+                this.FollowersListBox.ItemsSource = follows;
+            }
+            if (State.ContainsKey("UserPage_fav"))
+            {
+                State["UserPage_fav"] = this.fav;
+                this.FavListBox.ItemsSource = fav;
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
         void Instance_TagListFailed(object sender, API.Event.FailedEventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
@@ -56,8 +113,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-
-                tags.ItemsSource = e.Result;
+                tag = e.Result;
+                tags.ItemsSource = tag;
             });
         }
 
@@ -114,7 +171,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.FollowersListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.follows = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.FollowersListBox.ItemsSource = follows;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -132,7 +190,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.FriendsListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.friends = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.User>).UserStatus;
+                this.FriendsListBox.ItemsSource = friends;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -150,7 +209,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.FavListBox.ItemsSource = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.Status>).UserStatus;
+                this.fav = (e as API.Event.UserTimelineEventArgs<FanfouWP.API.Items.Status>).UserStatus;
+                this.FavListBox.ItemsSource = fav;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -181,11 +241,16 @@ namespace FanfouWP
         void UserPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = user;
-            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount, this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
+            if (this.status == null)
+                FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount, this.user.id);
+            if (this.friends == null)
+                FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
+            if (this.follows == null)
+                FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
+            if (this.fav == null)
+                FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
+            if (this.tag == null)
+                FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
             checkMenu();
         }
 

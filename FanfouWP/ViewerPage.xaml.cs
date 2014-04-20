@@ -13,6 +13,7 @@ namespace FanfouWP
     public partial class ViewerPage : PhoneApplicationPage
     {
         private FanfouWP.API.Items.User user;
+        private dynamic list;
         public ViewerPage()
         {
             InitializeComponent();
@@ -20,11 +21,30 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("ViewerPage"))
             {
                 this.user = PhoneApplicationService.Current.State["ViewerPage"] as FanfouWP.API.Items.User;
-
-                PhoneApplicationService.Current.State.Remove("ViewerPage");
             }
 
             this.Loaded += ViewerPage_Loaded;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["ViewerPage_user"] = this.user;
+                State["ViewerPage_list"] = this.list;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("ViewerPage_user"))
+                this.user = State["ViewerPage_user"] as FanfouWP.API.Items.User;
+            if (State.ContainsKey("ViewerPage_list")) 
+                this.list = State["ViewerPage_list"];
+
+            base.OnNavigatedTo(e);
         }
 
         void ViewerPage_Loaded(object sender, RoutedEventArgs e)
@@ -38,6 +58,13 @@ namespace FanfouWP
 
             FanfouWP.API.FanfouAPI.Instance.PhotosUserTimelineSuccess += Instance_PhotosUserTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.PhotosUserTimelineFailed += Instance_PhotosUserTimelineFailed;
+
+            if (list != null)
+            {
+                Dispatcher.BeginInvoke(() => this.loading.Visibility = Visibility.Collapsed);
+                this.images.ItemsSource = list;
+                return;
+            }
             FanfouWP.API.FanfouAPI.Instance.PhotosUserTimeline(this.user.id);
         }
 
@@ -55,7 +82,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = Visibility.Collapsed;
-                this.images.ItemsSource = e.UserStatus;
+                list = e.UserStatus;
+                this.images.ItemsSource = list;
             });
         }
 

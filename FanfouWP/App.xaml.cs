@@ -59,12 +59,22 @@ namespace FanfouWP
         // 此代码在首次启动应用程序时不执行
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("FanfouAPI"))
+            {
+                FanfouWP.API.FanfouAPI.Instance = (PhoneApplicationService.Current.State["FanfouAPI"] as FanfouWP.API.FanfouAPI);
+                PhoneApplicationService.Current.State.Remove("FanfouAPI");
+            }
         }
 
         // 停用应用程序(发送到后台)时执行的代码
         // 此代码在应用程序关闭时不执行
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("FanfouAPI"))
+            {
+                PhoneApplicationService.Current.State.Remove("FanfouAPI");
+            }
+            PhoneApplicationService.Current.State["FanfouAPI"] = FanfouWP.API.FanfouAPI.Instance;
         }
 
         // 应用程序关闭(例如，用户点击“后退”)时执行的代码

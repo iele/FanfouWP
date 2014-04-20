@@ -25,6 +25,16 @@ namespace FanfouWP
 
             this.Loaded += RequestPage_Loaded;
         }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["RequestPage_currentPage"] = this.currentPage;
+                State["RequestPage_list"] = this.list;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
 
         private void changeMenu(bool is_end, bool is_disabled = false)
         {
@@ -46,13 +56,29 @@ namespace FanfouWP
         {
             FanfouWP.API.FanfouAPI.Instance.FriendshipsRequestsSuccess += Instance_FriendshipsRequestsSuccess;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsRequestsFailed += Instance_FriendshipsRequestsFailed;
+            if (list != null) {
+                this.RequestStatusListBox.ItemsSource = list;
+            }
             FanfouWP.API.FanfouAPI.Instance.FriendshipRequests(currentPage);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            if (State.ContainsKey("RequestPage_currentPage"))
+            {
+                this.currentPage = (int)State["RequestPage_currentPage"];
+                this.page.Text = "第" + currentPage.ToString() + "页";
+            }
+            if (State.ContainsKey("RequestPage_list"))
+            {
+                this.list = State["RequestPage_list"] as ObservableCollection<User>;
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+        
             if (PhoneApplicationService.Current.State.ContainsKey("RequestPage"))
             {
                 var user = PhoneApplicationService.Current.State["RequestPage"] as User;
@@ -69,9 +95,6 @@ namespace FanfouWP
 
                 PhoneApplicationService.Current.State.Remove("RequestPage");
             }
-
-
-
         }
 
         void Instance_FriendshipsRequestsFailed(object sender, API.Event.FailedEventArgs e)

@@ -22,7 +22,6 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("FriendshipPage"))
             {
                 user = PhoneApplicationService.Current.State["FriendshipPage"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("FriendshipPage");
             }
             this.Loaded += UserPage_Loaded;
 
@@ -37,6 +36,23 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDenyFailed += Instance_FriendshipsDenyFailed;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["FriendshipPage_user"] = this.user;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("FriendshipPage_user"))
+                this.user = State["FriendshipPage_user"] as FanfouWP.API.Items.User;
+
+            base.OnNavigatedTo(e);
+        }
 
         void Instance_FriendshipsDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -56,7 +72,7 @@ namespace FanfouWP
             });
             checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友成功.. "); });
-                     
+
         }
 
         void Instance_FriendshipsCreateFailed(object sender, API.Event.FailedEventArgs e)
@@ -74,7 +90,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-             });
+            });
             checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友成功:)"); });
         }
@@ -138,7 +154,7 @@ namespace FanfouWP
                 this.toast.NewToast("已成功接受好友请求:)");
                 if (PhoneApplicationService.Current.State.ContainsKey("RequestPage"))
                 {
-                    PhoneApplicationService.Current.State.Remove("RequestPage");              
+                    PhoneApplicationService.Current.State.Remove("RequestPage");
                 }
                 PhoneApplicationService.Current.State["RequestPage"] = user;
                 NavigationService.GoBack();
@@ -166,7 +182,7 @@ namespace FanfouWP
                     PhoneApplicationService.Current.State.Remove("RequestPage");
                 }
                 PhoneApplicationService.Current.State["RequestPage"] = user;
-        
+
                 NavigationService.GoBack();
             });
         }

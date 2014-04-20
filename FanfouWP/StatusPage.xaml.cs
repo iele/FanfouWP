@@ -23,6 +23,7 @@ namespace FanfouWP
     public partial class StatusPage : PhoneApplicationPage
     {
         private FanfouWP.API.Items.Status status;
+        private dynamic contextStatus;
 
         private enum TextMode { Text, Url, At, Search };
         public StatusPage()
@@ -32,20 +33,44 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
             {
                 status = PhoneApplicationService.Current.State["StatusPage"] as FanfouWP.API.Items.Status;
-                PhoneApplicationService.Current.State.Remove("StatusPage");
             }
 
+            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess += Instance_FavoritesCreateSuccess;
+            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed += Instance_FavoritesCreateFailed;
+            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess += Instance_FavoritesDestroySuccess;
+            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed += Instance_FavoritesDestroyFailed;
+            
             FanfouWP.API.FanfouAPI.Instance.StatusDestroySuccess += Instance_StatusDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.StatusDestroyFailed += Instance_StatusDestroyFailed;
 
             FanfouWP.API.FanfouAPI.Instance.UsersShowSuccess += Instance_UsersShowSuccess;
-            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
+            FanfouWP.API.FanfouAPI.Instance.UsersShowFailed += Instance_UsersShowFailed;
 
             FanfouWP.API.FanfouAPI.Instance.ContextTimelineSuccess += Instance_ContextTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.ContextTimelineFailed += Instance_ContextTimelineFailed;
             Loaded += StatusPage_Loaded;
         }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["StatusPage_user"] = this.status;
+                State["StatusPage_contextStatus"] = this.contextStatus;
+            }
 
+            base.OnNavigatedFrom(e);
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("StatusPage_user"))
+                this.status = State["StatusPage_user"] as FanfouWP.API.Items.Status;
+            if (State.ContainsKey("StatusPage_contextStatus"))
+            {
+                this.contextStatus = State["StatusPage_contextStatus"];
+                
+            }
+            base.OnNavigatedTo(e);
+        }
         void Instance_ContextTimelineSuccess(object sender, API.Event.UserTimelineEventArgs<Status> e)
         {
             Dispatcher.BeginInvoke(() =>
@@ -132,11 +157,32 @@ namespace FanfouWP
 
                 if (status.in_reply_to_status_id != null && status.in_reply_to_status_id != "")
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    if (contextStatus != null)
                     {
-                        this.loading.Visibility = System.Windows.Visibility.Visible;
-                    });
-                    FanfouWP.API.FanfouAPI.Instance.StatusContextTimeline(this.status.id);
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            foreach (var item in contextStatus)
+                            {
+                                var sic = new StatusItemControl();
+                                sic.Tap += sic_Tap;
+                                sic.DataContext = item;
+                                this.context.Children.Add(sic);
+                            }
+
+                            if (contextStatus.Count != 0)
+                                this.context.Visibility = Visibility.Visible;
+
+                            this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                        });
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            this.loading.Visibility = System.Windows.Visibility.Visible;
+                        });
+                        FanfouWP.API.FanfouAPI.Instance.StatusContextTimeline(this.status.id);
+                    }
                 }
 
                 NewAppBar();
@@ -405,14 +451,10 @@ namespace FanfouWP
             if (status.favorited == false)
             {
                 FanfouWP.API.FanfouAPI.Instance.FavoritesCreate(status.id);
-                FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess += Instance_FavoritesCreateSuccess;
-                FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed += Instance_FavoritesCreateFailed;
             }
             else
             {
                 FanfouWP.API.FanfouAPI.Instance.FavoritesDestroy(status.id);
-                FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess += Instance_FavoritesDestroySuccess;
-                FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed += Instance_FavoritesDestroyFailed;
             }
         }
 
@@ -424,9 +466,7 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IsEnabled = false;
             });
-            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
-            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
-
+     
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消失败:( " + e.error.error); });
         }
 
@@ -440,8 +480,6 @@ namespace FanfouWP
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 this.fav.Text = "";
             });
-            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed -= Instance_FavoritesDestroyFailed;
-            FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess -= Instance_FavoritesDestroySuccess;
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消成功:)"); });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
@@ -461,9 +499,7 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IsEnabled = false;
             });
-            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
-            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
-            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建失败:( " + e.error.error); });
+           Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建失败:( " + e.error.error); });
         }
 
         void Instance_FavoritesCreateSuccess(object sender, EventArgs e)
@@ -476,9 +512,7 @@ namespace FanfouWP
                 NewAppBar();
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateSuccess -= Instance_FavoritesCreateSuccess;
-            FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed -= Instance_FavoritesCreateFailed;
-
+    
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建成功:)"); });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
@@ -539,7 +573,7 @@ namespace FanfouWP
                 FanfouWP.API.FanfouAPI.Instance.UsersShow(this.status.repost_user_id);
             }
         }
-        private void Instance_SearchUserFailed(object sender, API.Event.FailedEventArgs e)
+        private void Instance_UsersShowFailed(object sender, API.Event.FailedEventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {

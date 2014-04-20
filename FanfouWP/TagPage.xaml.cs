@@ -13,6 +13,9 @@ namespace FanfouWP
     public partial class TagPage : PhoneApplicationPage
     {
         private API.Items.User user;
+        private dynamic picker;
+        private int currentIndex;
+        private dynamic list;
         public TagPage()
         {
             InitializeComponent();
@@ -20,12 +23,57 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("TagPage"))
             {
                 user = (PhoneApplicationService.Current.State["TagPage"] as FanfouWP.API.Items.User);
-                PhoneApplicationService.Current.State.Remove("TagPage");
+                if (user.id != FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
+                    this.title.Text = user.screen_name + "的标签";
             }
 
             this.Loaded += TagPage_Loaded;
         }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["TagPage_user"] = this.user;
+                State["TagPage_list"] = this.list;
+                State["TagPage_picker"] = this.picker;
+                State["TagPage_currentIndex"] = this.TagPicker.SelectedIndex;
+            }
 
+            base.OnNavigatedFrom(e);
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("TagPage_user"))
+            {
+                this.user = State["TagPage_user"] as FanfouWP.API.Items.User;
+                if (user.id != FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
+                    this.title.Text = user.screen_name + "的标签";
+            }
+            if (State.ContainsKey("TagPage_list"))
+            {
+                this.list = State["TagPage_list"];
+                this.ListBox.ItemsSource = list;
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+            if (State.ContainsKey("TagPage_picker"))
+            {
+                this.picker = State["TagPage_picker"];
+                this.TagPicker.ItemsSource = picker;
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+            if (State.ContainsKey("TagPage_currentIndex"))
+            {
+                this.currentIndex = (int)State["TagPage_currentIndex"];
+                this.TagPicker.SelectedIndex = currentIndex;
+            }
+            base.OnNavigatedTo(e);
+        }
         void TagPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.TagListSuccess += Instance_TagListSuccess;
@@ -42,7 +90,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.toast.NewToast("用户列表获取失败:( "  + e.error.error);
+                this.toast.NewToast("用户列表获取失败:( " + e.error.error);
             });
         }
 
@@ -50,7 +98,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.ListBox.ItemsSource = e.UserStatus;
+                list = e.UserStatus;
+                this.ListBox.ItemsSource = list;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
@@ -68,7 +117,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.TagPicker.ItemsSource = e.Result;
+                picker = e.Result;
+                this.TagPicker.ItemsSource = picker;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }

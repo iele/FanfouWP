@@ -30,7 +30,7 @@
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <Grid Margin="0,0,0,28">
-        	<TextBlock Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,17,12,73"/>
+            <TextBlock  x:Name="title"  Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,17,12,73"/>
         	<toolkit:ListPicker x:Name="TagPicker" ItemsSource="{Binding}"  Margin="24,61,24,1"  >
         		<toolkit:ListPicker.ItemTemplate>
         			<DataTemplate>

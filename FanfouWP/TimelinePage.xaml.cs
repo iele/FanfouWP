@@ -52,7 +52,6 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage"))
             {
                 is_session_restored = true;
-                PhoneApplicationService.Current.State.Remove("TimelinePage");
             }
 
             this.Loaded += TimelinePanorama_Loaded;
@@ -293,7 +292,7 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
 
-            FanfouAPI.StatusHomeTimeline(setting.defaultCount,FanfouAPI.RefreshMode.Behind);
+            FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
             FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
         }
 
@@ -429,13 +428,8 @@ namespace FanfouWP
         {
             FanfouAPI.AccountNotification();
 
-            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
-            {
-                this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
-                this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
-
-                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
-            }
+            this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
+            this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
 
             base.OnNavigatedTo(e);
         }

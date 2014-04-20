@@ -15,6 +15,7 @@ namespace FanfouWP
     public partial class ConversationsPage : PhoneApplicationPage
     {
         private int currentPage = 1;
+        private dynamic list;
         public ConversationsPage()
         {
             InitializeComponent();
@@ -22,15 +23,51 @@ namespace FanfouWP
             this.Loaded += ConversationsPage_Loaded;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["ConversationsPage_currentPage"] = this.currentPage;
+                State["ConversationsPage_list"] = this.list;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("ConversationsPage_currentPage"))
+            {
+                this.currentPage = (int)State["ConversationsPage_currentPage"];
+                this.page.Text = "第" + currentPage.ToString() + "页";
+            }
+            if (State.ContainsKey("ConversationsPage_list"))
+            {
+                this.list = State["ConversationsPage_list"];
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+            base.OnNavigatedTo(e);
+        }
+
         void ConversationsPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.DirectMessageConversationListSuccess += Instance_DirectMessageConversationListSuccess;
             FanfouWP.API.FanfouAPI.Instance.DirectMessageConversationListFailed += Instance_DirectMessageConversationListFailed;
+
+            if (this.list != null)
+            {
+                this.ConversationListBox.ItemsSource = list;
+                return;
+            }
+
             FanfouWP.API.FanfouAPI.Instance.DirectMessagesConversationList();
 
             Dispatcher.BeginInvoke(() =>
             {
-                this.loading.Visibility = System.Windows.Visibility.Visible;              
+                this.loading.Visibility = System.Windows.Visibility.Visible;
             });
         }
 
@@ -47,20 +84,21 @@ namespace FanfouWP
 
         void Instance_DirectMessageConversationListSuccess(object sender, UserTimelineEventArgs<DirectMessageItem> e)
         {
-             Dispatcher.BeginInvoke(() =>
-            {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                if ((e as UserTimelineEventArgs<DirectMessageItem>).UserStatus.Count != 0)
-                {
-                    this.ConversationListBox.ItemsSource = e.UserStatus;
-                    changeMenu(false);
-                    this.page.Text = "第" + currentPage.ToString() + "页";
-                }
-                else
-                {
-                    changeMenu(true);
-                }
-            });
+            Dispatcher.BeginInvoke(() =>
+           {
+               this.loading.Visibility = System.Windows.Visibility.Collapsed;
+               if ((e as UserTimelineEventArgs<DirectMessageItem>).UserStatus.Count != 0)
+               {
+                   list = e.UserStatus;
+                   this.ConversationListBox.ItemsSource = list;
+                   changeMenu(false);
+                   this.page.Text = "第" + currentPage.ToString() + "页";
+               }
+               else
+               {
+                   changeMenu(true);
+               }
+           });
         }
 
         private void changeMenu(bool is_end, bool is_disabled = false)

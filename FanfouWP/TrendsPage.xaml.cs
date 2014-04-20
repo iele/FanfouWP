@@ -12,6 +12,7 @@ namespace FanfouWP
 {
     public partial class TrendsPage : PhoneApplicationPage
     {
+        private dynamic list;
         public TrendsPage()
         {
             InitializeComponent();
@@ -19,10 +20,34 @@ namespace FanfouWP
             this.Loaded += TrendsPage_Loaded;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["TrendsPage_list"] = this.list;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("TrendsPage_list"))
+                this.list = State["TrendsPage_list"];
+
+            base.OnNavigatedTo(e);
+        }
         void TrendsPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.TrendsListSuccess += Instance_TrendsListSuccess;
             FanfouWP.API.FanfouAPI.Instance.TrendsListFailed += Instance_TrendsListFailed;
+
+            if (list != null)
+            {
+                this.TrendsListBox.ItemsSource = list;
+                return;
+            }
+
             FanfouWP.API.FanfouAPI.Instance.TrendsList();
         }
 
@@ -37,8 +62,10 @@ namespace FanfouWP
 
         void Instance_TrendsListSuccess(object sender, API.Event.TrendsListEventArgs e)
         {
-            Dispatcher.BeginInvoke(()=>{
-                this.TrendsListBox.ItemsSource = e.trendsList.trends;
+            Dispatcher.BeginInvoke(() =>
+            {
+                list = e.trendsList.trends;
+                this.TrendsListBox.ItemsSource = list;
                 this.loading.Visibility = Visibility.Collapsed;
             });
         }

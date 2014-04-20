@@ -16,6 +16,7 @@ namespace FanfouWP
 {
     public partial class PublicPage : PhoneApplicationPage
     {
+        private dynamic list;
         public PublicPage()
         {
             InitializeComponent();
@@ -23,12 +24,41 @@ namespace FanfouWP
             this.Loaded += PublicPage_Loaded;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["PublicPage_list"] = this.list;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("PublicPage_list"))
+                this.list = State["PublicPage_list"];
+
+            base.OnNavigatedTo(e);
+        }
+
         void PublicPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineSuccess += Instance_PublicTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.PublicTimelineFailed += Instance_PublicTimelineFailed;
+
+            if (list != null)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.PublicStatusListBox.ItemsSource = list;
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+
+                return;
+            }
             FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);
-       }
+        }
 
         void Instance_PublicTimelineFailed(object sender, FailedEventArgs e)
         {
@@ -43,12 +73,13 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                this.PublicStatusListBox.ItemsSource = FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus;
+                list = FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus;
+                this.PublicStatusListBox.ItemsSource = list;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
         }
 
-     
+
 
         private void PublicStatusListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -72,7 +103,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
             });
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);      
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);
         }
     }
 }

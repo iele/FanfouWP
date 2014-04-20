@@ -27,7 +27,6 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("MessagePage"))
             {
                 this.dm = PhoneApplicationService.Current.State["MessagePage"] as FanfouWP.API.Items.DirectMessageItem;
-                PhoneApplicationService.Current.State.Remove("MessagePage");
 
             }
 
@@ -42,14 +41,36 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("MessagePage_User"))
             {
                 this.user = PhoneApplicationService.Current.State["MessagePage_User"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("MessagePage_User");
             }
-
-
 
             this.Loaded += MessagePage_Loaded;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+
+            if (State.ContainsKey("MessagePage_dm"))
+                State["MessagePage_dm"] = this.dm;
+            if (State.ContainsKey("MessagePage_User"))
+                State["MessagePage_User"] = this.user;
+            if (State.ContainsKey("MessagePage_list"))
+                State["MessagePage_list"] = this.list;
+
+
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("MessagePage_dm"))
+                this.dm = State["MessagePage_dm"] as API.Items.DirectMessageItem;
+            if (State.ContainsKey("MessagePage_User"))
+                this.user = State["MessagePage_User"] as API.Items.User;
+            if (State.ContainsKey("MessagePage_list"))
+                this.list = State["MessagePage_list"] as List<FanfouWP.API.Items.DirectMessage>;
+
+            base.OnNavigatedTo(e);
+        }
         void MessagePage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.DirectMessageConversationSuccess += Instance_DirectMessageConversationSuccess;
@@ -58,7 +79,6 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.DirectMessageNewSuccess += Instance_DirectMessageNewSuccess;
             FanfouWP.API.FanfouAPI.Instance.DirectMessageNewFailed += Instance_DirectMessageNewFailed;
 
-            FanfouWP.API.FanfouAPI.Instance.DirectMessagesConversation(this.user.id);
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -73,6 +93,14 @@ namespace FanfouWP
                 FanfouWP.API.FanfouAPI.Instance.DirectMessagesConversation(this.user.id);
             };
             timer.Start();
+
+            if (list != null)
+            {
+                this.MessageListBox.ItemsSource = list;
+                return;
+            }
+
+            FanfouWP.API.FanfouAPI.Instance.DirectMessagesConversation(this.user.id);
         }
 
         void Instance_DirectMessageConversationFailed(object sender, API.Event.FailedEventArgs e)

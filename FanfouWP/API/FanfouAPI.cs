@@ -364,8 +364,11 @@ namespace FanfouWP.API
                 }
                 return instance;
             }
+            set {
+                instance = value;
+            }
         }
-        private FanfouAPI()
+        public FanfouAPI()
         {
             this.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
             this.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
@@ -2168,5 +2171,6 @@ namespace FanfouWP.API
             });
         }
         #endregion
+
     }
 }

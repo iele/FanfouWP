@@ -9,13 +9,14 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using System.Collections.ObjectModel;
 
 namespace FanfouWP
 {
     public partial class FriendsPages : PhoneApplicationPage
     {
         private API.Items.User user;
-
+        private dynamic list;
         private int currentPage = 1;
         public FriendsPages()
         {
@@ -24,9 +25,36 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("FriendsPage"))
             {
                 user = PhoneApplicationService.Current.State["FriendsPage"] as FanfouWP.API.Items.User;
-                PhoneApplicationService.Current.State.Remove("FriendsPage");
             }
             this.Loaded += FriendsPage_Loaded;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            State["FriendsPages_currentPage"] = this.currentPage;
+            State["FriendsPages_user"] = this.user;
+            State["FriendsPages_list"] = list;
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("FriendsPages_currentPage"))
+            {
+                this.currentPage = (int)State["FriendsPages_currentPage"];
+                this.page.Text = "第" + currentPage.ToString() + "页";
+            }
+            if (State.ContainsKey("FriendsPages_currentPage"))
+            {
+                this.list = State["FriendsPages_currentPage"] as ObservableCollection<Status>;
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                });
+            }
+            if (State.ContainsKey("FriendsPages_user"))
+                this.user = State["FriendsPages_user"] as API.Items.User;
+            base.OnNavigatedTo(e);
         }
 
         private void changeMenu(bool is_end, bool is_disabled = false)
@@ -49,6 +77,12 @@ namespace FanfouWP
         {
             FanfouWP.API.FanfouAPI.Instance.UsersFriendsSuccess += Instance_UsersFriendsSuccess;
             FanfouWP.API.FanfouAPI.Instance.UsersFriendsFailed += Instance_UsersFriendsFailed;
+
+            if (list != null)
+            {
+                this.FriendsStatusListBox.ItemsSource = list;
+                return;
+            }
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(user.id, 60, currentPage);
         }
 
@@ -69,7 +103,8 @@ namespace FanfouWP
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 if (e.UserStatus.Count != 0)
                 {
-                    this.FriendsStatusListBox.ItemsSource = (e as UserTimelineEventArgs<User>).UserStatus;
+                    list = (e as UserTimelineEventArgs<User>).UserStatus;
+                    this.FriendsStatusListBox.ItemsSource = list;
                     changeMenu(false);
                     this.page.Text = "第" + currentPage.ToString() + "页";
                 }
