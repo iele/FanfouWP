@@ -355,6 +355,21 @@ namespace FanfouWP
 
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                State["SendPage_user"] = this.status;
+                State["SendPage_reply_user"] = this.reply_user;
+                State["SendPage_is_image"] = this.is_image;
+                State["SendPage_image"] = this.image;
+                State["SendPage_position"] = this.position;
+                State["SendPage_currentPageType"] = this.currentPageType;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

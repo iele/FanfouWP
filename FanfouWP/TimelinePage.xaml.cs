@@ -209,55 +209,6 @@ namespace FanfouWP
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
-            if (run_once == true)
-            {
-                pdi = new ObservableCollection<PivotDataItem>();
-                pdi.Add(new PivotDataItem("我的消息", "0"));
-                pdi.Add(new PivotDataItem("提及我的", "0"));
-                pdi.Add(new PivotDataItem("工具箱", "0"));
-                (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
-                (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
-                (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
-
-                this.Pivot.Visibility = Visibility.Visible;
-                this.toast.Visibility = Visibility.Visible;
-                NavigationService.RemoveBackEntry();
-
-                if (this.is_session_restored)
-                {
-                    this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
-                    Toolbox.DataContext = FanfouAPI.CurrentUser;
-
-                    if (FanfouAPI.HomeTimeLineStatus.Count != 0)
-                    {
-                        this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                    }
-                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
-                    if (FanfouAPI.MentionTimeLineStatus.Count != 0)
-                    {
-                        this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                    }
-                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
-                }
-                else
-                {
-                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
-                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
-                }
-            }
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.TitleControl.DataContext = FanfouAPI.CurrentUser;
-                Toolbox.DataContext = FanfouAPI.CurrentUser;
-
-                this.AvatarImage.Tap += AvatarImage_Tap;
-                this.FanfouImage.Tap += FanfouImage_Tap;
-            });
-            FanfouAPI.AccountNotification();
-
-            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
-            StartPeriodicAgent();
-            run_once = false;
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -426,13 +377,65 @@ namespace FanfouWP
         #region Navigation
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (run_once == true)
+            {
+                pdi = new ObservableCollection<PivotDataItem>();
+                pdi.Add(new PivotDataItem("我的消息", "0"));
+                pdi.Add(new PivotDataItem("提及我的", "0"));
+                pdi.Add(new PivotDataItem("工具箱", "0"));
+                (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
+                (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
+                (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
+
+                this.Pivot.Visibility = Visibility.Visible;
+                this.toast.Visibility = Visibility.Visible;
+                NavigationService.RemoveBackEntry();
+
+                if (this.is_session_restored)
+                {
+                    this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
+                    Toolbox.DataContext = FanfouAPI.CurrentUser;
+
+                    if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                    {
+                        this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
+                    }
+                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
+                    if (FanfouAPI.MentionTimeLineStatus.Count != 0)
+                    {
+                        this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
+                    }
+                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
+                }
+                else
+                {
+                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
+                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
+                }
+            }
+            else
+            {
+
+                this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
+                this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+            }
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.TitleControl.DataContext = FanfouAPI.CurrentUser;
+                Toolbox.DataContext = FanfouAPI.CurrentUser;
+
+                this.AvatarImage.Tap += AvatarImage_Tap;
+                this.FanfouImage.Tap += FanfouImage_Tap;
+            });
             FanfouAPI.AccountNotification();
 
-            this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
-            this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+            AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
+            StartPeriodicAgent();
+            run_once = false;
 
             base.OnNavigatedTo(e);
         }
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
