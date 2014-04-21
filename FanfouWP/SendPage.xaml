@@ -33,7 +33,7 @@
             <TextBlock HorizontalAlignment="Right" Margin="10,12,22,12" TextWrapping="Wrap" Text="{Binding Text, Converter={StaticResource TextToLeftCountTextConverter}, ElementName=Status}" FontSize="24" Width="85" Foreground="#FF767676"/>
         </Grid>
         <StackPanel Margin="0,60,0,0" Orientation="Vertical">
-        	<TextBox x:Name="Status" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" />
+        	<TextBox x:Name="Status" TextWrapping="Wrap" Height="285" MaxLength="140" AcceptsReturn="True" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="24" InputScope="Text" />
             <TextBlock x:Name="location" TextWrapping="Wrap" Margin="14,0,10,3" Foreground="#FF858585" VerticalAlignment="Top" />
             <Image Height="300" x:Name="Image" VerticalAlignment="Top" Margin="14,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
 

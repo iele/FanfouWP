@@ -364,7 +364,8 @@ namespace FanfouWP.API
                 }
                 return instance;
             }
-            set {
+            set
+            {
                 instance = value;
             }
         }
@@ -496,9 +497,10 @@ namespace FanfouWP.API
                         Token = oauthToken,
                         TokenSecret = oauthSecret,
                         ClientUsername = username,
-                        ClientPassword = password
+                        ClientPassword = password,
                     }
                 };
+                client.Encoding = UnicodeEncoding.UTF8;
                 return client;
             }
             else

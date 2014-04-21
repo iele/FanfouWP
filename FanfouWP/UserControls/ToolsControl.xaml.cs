@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FanfouWP.API;
 
 namespace FanfouWP.UserControls
 {
@@ -21,7 +22,7 @@ namespace FanfouWP.UserControls
         {
             if (enable)
                 HubTileService.UnfreezeGroup("tile");
-            else 
+            else
                 HubTileService.FreezeGroup("tile");
         }
 

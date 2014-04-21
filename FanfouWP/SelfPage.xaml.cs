@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 
 namespace FanfouWP
 {
-    public partial class UserPage : PhoneApplicationPage
+    public partial class SelfPage : PhoneApplicationPage
     {
         private API.Items.User user;
         private ObservableCollection<FanfouWP.API.Items.Status> status;
@@ -21,14 +21,12 @@ namespace FanfouWP
         private dynamic friends;
         private dynamic follows;
         private dynamic fav;
-        public UserPage()
+        public SelfPage()
         {
             InitializeComponent();
-            if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
-            {
-                user = PhoneApplicationService.Current.State["UserPage"] as FanfouWP.API.Items.User;
-            }
-            this.Loaded += UserPage_Loaded;
+
+            user = FanfouWP.API.FanfouAPI.Instance.CurrentUser;
+            this.Loaded += SelfPage_Loaded;
             FanfouWP.API.FanfouAPI.Instance.UserTimelineSuccess += Instance_UserTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.UserTimelineFailed += Instance_UserTimelineFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesSuccess += Instance_FavoritesSuccess;
@@ -50,56 +48,56 @@ namespace FanfouWP
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                State["UserPage_user"] = this.user;
-                State["UserPage_status"] = this.status;
-                State["UserPage_tag"] = this.tag;
-                State["UserPage_friends"] = this.friends;
-                State["UserPage_follows"] = this.follows;
-                State["UserPage_fav"] = this.fav;
-                State["UserPage_index"] = this.pivot.SelectedIndex;
+                State["SelfPage_user"] = this.user;
+                State["SelfPage_status"] = this.status;
+                State["SelfPage_tag"] = this.tag;
+                State["SelfPage_friends"] = this.friends;
+                State["SelfPage_follows"] = this.follows;
+                State["SelfPage_fav"] = this.fav;
+                State["SelfPage_index"] = this.pivot.SelectedIndex;
             }
 
             base.OnNavigatedFrom(e);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (State.ContainsKey("UserPage_user"))
+            if (State.ContainsKey("SelfPage_user"))
             {
-                this.user = State["UserPage_user"] as FanfouWP.API.Items.User;
+                this.user = State["SelfPage_user"] as FanfouWP.API.Items.User;
             }
-            if (State.ContainsKey("UserPage_status"))
+            if (State.ContainsKey("SelfPage_status"))
             {
-                 this.status = State["UserPage_status"] as  ObservableCollection<FanfouWP.API.Items.Status> ;
-       ;
+                this.status = State["SelfPage_status"] as ObservableCollection<FanfouWP.API.Items.Status>;
+                ;
                 if (status == null || status.Count == 0)
-                    this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
+                    this.FirstStatusText.Text = "你尚未发送任何消息= =!";
                 else
                     this.FirstStatusText.Text = HttpUtility.HtmlDecode(status.First().text);
                 this.TimeLineListBox.ItemsSource = status;
             }
-            if (State.ContainsKey("UserPage_tag"))
+            if (State.ContainsKey("SelfPage_tag"))
             {
-                this.tag=State["UserPage_tag"];
+                this.tag = State["SelfPage_tag"];
                 this.tags.ItemsSource = tag;
             }
-            if (State.ContainsKey("UserPage_friends"))
+            if (State.ContainsKey("SelfPage_friends"))
             {
-                this.friends=State["UserPage_friends"] ;
+                this.friends = State["SelfPage_friends"];
                 this.FriendsListBox.ItemsSource = friends;
             }
-            if (State.ContainsKey("UserPage_follows"))
+            if (State.ContainsKey("SelfPage_follows"))
             {
-               this.follows= State["UserPage_follows"] ;
+                this.follows = State["SelfPage_follows"];
                 this.FollowersListBox.ItemsSource = follows;
             }
-            if (State.ContainsKey("UserPage_fav"))
+            if (State.ContainsKey("SelfPage_fav"))
             {
-                this.fav=State["UserPage_fav"]  ;
+                this.fav = State["SelfPage_fav"];
                 this.FavListBox.ItemsSource = fav;
             }
-            if (State.ContainsKey("UserPage_index"))
+            if (State.ContainsKey("SelfPage_index"))
             {
-                this.pivot.SelectedIndex = (int)State["UserPage_index"];
+                this.pivot.SelectedIndex = (int)State["SelfPage_index"];
             }
             base.OnNavigatedTo(e);
         }
@@ -139,7 +137,6 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("取消好友成功.. "); });
         }
 
@@ -159,7 +156,6 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            checkMenu();
             Dispatcher.BeginInvoke(() => { toast.NewToast("创建好友成功:)"); });
         }
 
@@ -227,7 +223,7 @@ namespace FanfouWP
                 status = e.UserStatus;
                 this.TimeLineListBox.ItemsSource = status;
                 if (status == null || status.Count == 0)
-                    this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
+                    this.FirstStatusText.Text = "你尚未发送任何消息= =!";
                 else
                     this.FirstStatusText.Text = HttpUtility.HtmlDecode(status.First().text);
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
@@ -243,7 +239,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() => { toast.NewToast("消息列表获取失败:( " + e.error.error); });
         }
 
-        void UserPage_Loaded(object sender, RoutedEventArgs e)
+        void SelfPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = user;
             if (this.status == null)
@@ -256,31 +252,8 @@ namespace FanfouWP
                 FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
             if (this.tag == null)
                 FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
-            checkMenu();
         }
 
-        protected void checkMenu()
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                if (this.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
-                {
-                    (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = false;
-                    return;
-                }
-                if (user.following)
-                    (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).Text = "解除好友";
-                else
-                    (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).Text = "添加好友";
-
-                if (this.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
-                {
-                    (this.ApplicationBar.MenuItems[1] as ApplicationBarMenuItem).IsEnabled = false;
-                    return;
-                }
-
-            });
-        }
         private void TimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.TimeLineListBox.SelectedItem != null)
@@ -339,12 +312,12 @@ namespace FanfouWP
                 var item = this.FollowersListBox.SelectedItem;
                 this.FollowersListBox.SelectedIndex = -1;
 
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
+                if (PhoneApplicationService.Current.State.ContainsKey("SelfPage2"))
                 {
-                    PhoneApplicationService.Current.State.Remove("UserPage2");
+                    PhoneApplicationService.Current.State.Remove("SelfPage2");
                 }
-                PhoneApplicationService.Current.State.Add("UserPage2", item);
-                App.RootFrame.Navigate(new Uri("/UserPage2.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State.Add("SelfPage2", item);
+                App.RootFrame.Navigate(new Uri("/SelfPage2.xaml", UriKind.Relative));
             }
         }
 
@@ -355,12 +328,12 @@ namespace FanfouWP
                 var item = this.FriendsListBox.SelectedItem;
                 this.FriendsListBox.SelectedIndex = -1;
 
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
-                    PhoneApplicationService.Current.State.Remove("UserPage2");
+                    PhoneApplicationService.Current.State.Remove("UserPage");
                 }
-                PhoneApplicationService.Current.State.Add("UserPage2", item);
-                App.RootFrame.Navigate(new Uri("/UserPage2.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State.Add("UserPage", item);
+                App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
 
@@ -389,17 +362,6 @@ namespace FanfouWP
 
         }
 
-        private void DirectMenu_Click(object sender, EventArgs e)
-        {
-            if (PhoneApplicationService.Current.State.ContainsKey("MessagePage_User"))
-            {
-                PhoneApplicationService.Current.State.Remove("MessagePage_User");
-            }
-            PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
-            NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
-
-        }
-
         private void PhotosMenu_Click(object sender, EventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("ViewerPage"))
@@ -411,15 +373,6 @@ namespace FanfouWP
 
         }
 
-        private void ReplayButton_Click(object sender, EventArgs e)
-        {
-            if (PhoneApplicationService.Current.State.ContainsKey("ReplyWithoutStatus"))
-            {
-                PhoneApplicationService.Current.State.Remove("ReplyWithoutStatus");
-            }
-            PhoneApplicationService.Current.State.Add("ReplyWithoutStatus", this.user);
-            NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
-        }
 
         private void MainButton_Click(object sender, EventArgs e)
         {
@@ -434,7 +387,6 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
-            checkMenu();
         }
 
         private void UrlText_Tap(object sender, System.Windows.Input.GestureEventArgs e)

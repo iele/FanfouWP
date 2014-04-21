@@ -28,6 +28,7 @@
             		<StackPanel Orientation="Vertical" Margin="24,0">
             			<CheckBox x:Name="QuitCheckBox" Content="退出时弹出对话框" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
                         <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
+                        <CheckBox x:Name="ContextCheckBox" Content="逆向表示消息上下文" Click="ContextCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
                         <CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
             			<TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
             			<toolkit:ListPicker x:Name="QualityListPicker" Margin="0" VerticalAlignment="Top"/>

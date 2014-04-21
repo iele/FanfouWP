@@ -30,6 +30,7 @@ namespace FanfouWP
 
         private bool is_image;
         private WriteableBitmap image;
+        private string text;
 
         private string position = "";
         public SendPage()
@@ -115,7 +116,12 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         titleText.Text = "回复" + reply_user.screen_name;
-                        this.Status.Text = "@" + this.reply_user.screen_name + " " + this.Status.Text;
+                        if (!this.Status.Text.StartsWith("@" + this.reply_user.screen_name))
+                            this.Status.Text = "@" + this.reply_user.screen_name + " " + this.Status.Text;
+                        else
+                        {
+                            this.Status.Text = text;
+                        }
                     });
                     break;
                 default:
@@ -359,12 +365,19 @@ namespace FanfouWP
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                State["SendPage_user"] = this.status;
+                State["SendPage_status"] = this.status;
                 State["SendPage_reply_user"] = this.reply_user;
                 State["SendPage_is_image"] = this.is_image;
-                State["SendPage_image"] = this.image;
                 State["SendPage_position"] = this.position;
                 State["SendPage_currentPageType"] = this.currentPageType;
+                text = this.Status.Text;
+                State["SendPage_text"] = text;
+                if (image != null)
+                {
+                    var ms = new MemoryStream();
+                    image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                    State["SendPage_image"] = ms.ToArray();
+                }
             }
 
             base.OnNavigatedFrom(e);
@@ -372,8 +385,28 @@ namespace FanfouWP
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
+            if (State.ContainsKey("SendPage_status"))
+                this.status = State["SendPage_status"] as FanfouWP.API.Items.Status;
+            if (State.ContainsKey("SendPage_reply_user"))
+                this.reply_user = State["SendPage_reply_user"] as FanfouWP.API.Items.User;
+            if (State.ContainsKey("SendPage_is_image"))
+                this.is_image = (bool)State["SendPage_is_image"];
+            if (State.ContainsKey("SendPage_image"))
+            {
+                var bs = (byte[])State["SendPage_image"];
+                var ms = new MemoryStream(bs);
+                image.SetSource(ms);
+                this.Image.Source = image;
+            }
+            if (State.ContainsKey("SendPage_position"))
+                this.position = State["SendPage_position"] as string;
+            if (State.ContainsKey("SendPage_currentPageType"))
+                this.currentPageType = (PageType)State["SendPage_currentPageType"];
+            if (State.ContainsKey("SendPage_text"))
+            {
+                text = State["SendPage_text"] as string;
+                this.Status.Text = text;
+            }
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.New)
             {
 
@@ -420,12 +453,12 @@ namespace FanfouWP
                     if (NavigationContext.QueryString.ContainsKey("FromTile"))
                     {
                         Dispatcher.BeginInvoke(() =>
-                            {
-                                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
-                                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
-                                (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
-                                (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
-                            });
+                        {
+                            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                            (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                            (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                            (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                        });
                         FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
                         FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
                         Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
@@ -437,15 +470,11 @@ namespace FanfouWP
                 if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Friend"))
                 {
                     reply_user = PhoneApplicationService.Current.State["SendPage_Friend"] as FanfouWP.API.Items.User;
-                    PhoneApplicationService.Current.State.Remove("SendPage_Friend");
-
                     this.currentPageType = PageType.ReplyWithoutStatus;
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        titleText.Text = "回复" + reply_user.screen_name;
-                    });
                 }
             }
+         
+            base.OnNavigatedTo(e);
         }
 
         void FanfouAPI_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)

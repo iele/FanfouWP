@@ -303,15 +303,8 @@ namespace FanfouWP
 
         private void ApplicationBarMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (FanfouAPI.CurrentUser != null)
-            {
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
-                {
-                    PhoneApplicationService.Current.State.Remove("UserPage");
-                }
-                PhoneApplicationService.Current.State.Add("UserPage", FanfouAPI.CurrentUser);
-                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
-            }
+            NavigationService.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+
         }
 
         private void ApplicationBarMenuItem_Click_2(object sender, EventArgs e)
@@ -321,6 +314,11 @@ namespace FanfouWP
         private void ApplicationBarMenuItem_Click_3(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
+        }
+
+        private void ApplicationBarMenuItem_Click_4(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
         }
 
         #region PeriodicTask
@@ -455,10 +453,6 @@ namespace FanfouWP
         }
         #endregion
 
-        private void ApplicationBarMenuItem_Click_4(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
-        }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

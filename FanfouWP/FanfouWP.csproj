@@ -201,6 +201,9 @@
     <Compile Include="FriendshipPage.xaml.cs">
       <DependentUpon>FriendshipPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelfPage.xaml.cs">
+      <DependentUpon>SelfPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPage2.xaml.cs">
       <DependentUpon>UserPage2.xaml</DependentUpon>
     </Compile>
@@ -319,6 +322,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FriendshipPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SelfPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -492,9 +499,7 @@
     </Content>
     <Resource Include="Assets\contact.png" />
     <Resource Include="Assets\email.png" />
-    <Resource Include="Assets\equaliser.png" />
     <Resource Include="Assets\folder-bookmarks.png" />
-    <Resource Include="Assets\gmail.png" />
     <Resource Include="Assets\search.png" />
     <Resource Include="Assets\spareparts.png" />
     <Resource Include="Assets\stocks.png" />

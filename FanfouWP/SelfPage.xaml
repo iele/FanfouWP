@@ -9,12 +9,12 @@
      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
-    x:Class="FanfouWP.UserPage"
+    x:Class="FanfouWP.SelfPage"
     mc:Ignorable="d"
     FontFamily="Portable User Interface"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Landscape"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
         <ResourceDictionary>
@@ -125,13 +125,10 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
-                <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
-            <shell:ApplicationBarIconButton x:Name="ReplayButton" Text="提及TA"  Click="ReplayButton_Click" IconUri="/Assets/AppBar/Redo.png" />
-        </shell:ApplicationBar>
+              </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
     <toolkit:TransitionService.NavigationInTransition>

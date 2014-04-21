@@ -199,6 +199,23 @@ namespace FanfouWP.Storage
                 is_setting_changed = true;
             }
         }
+
+        private bool _reverseContext;
+        public bool reverseContext
+        {
+            get
+            {
+                return _reverseContext;
+            }
+            set
+            {
+                _reverseContext = value;
+                settings["reverseContext"] = value;
+
+                is_setting_changed = true;
+            }
+        }
+
         public Boolean is_setting_changed { get; set; }
 
         private static readonly SettingManager instance = new SettingManager();
@@ -231,6 +248,7 @@ namespace FanfouWP.Storage
             settings["cacheSize"] = this.cacheSize;
             settings["backgroundFeq"] = this.backgroundFeq;
             settings["defaultCount"] = this.defaultCount;
+            settings["reverseContext"] = this.reverseContext;
 
 
             settings.Save();
@@ -238,7 +256,7 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount;
+            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount, reverseContext;
             if (settings.TryGetValue("defaultCount", out defaultCount) && defaultCount != null)
                 this.defaultCount = (int)defaultCount;
             else
@@ -250,7 +268,7 @@ namespace FanfouWP.Storage
             if (settings.TryGetValue("quit_confirm", out quit_confirm) && quit_confirm != null)
                 this.quit_confirm = (Boolean)quit_confirm;
             else
-                this.quit_confirm = true;
+                this.quit_confirm = false;
             if (settings.TryGetValue("username", out username) && username != null)
                 this.username = (string)username;
             else
@@ -288,6 +306,10 @@ namespace FanfouWP.Storage
                 this.backgroundFeq = (int)backgroundFeq;
             else
                 this.backgroundFeq = 0;
+            if (settings.TryGetValue("reverseContext", out reverseContext) && reverseContext != null)
+                this.reverseContext = (bool)reverseContext;
+            else
+                this.reverseContext = false;
         }
 
     }

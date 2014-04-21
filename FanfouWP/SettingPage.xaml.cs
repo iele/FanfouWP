@@ -43,6 +43,7 @@ namespace YueFM.Pages
                 this.QualityListPicker.SelectedIndex = settingManager.imageQuality;
                 this.CacheListPicker.SelectedIndex = settingManager.cacheSize;
                 this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq;
+                this.ContextCheckBox.IsChecked = settingManager.reverseContext;
                 this.CountListPicker.SelectedIndex = (settingManager.defaultCount - 20) / 10;
 
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
@@ -171,6 +172,12 @@ namespace YueFM.Pages
                 var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
                 await dataFolder.DeleteAsync();
          });
+        }
+
+        private void ContextCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            settingManager.reverseContext = this.ContextCheckBox.IsChecked.HasValue ? this.ContextCheckBox.IsChecked.Value : false;
+   
         }
 
 

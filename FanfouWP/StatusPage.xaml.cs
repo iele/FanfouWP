@@ -17,6 +17,7 @@ using FanfouWP.API.Items;
 using Microsoft.Phone.Tasks;
 using FanfouWP.ItemControls;
 using Coding4Fun.Toolkit.Controls;
+using FanfouWP.Storage;
 
 namespace FanfouWP
 {
@@ -39,7 +40,7 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FavoritesCreateFailed += Instance_FavoritesCreateFailed;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroySuccess += Instance_FavoritesDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.FavoritesDestroyFailed += Instance_FavoritesDestroyFailed;
-            
+
             FanfouWP.API.FanfouAPI.Instance.StatusDestroySuccess += Instance_StatusDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.StatusDestroyFailed += Instance_StatusDestroyFailed;
 
@@ -67,7 +68,7 @@ namespace FanfouWP
             if (State.ContainsKey("StatusPage_contextStatus"))
             {
                 this.contextStatus = State["StatusPage_contextStatus"];
-                
+
             }
             base.OnNavigatedTo(e);
         }
@@ -75,7 +76,7 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                foreach (var item in e.UserStatus)
+                foreach (var item in SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus)
                 {
                     var sic = new StatusItemControl();
                     sic.Tap += sic_Tap;
@@ -161,7 +162,7 @@ namespace FanfouWP
                     {
                         Dispatcher.BeginInvoke(() =>
                         {
-                            foreach (var item in contextStatus)
+                            foreach (var item in SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus)
                             {
                                 var sic = new StatusItemControl();
                                 sic.Tap += sic_Tap;
@@ -466,7 +467,7 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IsEnabled = false;
             });
-     
+
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏取消失败:( " + e.error.error); });
         }
 
@@ -499,7 +500,7 @@ namespace FanfouWP
                 ApplicationBarIconButton FavButton = ApplicationBar.Buttons[2] as ApplicationBarIconButton;
                 FavButton.IsEnabled = false;
             });
-           Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建失败:( " + e.error.error); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建失败:( " + e.error.error); });
         }
 
         void Instance_FavoritesCreateSuccess(object sender, EventArgs e)
@@ -512,7 +513,7 @@ namespace FanfouWP
                 NewAppBar();
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-    
+
             Dispatcher.BeginInvoke(() => { toast.NewToast("收藏创建成功:)"); });
 
             if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))

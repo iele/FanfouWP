@@ -1,6 +1,7 @@
 ﻿using FanfouWP.Storage;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,6 +56,7 @@ namespace FanfouWP
                 State["UserPage2_friends"] = this.friends;
                 State["UserPage2_follows"] = this.follows;
                 State["UserPage2_fav"] = this.fav;
+                State["UserPage2_index"] = this.pivot.SelectedIndex;
             }
 
             base.OnNavigatedFrom(e);
@@ -67,8 +69,8 @@ namespace FanfouWP
             }
             if (State.ContainsKey("UserPage2_status"))
             {
-                 this.status = State["UserPage2_status"] as  ObservableCollection<FanfouWP.API.Items.Status> ;
-       ;
+                this.status = State["UserPage2_status"] as ObservableCollection<FanfouWP.API.Items.Status>;
+                ;
                 if (status == null || status.Count == 0)
                     this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
                 else
@@ -77,25 +79,28 @@ namespace FanfouWP
             }
             if (State.ContainsKey("UserPage2_tag"))
             {
-                State["UserPage2_tag"] = this.tag;
+                this.tag = State["UserPage2_tag"];
                 this.tags.ItemsSource = tag;
             }
             if (State.ContainsKey("UserPage2_friends"))
             {
-                State["UserPage2_friends"] = this.friends;
+                this.friends = State["UserPage2_friends"];
                 this.FriendsListBox.ItemsSource = friends;
             }
             if (State.ContainsKey("UserPage2_follows"))
             {
-                State["UserPage2_follows"] = this.follows;
+                this.follows = State["UserPage2_follows"];
                 this.FollowersListBox.ItemsSource = follows;
             }
             if (State.ContainsKey("UserPage2_fav"))
             {
-                State["UserPage2_fav"] = this.fav;
+                this.fav = State["UserPage2_fav"];
                 this.FavListBox.ItemsSource = fav;
             }
-
+            if (State.ContainsKey("UserPage2_index"))
+            {
+                this.pivot.SelectedIndex = (int)State["UserPage2_index"];
+            }
             base.OnNavigatedTo(e);
         }
 
@@ -430,6 +435,13 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
             checkMenu();
+        }
+
+        private void UrlText_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri(user.url);
+            wbt.Show();
         }
 
     }
