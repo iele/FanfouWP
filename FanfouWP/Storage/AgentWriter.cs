@@ -25,7 +25,7 @@ namespace FanfouWP.Storage
                 using (IsolatedStorageFileStream writeStream = new IsolatedStorageFileStream("agent.txt", System.IO.FileMode.CreateNew, FileAccess.Write, isf))
                 {
                     {
-                        var s = username + "\n" + password + "\n" + oauthToken + "\n" + oauthSecret + "\n" + freq.ToString();
+                        var s = username + "\n" + password + "\n" + oauthToken + "\n" + oauthSecret + "\n" + freq;
                         StreamWriter sw = new StreamWriter(writeStream, Encoding.Unicode);
                         sw.Write(s);
                         sw.Flush();

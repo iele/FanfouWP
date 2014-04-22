@@ -88,6 +88,7 @@
     <Compile Include="Agent\FanfouConsts.cs" />
     <Compile Include="Agent\Item.cs" />
     <Compile Include="Agent\Status.cs" />
+    <Compile Include="Agent\TaskStorage.cs" />
     <Compile Include="Agent\User.cs" />
     <Compile Include="ScheduledAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -28,7 +28,7 @@ namespace FanfouWPTaskAgent.Agent
                             ss[1] = sr.ReadLine();
                             ss[2] = sr.ReadLine();
                             ss[3] = sr.ReadLine();
-                            ss[5] = sr.ReadLine();
+                            ss[4] = sr.ReadLine();
                             return ss;
                         }
                     }

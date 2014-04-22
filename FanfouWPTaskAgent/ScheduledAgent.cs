@@ -19,7 +19,7 @@ namespace FanfouWPTaskAgent
 
         private Item notification;
 
-        private int count = 0;
+        private int count;
         static ScheduledAgent()
         {
             Deployment.Current.Dispatcher.BeginInvoke(delegate
@@ -84,66 +84,76 @@ namespace FanfouWPTaskAgent
             };
             restRequest.AddParameter("count", "1");
             ObservableCollection<Status> status = null;
-            client.BeginRequest(restRequest, (request, response, userstate) =>
+            try
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                client.BeginRequest(restRequest, (request, response, userstate) =>
                 {
-                    status = new ObservableCollection<Status>();
-                    var ds = new DataContractJsonSerializer(i.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    status = ds.ReadObject(ms) as ObservableCollection<Status>;
-                    ms.Close();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        status = new ObservableCollection<Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Status>;
+                        ms.Close();
 
-                    if (status != null)
+                        if (status != null)
+                        {
+                            ShellToast st = new ShellToast();
+                            st.Title = "饭窗";
+                            st.Content = i.mentions.ToString() + "新提及 " + status[0].text;
+                            st.Show();
+
+                            foreach (var item in ShellTile.ActiveTiles)
+                            {
+                                var data = new IconicTileData();
+                                data.Title = "饭窗";
+                                data.WideContent1 = "您有" + i.mentions + "条提及 ";
+                                data.WideContent2 = status[0].user.screen_name;
+                                data.WideContent3 = status[0].text;
+                                data.Count = i.mentions + i.direct_messages + i.friend_requests > 99 ? 99 : i.mentions + i.direct_messages + i.friend_requests;
+                                item.Update(data);
+                            }
+                        }
+                        NotifyComplete();
+                    }
+                    else
                     {
                         ShellToast st = new ShellToast();
-                        st.Title = "饭窗";
-                        st.Content = i.mentions.ToString() + "新提及 " + status[0].text;
+                        st.Title = "饭窗通知";
+                        st.Content = "你有" + i.mentions.ToString() + "新提及";
                         st.Show();
 
                         foreach (var item in ShellTile.ActiveTiles)
                         {
                             var data = new IconicTileData();
                             data.Title = "饭窗";
-                            data.WideContent1 = "您有" + i.mentions + "条提及 ";
-                            data.WideContent2 = status[0].user.screen_name;
-                            data.WideContent3 = status[0].text;
-                            data.Count = i.mentions + i.direct_messages > 99 ? 99 : i.mentions;
+                            data.WideContent1 = "新消息提醒";
+                            data.WideContent2 = "您有" + i.mentions + "条提及";
+                            data.WideContent3 = i.direct_messages + "条新私信 " + i.friend_requests + "条好友请求";
+                            data.Count = i.mentions + i.direct_messages + i.friend_requests > 99 ? 99 : i.mentions + i.direct_messages + i.friend_requests;
                             item.Update(data);
                         }
-                    }
-                    NotifyComplete();
-                    return;
-                }
-                else
-                {
-                    ShellToast st = new ShellToast();
-                    st.Title = "饭窗通知";
-                    st.Content = "你有" + i.mentions.ToString() + "新提及";
-                    st.Show();
 
-                    foreach (var item in ShellTile.ActiveTiles)
-                    {
-                        var data = new IconicTileData();
-                        data.Title = "饭窗";
-                        data.WideContent1 = "新消息提醒";
-                        data.WideContent2 = "您有" + i.mentions + "条提及";
-                        data.WideContent3 = i.direct_messages + "条新私信 " + i.friend_requests + "条好友请求";
-                        data.Count = i.mentions + i.direct_messages > 99 ? 99 : i.mentions;
-                        item.Update(data);
+                        NotifyComplete();
                     }
-                    NotifyComplete();
-                    return;
-                }
-            });
+                });
+            }
+            catch (Exception)
+            {
+
+                NotifyComplete();
+            }
         }
-
-
 
 
         protected override void OnInvoke(ScheduledTask task)
         {
+            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
+
             s = AgentReader.ReadAgentParameter();
+            count=int.Parse(s[4]);
+
+            var freq = 0;
 
             if (s.Length != 5)
             {
@@ -151,16 +161,32 @@ namespace FanfouWPTaskAgent
                 return;
             }
 
-            if (int.Parse(s[5]) == 3)
+            try
             {
+                var ss = TaskStorage.ReadAgentParameter();
+                freq = int.Parse(ss[0]);
+                notification = new Item();
+                notification.mentions = int.Parse(ss[1]);
+                notification.direct_messages = int.Parse(ss[2]);
+                notification.friend_requests = int.Parse(ss[3]);       
+            }
+            catch (Exception)
+            {
+                notification = new Item();
+                freq = 0;
+                notification.mentions = 0;
+                notification.friend_requests = 0;
+                notification.direct_messages = 0;
+            }
+
+            if (freq % (count + 1) != 0)
+            {
+                TaskStorage.WriteAgentParameter(freq++, notification.mentions, notification.direct_messages, notification.friend_requests);
                 NotifyComplete();
                 return;
             }
-
-            if (count % int.Parse(s[5]) != 0)
-            {
-                NotifyComplete();
-                return;
+            else {
+                freq = 0;
             }
 
             var client = new Hammock.RestClient
@@ -187,36 +213,47 @@ namespace FanfouWPTaskAgent
                 Path = FanfouConsts.ACCOUNT_NOTIFICATION,
                 Method = Hammock.Web.WebMethod.Get
             };
-
-            client.BeginRequest(restRequest, (request, response, userstate) =>
+            try
             {
-                if (response.StatusCode == HttpStatusCode.OK)
+                client.BeginRequest(restRequest, (request, response, userstate) =>
                 {
-                    Item i = new Item();
-                    var ds = new DataContractJsonSerializer(i.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                    i = ds.ReadObject(ms) as Item;
-                    ms.Close();
-
-                    if (i.mentions == 0 && i.friend_requests == 0 && i.direct_messages == 0)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        NotifyComplete();
-                        return;
-                    }
+                        Item i = new Item();
+                        var ds = new DataContractJsonSerializer(i.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        i = ds.ReadObject(ms) as Item;
+                        ms.Close();
 
-                    if (notification != null)
-                    {
-                        if (this.notification.direct_messages == i.direct_messages && this.notification.friend_requests == i.friend_requests && this.notification.mentions == i.mentions)
+                        TaskStorage.WriteAgentParameter(freq, i.mentions, i.direct_messages, i.friend_requests);
+
+                        if (i.mentions == 0 && i.friend_requests == 0 && i.direct_messages == 0)
                         {
                             NotifyComplete();
                             return;
                         }
-                    }
 
-                    this.notification = i;
-                    getMetions(i);
-                }
-            });
+                        if (notification != null)
+                        {
+                            if (this.notification.direct_messages == i.direct_messages && this.notification.friend_requests == i.friend_requests && this.notification.mentions == i.mentions)
+                            {
+                                NotifyComplete();
+                                return;
+                            }
+                        }
+
+                        this.notification = i;
+                        getMetions(i);
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+            }
         }
     }
 }

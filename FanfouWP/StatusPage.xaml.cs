@@ -77,6 +77,7 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
+                this.contextStatus = e.UserStatus;
                 var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
                 foreach (var item in c)
                 {
@@ -112,8 +113,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("消息上下文获取失败:)" + e.error.error); });
-        }
+       }
 
         void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
