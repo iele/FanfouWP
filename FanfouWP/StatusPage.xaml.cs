@@ -18,13 +18,14 @@ using Microsoft.Phone.Tasks;
 using FanfouWP.ItemControls;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.Storage;
+using System.Collections.ObjectModel;
 
 namespace FanfouWP
 {
     public partial class StatusPage : PhoneApplicationPage
     {
         private FanfouWP.API.Items.Status status;
-        private dynamic contextStatus;
+        private ObservableCollection<Status> contextStatus;
 
         private enum TextMode { Text, Url, At, Search };
         public StatusPage()
@@ -67,7 +68,7 @@ namespace FanfouWP
                 this.status = State["StatusPage_user"] as FanfouWP.API.Items.Status;
             if (State.ContainsKey("StatusPage_contextStatus"))
             {
-                this.contextStatus = State["StatusPage_contextStatus"];
+                this.contextStatus = State["StatusPage_contextStatus"] as  ObservableCollection<Status>;
 
             }
             base.OnNavigatedTo(e);
@@ -76,7 +77,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                foreach (var item in SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus)
+                var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
+                foreach (var item in c)
                 {
                     var sic = new StatusItemControl();
                     sic.Tap += sic_Tap;
@@ -162,7 +164,8 @@ namespace FanfouWP
                     {
                         Dispatcher.BeginInvoke(() =>
                         {
-                            foreach (var item in SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus)
+                            var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
+                            foreach (var item in c)
                             {
                                 var sic = new StatusItemControl();
                                 sic.Tap += sic_Tap;
