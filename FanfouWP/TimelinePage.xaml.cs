@@ -160,18 +160,9 @@ namespace FanfouWP
             {
                 (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
 
-                var count = 1;
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
-                    count = this.MentionTimeLineListBox.ItemsSource.Count;
-
                 this.MentionTimeLineListBox.HideRefreshPanel();
-//              this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
-
-//                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
-//                    this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[count - 1]);
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-
 
                 var item = ShellTile.ActiveTiles.First();
                 var data = new IconicTileData();
@@ -192,15 +183,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
-                var count = 1;
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
-                    count = this.HomeTimeLineListBox.ItemsSource.Count;
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
- //               this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
-
- //               if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
- //                   this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[count - 1]);
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
@@ -209,6 +193,8 @@ namespace FanfouWP
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
+            this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
+            this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -243,8 +229,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
 
-            FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
-            FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
         }
 
         private void NewButton_Click(object sender, EventArgs e)
@@ -271,13 +257,13 @@ namespace FanfouWP
         private void HomeTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
         }
 
         private void MentionTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
         }
 
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
@@ -286,7 +272,7 @@ namespace FanfouWP
             {
 
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back);
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back));
                 Dispatcher.BeginInvoke(() => { toast.NewToast("正在获取"); });
             }
         }
@@ -399,17 +385,17 @@ namespace FanfouWP
                     {
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                     }
-                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                     }
-                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
                 }
                 else
                 {
-                    FanfouAPI.StatusHomeTimeline(setting.defaultCount);
-                    FanfouAPI.StatusMentionTimeline(setting.defaultCount);
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
                 }
             }
             else
@@ -421,7 +407,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.TitleControl.DataContext = FanfouAPI.CurrentUser;
-                Toolbox.DataContext = FanfouAPI.CurrentUser;               
+                Toolbox.DataContext = FanfouAPI.CurrentUser;
             });
             FanfouAPI.AccountNotification();
 
@@ -458,6 +444,16 @@ namespace FanfouWP
                 this.Toolbox.GroupTileAnimationEnable(true);
             else
                 this.Toolbox.GroupTileAnimationEnable(false);
+        }
+
+        private void HomeTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, "0");
+        }
+
+        private void MentionTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, "0");
         }
     }
 }

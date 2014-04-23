@@ -415,11 +415,11 @@ namespace FanfouWP
             }
             if (this.status.user.id == FanfouWP.API.FanfouAPI.Instance.CurrentUser.id)
             {
-                (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = true;
+                (this.ApplicationBar.MenuItems[1] as ApplicationBarMenuItem).IsEnabled = true;
             }
             else
             {
-                (this.ApplicationBar.MenuItems[0] as ApplicationBarMenuItem).IsEnabled = false;
+                (this.ApplicationBar.MenuItems[1] as ApplicationBarMenuItem).IsEnabled = false;
             }
         }
 
@@ -537,7 +537,7 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
         }
 
-        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        private void ApplicationBarMenuItem_Click_2(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -604,6 +604,13 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Add("UserPage", sender as FanfouWP.API.Items.User);
                 NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             });
+
+        }
+
+        private void ApplicationBarMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Clipboard.SetText(this.status.text);
+            Dispatcher.BeginInvoke(() => { toast.NewToast("该消息已复制到剪贴板:)" ); });
 
         }
 

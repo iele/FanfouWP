@@ -39,7 +39,8 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="复制到剪贴板" Click="ApplicationBarMenuItem_Click_1"/>
+            <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click_2"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="UserButton" Click="UserButton_Click"  IconUri="/Assets/AppBar/Align-center.png" Text="个人资料" />
             <shell:ApplicationBarIconButton x:Name="ResendButton" Click="ResendButton_Click"  IconUri="/Assets/AppBar/Rotate.png"  Text="转发" />
