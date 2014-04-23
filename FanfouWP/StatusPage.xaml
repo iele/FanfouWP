@@ -11,7 +11,7 @@
     xmlns:NokiaMapSDK="clr-namespace:NokiaMapSDK;assembly=NokiaMapSDK"
      xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     x:Class="FanfouWP.StatusPage"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >

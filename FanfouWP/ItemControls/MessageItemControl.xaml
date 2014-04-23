@@ -39,6 +39,7 @@
 		</Grid.ColumnDefinitions>
 
         <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" Margin="10,10,0,0" Source="{Binding sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" />
+        <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" Margin="10,10,0,0" Canvas.ZIndex="-1" Source="/Assets/00.jpg" />
 
         <edc:Callout AnchorPoint="0.019,-0.117" Fill="#FFEDEDED" FontSize="21.333" Margin="10,74,0,0" VerticalAlignment="Top" Grid.Column="1" Padding="10" StrokeThickness="0" HorizontalContentAlignment="Stretch" Style="{StaticResource CalloutStyle}">
         	<StackPanel Orientation="Vertical" HorizontalAlignment="Left">

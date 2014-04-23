@@ -165,10 +165,10 @@ namespace FanfouWP
                     count = this.MentionTimeLineListBox.ItemsSource.Count;
 
                 this.MentionTimeLineListBox.HideRefreshPanel();
-                this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+//              this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
 
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
-                    this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[count - 1]);
+//                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
+//                    this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[count - 1]);
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
 
@@ -197,10 +197,10 @@ namespace FanfouWP
                     count = this.HomeTimeLineListBox.ItemsSource.Count;
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
-                this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
+ //               this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
 
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
-                    this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[count - 1]);
+ //               if (e.RefreshMode == API.FanfouAPI.RefreshMode.Back)
+ //                   this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[count - 1]);
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
@@ -421,10 +421,7 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.TitleControl.DataContext = FanfouAPI.CurrentUser;
-                Toolbox.DataContext = FanfouAPI.CurrentUser;
-
-                this.AvatarImage.Tap += AvatarImage_Tap;
-                this.FanfouImage.Tap += FanfouImage_Tap;
+                Toolbox.DataContext = FanfouAPI.CurrentUser;               
             });
             FanfouAPI.AccountNotification();
 

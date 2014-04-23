@@ -78,7 +78,7 @@ namespace YueFM.Pages
             Dispatcher.BeginInvoke(
             async () =>
             {
-                var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser, CreationCollisionOption.OpenIfExists);
                 await dataFolder.DeleteAsync();
 
                 NavigationService.RemoveBackEntry();

@@ -75,6 +75,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
     </phone:PhoneApplicationPage.Resources>
 
     <phone:PhoneApplicationPage.FontSize>
@@ -139,15 +140,14 @@
                     <GradientStop Color="White" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <StackPanel x:Name="FanfouImage" Margin="282,12,18,60" Orientation="Vertical">
-                <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="48" Width="180" Source="/Assets/fanfou_beta.png"/>
+            <StackPanel x:Name="FanfouImage" Margin="282,12,18,0" Height="42" Orientation="Vertical" VerticalAlignment="Top" Background="#00000000" Tap="FanfouImage_Tap">
+                <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="42" Width="180" Source="/Assets/fanfou_beta.png"/>
             </StackPanel>
-            <StackPanel x:Name="AvatarImage" Margin="17,12" 
-                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                        Orientation="Vertical">
-                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true"/>
-            </StackPanel>
-            <TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="70,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="207" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
+            <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
+            	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true" />
+            	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" utils:TiltEffect.IsTiltEnabled="true" Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
+            	<TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="207" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
+            </Grid>
         </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
             <phone:Pivot.HeaderTemplate>
