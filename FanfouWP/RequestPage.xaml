@@ -56,7 +56,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
             <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
         </shell:ApplicationBar>
@@ -82,6 +82,7 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 
 </phone:PhoneApplicationPage>

@@ -88,7 +88,7 @@
         <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
     </phone:PhoneApplicationPage.FontFamily>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="个人资料" Click="ApplicationBarMenuItem_Click_1"/>
                 <shell:ApplicationBarMenuItem Text="好友请求" Click="ApplicationBarMenuItem_Click_4"/>
@@ -101,6 +101,7 @@
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
+
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -122,7 +123,9 @@
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
 
-    <Grid x:Name="LayoutRoot" Background="WhiteSmoke">
+
+
+    <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <ResourceDictionary>
                 <converter:CountToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="CountToVisibilityConverter" />

@@ -113,7 +113,7 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="135" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="165" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
@@ -123,7 +123,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" ForegroundColor="White" BackgroundColor="#FF72CBE1">
+        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" ForegroundColor="Black" BackgroundColor="#ffe7e7e7">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
                 <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />
@@ -154,4 +154,5 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 </phone:PhoneApplicationPage>

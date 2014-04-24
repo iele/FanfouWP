@@ -113,7 +113,7 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="135" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="165" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
@@ -123,14 +123,13 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
               </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -151,4 +150,5 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 </phone:PhoneApplicationPage>

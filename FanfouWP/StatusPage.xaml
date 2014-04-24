@@ -37,7 +37,7 @@
     </phone:PhoneApplicationPage.Foreground>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="复制到剪贴板" Click="ApplicationBarMenuItem_Click_1"/>
             <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click_2"/>

@@ -54,7 +54,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -78,6 +78,7 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 
 </phone:PhoneApplicationPage>

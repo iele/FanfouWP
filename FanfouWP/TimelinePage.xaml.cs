@@ -143,6 +143,9 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                     (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
 
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New)
+                    this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                
                 this.MentionTimeLineListBox.HideRefreshPanel();
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
@@ -167,6 +170,9 @@ namespace FanfouWP
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                     (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
+
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New)
+                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
 
@@ -368,11 +374,13 @@ namespace FanfouWP
                     if (FanfouAPI.HomeTimeLineStatus.Count != 0)
                     {
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
+                        this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
                     }
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
+                        this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
                     }
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
                 }
@@ -388,6 +396,7 @@ namespace FanfouWP
                 this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
                 this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
             }
+
             Dispatcher.BeginInvoke(() =>
             {
                 this.TitleControl.DataContext = FanfouAPI.CurrentUser;

@@ -55,7 +55,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
 
             <shell:ApplicationBarIconButton x:Name="ClickButton" Click="ClickButton_Click" IconUri="/Assets/AppBar/add.png" Text="登录" />
 
@@ -81,6 +81,7 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 
 </phone:PhoneApplicationPage>

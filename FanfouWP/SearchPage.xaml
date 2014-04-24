@@ -92,7 +92,7 @@
         </phone:Pivot>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -117,6 +117,7 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 
 </phone:PhoneApplicationPage>

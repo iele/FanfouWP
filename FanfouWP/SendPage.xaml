@@ -29,7 +29,7 @@
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <Grid Margin="0" Background="#FF72CBE1" VerticalAlignment="Top" >
-            <TextBlock HorizontalAlignment="Left" Margin="12,12,0,12" TextWrapping="Wrap" FontSize="24" x:Name="titleText"/>
+            <TextBlock HorizontalAlignment="Left" Margin="12,12,0,12" TextWrapping="Wrap" FontSize="24" x:Name="titleText" Foreground="#DEFFFFFF"/>
             <TextBlock HorizontalAlignment="Right" Margin="10,12,22,12" TextWrapping="Wrap" Text="{Binding Text, Converter={StaticResource TextToLeftCountTextConverter}, ElementName=Status}" FontSize="24" Width="85" Foreground="#FF767676"/>
         </Grid>
         <StackPanel Margin="0,60,0,0" Orientation="Vertical">
@@ -43,7 +43,7 @@
 
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/Send-message.png" Text="发送" />
             <shell:ApplicationBarIconButton x:Name="PictureButton" Click="PictureButton_Click"  IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/Clipboard.png" Text="话题" />
@@ -74,5 +74,6 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
+
 
 </phone:PhoneApplicationPage>
