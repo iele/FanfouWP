@@ -32,12 +32,12 @@
         	<StackPanel.Background>
         		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
         			<GradientStop Color="#FF72CBE1" Offset="0"/>
-        			<GradientStop Color="White" Offset="1"/>
+        			<GradientStop Color="#FF72CBE1" Offset="1"/>
         		</LinearGradientBrush>
         	</StackPanel.Background>
         	<StackPanel x:Name="TitlePanel" Height="116" Margin="12,17,0,28">
-        		<TextBlock x:Name="title" Text="我的朋友" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-        		<TextBlock x:Name="page" Text="第1页" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        		<TextBlock x:Name="title" Text="我的朋友" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" Foreground="#DEFFFFFF"/>
+        		<TextBlock x:Name="page" Text="第1页" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
         	</StackPanel>
         </StackPanel>
         <!--TitlePanel 包含应用程序的名称和页标题-->
@@ -55,7 +55,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
             <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
             <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
         </shell:ApplicationBar>

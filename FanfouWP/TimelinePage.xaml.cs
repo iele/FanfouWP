@@ -64,24 +64,6 @@ namespace FanfouWP
             FanfouAPI.AccountNotificationFailed += FanfouAPI_AccountNotificationFailed;
         }
 
-        void FanfouImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            switch (Pivot.SelectedIndex)
-            {
-                case 0:
-                    if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
-                        this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
-                    break;
-                case 1:
-                    if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
-                        this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
-                    break;
-                default:
-                    break;
-
-            }
-        }
-
         void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (FanfouAPI.CurrentUser != null)
@@ -158,7 +140,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
+                    (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
 
                 this.MentionTimeLineListBox.HideRefreshPanel();
 
@@ -182,7 +165,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() =>
             {
-                (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
+                    (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
 
@@ -273,7 +257,7 @@ namespace FanfouWP
 
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back));
-                Dispatcher.BeginInvoke(() => { toast.NewToast("正在获取"); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("正在回溯时间线"); });
             }
         }
 
@@ -283,7 +267,7 @@ namespace FanfouWP
             {
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back);
-                Dispatcher.BeginInvoke(() => { toast.NewToast("正在获取"); });
+                Dispatcher.BeginInvoke(() => { toast.NewToast("正在回溯时间线"); });
             }
         }
 
@@ -454,6 +438,24 @@ namespace FanfouWP
         private void MentionTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, "0");
+        }
+
+        private void FanfouImage_Click(object sender, RoutedEventArgs e)
+        {
+            switch (Pivot.SelectedIndex)
+            {
+                case 0:
+                    if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                        this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
+                    break;
+                case 1:
+                    if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                        this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
+                    break;
+                default:
+                    break;
+
+            }
         }
     }
 }

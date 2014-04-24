@@ -32,8 +32,8 @@
         <coding:ProgressOverlay Visibility="Collapsed" x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
-            <phone:PivotItem Header="资料" Margin="12,28,12,0">
+        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">
+            <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
                 <ScrollViewer Margin="0">
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
@@ -63,17 +63,17 @@
                 </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="160" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="135" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF72CBE1" Offset="1"/>
                     <GradientStop Color="#FF72CBE1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />            
             </shell:ApplicationBar.MenuItems>

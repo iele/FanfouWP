@@ -31,7 +31,7 @@
         </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical" Background="#FF72CBE1">
             <StackPanel Height="27" Margin="12,17,0,12">
-                <TextBlock Text="" x:Name="title"  Style="{StaticResource PhoneTextNormalStyle}" FontFamily="Portable User Interface"/>
+                <TextBlock Text="" x:Name="title"  Style="{StaticResource PhoneTextNormalStyle}" FontFamily="Portable User Interface" Foreground="#DEFFFFFF"/>
             </StackPanel>
 
         </StackPanel>
@@ -53,13 +53,13 @@
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>
-            <Grid VerticalAlignment="Bottom" Background="#FFF7F7F7" Canvas.ZIndex="1" Grid.Row="1">
+            <Grid VerticalAlignment="Bottom" Background="#FF72CBE1" Canvas.ZIndex="1" Grid.Row="1">
             	<Grid.ColumnDefinitions>
             		<ColumnDefinition/>
             		<ColumnDefinition Width="Auto"/>
             	</Grid.ColumnDefinitions>
-            	<TextBox x:Name="message" TextWrapping="Wrap" Grid.ColumnSpan="1" FontFamily="Portable User Interface" Margin="5,5,0,5"/>
-            	<Button x:Name="send" Content="发送" Grid.Column="1" Margin="0,5,8,5" Click="send_Click"/>
+            	<TextBox x:Name="message" TextWrapping="Wrap" Grid.ColumnSpan="1" FontFamily="Portable User Interface" Margin="5,5,0,5" Foreground="#DE000000"/>
+            	<Button x:Name="send" Content="发送" Grid.Column="1" Margin="0,5,8,5" Click="send_Click" Foreground="#DEFFFFFF" BorderBrush="#DEFFFFFF"/>
             </Grid>
         </Grid>
     </Grid>

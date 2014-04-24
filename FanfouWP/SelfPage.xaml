@@ -32,8 +32,8 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}">
-            <phone:PivotItem Header="资料" Margin="12,28,12,0">
+        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">
+            <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
                 <ScrollViewer Margin="0">
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
@@ -76,7 +76,7 @@
                     </Grid>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Header="消息" Margin="0,28,0,0">
+            <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
                 <ListBox x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -85,7 +85,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Header="听众" Margin="0,28,0,0">
+            <phone:PivotItem Header="听众" Margin="0,28,0,0" Foreground="#DE000000">
                 <ListBox x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -94,7 +94,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Header="朋友" Margin="0,28,0,0">
+            <phone:PivotItem Header="朋友" Margin="0,28,0,0" Foreground="#DE000000">
                 <ListBox x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -103,7 +103,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </phone:PivotItem>
-            <phone:PivotItem Header="收藏" Margin="0,28,-7,0">
+            <phone:PivotItem Header="收藏" Margin="0,28,0,0" Foreground="#DE000000">
                 <ListBox x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -113,17 +113,17 @@
                 </ListBox>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="160" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="135" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF72CBE1" Offset="1"/>
                     <GradientStop Color="#FF72CBE1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
             </shell:ApplicationBar.MenuItems>

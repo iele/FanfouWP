@@ -24,15 +24,15 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1" Height="0">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <Rectangle Margin="0" Canvas.ZIndex="-1" Height="125" VerticalAlignment="Top">
+        <Rectangle Margin="0" Canvas.ZIndex="-1" Height="180" VerticalAlignment="Top">
         	<Rectangle.Fill>
         		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
         			<GradientStop Color="#FF72CBE1" Offset="0"/>
-        			<GradientStop Color="White" Offset="1"/>
+        			<GradientStop Color="#FF72CBE1" Offset="1"/>
         		</LinearGradientBrush>
         	</Rectangle.Fill>
         </Rectangle>
-        <phone:Pivot x:Name="Pivot" >
+        <phone:Pivot x:Name="Pivot" Foreground="#DEFFFFFF" >
             <phone:PivotItem Margin="0,28,0,0" >
                 <phone:PivotItem.Header>
                     <TextBlock Text="搜索时间线" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
@@ -43,8 +43,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0" VerticalAlignment="Top">
-                        <TextBlock x:Name="title" Text="搜索时间线 可用&quot;|&quot;分割多个关键字" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,0,12,56"/>
-                        <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,35,12,0"/>
+                        <TextBlock x:Name="title" Text="搜索时间线 可用&quot;|&quot;分割多个关键字" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,0,12,56" Foreground="#DEFFFFFF"/>
+                        <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,35,12,0" Foreground="#DE000000"/>
                     </Grid>
                     <!--TitlePanel 包含应用程序的名称和页标题-->
 
@@ -71,7 +71,7 @@
             			<RowDefinition Height="*"/>
             		</Grid.RowDefinitions>
             		<Grid Grid.Row="0" Margin="0">
-            			<TextBlock Text="根据用户名搜索用户" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,0,12,56"/>
+            			<TextBlock Text="根据用户名搜索用户" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,0,12,56" Foreground="#DEFFFFFF"/>
             			<TextBox x:Name="UserSearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,35,12,0"/>
             		</Grid>
             		<!--TitlePanel 包含应用程序的名称和页标题-->
@@ -92,7 +92,7 @@
         </phone:Pivot>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -88,7 +88,7 @@
         <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
     </phone:PhoneApplicationPage.FontFamily>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffcccccc" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#FF72CBE1" ForegroundColor="White">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="个人资料" Click="ApplicationBarMenuItem_Click_1"/>
                 <shell:ApplicationBarMenuItem Text="好友请求" Click="ApplicationBarMenuItem_Click_4"/>
@@ -122,7 +122,7 @@
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="WhiteSmoke">
         <Grid.Resources>
             <ResourceDictionary>
                 <converter:CountToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="CountToVisibilityConverter" />
@@ -137,16 +137,20 @@
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1"/>
-                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <StackPanel x:Name="FanfouImage" Margin="282,12,18,0" Height="42" Orientation="Vertical" VerticalAlignment="Top" Background="#00000000" Tap="FanfouImage_Tap">
-                <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="42" Width="180" Source="/Assets/fanfou_beta.png"/>
+            <StackPanel  Margin="282,12,18,0" Height="42" Orientation="Vertical" VerticalAlignment="Top" Background="#00000000" HorizontalAlignment="Right">
+                <coding:ImageTile Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Stretch" Height="42" Width="180" x:Name="FanfouImage" Click="FanfouImage_Click" IsFrozen="True">
+                	<coding:ImageTile.Background>
+                		<ImageBrush Stretch="Uniform" ImageSource="/Assets/fanfou_beta.png"/>
+                	</coding:ImageTile.Background>
+                </coding:ImageTile>
             </StackPanel>
             <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
             	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true" />
             	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" utils:TiltEffect.IsTiltEnabled="true" Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
-            	<TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" HorizontalAlignment="Left" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="207" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" />
+            	<TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
             </Grid>
         </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
@@ -154,7 +158,7 @@
                 <DataTemplate>
                     <Grid>
                         <TextBlock Text="{Binding Title}" FontSize="{StaticResource PhoneFontSizeExtraLarge}"
-       Foreground="Black"/>
+       Foreground="White"/>
                         <StackPanel Margin="0,0,-10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{StaticResource PhoneAccentBrush}" Height="24" Width="32" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}">
                             <TextBlock Text="{Binding Count}" FontSize="18" 
        Foreground="#ff111111" VerticalAlignment="Center" HorizontalAlignment="Center"/>

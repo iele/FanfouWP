@@ -814,36 +814,39 @@ namespace FanfouWP.API
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
                         {
                             int c = 0;
-                            switch (mode)
+                            if (status != null)
                             {
-                                case RefreshMode.New:
-                                case RefreshMode.Behind:
-                                    foreach (var i in status)
-                                    {
-                                        var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
-                                        if (ss.Count() == 0)
-                                            HomeTimeLineStatus.Insert(0, i);
-                                        else
+                                switch (mode)
+                                {
+                                    case RefreshMode.New:
+                                    case RefreshMode.Behind:
+                                        foreach (var i in status.Reverse())
                                         {
-                                            c++;
+                                            var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                HomeTimeLineStatus.Insert(0, i);
+                                            else
+                                            {
+                                                c++;
+                                            }
                                         }
-                                    }
 
-                                    break;
-                                case RefreshMode.Back:
-                                    foreach (var i in status)
-                                    {
-                                        var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
-                                        if (ss.Count() == 0)
-                                            HomeTimeLineStatus.Add(i);
-                                        else
+                                        break;
+                                    case RefreshMode.Back:
+                                        foreach (var i in status)
                                         {
-                                            c++;
+                                            var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                HomeTimeLineStatus.Add(i);
+                                            else
+                                            {
+                                                c++;
+                                            }
                                         }
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             HomeTimeLineStatusCount = status.Count - c;
                             HomeTimeLineStatusChanged();
@@ -906,28 +909,31 @@ namespace FanfouWP.API
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
                         {
                             var l = new ObservableCollection<Items.Status>();
-                            switch (mode)
+                            if (status != null)
                             {
-                                case RefreshMode.New:
-                                case RefreshMode.Behind:
-                                    foreach (var i in status)
-                                    {
-                                        var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
-                                        if (ss.Count() == 0)
-                                            PublicTimeLineStatus.Insert(0, i);
-                                    }
+                                switch (mode)
+                                {
+                                    case RefreshMode.New:
+                                    case RefreshMode.Behind:
+                                        foreach (var i in status != null ? status.Reverse() : status)
+                                        {
+                                            var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                PublicTimeLineStatus.Insert(0, i);
+                                        }
 
-                                    break;
-                                case RefreshMode.Back:
-                                    foreach (var i in status)
-                                    {
-                                        var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
-                                        if (ss.Count() == 0)
-                                            PublicTimeLineStatus.Add(i);
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    case RefreshMode.Back:
+                                        foreach (var i in status)
+                                        {
+                                            var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                PublicTimeLineStatus.Add(i);
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             PublicTimeLineStatusChanged();
                             ModeEventArgs e = new ModeEventArgs(mode);
@@ -989,36 +995,39 @@ namespace FanfouWP.API
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
                        {
                            int c = 0;
-                           switch (mode)
+                           if (status != null)
                            {
-                               case RefreshMode.New:
-                               case RefreshMode.Behind:
-                                   foreach (var i in status)
-                                   {
-                                       var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
-                                       if (ss.Count() == 0)
-                                           MentionTimeLineStatus.Insert(0, i);
-                                       else
+                               switch (mode)
+                               {
+                                   case RefreshMode.New:
+                                   case RefreshMode.Behind:
+                                       foreach (var i in status != null ? status.Reverse() : status)
                                        {
-                                           c++;
+                                           var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
+                                           if (ss.Count() == 0)
+                                               MentionTimeLineStatus.Insert(0, i);
+                                           else
+                                           {
+                                               c++;
+                                           }
                                        }
-                                   }
 
-                                   break;
-                               case RefreshMode.Back:
-                                   foreach (var i in status)
-                                   {
-                                       var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
-                                       if (ss.Count() == 0)
-                                           MentionTimeLineStatus.Add(i);
-                                       else
+                                       break;
+                                   case RefreshMode.Back:
+                                       foreach (var i in status)
                                        {
-                                           c++;
+                                           var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
+                                           if (ss.Count() == 0)
+                                               MentionTimeLineStatus.Add(i);
+                                           else
+                                           {
+                                               c++;
+                                           }
                                        }
-                                   }
-                                   break;
-                               default:
-                                   break;
+                                       break;
+                                   default:
+                                       break;
+                               }
                            }
                            MentionTimeLineStatusCount = status.Count - c;
                            MentionTimeLineStatusChanged();
