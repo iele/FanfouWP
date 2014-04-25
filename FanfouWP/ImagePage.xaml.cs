@@ -87,20 +87,19 @@ namespace FanfouWP
         private void SaveButton_Click(object sender, EventArgs e)
         {
             (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
-            string fileName = "save-image.jpg";
-            var myStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (myStore.FileExists(fileName))
-                myStore.DeleteFile(fileName);
-            IsolatedStorageFileStream myFileStream = myStore.CreateFile(fileName);
-
+            var ms = new MemoryStream();
             var source = image.Source;
             var bitmap = new WriteableBitmap((BitmapImage)source);
-
-            bitmap.SaveJpeg(myFileStream, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
-            myFileStream.Close();
-            myFileStream = myStore.OpenFile(fileName, FileMode.Open, FileAccess.Read);
+            bitmap.SaveJpeg(ms, bitmap.PixelWidth, bitmap.PixelHeight, 0, 85);
+            ms.Seek(0, SeekOrigin.Begin);
             MediaLibrary library = new MediaLibrary();
-            Picture pic = library.SavePicture("FanfouSavedPicture-" + status.id + ".jpg", myFileStream);
+            Picture pic = library.SavePicture("FanfouSavedPicture-" + status.id + ".jpg", ms);
+            (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            Dispatcher.BeginInvoke(() => this.toast.NewToast("图片已保存:)"));
+        }
+
+        private void image_ImageOpened(object sender, RoutedEventArgs e)
+        {
             (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
         }
 

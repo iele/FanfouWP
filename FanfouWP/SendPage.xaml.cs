@@ -264,6 +264,7 @@ namespace FanfouWP
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            this.Focus();
             if (image != null)
             {
                 Dispatcher.BeginInvoke(() =>
@@ -272,7 +273,7 @@ namespace FanfouWP
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
                     (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
-                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;                    
                 });
 
                 FanfouAPI.PhotoUpload(this.Status.Text, image, position);

@@ -78,9 +78,13 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(
             async () =>
             {
-                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser, CreationCollisionOption.OpenIfExists);
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
+                foreach (var item in await dataFolder.GetFilesAsync())
+                    await item.DeleteAsync();
                 await dataFolder.DeleteAsync();
 
+                FanfouWP.API.FanfouAPI.Instance.ResetManager();
+               
                 NavigationService.RemoveBackEntry();
                 NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
             });
@@ -169,15 +173,16 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(
             async () =>
             {
-                var dataFolder = await localFolder.CreateFolderAsync("storage", CreationCollisionOption.OpenIfExists);
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
+
                 await dataFolder.DeleteAsync();
-         });
+            });
         }
 
         private void ContextCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             settingManager.reverseContext = this.ContextCheckBox.IsChecked.HasValue ? this.ContextCheckBox.IsChecked.Value : false;
-   
+
         }
 
 

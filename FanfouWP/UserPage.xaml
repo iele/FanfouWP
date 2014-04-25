@@ -53,7 +53,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                             <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,0,0,6"/>
-                            <TextBlock TextWrapping="Wrap" Text="{Binding url}" VerticalAlignment="Top" Padding="0,6,0,6" x:Name="UrlText" Tap="UrlText_Tap"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding url}" VerticalAlignment="Top" Padding="0,6,0,6" x:Name="UrlText" Tap="UrlText_Tap" Margin="0,3"/>
                             <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_1" utils:TiltEffect.IsTiltEnabled="True" >
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
                                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>

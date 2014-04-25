@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"   xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"  
+      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
+    xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -24,7 +26,10 @@
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Gray">
-        <Image x:Name="image" Margin="0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" CacheMode="BitmapCache" >
+        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
+            <usercontrols:ToastControl x:Name="toast"/>
+        </coding:ProgressOverlay>
+        <Image x:Name="image" Margin="0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" CacheMode="BitmapCache" ImageOpened="image_ImageOpened">
             <Image.RenderTransform>
                 <CompositeTransform x:Name="transform"></CompositeTransform>
             </Image.RenderTransform>
@@ -45,11 +50,11 @@
             </toolkit:GestureListener>
         </toolkit:GestureService.GestureListener>
     </Grid>
-    
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
 
-            <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" />
+            <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" IsEnabled="True" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

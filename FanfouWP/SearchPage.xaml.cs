@@ -164,6 +164,7 @@ namespace FanfouWP
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                    this.Focus();
                 });
                 if (this.Pivot.SelectedIndex == 0)
                     FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);

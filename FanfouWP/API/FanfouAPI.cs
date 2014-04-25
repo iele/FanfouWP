@@ -41,6 +41,18 @@ namespace FanfouWP.API
         public ObservableCollection<Items.Status> PublicTimeLineStatus = new ObservableCollection<Items.Status>();
         public ObservableCollection<Items.Status> MentionTimeLineStatus = new ObservableCollection<Items.Status>();
 
+        public void ResetManager()
+        {
+            oauthToken = null;
+            oauthSecret = null;
+            username = null;
+            password = null;
+            CurrentUser = null;
+            FanfouWP.API.FanfouAPI.Instance.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
+            FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
+            FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
+        }
+
         public string firstHomeTimeLineStatusId
         {
             get

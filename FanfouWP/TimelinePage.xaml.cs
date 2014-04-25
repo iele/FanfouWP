@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API;
-using System.Windows.Media;
-using System.Windows.Controls.Primitives;
-using FanfouWP.Utils;
-using System.Threading.Tasks;
-using FanfouWP.API.Items;
-using Microsoft.Phone.Tasks;
 using FanfouWP.API.Event;
 using Microsoft.Phone.Scheduler;
 using FanfouWP.Storage;
 using System.Collections.ObjectModel;
-using System.IO;
-using Windows.Storage;
-using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace FanfouWP
 {
@@ -143,9 +133,11 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                     (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
 
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New)
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0)
+                { 
+                    this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                     this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
-                
+                }
                 this.MentionTimeLineListBox.HideRefreshPanel();
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
@@ -171,9 +163,11 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                     (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
 
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New)
-                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
-
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New&& this.FanfouAPI.HomeTimeLineStatus.Count != 0)
+                { 
+                    this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;                  
+                      this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                }
                 this.HomeTimeLineListBox.HideRefreshPanel();
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
@@ -183,8 +177,15 @@ namespace FanfouWP
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
-            this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
-            this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(60);
+            timer.Tick += (s, et) =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+                FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+            };
+            timer.Start();
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -297,7 +298,6 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
         }
 
-        #region PeriodicTask
         PeriodicTask periodicTask;
 
         string periodicTaskName = "PeriodicAgent";
@@ -329,7 +329,7 @@ namespace FanfouWP
             try
             {
                 ScheduledActionService.Add(periodicTask);
-//                ScheduledActionService.LaunchForTest(periodicTask.Name, TimeSpan.FromSeconds(60));
+                //                ScheduledActionService.LaunchForTest(periodicTask.Name, TimeSpan.FromSeconds(60));
             }
             catch (InvalidOperationException exception)
             {
@@ -347,9 +347,7 @@ namespace FanfouWP
             {
             }
         }
-        #endregion
 
-        #region Navigation
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (run_once == true)
@@ -385,16 +383,18 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
                 }
                 else
-                {
+                {     
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
                 }
             }
             else
             {
+                this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
+                this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
 
-                this.HomeTimeLineListBox.ItemsSource = FanfouAPI.HomeTimeLineStatus;
-                this.MentionTimeLineListBox.ItemsSource = FanfouAPI.MentionTimeLineStatus;
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
             }
 
             Dispatcher.BeginInvoke(() =>
@@ -428,7 +428,6 @@ namespace FanfouWP
 
             base.OnBackKeyPress(e);
         }
-        #endregion
 
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

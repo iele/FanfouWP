@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API;
 using FanfouWP.Storage;
 using Microsoft.Phone.Tasks;
+using Windows.UI.ViewManagement;
 
 namespace FanfouWP
 {
@@ -79,6 +80,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                this.Focus();
             });
         }
 
