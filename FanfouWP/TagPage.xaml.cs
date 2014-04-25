@@ -139,7 +139,7 @@ namespace FanfouWP
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = this.ListBox.SelectedItem as FanfouWP.API.Items.User;
-            this.ListBox.SelectedIndex = -1;
+            this.ListBox.SelectedItem = null;
             if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
             {
                 PhoneApplicationService.Current.State.Remove("UserPage");

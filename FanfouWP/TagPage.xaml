@@ -29,31 +29,32 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <StackPanel Orientation="Vertical" Grid.RowSpan="2">
-        	<StackPanel Orientation="Vertical" Background="#FF72CBE1" MinHeight="135">
-        		<TextBlock  x:Name="title"  Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,17,24,5" Foreground="#DEFFFFFF" FontFamily="Portable User Interface"/>
-        		<toolkit:ListPicker x:Name="TagPicker" ItemsSource="{Binding}"  Margin="12,5" Foreground="#DE000000" BorderBrush="#DEFFFFFF" VerticalAlignment="Top" FontFamily="Portable User Interface"  >
-        			<toolkit:ListPicker.ItemTemplate>
-        				<DataTemplate>
-        					<StackPanel Orientation="Horizontal">
-        						<TextBlock Text="{Binding}"/>
-        					</StackPanel>
-        				</DataTemplate>
-        			</toolkit:ListPicker.ItemTemplate>
-        		</toolkit:ListPicker>
-        	</StackPanel>
-        	<ListBox x:Name="ListBox"  ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True" SelectionChanged="ListBox_SelectionChanged"
-        		ItemsSource="{Binding}" Margin="0">
-        		<ListBox.ItemTemplate>
-        			<DataTemplate>
-        				<itemcontrols:UserItemControl />
-        			</DataTemplate>
-        		</ListBox.ItemTemplate>
-        	</ListBox>
-        </StackPanel>
+        <Grid Margin="0,0,0,28">
+            <TextBlock x:Name="title" Text="我的标签" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,17,12,73" Foreground="White"/> 
+            <toolkit:ListPicker x:Name="TagPicker" ItemsSource="{Binding}"  Margin="24,61,24,1"  >
+                <toolkit:ListPicker.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </toolkit:ListPicker.ItemTemplate>
+            </toolkit:ListPicker>
+            <Rectangle Fill="#FF72CBE1" Margin="0,0,0,68" Canvas.ZIndex="-4" Height="56" VerticalAlignment="Top"/>
+        </Grid>
         <!--TitlePanel 包含应用程序的名称和页标题-->
 
         <!--ContentPanel - 在此处放置其他内容-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,-20,0,0">
+            <ListBox x:Name="ListBox"  ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True" SelectionChanged="ListBox_SelectionChanged"
+                     ItemsSource="{Binding}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <itemcontrols:UserItemControl />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
     </Grid>
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -75,7 +76,6 @@
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
     </toolkit:TransitionService.NavigationOutTransition>
-
 
 
 </phone:PhoneApplicationPage>
