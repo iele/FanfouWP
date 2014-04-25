@@ -630,12 +630,11 @@ namespace FanfouWP.API
                         var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                         s = ds.ReadObject(ms) as Items.Status;
                         ms.Close();
-                        var l = new ObservableCollection<Items.Status>();
-                        l.Add(s);
-                        foreach (var item in HomeTimeLineStatus)
-                            l.Add(item);
-                        this.HomeTimeLineStatus = l;
-                        HomeTimeLineStatusChanged();
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            this.HomeTimeLineStatus.Insert(0, s);
+                            HomeTimeLineStatusChanged();
+                        });
                         EventArgs e = new EventArgs();
                         StatusUpdateSuccess(this, e);
                     }
@@ -676,11 +675,17 @@ namespace FanfouWP.API
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        var a = from s in this.HomeTimeLineStatus where s.id != id select s;
-                        this.HomeTimeLineStatus = new ObservableCollection<Status>(a);
-                        var b = from s in this.MentionTimeLineStatus where s.id != id select s;
-                        this.MentionTimeLineStatus = new ObservableCollection<Status>(b);
-
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            var a = from s in this.HomeTimeLineStatus where s.id == id select s;
+                            if (a.Count() != 0)
+                                foreach (var item in a.ToList())
+                                    this.HomeTimeLineStatus.Remove(item);
+                            var b = from s in this.MentionTimeLineStatus where s.id == id select s;
+                            if (b.Count() != 0)
+                                foreach (var item in b.ToList())
+                                    this.MentionTimeLineStatus.Remove(item);
+                        });
                         EventArgs e = new EventArgs();
                         StatusDestroySuccess(this, e);
                     }

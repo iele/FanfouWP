@@ -41,20 +41,24 @@ namespace FanfouWP
             if (PhoneApplicationService.Current.State.ContainsKey("ReSend"))
             {
                 status = PhoneApplicationService.Current.State["ReSend"] as FanfouWP.API.Items.Status;
+                PhoneApplicationService.Current.State.Remove("ReSend");
                 currentPageType = PageType.Resend;
             }
             if (PhoneApplicationService.Current.State.ContainsKey("ReplyWithoutStatus"))
             {
                 reply_user = PhoneApplicationService.Current.State["ReplyWithoutStatus"] as FanfouWP.API.Items.User;
+                PhoneApplicationService.Current.State.Remove("ReplyWithoutStatus");
                 currentPageType = PageType.ReplyWithoutStatus;
             }
             if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
             {
                 status = PhoneApplicationService.Current.State["Reply"] as FanfouWP.API.Items.Status;
+                PhoneApplicationService.Current.State.Remove("Reply");
                 currentPageType = PageType.Reply;
             }
             if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Image"))
             {
+                PhoneApplicationService.Current.State.Remove("SendPage_Image");
                 is_image = true;
             }
         }

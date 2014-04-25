@@ -181,26 +181,26 @@ namespace FanfouWP
             var time = 1;
             switch (setting.refreshFreq)
             {
-                case 0: 
-                    time = 1; 
+                case 0:
+                    time = 1;
                     break;
-                case 1: 
+                case 1:
                     time = 2;
                     break;
                 case 2:
-                    time = 5; 
+                    time = 5;
                     break;
-                case 3: 
-                    time = 10; 
+                case 3:
+                    time = 10;
                     break;
-                default: 
+                default:
                     break;
             }
             timer.Interval = TimeSpan.FromSeconds(time * 60);
             timer.Tick += (s, et) =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
-                FanfouAPI.StatusHomeTimeline(setting.defaultCount2*10+20, FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
                 FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
             };
             timer.Start();
@@ -368,7 +368,7 @@ namespace FanfouWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (run_once == true)
+            if (e.NavigationMode == NavigationMode.New && run_once == true)
             {
                 pdi = new ObservableCollection<PivotDataItem>();
                 pdi.Add(new PivotDataItem("我的消息", "0"));
@@ -400,19 +400,25 @@ namespace FanfouWP
                     }
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20));
                 }
-                else
-                {
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20));
-                }
             }
             else
             {
-                this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-
-                Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
-                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20));
+                if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                {
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouWP.API.FanfouAPI.RefreshMode.Behind));
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
+                }
+                if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                {
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouWP.API.FanfouAPI.RefreshMode.Behind));
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
+                }
             }
 
             Dispatcher.BeginInvoke(() =>
