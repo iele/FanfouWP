@@ -90,8 +90,8 @@
             			<TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
             		</StackPanel>
             		<Grid>
-            			<Image Source="{Binding photo.largeurl}"/>
-            			<Image Source="{Binding photo.thumburl}" Canvas.ZIndex="-1"/>
+                        <Image Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="Image_Tap"/>
+                        <Image Source="{Binding photo.thumburl, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Tap="Image_Tap"/>
             		</Grid>
             	
             		<maps:Map x:Name="map" Margin="0,10,0,0" Height="300" Visibility="Collapsed" Loaded="map_Loaded" />

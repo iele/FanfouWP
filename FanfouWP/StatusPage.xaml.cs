@@ -614,6 +614,16 @@ namespace FanfouWP
 
         }
 
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("ImagePage"))
+            {
+                PhoneApplicationService.Current.State.Remove("ImagePage");
+            }
+            PhoneApplicationService.Current.State.Add("ImagePage", status);
+            NavigationService.Navigate(new Uri("/ImagePage.xaml", UriKind.Relative));
+        }
+
 
     }
 }

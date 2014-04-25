@@ -8,7 +8,7 @@ using FanfouWP.Storage;
 using Windows.Storage;
 using Microsoft.Phone.Shell;
 
-namespace YueFM.Pages
+namespace FanfouWP
 {
     public partial class SettingPage : PhoneApplicationPage
     {

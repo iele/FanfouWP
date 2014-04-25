@@ -148,7 +148,7 @@ namespace FanfouWPTaskAgent
 
         protected override void OnInvoke(ScheduledTask task)
         {
-            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
+//            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
 
             s = AgentReader.ReadAgentParameter();
             count=int.Parse(s[4]);

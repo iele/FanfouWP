@@ -115,6 +115,9 @@
     <Compile Include="ConversationsPage.xaml.cs">
       <DependentUpon>ConversationsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImagePage.xaml.cs">
+      <DependentUpon>ImagePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RequestPage.xaml.cs">
       <DependentUpon>RequestPage.xaml</DependentUpon>
     </Compile>
@@ -231,6 +234,10 @@
     <Page Include="ConversationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ImagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RequestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -372,6 +379,7 @@
     <Content Include="Assets\AppBar\questionmark.png" />
     <Content Include="Assets\AppBar\refresh.png" />
     <Content Include="Assets\AppBar\Rotate.png" />
+    <Content Include="Assets\AppBar\save.png" />
     <Content Include="Assets\AppBar\share.png" />
     <Content Include="Assets\AppBar\stop.png" />
     <Content Include="Assets\AppBar\upload.png" />

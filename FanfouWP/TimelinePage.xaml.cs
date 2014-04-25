@@ -329,7 +329,7 @@ namespace FanfouWP
             try
             {
                 ScheduledActionService.Add(periodicTask);
-                ScheduledActionService.LaunchForTest(periodicTask.Name, TimeSpan.FromSeconds(60));
+//                ScheduledActionService.LaunchForTest(periodicTask.Name, TimeSpan.FromSeconds(60));
             }
             catch (InvalidOperationException exception)
             {
