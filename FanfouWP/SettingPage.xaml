@@ -25,34 +25,38 @@
         </coding:ProgressOverlay>
         <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot" Foreground="#DEFFFFFF">
             <controls:PivotItem Header="设置" Margin="0,28,0,0" Foreground="#DE000000">
-            	<Grid Margin="24,0">
-            		<CheckBox x:Name="QuitCheckBox" Content="退出时弹出对话框" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-            		<CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,72,0,0"/>
-            		<TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="0,144,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-            		<toolkit:ListPicker x:Name="QualityListPicker" Margin="0,176,0,0" VerticalAlignment="Top"/>
-            		<TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="0,236,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-            		<toolkit:ListPicker x:Name="FrequencyListPicker" Margin="0,268,0,0" VerticalAlignment="Top"/>
-            		<Button Content="清除缓存" VerticalAlignment="Top" x:Name="CleanButton" Click="CleanButton_Click" Margin="-12,340,-12,0" Visibility="Collapsed"/>
-            		<Button Content="注销" VerticalAlignment="Bottom" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="-12,0,-12,6"/>
-            	</Grid>
+                <Grid Margin="24,0">
+                    <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                		<CheckBox x:Name="QuitCheckBox" Content="退出时弹出对话框" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top"/>
+                		<CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top"/>
+                		<TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                		<toolkit:ListPicker x:Name="QualityListPicker" Margin="12,0,0,0" VerticalAlignment="Top"/>
+                		<TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                		<toolkit:ListPicker x:Name="FrequencyListPicker" Margin="12,0,0,0" VerticalAlignment="Top"/>
+                	</StackPanel>
+                    <Button Content="清除缓存" VerticalAlignment="Bottom" x:Name="CleanButton" Click="CleanButton_Click" Margin="-12,0,-12,72"/>
+                    <Button Content="注销" VerticalAlignment="Bottom" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="-12,0"/>
+                </Grid>
             </controls:PivotItem>
             <controls:PivotItem Header="设置" Margin="0,28,0,0" Foreground="#DE000000">
-            	<StackPanel Orientation="Vertical" Margin="24,0">
-            		<CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-            		<CheckBox x:Name="ContextCheckBox" Content="逆向表示消息上下文" Click="ContextCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-            		<TextBlock TextWrapping="Wrap" Text="时间线刷新消息数量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-            		<toolkit:ListPicker x:Name="CountListPicker" Margin="0" VerticalAlignment="Top"/>
-            		<TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-            		<toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
-            	</StackPanel>
+                <StackPanel Orientation="Vertical" Margin="24,0">
+                    <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
+                    <CheckBox x:Name="ContextCheckBox" Content="逆向表示消息上下文" Click="ContextCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
+                    <TextBlock TextWrapping="Wrap" Text="时间线刷新频率" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                    <toolkit:ListPicker x:Name="TimelineFreqListPicker" Margin="0" VerticalAlignment="Top"/>
+                    <TextBlock TextWrapping="Wrap" Text="时间线刷新消息数量" Margin="0,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                    <toolkit:ListPicker x:Name="CountListPicker" Margin="0" VerticalAlignment="Top"/>
+                    <TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="0,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                    <toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
+                </StackPanel>
             </controls:PivotItem>
             <controls:PivotItem Header="建议" Margin="0,28,0,0" Foreground="#DE000000">
                 <StackPanel Orientation="Vertical" Margin="12,0">
-            		<Button x:Name="FollowButton" Content="关注应用账号@饭窗" VerticalAlignment="Top" Click="FollowButton_Click"/>
-            		<Button x:Name="SendMessageButton" Content="发送饭否给@饭窗" VerticalAlignment="Top" Click="SendMessageButton_Click"/>
-            		<Button x:Name="EmailButton" Content="写邮件给作者本人" VerticalAlignment="Top" Click="EmailButton_Click"/>
-            		<Button x:Name="MarketButton" Content="到市场提出意见" VerticalAlignment="Top" Click="MarketButton_Click"/>
-            	</StackPanel>
+                    <Button x:Name="FollowButton" Content="关注应用账号@饭窗" VerticalAlignment="Top" Click="FollowButton_Click"/>
+                    <Button x:Name="SendMessageButton" Content="发送饭否给@饭窗" VerticalAlignment="Top" Click="SendMessageButton_Click"/>
+                    <Button x:Name="EmailButton" Content="写邮件给作者本人" VerticalAlignment="Top" Click="EmailButton_Click"/>
+                    <Button x:Name="MarketButton" Content="到市场提出意见" VerticalAlignment="Top" Click="MarketButton_Click"/>
+                </StackPanel>
             </controls:PivotItem>
             <controls:PivotItem Header="关于" Margin="0,28,0,0" Foreground="#DE000000" >
                 <Grid Margin="12,0">

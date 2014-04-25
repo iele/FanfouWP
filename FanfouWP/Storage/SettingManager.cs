@@ -216,6 +216,22 @@ namespace FanfouWP.Storage
             }
         }
 
+        private int _refreshFreq;
+        public int refreshFreq
+        {
+            get
+            {
+                return _refreshFreq;
+            }
+            set
+            {
+                _refreshFreq = value;
+                settings["refreshFreq"] = value;
+
+                is_setting_changed = true;
+            }
+        }
+
         public Boolean is_setting_changed { get; set; }
 
         private static readonly SettingManager instance = new SettingManager();
@@ -249,14 +265,14 @@ namespace FanfouWP.Storage
             settings["backgroundFeq"] = this.backgroundFeq;
             settings["defaultCount"] = this.defaultCount;
             settings["reverseContext"] = this.reverseContext;
-
+            settings["refreshFreq"] = this.refreshFreq;
 
             settings.Save();
         }
 
         public void RestoreSettings()
         {
-            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount, reverseContext;
+            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount, reverseContext, refreshFreq;
             if (settings.TryGetValue("defaultCount", out defaultCount) && defaultCount != null)
                 this.defaultCount = (int)defaultCount;
             else
@@ -310,6 +326,10 @@ namespace FanfouWP.Storage
                 this.reverseContext = (bool)reverseContext;
             else
                 this.reverseContext = false;
+            if (settings.TryGetValue("refreshFreq", out refreshFreq) && refreshFreq != null)
+                this.refreshFreq = (int)refreshFreq;
+            else
+                this.refreshFreq = 2;
         }
 
     }

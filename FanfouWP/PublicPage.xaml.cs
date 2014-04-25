@@ -57,7 +57,7 @@ namespace FanfouWP
 
                 return;
             }
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount * 10 + 20 * 10 + 20 * 10 + 20);
         }
 
         void Instance_PublicTimelineFailed(object sender, FailedEventArgs e)
@@ -103,7 +103,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
             });
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount);
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount * 10 + 20 * 10 + 20);
         }
     }
 }

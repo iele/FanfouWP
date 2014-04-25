@@ -134,7 +134,7 @@ namespace FanfouWP
                     (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
 
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0)
-                { 
+                {
                     this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                     this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
                 }
@@ -163,10 +163,10 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                     (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
 
-                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New&& this.FanfouAPI.HomeTimeLineStatus.Count != 0)
-                { 
-                    this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;                  
-                      this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                if (e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.HomeTimeLineStatus.Count != 0)
+                {
+                    this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
+                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
                 }
                 this.HomeTimeLineListBox.HideRefreshPanel();
 
@@ -178,12 +178,30 @@ namespace FanfouWP
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
         {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(60);
+            var time = 1;
+            switch (setting.refreshFreq)
+            {
+                case 0: 
+                    time = 1; 
+                    break;
+                case 1: 
+                    time = 2;
+                    break;
+                case 2:
+                    time = 5; 
+                    break;
+                case 3: 
+                    time = 10; 
+                    break;
+                default: 
+                    break;
+            }
+            timer.Interval = TimeSpan.FromSeconds(time * 60);
             timer.Tick += (s, et) =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
-                FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
-                FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.StatusHomeTimeline(setting.defaultCount*10+20, FanfouAPI.RefreshMode.Behind);
+                FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Behind);
             };
             timer.Start();
         }
@@ -220,8 +238,8 @@ namespace FanfouWP
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
 
-            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
-            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Behind));
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Behind));
         }
 
         private void NewButton_Click(object sender, EventArgs e)
@@ -248,13 +266,13 @@ namespace FanfouWP
         private void HomeTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Behind));
         }
 
         private void MentionTimeLineListBox_RefreshTriggered(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Behind));
+            Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Behind));
         }
 
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
@@ -263,7 +281,7 @@ namespace FanfouWP
             {
 
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back));
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Back));
                 Dispatcher.BeginInvoke(() => { toast.NewToast("正在回溯时间线"); });
             }
         }
@@ -273,7 +291,7 @@ namespace FanfouWP
             if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded)
             {
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                FanfouAPI.StatusHomeTimeline(setting.defaultCount, FanfouAPI.RefreshMode.Back);
+                FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20, FanfouAPI.RefreshMode.Back);
                 Dispatcher.BeginInvoke(() => { toast.NewToast("正在回溯时间线"); });
             }
         }
@@ -374,18 +392,18 @@ namespace FanfouWP
                         this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                         this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
                     }
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20));
                     if (FanfouAPI.MentionTimeLineStatus.Count != 0)
                     {
                         this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
                         this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
                     }
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20));
                 }
                 else
-                {     
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
+                {
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20));
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20));
                 }
             }
             else
@@ -393,8 +411,8 @@ namespace FanfouWP
                 this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                 this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
 
-                Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount));
-                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount));
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount * 10 + 20));
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount * 10 + 20));
             }
 
             Dispatcher.BeginInvoke(() =>
