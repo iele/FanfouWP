@@ -243,7 +243,7 @@ namespace FanfouWP
         {
             this.DataContext = user;
             if (this.status == null)
-                FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount * 10 + 20, this.user.id);
+                FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
             if (this.friends == null)
                 FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             if (this.follows == null)
@@ -382,7 +382,7 @@ namespace FanfouWP
             });
 
             this.DataContext = user;
-            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount * 10 + 20, this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
             FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);

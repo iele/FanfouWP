@@ -44,7 +44,7 @@ namespace FanfouWP
                 this.CacheListPicker.SelectedIndex = settingManager.cacheSize;
                 this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq;
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
-                this.CountListPicker.SelectedIndex = settingManager.defaultCount;
+                this.CountListPicker.SelectedIndex = settingManager.defaultCount2;             
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
 
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
@@ -58,9 +58,9 @@ namespace FanfouWP
 
         void TimelineFreqListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.CountListPicker.SelectedIndex != -1)
+            if (this.TimelineFreqListPicker.SelectedIndex != -1)
             {
-                settingManager.defaultCount = this.TimelineFreqListPicker.SelectedIndex;
+                settingManager.refreshFreq = this.TimelineFreqListPicker.SelectedIndex;
             }
         }
 
@@ -68,7 +68,7 @@ namespace FanfouWP
         {
             if (this.CountListPicker.SelectedIndex != -1)
             {
-                settingManager.defaultCount = this.CountListPicker.SelectedIndex;
+                settingManager.defaultCount2 = this.CountListPicker.SelectedIndex;
             }
         }
 
