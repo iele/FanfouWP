@@ -17,7 +17,6 @@ namespace FanfouWP
     public partial class ImagePage : PhoneApplicationPage
     {
         private FanfouWP.API.Items.Status status;
-        private double initialAngle;
         private double initialScale;
         public ImagePage()
         {
@@ -38,7 +37,6 @@ namespace FanfouWP
         private void OnDoubleTap(object sender, GestureEventArgs e)
         {
             transform.TranslateX = transform.TranslateY = 0;
-            transform.Rotation = 0;
             transform.ScaleX = transform.ScaleY = 1;
         }
 
@@ -66,13 +64,11 @@ namespace FanfouWP
             Point point1 = e.GetPosition(image, 1);
             Point midpoint = new Point((point0.X + point1.X) / 2, (point0.Y + point1.Y) / 2);
             image.RenderTransformOrigin = new Point(midpoint.X / image.ActualWidth, midpoint.Y / image.ActualHeight);
-            initialAngle = transform.Rotation;
             initialScale = transform.ScaleX;
         }
 
         private void OnPinchDelta(object sender, PinchGestureEventArgs e)
         {
-            transform.Rotation = initialAngle + e.TotalAngleDelta;
             transform.ScaleX = transform.ScaleY = initialScale * e.DistanceRatio;
         }
 

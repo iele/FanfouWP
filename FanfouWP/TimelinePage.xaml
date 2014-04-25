@@ -96,9 +96,9 @@
                 <shell:ApplicationBarMenuItem Text="设置" Click="ApplicationBarMenuItem_Click_3"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
-            <shell:ApplicationBarIconButton x:Name="NewButton" Click="NewButton_Click"  IconUri="/Assets/AppBar/edit.png" Text="新饭" />
-            <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/Camera.png" Text="照片" />
+               <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" />
+            <shell:ApplicationBarIconButton x:Name="NewButton" Click="NewButton_Click"  IconUri="/Assets/AppBar/edit.png" Text="新饭" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
