@@ -141,6 +141,7 @@ namespace FanfouWP
         private void addPicture()
         {
             PhotoChooserTask cpt = new PhotoChooserTask();
+            cpt.ShowCamera = true;
             cpt.Completed += (s, e2) =>
             {
                 if (e2.TaskResult == TaskResult.Cancel)

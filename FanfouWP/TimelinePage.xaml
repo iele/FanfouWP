@@ -134,6 +134,7 @@
                 <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
                 <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
                 <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
+                
             </ResourceDictionary>
         </Grid.Resources>
         <Grid Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="120" x:Name="TitleControl">
@@ -156,10 +157,10 @@
             	<TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
             </Grid>
         </Grid>
-        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged"> 
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid DoubleTap="Grid_DoubleTap">
                         <TextBlock Text="{Binding Title}" FontSize="{StaticResource PhoneFontSizeExtraLarge}"
        Foreground="White"/>
                         <StackPanel Margin="0,0,-10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{StaticResource PhoneAccentBrush}" Height="24" Width="32" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}">

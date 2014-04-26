@@ -455,7 +455,6 @@ namespace FanfouWP.API
                         ClientPassword = password,
                     }
                 };
-                client.Encoding = UnicodeEncoding.UTF8;
                 return client;
             }
             else
@@ -520,7 +519,8 @@ namespace FanfouWP.API
                     SignatureMethod = Hammock.Authentication.OAuth.OAuthSignatureMethod.HmacSha1,
                     ParameterHandling = Hammock.Authentication.OAuth.OAuthParameterHandling.HttpAuthorizationHeader,
                     Version = "1.0"
-                }
+                },
+                Encoding = UnicodeEncoding.Unicode
             };
 
             client.AddHeader("content-type", "application/x-www-form-urlencoded");
@@ -609,6 +609,7 @@ namespace FanfouWP.API
 
             var client = GetClient();
             client.AddHeader("content-type", "application/x-www-form-urlencoded");
+
             restRequest.AddParameter("status", status);
             if (in_reply_to_status_id != "")
                 restRequest.AddParameter("in_reply_to_status_id", in_reply_to_status_id);
