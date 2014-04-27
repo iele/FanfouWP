@@ -601,61 +601,32 @@ namespace FanfouWP.API
         #region status
         public void StatusUpdate(string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
         {
-            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            Utils.StatusUploader.StatusUploadSuccess += StatusUploader_StatusUploadSuccess;
+            Utils.StatusUploader.StatusUploadFailed += StatusUploader_StatusUploadFailed;
+            Utils.StatusUploader.updateStatus(status, in_reply_to_status_id, in_reply_to_user_id, repost_status_id, location);
+        }
+
+        void StatusUploader_StatusUploadFailed(object sender, FailedEventArgs e)
+        {
+            StatusUpdateFailed(this, new FailedEventArgs(new Error()));
+        }
+
+        void StatusUploader_StatusUploadSuccess(object sender, EventArgs e)
+        {
+            try
             {
-                Path = FanfouConsts.STATUS_UPDATE,
-                Method = Hammock.Web.WebMethod.Post
-            };
-
-            var client = GetClient();
-            client.AddHeader("content-type", "application/x-www-form-urlencoded");
-
-            restRequest.AddParameter("status", status);
-            if (in_reply_to_status_id != "")
-                restRequest.AddParameter("in_reply_to_status_id", in_reply_to_status_id);
-            if (in_reply_to_user_id != "")
-                restRequest.AddParameter("in_reply_to_user_id", in_reply_to_user_id);
-            if (repost_status_id != "")
-                restRequest.AddParameter("repost_status_id", repost_status_id);
-            if (location != "")
-                restRequest.AddParameter("location", location);
-
-            client.BeginRequest(restRequest, (request, response, userstate) =>
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    this.HomeTimeLineStatus.Insert(0, sender as Status);
+                    HomeTimeLineStatusChanged();
+                    StatusUpdateSuccess(this, e);
+                });
+            }
+            catch (Exception)
             {
-                try
-                {
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        Items.Status s = new Items.Status();
-                        var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                        s = ds.ReadObject(ms) as Items.Status;
-                        ms.Close();
-                        Deployment.Current.Dispatcher.BeginInvoke(() =>
-                        {
-                            this.HomeTimeLineStatus.Insert(0, s);
-                            HomeTimeLineStatusChanged();
-                        });
-                        EventArgs e = new EventArgs();
-                        StatusUpdateSuccess(this, e);
-                    }
-                    else
-                    {
-                        Items.Error er = new Items.Error();
-                        var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
-                        er = ds.ReadObject(ms) as Items.Error;
-                        ms.Close();
-                        FailedEventArgs e = new FailedEventArgs(er);
-                        StatusUpdateFailed(this, e);
-                    }
-                }
-                catch (Exception)
-                {
-                    FailedEventArgs e = new FailedEventArgs();
-                    StatusUpdateFailed(this, e);
-                }
-            });
+                FailedEventArgs ex = new FailedEventArgs();
+                StatusUpdateFailed(this, ex);
+            }
         }
 
         public void StatusDestroy(string id)
@@ -1987,13 +1958,12 @@ namespace FanfouWP.API
         {
             try
             {
-                var l = new ObservableCollection<Items.Status>();
-                l.Add(sender as Items.Status);
-                foreach (var item in HomeTimeLineStatus)
-                    l.Add(item);
-                this.HomeTimeLineStatus = l;
-                HomeTimeLineStatusChanged();
-                PhotosUploadSuccess(this, e);
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                     this.HomeTimeLineStatus.Insert(0, sender as Status);
+                     HomeTimeLineStatusChanged();
+                     PhotosUploadSuccess(this, e);
+                 });
             }
             catch (Exception)
             {

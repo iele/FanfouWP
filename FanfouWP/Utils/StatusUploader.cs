@@ -50,7 +50,7 @@ namespace FanfouWP.Utils
             RndSeed.Next(1, 99999999).ToString("00000000"),
             RndSeed.Next(1, 99999999).ToString("00000000"));
         }
-        public static void uploadPhoto(byte[] fs, string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
+        public static void updateStatus(string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
         {
             var request = (HttpWebRequest)WebRequest.Create("http://api.fanfou.com/Status/upload.json");
 
@@ -58,11 +58,17 @@ namespace FanfouWP.Utils
             request.Method = "Post";
 
             parameters = new Parameters();
-            parameters.Add("status", status);
+            parameters.Add("status", UrlEncode(status));
+            if (in_reply_to_status_id != "")
+                parameters.Add("in_reply_to_status_id",UrlEncode( in_reply_to_status_id));
+            if (in_reply_to_user_id != "")
+                parameters.Add("in_reply_to_user_id",UrlEncode (in_reply_to_user_id));
+            if (repost_status_id != "")
+                parameters.Add("repost_status_id",UrlEncode(repost_status_id));
             if (location != "")
-                parameters.Add("location", location);
+                parameters.Add("location",UrlEncode(location));
 
-            request.BeginGetRequestStream(GetPostFileRequestStreamCallback, request);
+            request.BeginGetRequestStream(GetPostRequestStreamCallback, request);
 
         }
 
@@ -92,13 +98,13 @@ namespace FanfouWP.Utils
 
             return UrlEncode(Convert.ToBase64String(hashBytes));
         }
-        private static void GetPostFileRequestStreamCallback(IAsyncResult asynchronousResult)
+        private static void GetPostRequestStreamCallback(IAsyncResult asynchronousResult)
         {
             var request = (HttpWebRequest)asynchronousResult.AsyncState;
 
             Stream stream = request.EndGetRequestStream(asynchronousResult);
 
-            var oParameters = new Parameters();
+            Parameters oParameters = new Parameters();
             oParameters.Add("oauth_consumer_key", FanfouWP.API.FanfouConsts.CONSUMER_KEY);
             oParameters.Add("oauth_token", FanfouWP.API.FanfouAPI.Instance.oauthToken);
             oParameters.Add("oauth_signature_method", "HMAC-SHA1");
@@ -106,7 +112,13 @@ namespace FanfouWP.Utils
             oParameters.Add("oauth_nonce", GenerateRndNonce());
             oParameters.Add("oauth_version", "1.0");
 
+            foreach (var p in parameters.Items)
+                oParameters.Add(p.Key, p.Value);
+
             oParameters.Add("oauth_signature", GenerateSignature(FanfouWP.API.FanfouConsts.CONSUMER_SECRET, FanfouWP.API.FanfouAPI.Instance.oauthSecret, "POST", "http://api.fanfou.com/Status/upload.json", oParameters));
+
+            foreach (var p in parameters.Items)
+                oParameters.Items.Remove(p);
 
             string oauth = "";
             for (int i = 0; i < oParameters.Items.Count - 1; i++)
@@ -116,17 +128,21 @@ namespace FanfouWP.Utils
             oauth += oParameters.Items[oParameters.Items.Count - 1].Key + "=\"" + oParameters.Items[oParameters.Items.Count - 1].Value + '"';
             request.Headers["Authorization"] = "OAuth " + oauth;
 
+            request.ContentType = "application/x-www-form-urlencoded";
+
             using (var ms = new MemoryStream())
             {
-          
-            
                 foreach (var p in parameters.Items)
                 {
-                    string item = string.Format("", p.Key, p.Value);
+                    string item = "";
+                    if (p.Key != parameters.Items.Last().Key)
+                        item = string.Format("{0}={1}&", p.Key, p.Value);
+                    else
+                        item = string.Format("{0}={1}", p.Key, p.Value);
                     byte[] data = Encoding.UTF8.GetBytes(item);
                     ms.Write(data, 0, data.Length);
                 }
-          
+
                 ms.Position = 0;
                 ms.WriteTo(stream);
                 stream.Close();
