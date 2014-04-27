@@ -328,6 +328,12 @@ namespace FanfouWP.API
             this.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
             this.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
 
+            Utils.StatusUploader.StatusUploadSuccess += StatusUploader_StatusUploadSuccess;
+            Utils.StatusUploader.StatusUploadFailed += StatusUploader_StatusUploadFailed;
+
+            Utils.PhotoUploader.PhotosUploadSuccess += PhotoUploader_PhotosUploadSuccess;
+            Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;
+      
             storage.WriteDataSuccess += JsonStorage_WriteDataSuccess;
             storage.WriteDataFailed += JsonStorage_WriteDataFailed;
             storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
@@ -601,8 +607,6 @@ namespace FanfouWP.API
         #region status
         public void StatusUpdate(string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
         {
-            Utils.StatusUploader.StatusUploadSuccess += StatusUploader_StatusUploadSuccess;
-            Utils.StatusUploader.StatusUploadFailed += StatusUploader_StatusUploadFailed;
             Utils.StatusUploader.updateStatus(status, in_reply_to_status_id, in_reply_to_user_id, repost_status_id, location);
         }
 
@@ -1944,8 +1948,6 @@ namespace FanfouWP.API
             photo.SaveJpeg(stream, width, height, 0, quality);
 
             var buff = stream.ToArray();
-            Utils.PhotoUploader.PhotosUploadSuccess += PhotoUploader_PhotosUploadSuccess;
-            Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;
             Utils.PhotoUploader.uploadPhoto(buff, status, location);
         }
 

@@ -118,6 +118,9 @@
     <Compile Include="ImagePage.xaml.cs">
       <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\StatusItemControl.xaml.cs">
+      <DependentUpon>StatusItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RequestPage.xaml.cs">
       <DependentUpon>RequestPage.xaml</DependentUpon>
     </Compile>
@@ -166,8 +169,8 @@
     <Compile Include="SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControls\StatusItemControl.xaml.cs">
-      <DependentUpon>StatusItemControl.xaml</DependentUpon>
+    <Compile Include="ItemControls\ContextItemControl.xaml.cs">
+      <DependentUpon>ContextItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemControls\ValueConverter\BoolToFavoritedConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\ImageSourceToCacheConverter.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="TimelinePage.xaml.cs">
       <DependentUpon>TimelinePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ProgressRing.cs" />
     <Compile Include="UserControls\RefreshableListBox.cs" />
     <Compile Include="UserControls\RefreshableListBoxMethods.cs" />
     <Compile Include="UserControls\ToastControl.xaml.cs">
@@ -223,7 +227,6 @@
     <Compile Include="Utils\PhotoUploader.cs" />
     <Compile Include="Utils\ThemeManager.cs" />
     <Compile Include="Utils\TiltEffect.cs" />
-    <Compile Include="Utils\UnicodeToUtf8.cs" />
     <Compile Include="ViewerPage.xaml.cs">
       <DependentUpon>ViewerPage.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
     <Page Include="ImagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemControls\StatusItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="RequestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -297,7 +304,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ItemControls\StatusItemControl.xaml">
+    <Page Include="ItemControls\ContextItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

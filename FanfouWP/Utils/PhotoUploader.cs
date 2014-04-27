@@ -235,5 +235,6 @@ namespace FanfouWP.Utils
             }
             return buffer.ToString();
         }
+
     }
 }

@@ -52,21 +52,21 @@ namespace FanfouWP.Utils
         }
         public static void updateStatus(string status, string in_reply_to_status_id = "", string in_reply_to_user_id = "", string repost_status_id = "", string location = "")
         {
-            var request = (HttpWebRequest)WebRequest.Create("http://api.fanfou.com/Status/upload.json");
+            var request = (HttpWebRequest)WebRequest.Create("http://api.fanfou.com/statuses/update.json");
 
             request.AllowReadStreamBuffering = false;
             request.Method = "Post";
 
             parameters = new Parameters();
-            parameters.Add("status", UrlEncode(status));
+            parameters.Add("status", status);
             if (in_reply_to_status_id != "")
-                parameters.Add("in_reply_to_status_id",UrlEncode( in_reply_to_status_id));
+                parameters.Add("in_reply_to_status_id", in_reply_to_status_id);
             if (in_reply_to_user_id != "")
-                parameters.Add("in_reply_to_user_id",UrlEncode (in_reply_to_user_id));
+                parameters.Add("in_reply_to_user_id", in_reply_to_user_id);
             if (repost_status_id != "")
-                parameters.Add("repost_status_id",UrlEncode(repost_status_id));
+                parameters.Add("repost_status_id", repost_status_id);
             if (location != "")
-                parameters.Add("location",UrlEncode(location));
+                parameters.Add("location", location);
 
             request.BeginGetRequestStream(GetPostRequestStreamCallback, request);
 
@@ -115,7 +115,7 @@ namespace FanfouWP.Utils
             foreach (var p in parameters.Items)
                 oParameters.Add(p.Key, p.Value);
 
-            oParameters.Add("oauth_signature", GenerateSignature(FanfouWP.API.FanfouConsts.CONSUMER_SECRET, FanfouWP.API.FanfouAPI.Instance.oauthSecret, "POST", "http://api.fanfou.com/Status/upload.json", oParameters));
+            oParameters.Add("oauth_signature", GenerateSignature(FanfouWP.API.FanfouConsts.CONSUMER_SECRET, FanfouWP.API.FanfouAPI.Instance.oauthSecret, "POST", "http://api.fanfou.com/statuses/update.json", oParameters));
 
             foreach (var p in parameters.Items)
                 oParameters.Items.Remove(p);

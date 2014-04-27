@@ -29,23 +29,20 @@
     <UserControl.Foreground>
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </UserControl.Foreground>
-    <Grid x:Name="LayoutRoot" Margin="12,0">
-        <Grid Margin="0,5">
-        	<Image Source="{Binding dm.sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42"/>
-            <Image HorizontalAlignment="Left" Height="64" Margin="20,10,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Source="/Assets/00.jpg" Canvas.ZIndex="-1"/>
-            <Rectangle Fill="{Binding dm.sender.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" HorizontalAlignment="Left" Margin="10,10,0,0" Width="5" Stroke="{Binding dm.sender.profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" StrokeThickness="0"/>
-        	<StackPanel VerticalAlignment="Top" Margin="89,10,10,0">
-                <TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667" FontWeight="Bold"/>
-                <TextBlock Margin="5,0" Text="{Binding dm.recipient.screen_name, Converter={StaticResource TextToReplyTextConverter}}" VerticalAlignment="Top" FontSize="24.667"  Foreground="#FF7A7A7A"/>
-            </StackPanel>
-            <StackPanel Margin="20,81,15,0">
-              <TextBlock TextWrapping="Wrap" Text="{Binding dm.text}" FontSize="24"/>
-              <StackPanel Orientation="Horizontal">
-              	<TextBlock Text="{Binding dm.created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" HorizontalAlignment="Left" />
-                    <TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
-              </StackPanel>
-            </StackPanel>
-        </Grid>
+    <Grid x:Name="LayoutRoot" Margin="12,0"><Image Source="{Binding dm.sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Margin="10,15,0,0"/>
+    	<Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Margin="10,15,0,0"/>
+    	<StackPanel VerticalAlignment="Top" Margin="80,15,10,0">
+    		<TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667" FontWeight="Bold" Width="65535"/>
+    		<TextBlock Margin="5,0" Text="{Binding dm.recipient.screen_name, Converter={StaticResource TextToReplyTextConverter}}" VerticalAlignment="Top" FontSize="24.667"  Foreground="#FF7A7A7A"/>
+    	</StackPanel>
+    	<StackPanel Margin="10,86,15,10">
+    		<TextBlock TextWrapping="Wrap" Text="{Binding dm.text}" FontSize="24"/>
+    		<StackPanel Orientation="Horizontal">
+    			<TextBlock Text="{Binding dm.created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" HorizontalAlignment="Left" />
+    			<TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
+    		</StackPanel>
+    	</StackPanel>
+        <Rectangle Fill="#FFDEDEDE" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0"/>
 
     </Grid>
 </UserControl>

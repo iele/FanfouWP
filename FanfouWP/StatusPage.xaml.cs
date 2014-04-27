@@ -81,10 +81,10 @@ namespace FanfouWP
                 var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
                 foreach (var item in c)
                 {
-                    var sic = new StatusItemControl();
-                    sic.Tap += sic_Tap;
-                    sic.DataContext = item;
-                    this.context.Children.Add(sic);
+                    var cic = new ContextItemControl();
+                    cic.Tap += cic_Tap;
+                    cic.DataContext = item;
+                    this.context.Children.Add(cic);
                 }
 
                 if (e.UserStatus.Count != 0)
@@ -94,15 +94,15 @@ namespace FanfouWP
             });
         }
 
-        void sic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        void cic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if ((sender as StatusItemControl).DataContext != null)
+            if ((sender as ContextItemControl).DataContext != null)
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
                     PhoneApplicationService.Current.State.Remove("UserPage");
                 }
-                PhoneApplicationService.Current.State.Add("UserPage", ((sender as StatusItemControl).DataContext as Status).user);
+                PhoneApplicationService.Current.State.Add("UserPage", ((sender as ContextItemControl).DataContext as Status).user);
                 NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
@@ -167,10 +167,10 @@ namespace FanfouWP
                             var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
                             foreach (var item in c)
                             {
-                                var sic = new StatusItemControl();
-                                sic.Tap += sic_Tap;
-                                sic.DataContext = item;
-                                this.context.Children.Add(sic);
+                                var cic = new ContextItemControl();
+                                cic.Tap += cic_Tap;
+                                cic.DataContext = item;
+                                this.context.Children.Add(cic);
                             }
 
                             if (contextStatus.Count != 0)

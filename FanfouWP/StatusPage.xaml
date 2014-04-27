@@ -82,7 +82,7 @@
             <ScrollViewer Margin="0">
             	<StackPanel Margin="0">
             		<RichTextBox x:Name="richText"  VerticalAlignment="Top" Margin="-8,10,-8,0"/>
-            		<StackPanel VerticalAlignment="Top" Margin="6,10,6,0" Orientation="Horizontal">
+            		<StackPanel VerticalAlignment="Top" Margin="3,5,6,0" Orientation="Horizontal">
             			<TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Padding="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
             			<TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Padding="5,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
             			<TextBlock Padding="5,0,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
@@ -90,7 +90,7 @@
             			<TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
             		</StackPanel>
                     <Grid Visibility="{Binding photo , Converter={StaticResource NullToVisibilityConverter}}">
-                        <Image Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="Image_Tap" HorizontalAlignment="Left" MaxHeight="400"/>
+                        <Image Margin="0,5,0,0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="Image_Tap" HorizontalAlignment="Left" MaxHeight="400"/>
                         <Image Source="{Binding photo.thumburl, Converter={StaticResource ImageSourceToCacheConverter}}"   HorizontalAlignment="Left"  Canvas.ZIndex="-1" Tap="Image_Tap" MaxHeight="400"/>
             		</Grid>
             	
