@@ -312,12 +312,12 @@ namespace FanfouWP
                 var item = this.FollowersListBox.SelectedItem;
                 this.FollowersListBox.SelectedIndex = -1;
 
-                if (PhoneApplicationService.Current.State.ContainsKey("SelfPage2"))
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
-                    PhoneApplicationService.Current.State.Remove("SelfPage2");
+                    PhoneApplicationService.Current.State.Remove("UserPage");
                 }
-                PhoneApplicationService.Current.State.Add("SelfPage2", item);
-                App.RootFrame.Navigate(new Uri("/SelfPage2.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State.Add("UserPage", item);
+                App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
 

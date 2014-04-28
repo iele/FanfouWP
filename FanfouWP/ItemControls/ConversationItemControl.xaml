@@ -32,7 +32,7 @@
     <Grid x:Name="LayoutRoot" Margin="12,0"><Image Source="{Binding dm.sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Margin="10,15,0,0"/>
     	<Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Margin="10,15,0,0"/>
     	<StackPanel VerticalAlignment="Top" Margin="80,15,10,0">
-    		<TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667" FontWeight="Bold" Width="65535"/>
+    		<TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="24.667"  Width="65535"/>
     		<TextBlock Margin="5,0" Text="{Binding dm.recipient.screen_name, Converter={StaticResource TextToReplyTextConverter}}" VerticalAlignment="Top" FontSize="24.667"  Foreground="#FF7A7A7A"/>
     	</StackPanel>
     	<StackPanel Margin="10,86,15,10">
@@ -42,7 +42,8 @@
     			<TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
     		</StackPanel>
     	</StackPanel>
-        <Rectangle Fill="#FFDEDEDE" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0"/>
+        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0"/>
+        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0"/>
 
     </Grid>
 </UserControl>

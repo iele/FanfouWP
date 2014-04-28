@@ -49,7 +49,7 @@
             <TextBlock Canvas.ZIndex="-1" x:Name="passwordTip" HorizontalAlignment="Left" Margin="20,102,0,0" TextWrapping="Wrap" Text="输入账户密码" VerticalAlignment="Top" FontSize="25.333" Foreground="#DEA4A4A4"/>
             <StackPanel Margin="16,159,16,0" Orientation="Horizontal" VerticalAlignment="Top">
             	<TextBlock TextWrapping="Wrap" Text="没有账号?点击" FontSize="21.333"/>
-                <HyperlinkButton HorizontalAlignment="Left" Margin="-10,0" VerticalAlignment="Top" RenderTransformOrigin="0.532,5.363" FontWeight="Bold" Click="HyperlinkButton_Click"  Content="此处" FontSize="21.333"/>
+                <HyperlinkButton HorizontalAlignment="Left" Margin="-10,0" VerticalAlignment="Top" RenderTransformOrigin="0.532,5.363"  Click="HyperlinkButton_Click"  Content="此处" FontSize="21.333"/>
             	<TextBlock TextWrapping="Wrap" Text="注册" FontSize="21.333"/>
             </StackPanel>
         </Grid>

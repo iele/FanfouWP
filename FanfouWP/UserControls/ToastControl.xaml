@@ -45,7 +45,7 @@
         </Grid.Background>
 
 
-        <TextBlock x:Name="Text" Margin="12,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#DE000000" FontSize="18" FontWeight="Bold"/>
+        <TextBlock x:Name="Text" Margin="12,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#DE000000" FontSize="18" />
 
     </Grid>
 </UserControl>

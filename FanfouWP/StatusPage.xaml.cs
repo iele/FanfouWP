@@ -137,8 +137,8 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                        if (this.NavigationService.CanGoBack)
-                            this.NavigationService.GoBack();
+                        //if (this.NavigationService.CanGoBack)
+                        //   this.NavigationService.GoBack();
                     });
                 };
                 tp.Show();

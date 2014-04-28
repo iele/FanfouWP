@@ -240,9 +240,9 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                        if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
-                            this.NavigationService.GoBack();
-                        else
+                        //if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
+                        //    this.NavigationService.GoBack();
+                        //else
                         {
                             this.Status.Text = "";
                             this.image = null;

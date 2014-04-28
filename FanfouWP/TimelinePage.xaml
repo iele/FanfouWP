@@ -154,7 +154,7 @@
             <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
             	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true" />
             	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" utils:TiltEffect.IsTiltEnabled="true" Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
-            	<TextBlock FontWeight="SemiBold" Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
+            	<TextBlock  Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
             </Grid>
         </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged"> 
