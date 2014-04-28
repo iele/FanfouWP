@@ -86,6 +86,8 @@ namespace FanfouWP
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("对于新注册用户，建议使用注册邮箱登录客户端，并于网页版设置用户名后方可使用用户名登录；在注册之后一段时间内，可能会出现无法登陆的状况，敬请谅解。");
+
             WebBrowserTask wbt = new WebBrowserTask();
             wbt.Uri = new Uri("http://m.fanfou.com/register/");
             wbt.Show();
