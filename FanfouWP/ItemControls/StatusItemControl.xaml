@@ -39,12 +39,12 @@
     		<ColumnDefinition Width="50"/>
     		<ColumnDefinition/>
     	</Grid.ColumnDefinitions>
-        <Rectangle HorizontalAlignment="Left" Height="40" StrokeThickness="10" VerticalAlignment="Top" Width="40" RadiusX="2" RadiusY="2" Canvas.ZIndex="2" Stroke="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" Margin="5,10,0,0">
+        <Rectangle HorizontalAlignment="Left" Height="40" StrokeThickness="0" VerticalAlignment="Top" Width="40" RadiusX="1" RadiusY="1" Canvas.ZIndex="2" Margin="5,10,0,0">
     		<Rectangle.Fill>
     			<ImageBrush Stretch="UniformToFill" ImageSource="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"/>
     		</Rectangle.Fill>
     	</Rectangle>
-    	<Rectangle HorizontalAlignment="Left" Height="40" StrokeThickness="10" VerticalAlignment="Top" Width="40" RadiusX="2" RadiusY="2" Canvas.ZIndex="1" Stroke="{Binding profile_text_color, Converter={StaticResource StatusToFillColorConverter}}" Margin="5,10,0,0">
+    	<Rectangle HorizontalAlignment="Left" Height="40" StrokeThickness="0" VerticalAlignment="Top" Width="40" RadiusX="1" RadiusY="1" Canvas.ZIndex="1" Margin="5,10,0,0">
     		<Rectangle.Fill>
     			<ImageBrush Stretch="UniformToFill" ImageSource="/Assets/00.jpg"/>
     		</Rectangle.Fill>
