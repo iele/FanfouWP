@@ -44,7 +44,13 @@
     			<TextBlock Padding="5,5,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}"/>
     		</StackPanel>
     		<Grid Margin="0,2,0,0">
-    			<Grid.ColumnDefinitions>
+                <toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu x:Name="cms" IsFadeEnabled="False">
+                        <toolkit:MenuItem Header="回复" Tap="MenuItem1_Tap" />
+                        <toolkit:MenuItem Header="转发" Tap="MenuItem2_Tap" />
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu>
+                <Grid.ColumnDefinitions>
     				<ColumnDefinition/>
     				<ColumnDefinition Width="Auto"/>
     			</Grid.ColumnDefinitions>
