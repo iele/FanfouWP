@@ -285,8 +285,11 @@ namespace FanfouWP
                 return;
             }
 
-            if (this.Status.Text.Count() == 0)
+            if (this.Status.Text == "")
+            {
+                this.toast.NewToast("无法发送空消息:(");
                 return;
+            }
 
             if (!is_sending)
             {

@@ -27,7 +27,7 @@ namespace FanfouWP
         private FanfouWP.API.Items.Status status;
         private ObservableCollection<Status> contextStatus;
 
-        private enum TextMode { Text, Url, At, Search };
+        private enum TextMode { Text, Url, At, Search, Strong};
         public StatusPage()
         {
             InitializeComponent();
@@ -273,6 +273,14 @@ namespace FanfouWP
                             myParagraph.Inlines.Add(link);
                             myParagraph.Inlines.Add(" ");
                             break;
+                        case TextMode.Strong:
+                            Run run2 = new Run();
+                            run2.FontSize = 24;
+                            run2.Text = sep[i];
+                            Bold bold = new Bold();
+                            bold.Inlines.Add(run2);
+                            myParagraph.Inlines.Add(bold);                    
+                            break;
                         case TextMode.Search:
                             Hyperlink link3 = new Hyperlink();
                             var count2 = i;
@@ -345,6 +353,13 @@ namespace FanfouWP
                             state = TextMode.Url;
                             tmp = "";
                         }
+                        //else if (text.Length > count + 8 && text.Substring(count, 8) == "<strong>")
+                        //{
+                        //    sep.Add(tmp);
+                        //    t.Add(state);
+                        //    state = TextMode.Strong;
+                        //    tmp = "";
+                        //}
                         else
                         {
                             tmp += c;
@@ -376,6 +391,19 @@ namespace FanfouWP
                             tmp += c;
                         }
                         break;
+                    //case TextMode.Strong:
+                    //    if (text.Length > count + 9 && text.Substring(count, 9) == "</strong>")
+                    //    {
+                    //        sep.Add(tmp);
+                    //        t.Add(state);
+                    //        state = TextMode.Text;
+                    //        tmp = "";
+                    //    }
+                    //    else
+                    //    {
+                    //        tmp += c;
+                    //    }
+                    //    break;
                     case TextMode.Search:
                         if (c == '#')
                         {

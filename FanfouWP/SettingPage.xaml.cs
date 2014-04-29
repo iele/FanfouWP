@@ -196,6 +196,9 @@ namespace FanfouWP
 
         }
 
-
+        private void NoticeButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/NoticePage.xaml", UriKind.Relative));
+        }
     }
 }

@@ -69,8 +69,8 @@ namespace FanfouWP
             }
             if (State.ContainsKey("UserPage_status"))
             {
-                 this.status = State["UserPage_status"] as  ObservableCollection<FanfouWP.API.Items.Status> ;
-       ;
+                this.status = State["UserPage_status"] as ObservableCollection<FanfouWP.API.Items.Status>;
+                ;
                 if (status == null || status.Count == 0)
                     this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
                 else
@@ -79,22 +79,22 @@ namespace FanfouWP
             }
             if (State.ContainsKey("UserPage_tag"))
             {
-                this.tag=State["UserPage_tag"];
+                this.tag = State["UserPage_tag"];
                 this.tags.ItemsSource = tag;
             }
             if (State.ContainsKey("UserPage_friends"))
             {
-                this.friends=State["UserPage_friends"] ;
+                this.friends = State["UserPage_friends"];
                 this.FriendsListBox.ItemsSource = friends;
             }
             if (State.ContainsKey("UserPage_follows"))
             {
-               this.follows= State["UserPage_follows"] ;
+                this.follows = State["UserPage_follows"];
                 this.FollowersListBox.ItemsSource = follows;
             }
             if (State.ContainsKey("UserPage_fav"))
             {
-                this.fav=State["UserPage_fav"]  ;
+                this.fav = State["UserPage_fav"];
                 this.FavListBox.ItemsSource = fav;
             }
             if (State.ContainsKey("UserPage_index"))
@@ -442,6 +442,16 @@ namespace FanfouWP
             WebBrowserTask wbt = new WebBrowserTask();
             wbt.Uri = new Uri(user.url);
             wbt.Show();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SearchUserPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("SearchUserPage");
+            }
+            PhoneApplicationService.Current.State.Add("SearchUserPage", user);
+            NavigationService.Navigate(new Uri("/SearchUserPage.xaml", UriKind.Relative));
         }
 
     }

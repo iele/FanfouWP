@@ -443,6 +443,15 @@ namespace FanfouWP
             wbt.Uri = new Uri(user.url);
             wbt.Show();
         }
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SearchUserPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("SearchUserPage");
+            }
+            PhoneApplicationService.Current.State.Add("SearchUserPage", user);
+            NavigationService.Navigate(new Uri("/SearchUserPage.xaml", UriKind.Relative));
+        }
 
     }
 }

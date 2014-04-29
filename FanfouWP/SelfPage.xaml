@@ -128,7 +128,8 @@
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
-              </shell:ApplicationBar>
+            <shell:ApplicationBarIconButton x:Name="SearchButton" Text="搜索"  Click="SearchButton_Click" IconUri="/Assets/AppBar/feature.search.png" />
+        </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>

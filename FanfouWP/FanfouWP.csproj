@@ -156,6 +156,12 @@
     <Compile Include="ItemControls\TrendsItemControl.xaml.cs">
       <DependentUpon>TrendsItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NoticePage.xaml.cs">
+      <DependentUpon>NoticePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchUserPage.xaml.cs">
+      <DependentUpon>SearchUserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
@@ -281,6 +287,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ItemControls\TrendsItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NoticePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SearchUserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

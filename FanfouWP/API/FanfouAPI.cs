@@ -221,11 +221,15 @@ namespace FanfouWP.API
 
         public delegate void SearchTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
         public delegate void SearchTimelineFailedHandler(object sender, FailedEventArgs e);
+        public delegate void SearchUserTimelineSuccessHandler(object sender, UserTimelineEventArgs<Items.Status> e);
+        public delegate void SearchUserTimelineFailedHandler(object sender, FailedEventArgs e);
         public delegate void SearchUserSuccessHandler(object sender, UserTimelineEventArgs<Items.User> e);
         public delegate void SearchUserFailedHandler(object sender, FailedEventArgs e);
 
         public event SearchTimelineSuccessHandler SearchTimelineSuccess;
         public event SearchTimelineFailedHandler SearchTimelineFailed;
+        public event SearchUserTimelineSuccessHandler SearchUserTimelineSuccess;
+        public event SearchUserTimelineFailedHandler SearchUserTimelineFailed;
         public event SearchUserSuccessHandler SearchUserSuccess;
         public event SearchUserFailedHandler SearchUserFailed;
 
@@ -333,7 +337,7 @@ namespace FanfouWP.API
 
             Utils.PhotoUploader.PhotosUploadSuccess += PhotoUploader_PhotosUploadSuccess;
             Utils.PhotoUploader.PhotosUploadFailed += PhotoUploader_PhotosUploadFailed;
-      
+
             storage.WriteDataSuccess += JsonStorage_WriteDataSuccess;
             storage.WriteDataFailed += JsonStorage_WriteDataFailed;
             storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
@@ -1282,6 +1286,52 @@ namespace FanfouWP.API
             });
         }
 
+        public void SearchUserTimeline(string q, string id = "")
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.SEARCH_USER_TIMELINE,
+                Method = Hammock.Web.WebMethod.Get
+            };
+            restRequest.AddParameter("q", q);
+            if (id != "")
+                restRequest.AddParameter("id", id);
+            restRequest.AddParameter("count", "60");
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
+                        var ds = new DataContractJsonSerializer(status.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
+                        ms.Close();
+
+                        UserTimelineEventArgs<Items.Status> e = new UserTimelineEventArgs<Items.Status>();
+                        e.UserStatus = status;
+                        SearchUserTimelineSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        SearchUserTimelineFailed(this, e);
+                    }
+                }
+                catch (Exception)
+                {
+                    FailedEventArgs e = new FailedEventArgs();
+                    SearchUserTimelineFailed(this, e);
+                }
+            });
+        }
         public void SearchUser(string q)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -1962,10 +2012,10 @@ namespace FanfouWP.API
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                     this.HomeTimeLineStatus.Insert(0, sender as Status);
-                     HomeTimeLineStatusChanged();
-                     PhotosUploadSuccess(this, e);
-                 });
+                    this.HomeTimeLineStatus.Insert(0, sender as Status);
+                    HomeTimeLineStatusChanged();
+                    PhotosUploadSuccess(this, e);
+                });
             }
             catch (Exception)
             {
