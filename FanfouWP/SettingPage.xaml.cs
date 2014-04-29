@@ -34,7 +34,7 @@ namespace FanfouWP
             this.CountListPicker.ItemsSource = new string[] { "20", "30", "40", "50", "60" };
             this.CacheListPicker.ItemsSource = new string[] { "100", "300", "500", "1000" };
             this.FrequencyListPicker.ItemsSource = new string[] { "30分钟", "1小时", "2小时", "关闭" };
-            this.TimelineFreqListPicker.ItemsSource = new string[] { "1分钟", "2分钟", "5分钟", "10分钟" };
+            this.TimelineFreqListPicker.ItemsSource = new string[] { "1分钟", "2分钟", "5分钟", "10分钟", "关闭" };
             Dispatcher.BeginInvoke(() =>
             {
                 this.QuitCheckBox.IsChecked = settingManager.quit_confirm;
@@ -44,7 +44,7 @@ namespace FanfouWP
                 this.CacheListPicker.SelectedIndex = settingManager.cacheSize;
                 this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq;
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
-                this.CountListPicker.SelectedIndex = settingManager.defaultCount2;             
+                this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
 
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;

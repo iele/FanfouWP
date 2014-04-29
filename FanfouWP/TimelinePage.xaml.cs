@@ -131,8 +131,10 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
-                    (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, FanfouAPI.MentionTimeLineStatusCount.ToString());
-
+                {
+                    pdi[1].Count = (int.Parse(pdi[1].Count) + FanfouAPI.MentionTimeLineStatusCount).ToString();
+                    (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
+                }
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0) || (this.MentionTimeLineListBox.ItemsSource == null && this.MentionTimeLineListBox.ItemsSource.Count == 0))
                 {
                     this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
@@ -163,7 +165,10 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
-                    (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, FanfouAPI.HomeTimeLineStatusCount.ToString());
+                {
+                    pdi[0].Count = (int.Parse(pdi[0].Count) + FanfouAPI.HomeTimeLineStatusCount).ToString();
+                    (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count);
+                }
 
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.HomeTimeLineStatus.Count != 0) || (this.HomeTimeLineListBox.ItemsSource == null && this.HomeTimeLineListBox.ItemsSource.Count == 0))
                 {
@@ -196,6 +201,8 @@ namespace FanfouWP
                 case 3:
                     time = 10;
                     break;
+                case 4:
+                    goto no_autorefresh;
                 default:
                     break;
             }
@@ -207,6 +214,8 @@ namespace FanfouWP
                 FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
             };
             timer.Start();
+        no_autorefresh:
+            return;
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -474,12 +483,14 @@ namespace FanfouWP
 
         private void HomeTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, "0");
+            pdi[0].Count = "0";
+            (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count);
         }
 
         private void MentionTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, "0");
+            pdi[1].Count = "0";
+            (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
         }
 
         private void FanfouImage_Click(object sender, RoutedEventArgs e)

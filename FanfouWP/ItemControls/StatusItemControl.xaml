@@ -56,7 +56,7 @@
                 <ImageBrush Stretch="UniformToFill" ImageSource="/Assets/00.jpg"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
+        <Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
         <StackPanel Orientation="Vertical" Margin="8,10,0,0" Grid.Column="1">
             <TextBlock Margin="0,2" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"  Width="65536"/>
             <StackPanel Margin="0">
@@ -78,7 +78,7 @@
                 </Grid>
             </StackPanel>
         </StackPanel>
-        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
+        <Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
 
     </Grid>
 </UserControl>

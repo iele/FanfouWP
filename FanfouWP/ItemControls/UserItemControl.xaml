@@ -38,8 +38,8 @@
     		</StackPanel>
     		<TextBlock x:Name="message" TextWrapping="Wrap" Text="{Binding status.text, Converter={StaticResource HtmlToTextConverter}}" FontSize="21.333" Foreground="#DE7E7B7B" Margin="0,2,0,0"/>
     	</StackPanel>
-    	<Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
-    	<Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
+    	<Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
+    	<Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
 
     </Grid>
 </UserControl>

@@ -42,8 +42,8 @@
     			<TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
     		</StackPanel>
     	</StackPanel>
-        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0"/>
-        <Rectangle Fill="#FFF4F4F4" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0"/>
+        <Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0"/>
+        <Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0"/>
 
     </Grid>
 </UserControl>
