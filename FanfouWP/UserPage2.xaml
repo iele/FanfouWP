@@ -131,6 +131,7 @@
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
             <shell:ApplicationBarIconButton x:Name="ReplayButton" Text="提及"  Click="ReplayButton_Click" IconUri="/Assets/AppBar/Redo.png" />
+            <shell:ApplicationBarIconButton x:Name="MessageButton" Text="私信"  Click="MessageButton_Click" IconUri="/Assets/AppBar/send photo.png" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Text="搜索"  Click="SearchButton_Click" IconUri="/Assets/AppBar/feature.search.png" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

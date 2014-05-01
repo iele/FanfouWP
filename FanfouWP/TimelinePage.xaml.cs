@@ -11,6 +11,7 @@ using Microsoft.Phone.Scheduler;
 using FanfouWP.Storage;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using Coding4Fun.Toolkit.Controls;
 
 namespace FanfouWP
 {
@@ -459,20 +460,25 @@ namespace FanfouWP
 
         }
 
+        private bool is_back_pressed = false;
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (setting.quit_confirm == true)
             {
-                if (MessageBox.Show("是否退出饭窗?", "确认退出?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+                if (!is_back_pressed)
                 {
+                    ToastPrompt tp = new ToastPrompt();
+                    tp.Completed += (s, e2) => { is_back_pressed = false; };
+                    tp.Title = "饭窗";
+                    tp.Message = "再按一次后退键退出";
+                    tp.MillisecondsUntilHidden = 1000;
+                    tp.Show();
                     e.Cancel = true;
+                    is_back_pressed = true;
                 }
             }
-
             base.OnBackKeyPress(e);
         }
-
-
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Pivot.SelectedIndex == 2)

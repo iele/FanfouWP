@@ -25,6 +25,12 @@ namespace FanfouWP.ItemControls.ValueConverter
                 TimeSpan ts1 = new TimeSpan(currenttime.Ticks);
                 TimeSpan ts2 = new TimeSpan(datetime.Ticks);
                 TimeSpan ts = ts1.Subtract(ts2).Duration();
+                if (ts1 < ts2)
+                {
+                    if (ts2.Subtract(ts1).Duration().TotalMinutes > 10)
+                        return "未来";
+                    return "刚刚";
+                }
                 if (ts.Days != 0)
                 {
                     if (ts.Days < 30)

@@ -403,6 +403,7 @@
     <Content Include="Assets\AppBar\refresh.png" />
     <Content Include="Assets\AppBar\Rotate.png" />
     <Content Include="Assets\AppBar\save.png" />
+    <Content Include="Assets\AppBar\Send photo.png" />
     <Content Include="Assets\AppBar\share.png" />
     <Content Include="Assets\AppBar\stop.png" />
     <Content Include="Assets\AppBar\upload.png" />

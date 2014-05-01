@@ -35,7 +35,13 @@ namespace FanfouWP
         private string position = "";
         public SendPage()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            FanfouAPI.StatusUpdateSuccess += FanfouAPI_StatusUpdateSuccess;
+            FanfouAPI.StatusUpdateFailed += FanfouAPI_StatusUpdateFailed;
+            FanfouAPI.PhotosUploadSuccess += FanfouAPI_PhotosUploadSuccess;
+            FanfouAPI.PhotosUploadFailed += FanfouAPI_PhotosUploadFailed;
+
             this.Loaded += SendPage_Loaded;
 
             if (PhoneApplicationService.Current.State.ContainsKey("ReSend"))
@@ -65,11 +71,7 @@ namespace FanfouWP
 
         private void SendPage_Loaded(object sender, RoutedEventArgs e)
         {
-            FanfouAPI.StatusUpdateSuccess += FanfouAPI_StatusUpdateSuccess;
-            FanfouAPI.StatusUpdateFailed += FanfouAPI_StatusUpdateFailed;
-            FanfouAPI.PhotosUploadSuccess += FanfouAPI_PhotosUploadSuccess;
-            FanfouAPI.PhotosUploadFailed += FanfouAPI_PhotosUploadFailed;
-
+          
             Dispatcher.BeginInvoke(async () =>
             {
                 if (SettingManager.GetInstance().enableLocation == true)

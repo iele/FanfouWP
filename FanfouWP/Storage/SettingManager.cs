@@ -284,7 +284,7 @@ namespace FanfouWP.Storage
             if (settings.TryGetValue("quit_confirm", out quit_confirm) && quit_confirm != null)
                 this.quit_confirm = (Boolean)quit_confirm;
             else
-                this.quit_confirm = false;
+                this.quit_confirm = true;
             if (settings.TryGetValue("username", out username) && username != null)
                 this.username = (string)username;
             else

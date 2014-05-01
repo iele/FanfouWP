@@ -79,6 +79,7 @@ namespace FanfouWP
             {
                 this.contextStatus = e.UserStatus;
                 var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
+                this.context.Children.Clear();
                 foreach (var item in c)
                 {
                     var cic = new ContextItemControl();
@@ -165,6 +166,7 @@ namespace FanfouWP
                         Dispatcher.BeginInvoke(() =>
                         {
                             var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
+                            this.context.Children.Clear();
                             foreach (var item in c)
                             {
                                 var cic = new ContextItemControl();
@@ -320,6 +322,9 @@ namespace FanfouWP
         private void textStateParser(string text, out List<string> sep, out List<TextMode> t)
         {
             TextMode state = TextMode.Text;
+
+            text = text.Replace("<strong>", "");
+            text = text.Replace("</strong>", "");
 
             sep = new List<string>();
             t = new List<TextMode>();

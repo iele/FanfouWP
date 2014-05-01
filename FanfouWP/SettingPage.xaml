@@ -27,7 +27,7 @@
             <controls:PivotItem Header="设置" Margin="0,28,0,0" Foreground="#DE000000">
                 <ScrollViewer Margin="12,0" >
                     <StackPanel Orientation="Vertical">
-                        <CheckBox x:Name="QuitCheckBox" Content="退出时弹出对话框" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="QuitCheckBox" Content="连按两次后退键退出" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top"/>
                         <CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top"/>
                         <TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
                         <toolkit:ListPicker x:Name="QualityListPicker" Margin="12,0" VerticalAlignment="Top"/>

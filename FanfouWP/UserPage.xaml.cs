@@ -388,18 +388,6 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/TagPage.xaml", UriKind.Relative));
 
         }
-
-        private void DirectMenu_Click(object sender, EventArgs e)
-        {
-            if (PhoneApplicationService.Current.State.ContainsKey("MessagePage_User"))
-            {
-                PhoneApplicationService.Current.State.Remove("MessagePage_User");
-            }
-            PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
-            NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
-
-        }
-
         private void PhotosMenu_Click(object sender, EventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("ViewerPage"))
@@ -452,6 +440,16 @@ namespace FanfouWP
             }
             PhoneApplicationService.Current.State.Add("SearchUserPage", user);
             NavigationService.Navigate(new Uri("/SearchUserPage.xaml", UriKind.Relative));
+        }
+
+        private void MessageButton_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("MessagePage_User"))
+            {
+                PhoneApplicationService.Current.State.Remove("MessagePage_User");
+            }
+            PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
+            NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
         }
 
     }

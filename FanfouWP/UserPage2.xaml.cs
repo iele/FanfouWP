@@ -453,5 +453,14 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/SearchUserPage.xaml", UriKind.Relative));
         }
 
+        private void MessageButton_Click(object sender, EventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("MessagePage_User"))
+            {
+                PhoneApplicationService.Current.State.Remove("MessagePage_User");
+            }
+            PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
+            NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
+        }
     }
 }
