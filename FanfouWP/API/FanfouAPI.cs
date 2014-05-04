@@ -443,10 +443,10 @@ namespace FanfouWP.API
         public void AccountNotification()
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
-                {
-                    Path = FanfouConsts.ACCOUNT_NOTIFICATION,
-                    Method = Hammock.Web.WebMethod.Get
-                };
+            {
+                Path = FanfouConsts.ACCOUNT_NOTIFICATION,
+                Method = Hammock.Web.WebMethod.Get
+            };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
