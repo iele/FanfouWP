@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:coding ="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:usercontrols="clr-namespace:FanfouWP.UserControls"
+    xmlns:itemcontrols="clr-namespace:FanfouWP.ItemControls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:UI="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
@@ -17,7 +18,18 @@
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources>
-
+            <ResourceDictionary>
+                <converter:HtmlToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="HtmlToTextConverter" />
+                <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
+                <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
+                <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
+                <converter:NullToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="NullToVisibilityConverter" />
+                <converter:ReplyToNameConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ReplyToNameConverter" />
+                <converter:RetweetToNameConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="RetweetToNameConverter" />
+                <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
+                <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
+                <converter:DisplayImageToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DisplayImageToVisibilityConverter" />
+            </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot">
         <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
@@ -51,6 +63,22 @@
                         <toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
                     </StackPanel>
                 </ScrollViewer>
+            </controls:PivotItem>
+            <controls:PivotItem Header="主题" Margin="0,28,0,0" Foreground="#DE000000">
+                <ListBox x:Name="colorSelector" ItemsSource="{Binding}" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:WrapPanel></toolkit:WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="{Binding color, Converter={StaticResource StatusToFillColorConverter}}" Margin="10" Height="140" Width="140">
+                            </Rectangle>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
             </controls:PivotItem>
             <controls:PivotItem Header="建议" Margin="0,28,0,0" Foreground="#DE000000">
                 <ScrollViewer Margin="12,0">

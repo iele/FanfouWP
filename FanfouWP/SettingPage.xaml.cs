@@ -28,7 +28,7 @@ namespace FanfouWP
             base.OnNavigatedFrom(e);
         }
 
-        void SettingPage_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             this.QualityListPicker.ItemsSource = new string[] { "2G (最大长宽600px,压缩80%)", "3G (最大长宽800px,压缩90%)", "Wi-Fi (最大长宽1280px,压缩100%)", "无限制" };
             this.CountListPicker.ItemsSource = new string[] { "20", "30", "40", "50", "60" };
@@ -46,6 +46,7 @@ namespace FanfouWP
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
                 this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
+                this.colorSelector.ItemsSource = Utils.ColorList.Colors;
 
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
                 this.QualityListPicker.SelectionChanged += QualityListPicker_SelectionChanged;
@@ -54,6 +55,12 @@ namespace FanfouWP
                 this.TimelineFreqListPicker.SelectionChanged += TimelineFreqListPicker_SelectionChanged;
             });
 
+            base.OnNavigatedTo(e);
+        }
+
+        void SettingPage_Loaded(object sender, RoutedEventArgs e)
+        {
+          
         }
 
         void TimelineFreqListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
