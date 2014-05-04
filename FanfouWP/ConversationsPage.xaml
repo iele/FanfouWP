@@ -45,7 +45,7 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="ConversationListBox" ItemsSource="{Binding}"    ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True" SelectionChanged="ConversationListBox_SelectionChanged">
+            <ListBox x:Name="ConversationListBox" ItemsSource="{Binding}"    ScrollViewer.ManipulationMode="System"   SelectionChanged="ConversationListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <itemcontrols:ConversationItemControl />

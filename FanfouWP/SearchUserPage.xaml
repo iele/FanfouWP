@@ -42,7 +42,7 @@
                 <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,50,12,0" Foreground="#DE000000"/>
             </Grid>
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-                <ListBox x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                <ListBox x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />

@@ -12,6 +12,8 @@ using FanfouWP.Storage;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using Coding4Fun.Toolkit.Controls;
+using FanfouWP.API.Items;
+using FanfouWP.UserControls;
 
 namespace FanfouWP
 {
@@ -36,6 +38,8 @@ namespace FanfouWP
 
         private bool is_session_restored = false;
         private bool run_once = true;
+
+        private DispatcherTimer timer;
         public TimelinePage()
         {
             InitializeComponent();
@@ -110,6 +114,7 @@ namespace FanfouWP
 
         private void FanfouAPI_MentionTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
+            is_mention_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 this.MentionTimeLineListBox.HideRefreshPanel();
@@ -119,6 +124,7 @@ namespace FanfouWP
         }
         private void FanfouAPI_HomeTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
+            is_home_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 this.HomeTimeLineListBox.HideRefreshPanel();
@@ -130,6 +136,7 @@ namespace FanfouWP
 
         private void FanfouAPI_MentionTimelineSuccess(object sender, ModeEventArgs e)
         {
+            is_mention_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
@@ -164,6 +171,7 @@ namespace FanfouWP
 
         private void FanfouAPI_HomeTimelineSuccess(object sender, ModeEventArgs e)
         {
+            is_home_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
@@ -186,19 +194,45 @@ namespace FanfouWP
         }
 
         void TimelinePanorama_Loaded(object sender, RoutedEventArgs e)
-        {           
+        {
         }
 
         private void HomeTimeLineListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems[0] != null)
             {
-                if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                if ((e.AddedItems[0] as Status).is_refresh == true)
                 {
-                    PhoneApplicationService.Current.State.Remove("StatusPage");
+                    var id = (e.AddedItems[0] as Status).id;
+                    var from = "";
+                    var to = "";
+                    if (this.FanfouAPI.HomeTimeLineStatus.Count >= 3)
+                    {
+                        for (int i = 1; i < this.FanfouAPI.HomeTimeLineStatus.Count - 1; i++)
+                        {
+                            if (id == this.FanfouAPI.HomeTimeLineStatus[i].id && this.FanfouAPI.HomeTimeLineStatus[i].is_refresh)
+                            {
+                                to = this.FanfouAPI.HomeTimeLineStatus[i - 1].id;
+                                from = this.FanfouAPI.HomeTimeLineStatus[i + 1].id;
+                                break;
+                            }
+                        }
+                        if (from != "" && to != "")
+                        {
+                            this.loading.Visibility = System.Windows.Visibility.Visible;
+                            FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Center, from, to, id);
+                        }
+                    }
                 }
-                PhoneApplicationService.Current.State.Add("StatusPage", e.AddedItems[0]);
-                NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+                else
+                {
+                    if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                    {
+                        PhoneApplicationService.Current.State.Remove("StatusPage");
+                    }
+                    PhoneApplicationService.Current.State.Add("StatusPage", e.AddedItems[0]);
+                    NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+                }
             }
             this.HomeTimeLineListBox.SelectedItem = null;
         }
@@ -207,12 +241,38 @@ namespace FanfouWP
         {
             if (e.AddedItems[0] != null)
             {
-                if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                if ((e.AddedItems[0] as Status).is_refresh == true)
                 {
-                    PhoneApplicationService.Current.State.Remove("StatusPage");
+                    var id = (e.AddedItems[0] as Status).id;
+                    var from = "";
+                    var to = "";
+                    if (this.FanfouAPI.MentionTimeLineStatus.Count >= 3)
+                    {
+                        for (int i = 1; i < this.FanfouAPI.MentionTimeLineStatus.Count - 1; i++)
+                        {
+                            if (id == this.FanfouAPI.MentionTimeLineStatus[i].id && this.FanfouAPI.MentionTimeLineStatus[i].is_refresh)
+                            {
+                                to = this.FanfouAPI.MentionTimeLineStatus[i - 1].id;
+                                from = this.FanfouAPI.MentionTimeLineStatus[i + 1].id;
+                                break;
+                            }
+                        }
+                        if (from != "" && to != "")
+                        {
+                            this.loading.Visibility = System.Windows.Visibility.Visible;
+                            FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Center, from, to, id);
+                        }
+                    }
                 }
-                PhoneApplicationService.Current.State.Add("StatusPage", e.AddedItems[0]);
-                NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+                else
+                {
+                    if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
+                    {
+                        PhoneApplicationService.Current.State.Remove("StatusPage");
+                    }
+                    PhoneApplicationService.Current.State.Add("StatusPage", e.AddedItems[0]);
+                    NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+                }
             }
             this.MentionTimeLineListBox.SelectedItem = null;
         }
@@ -258,20 +318,23 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind));
         }
 
+        private bool is_mention_realized = false;
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.MentionTimeLineEnded)
+            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.MentionTimeLineEnded && !is_mention_realized)
             {
-
+                is_mention_realized = true;
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Back));
             }
         }
 
+        private bool is_home_realized = false;
         private void HomeTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded)
+            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded && !is_home_realized)
             {
+                is_home_realized = true;
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Back);
             }
@@ -364,12 +427,11 @@ namespace FanfouWP
             this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
             this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
 
+            this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
+            Toolbox.DataContext = FanfouAPI.CurrentUser;
+
             if (e.NavigationMode == NavigationMode.New && run_once == true && this.is_session_restored)
             {
-
-                this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
-                Toolbox.DataContext = FanfouAPI.CurrentUser;
-
                 FanfouAPI.AccountNotification();
 
                 if (FanfouAPI.HomeTimeLineStatus.Count != 0)
@@ -402,40 +464,43 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
                 }
             }
-       
+
             AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
             StartPeriodicAgent();
             run_once = false;
 
-            DispatcherTimer timer = new DispatcherTimer();
-            var time = 1;
-            switch (setting.refreshFreq)
+            if (timer == null)
             {
-                case 0:
-                    time = 1;
-                    break;
-                case 1:
-                    time = 2;
-                    break;
-                case 2:
-                    time = 5;
-                    break;
-                case 3:
-                    time = 10;
-                    break;
-                case 4:
-                    goto no_autorefresh;
-                default:
-                    break;
+                timer = new DispatcherTimer();
+                var time = 1;
+                switch (setting.refreshFreq)
+                {
+                    case 0:
+                        time = 1;
+                        break;
+                    case 1:
+                        time = 2;
+                        break;
+                    case 2:
+                        time = 5;
+                        break;
+                    case 3:
+                        time = 10;
+                        break;
+                    case 4:
+                        goto no_autorefresh;
+                    default:
+                        break;
+                }
+                timer.Interval = TimeSpan.FromSeconds(time * 60);
+                timer.Tick += (s, et) =>
+                {
+                    this.loading.Visibility = System.Windows.Visibility.Visible;
+                    FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
+                    FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
+                };
+                timer.Start();
             }
-            timer.Interval = TimeSpan.FromSeconds(time * 60);
-            timer.Tick += (s, et) =>
-            {
-                this.loading.Visibility = System.Windows.Visibility.Visible;
-                FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
-                FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind);
-            };
-            timer.Start();
 
         no_autorefresh:
             base.OnNavigatedTo(e);

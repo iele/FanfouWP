@@ -3,15 +3,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" x:Class="FanfouWP.ItemControls.RefreshItemControl"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:Controls="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" x:Class="FanfouWP.ItemControls.RefreshItemControl"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-	<Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-		<Button Content="Button" VerticalAlignment="Top"/>
-
+	<Grid x:Name="LayoutRoot">
+		<ProgressBar x:Name="progressBar" Visibility="Collapsed" Margin="0" IsIndeterminate="True" Height="64" FontFamily="Portable User Interface"/>
+		<TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Portable User Interface" Width="65536" Canvas.ZIndex="-3" Grid.Column="1"/>
+		<Grid Margin="0" Height="64">
+			<TextBlock x:Name="TextBlock" TextWrapping="Wrap" Text="点击此处加载未读消息" FontSize="24" TextAlignment="Center" Tap="TextBlock_Tap" FontFamily="Portable User Interface" LineHeight="16" Margin="0,0,0,-1" VerticalAlignment="Center">
+				<TextBlock.Foreground>
+                    <SolidColorBrush Color="#FF7A7A7A"/>
+				</TextBlock.Foreground>
+			</TextBlock>
+		</Grid>
 	</Grid>
 </UserControl>

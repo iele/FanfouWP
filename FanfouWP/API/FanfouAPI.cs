@@ -25,7 +25,7 @@ namespace FanfouWP.API
         public string username;
         public string password;
 
-        public enum RefreshMode { New, Behind, Back };
+        public enum RefreshMode { New, Behind, Back, Center };
 
         private TimelineStorage<Items.Status> storage = new TimelineStorage<Items.Status>();
 
@@ -57,7 +57,16 @@ namespace FanfouWP.API
         {
             get
             {
-                return this.HomeTimeLineStatus.First().id;
+                try
+                {
+                    if ((HomeTimeLineStatus.First() as Status).user.id == this.CurrentUser.id)
+                        return HomeTimeLineStatus[1].id;
+                    return this.HomeTimeLineStatus.First().id;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
             }
             private set { }
         }
@@ -71,35 +80,21 @@ namespace FanfouWP.API
             }
             private set { }
         }
-        public string firstPublicTimeLineStatusId
+
+        public string firstMentionTimeLineStatusId
         {
             get
             {
                 try
                 {
-                    return PublicTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
+                    if ((MentionTimeLineStatus.First() as Status).user.id == this.CurrentUser.id)
+                        return MentionTimeLineStatus[1].id;
+                    return MentionTimeLineStatus.First().id;
                 }
                 catch (Exception)
                 {
                     return "";
                 }
-            }
-            private set { }
-        }
-        public string lastPublicTimeLineStatussId
-        {
-            get
-            {
-                return PublicTimeLineStatus.First().id;
-
-            }
-            private set { }
-        }
-        public string firstMentionTimeLineStatusId
-        {
-            get
-            {
-                return MentionTimeLineStatus.First().id;
             }
             private set { }
         }
@@ -741,7 +736,7 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void StatusHomeTimeline(int count = 20, RefreshMode mode = RefreshMode.New)
+        public void StatusHomeTimeline(int count = 20, RefreshMode mode = RefreshMode.New, string since = "", string max = "", string refresh_id = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -757,6 +752,17 @@ namespace FanfouWP.API
                     break;
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastHomeTimeLineStatusId);
+                    break;
+                case RefreshMode.Center:
+                    if (refresh_id != "")
+                    {
+                        restRequest.AddParameter("since_id", since);
+                        restRequest.AddParameter("max_id", max);
+                    }
+                    else
+                    {
+                        return;
+                    }
                     break;
                 default: break;
             }
@@ -794,9 +800,10 @@ namespace FanfouWP.API
                                         }
                                         break;
                                     case RefreshMode.Behind:
-                                        if (status.Count >= 2)
+                                        if (status.Count >= count)
                                         {
                                             var r = new Status();
+                                            r.id = Guid.NewGuid().ToString();
                                             r.is_refresh = true;
                                             HomeTimeLineStatus.Insert(0, r);
                                         }
@@ -815,7 +822,7 @@ namespace FanfouWP.API
                                         foreach (var i in status)
                                         {
                                             var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
-                                            if (ss.Count() == 0)
+                                            if (ss.Count() != 0)
                                                 HomeTimeLineStatus.Add(i);
                                             else
                                             {
@@ -823,9 +830,49 @@ namespace FanfouWP.API
                                             }
                                         }
                                         break;
+                                    case RefreshMode.Center:
+                                        var pos = 0;
+                                        for (int i = 0; i < this.HomeTimeLineStatus.Count; i++)
+                                        {
+                                            if (this.HomeTimeLineStatus[i].id == refresh_id)
+                                            {
+                                                pos = i;
+                                            }
+                                        }
+                                        this.HomeTimeLineStatus.RemoveAt(pos);
+                                        foreach (var i in status)
+                                        {
+                                            var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                HomeTimeLineStatus.Insert(pos++, i);
+                                            else
+                                            {
+                                                c++;
+                                            }
+                                        }
+                                        if (status.Count >= count)
+                                        {
+                                            var r = new Status();
+                                            r.id = Guid.NewGuid().ToString();
+                                            r.is_refresh = true;
+                                            HomeTimeLineStatus.Insert(pos, r);
+                                        }
+                                        break;
                                     default:
                                         break;
                                 }
+                            }
+                            else if (mode == RefreshMode.Center)
+                            {
+                                var pos = 0;
+                                for (int i = 0; i < this.HomeTimeLineStatus.Count; i++)
+                                {
+                                    if (this.HomeTimeLineStatus[i].id == refresh_id)
+                                    {
+                                        pos = i;
+                                    }
+                                }
+                                this.MentionTimeLineStatus.RemoveAt(pos);
                             }
                             HomeTimeLineStatusCount = status.Count - c;
                             HomeTimeLineStatusChanged();
@@ -852,26 +899,14 @@ namespace FanfouWP.API
             });
         }
 
-        public void StatusPublicTimeline(int count, RefreshMode mode = RefreshMode.New)
+        public void StatusPublicTimeline(int count)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
                 Path = FanfouConsts.STATUS_PUBLIC_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get
             };
-            switch (mode)
-            {
-                case RefreshMode.New:
-                    break;
-                case RefreshMode.Behind:
-                    restRequest.AddParameter("since_id", firstPublicTimeLineStatusId);
-                    break;
-                case RefreshMode.Back:
-                    restRequest.AddParameter("max_id", lastPublicTimeLineStatussId);
-                    break;
-                default:
-                    break;
-            }
+
             restRequest.AddParameter("count", count.ToString());
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -890,32 +925,15 @@ namespace FanfouWP.API
                             var l = new ObservableCollection<Items.Status>();
                             if (status != null)
                             {
-                                switch (mode)
+                                foreach (var i in status != null ? status.Reverse() : status)
                                 {
-                                    case RefreshMode.New:
-                                    case RefreshMode.Behind:
-                                        foreach (var i in status != null ? status.Reverse() : status)
-                                        {
-                                            var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
-                                            if (ss.Count() == 0)
-                                                PublicTimeLineStatus.Insert(0, i);
-                                        }
-
-                                        break;
-                                    case RefreshMode.Back:
-                                        foreach (var i in status)
-                                        {
-                                            var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
-                                            if (ss.Count() == 0)
-                                                PublicTimeLineStatus.Add(i);
-                                        }
-                                        break;
-                                    default:
-                                        break;
+                                    var ss = from h in this.PublicTimeLineStatus where h.id == i.id select h;
+                                    if (ss.Count() == 0)
+                                        PublicTimeLineStatus.Insert(0, i);
                                 }
                             }
                             PublicTimeLineStatusChanged();
-                            ModeEventArgs e = new ModeEventArgs(mode);
+                            ModeEventArgs e = new ModeEventArgs(RefreshMode.New);
                             PublicTimelineSuccess(this, e);
                         });
                     }
@@ -937,7 +955,7 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void StatusMentionTimeline(int count, RefreshMode mode = RefreshMode.New)
+        public void StatusMentionTimeline(int count, RefreshMode mode = RefreshMode.New, string since = "", string max = "", string refresh_id = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -953,6 +971,17 @@ namespace FanfouWP.API
                     break;
                 case RefreshMode.Back:
                     restRequest.AddParameter("max_id", lastMentionTimeLineStatusId);
+                    break;
+                case RefreshMode.Center:
+                    if (refresh_id != "")
+                    {
+                        restRequest.AddParameter("since_id", since);
+                        restRequest.AddParameter("max_id", max);
+                    }
+                    else
+                    {
+                        return;
+                    }
                     break;
                 default:
                     break;
@@ -994,6 +1023,7 @@ namespace FanfouWP.API
                                        if (status.Count >= count)
                                        {
                                            var r = new Status();
+                                           r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
                                            HomeTimeLineStatus.Insert(0, r);
                                        }
@@ -1023,9 +1053,49 @@ namespace FanfouWP.API
                                            }
                                        }
                                        break;
+                                   case RefreshMode.Center:
+                                       var pos = 0;
+                                       for (int i = 0; i < this.MentionTimeLineStatus.Count; i++)
+                                       {
+                                           if (this.MentionTimeLineStatus[i].id == refresh_id)
+                                           {
+                                               pos = i;
+                                           }
+                                       }
+                                       this.MentionTimeLineStatus.RemoveAt(pos);
+                                       foreach (var i in status)
+                                       {
+                                           var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
+                                           if (ss.Count() == 0)
+                                               MentionTimeLineStatus.Insert(pos++, i);
+                                           else
+                                           {
+                                               c++;
+                                           }
+                                       }
+                                       if (status.Count >= count)
+                                       {
+                                           var r = new Status();
+                                           r.id = Guid.NewGuid().ToString();
+                                           r.is_refresh = true;
+                                           MentionTimeLineStatus.Insert(pos, r);
+                                       }
+                                       break;
                                    default:
                                        break;
                                }
+                           }
+                           else if (mode == RefreshMode.Center)
+                           {
+                               var pos = 0;
+                               for (int i = 0; i < this.MentionTimeLineStatus.Count; i++)
+                               {
+                                   if (this.MentionTimeLineStatus[i].id == refresh_id)
+                                   {
+                                       pos = i;
+                                   }
+                               }
+                               this.MentionTimeLineStatus.RemoveAt(pos);
                            }
                            MentionTimeLineStatusCount = status.Count - c;
                            MentionTimeLineStatusChanged();

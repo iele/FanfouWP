@@ -44,7 +44,7 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="TrendsListBox" SelectionChanged="TrendsListBox_SelectionChanged"  ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  ItemsSource="{Binding}">
+            <ListBox x:Name="TrendsListBox" SelectionChanged="TrendsListBox_SelectionChanged"  ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <itemcontrols:TrendsItemControl />

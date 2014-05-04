@@ -51,7 +51,7 @@
 
                     <!--ContentPanel - 在此处放置其他内容-->
                     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-                        <ListBox x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+                        <ListBox x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <itemcontrols:StatusItemControl />
@@ -79,7 +79,7 @@
 
                     <!--ContentPanel - 在此处放置其他内容-->
             		<Grid Grid.Row="1" Margin="0">
-            			<ListBox x:Name="UserStatusListBox" ItemsSource="{Binding}" SelectionChanged="UserStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True">
+            			<ListBox x:Name="UserStatusListBox" ItemsSource="{Binding}" SelectionChanged="UserStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
             				<ListBox.ItemTemplate>
             					<DataTemplate>
             						<itemcontrols:UserItemControl />

@@ -17,12 +17,12 @@
                 <toolkit:WrapPanel></toolkit:WrapPanel>
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
-        <toolkit:HubTile GroupTag="tile" x:Name="DirectMsgTile" HorizontalAlignment="Left"  VerticalAlignment="Top" utils:TiltEffect.IsTiltEnabled="True" Tap="DirectMsgTile_Tap"  Title="私信" Message="查看最新私信" Margin="5" DisplayNotification="True" Source="/FanfouWP;component/Assets/email.png" />
-        <toolkit:HubTile GroupTag="tile" x:Name="FavTile" HorizontalAlignment="Left"  VerticalAlignment="Top"  Tap="FavTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="收藏" Message="查看您收藏的内容" Margin="5,5" DisplayNotification="False" Source="/FanfouWP;component/Assets/folder-bookmarks.png"/>
-        <toolkit:HubTile GroupTag="tile" x:Name="SearchTile" HorizontalAlignment="Left" VerticalAlignment="Top" Tap="SearchTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="搜索" Message="搜索时间线" Margin="5,5" DisplayNotification="False" Source="/FanfouWP;component/Assets/search.png" Height="173" />
+        <toolkit:HubTile GroupTag="tile" x:Name="DirectMsgTile" HorizontalAlignment="Left"  VerticalAlignment="Top"   Tap="DirectMsgTile_Tap"  Title="私信" Message="查看最新私信" Margin="5" DisplayNotification="True" Source="/FanfouWP;component/Assets/email.png" />
+        <toolkit:HubTile GroupTag="tile" x:Name="FavTile" HorizontalAlignment="Left"  VerticalAlignment="Top"  Tap="FavTile_Tap"   Title="收藏" Message="查看您收藏的内容" Margin="5,5" DisplayNotification="False" Source="/FanfouWP;component/Assets/folder-bookmarks.png"/>
+        <toolkit:HubTile GroupTag="tile" x:Name="SearchTile" HorizontalAlignment="Left" VerticalAlignment="Top" Tap="SearchTile_Tap"   Title="搜索" Message="搜索时间线" Margin="5,5" DisplayNotification="False" Source="/FanfouWP;component/Assets/search.png" Height="173" />
 
-        <toolkit:HubTile GroupTag="tile" x:Name="TrendTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="TrendTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="热门话题" Message="看看最近发生了什么" Margin="5" DisplayNotification="False" Source="/FanfouWP;component/Assets/stocks.png"/>
-        <toolkit:HubTile GroupTag="tile" x:Name="TagTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="TagTile_Tap"  utils:TiltEffect.IsTiltEnabled="True" Title="标签" Message="根据你的标签找寻志同道合的朋友" Margin="5" DisplayNotification="False" Source="/FanfouWP;component/Assets/contact.png"/>
-        <toolkit:HubTile GroupTag="tile" x:Name="SettingTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="SettingTile_Tap" utils:TiltEffect.IsTiltEnabled="True" Title="设置" Message="设置本应用" DisplayNotification="False" Source="/FanfouWP;component/Assets/spareparts.png" Margin="5,5,5,0"/>
+        <toolkit:HubTile GroupTag="tile" x:Name="TrendTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="TrendTile_Tap"  Title="热门话题" Message="看看最近发生了什么" Margin="5" DisplayNotification="False" Source="/FanfouWP;component/Assets/stocks.png"/>
+        <toolkit:HubTile GroupTag="tile" x:Name="TagTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="TagTile_Tap"    Title="标签" Message="根据你的标签找寻志同道合的朋友" Margin="5" DisplayNotification="False" Source="/FanfouWP;component/Assets/contact.png"/>
+        <toolkit:HubTile GroupTag="tile" x:Name="SettingTile" HorizontalAlignment="Left"  VerticalAlignment="Top" Tap="SettingTile_Tap"   Title="设置" Message="设置本应用" DisplayNotification="False" Source="/FanfouWP;component/Assets/spareparts.png" Margin="5,5,5,0"/>
     </ListBox>
 </UserControl>

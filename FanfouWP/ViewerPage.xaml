@@ -39,7 +39,7 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="images" Margin="0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ListBox_SelectionChanged" utils:TiltEffect.IsTiltEnabled="True"  >
+            <ListBox x:Name="images" Margin="0" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ListBox_SelectionChanged"    >
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <toolkit:WrapPanel></toolkit:WrapPanel>

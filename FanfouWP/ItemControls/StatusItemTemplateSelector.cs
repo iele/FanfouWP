@@ -30,8 +30,6 @@ namespace FanfouWP.ItemControls
             if (i.is_refresh == true)
                 return RefreshTemplate;
             return StatusTemplate;
-
-            return base.SelectTemplate(item, container);
         }
     }
 }

@@ -16,5 +16,11 @@ namespace FanfouWP.ItemControls
         {
             InitializeComponent();
         }
+
+        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            this.TextBlock.Visibility = Visibility.Collapsed;
+            this.progressBar.Visibility = Visibility.Visible;
+        }
     }
 }
