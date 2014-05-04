@@ -57,15 +57,7 @@ namespace FanfouWP.API
         {
             get
             {
-                try
-                {
-                    return this.HomeTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-                ;
+                return this.HomeTimeLineStatus.First().id;
             }
             private set { }
         }
@@ -73,14 +65,9 @@ namespace FanfouWP.API
         {
             get
             {
-                try
-                {
+                if ((HomeTimeLineStatus.Last() as Status).is_refresh == true)
                     return HomeTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
+                return HomeTimeLineStatus[HomeTimeLineStatus.Count - 2].id;
             }
             private set { }
         }
@@ -103,15 +90,8 @@ namespace FanfouWP.API
         {
             get
             {
-                try
-                {
-                    return PublicTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-                ;
+                return PublicTimeLineStatus.First().id;
+
             }
             private set { }
         }
@@ -119,15 +99,7 @@ namespace FanfouWP.API
         {
             get
             {
-                try
-                {
-                    return MentionTimeLineStatus.First(s => (s.user.id != this.CurrentUser.id)).id;
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-                ;
+                return MentionTimeLineStatus.First().id;
             }
             private set { }
         }
@@ -135,15 +107,9 @@ namespace FanfouWP.API
         {
             get
             {
-                try
-                {
+                if ((MentionTimeLineStatus.Last() as Status).is_refresh == true)
                     return MentionTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-                ;
+                return MentionTimeLineStatus[MentionTimeLineStatus.Count - 2].id;
             }
             private set { }
         }
@@ -816,7 +782,6 @@ namespace FanfouWP.API
                                 switch (mode)
                                 {
                                     case RefreshMode.New:
-                                    case RefreshMode.Behind:
                                         foreach (var i in status.Reverse())
                                         {
                                             var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
@@ -827,7 +792,24 @@ namespace FanfouWP.API
                                                 c++;
                                             }
                                         }
-
+                                        break;
+                                    case RefreshMode.Behind:
+                                        if (status.Count >= 2)
+                                        {
+                                            var r = new Status();
+                                            r.is_refresh = true;
+                                            HomeTimeLineStatus.Insert(0, r);
+                                        }
+                                        foreach (var i in status.Reverse())
+                                        {
+                                            var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
+                                            if (ss.Count() == 0)
+                                                HomeTimeLineStatus.Insert(0, i);
+                                            else
+                                            {
+                                                c++;
+                                            }
+                                        }
                                         break;
                                     case RefreshMode.Back:
                                         foreach (var i in status)
@@ -997,7 +979,6 @@ namespace FanfouWP.API
                                switch (mode)
                                {
                                    case RefreshMode.New:
-                                   case RefreshMode.Behind:
                                        foreach (var i in status != null ? status.Reverse() : status)
                                        {
                                            var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
@@ -1008,6 +989,26 @@ namespace FanfouWP.API
                                                c++;
                                            }
                                        }
+                                       break;
+                                   case RefreshMode.Behind:
+                                       if (status.Count >= count)
+                                       {
+                                           var r = new Status();
+                                           r.is_refresh = true;
+                                           HomeTimeLineStatus.Insert(0, r);
+                                       }
+
+                                       foreach (var i in status != null ? status.Reverse() : status)
+                                       {
+                                           var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
+                                           if (ss.Count() == 0)
+                                               MentionTimeLineStatus.Insert(0, i);
+                                           else
+                                           {
+                                               c++;
+                                           }
+                                       }
+
 
                                        break;
                                    case RefreshMode.Back:

@@ -96,7 +96,7 @@
                 <shell:ApplicationBarMenuItem Text="设置" Click="ApplicationBarMenuItem_Click_3"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
-               <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/Camera.png" Text="照片" />
+            <shell:ApplicationBarIconButton x:Name="CameraButton" Click="CameraButton_Click" IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" />
             <shell:ApplicationBarIconButton x:Name="NewButton" Click="NewButton_Click"  IconUri="/Assets/AppBar/edit.png" Text="新饭" />
         </shell:ApplicationBar>
@@ -134,7 +134,7 @@
                 <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
                 <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
                 <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
-                
+
             </ResourceDictionary>
         </Grid.Resources>
         <Grid Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="120" x:Name="TitleControl">
@@ -146,18 +146,18 @@
             </Grid.Background>
             <StackPanel  Margin="282,12,18,0" Height="42" Orientation="Vertical" VerticalAlignment="Top" Background="#00000000" HorizontalAlignment="Right">
                 <coding:ImageTile Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Stretch" Height="42" Width="180" x:Name="FanfouImage" Click="FanfouImage_Click" IsFrozen="True">
-                	<coding:ImageTile.Background>
-                		<ImageBrush Stretch="Uniform" ImageSource="/Assets/fanfou_beta.png"/>
-                	</coding:ImageTile.Background>
+                    <coding:ImageTile.Background>
+                        <ImageBrush Stretch="Uniform" ImageSource="/Assets/fanfou_beta.png"/>
+                    </coding:ImageTile.Background>
                 </coding:ImageTile>
             </StackPanel>
             <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
-            	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true" />
-            	<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" utils:TiltEffect.IsTiltEnabled="true" Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
-            	<TextBlock  Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
+                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" utils:TiltEffect.IsTiltEnabled="true" />
+                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" utils:TiltEffect.IsTiltEnabled="true" Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
+                <TextBlock  Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32" utils:TiltEffect.IsTiltEnabled="true" Foreground="#DEFFFFFF" />
             </Grid>
         </Grid>
-        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged"> 
+        <phone:Pivot x:Name="Pivot" Margin="0,48,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid DoubleTap="Grid_DoubleTap">
@@ -177,7 +177,20 @@
 					RefreshTriggered="HomeTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" Background="Black" ItemRealized="HomeTimeLineListBox_ItemRealized" FontFamily="Portable User Interface">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
-                            <itemcontrols:StatusItemControl />
+                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls" Content="{Binding}">
+                                <local:StatusItemTemplateSelector.StatusTemplate>
+                                    <DataTemplate>
+                                        <itemcontrols:StatusItemControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </local:StatusItemTemplateSelector.StatusTemplate>
+
+                                <local:StatusItemTemplateSelector.RefreshTemplate>
+                                    <DataTemplate>
+                                        <itemcontrols:RefreshItemControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </local:StatusItemTemplateSelector.RefreshTemplate>
+                            </local:StatusItemTemplateSelector>
+
                         </DataTemplate>
                     </usercontrols:RefreshableListBox.ItemTemplate>
                 </usercontrols:RefreshableListBox>
@@ -186,7 +199,20 @@
                 <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged"  ManipulationStarted="MentionTimeLineListBox_ManipulationStarted" ScrollViewer.ManipulationMode="System" utils:TiltEffect.IsTiltEnabled="True"  RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" ItemRealized="MentionTimeLineListBox_ItemRealized">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
-                            <itemcontrols:StatusItemControl />
+                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls" Content="{Binding}">
+                                <local:StatusItemTemplateSelector.StatusTemplate>
+                                    <DataTemplate>
+                                       <itemcontrols:StatusItemControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </local:StatusItemTemplateSelector.StatusTemplate>
+
+                                <local:StatusItemTemplateSelector.RefreshTemplate>
+                                    <DataTemplate>
+                                        <itemcontrols:RefreshItemControl DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </local:StatusItemTemplateSelector.RefreshTemplate>
+                            </local:StatusItemTemplateSelector>
+
                         </DataTemplate>
                     </usercontrols:RefreshableListBox.ItemTemplate>
                 </usercontrols:RefreshableListBox>
@@ -194,10 +220,10 @@
 
             <phone:PivotItem Margin="0"  Header="工具箱" >
                 <Grid Margin="0,10,0,0">
-            		<ScrollViewer>
-            			<usercontrols:ToolsControl Margin="12,0,0,0" x:Name="Toolbox" />
-            		</ScrollViewer>
-            	</Grid>
+                    <ScrollViewer>
+                        <usercontrols:ToolsControl Margin="12,0,0,0" x:Name="Toolbox" />
+                    </ScrollViewer>
+                </Grid>
             </phone:PivotItem>
 
         </phone:Pivot>

@@ -9,6 +9,7 @@ namespace FanfouWP.API.Items
 {
     public class Status : Item
     {
+        public bool is_refresh { get; set; }
         public string created_at { get; set; }
         public string id { get; set; }
         public string rawid { get; set; }
