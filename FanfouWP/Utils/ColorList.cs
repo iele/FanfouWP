@@ -26,7 +26,6 @@ namespace FanfouWP.Utils
                 var currentAccentColorHex = (System.Windows.Media.Color)Application.Current.Resources["PhoneAccentColor"];
                 l.Add(new Color(currentAccentColorHex.ToString().Remove(1, 2)));
                 l.Add(new Color("#66C5DC"));
-                l.Add(new Color("#E9F0DB"));
                 l.Add(new Color("#ffffe5"));
                 l.Add(new Color("#fffcd9"));
                 l.Add(new Color("#3a9dcf"));

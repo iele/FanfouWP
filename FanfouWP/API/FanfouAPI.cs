@@ -74,9 +74,9 @@ namespace FanfouWP.API
         {
             get
             {
-                if ((HomeTimeLineStatus.Last() as Status).is_refresh == true)
-                    return HomeTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
-                return HomeTimeLineStatus[HomeTimeLineStatus.Count - 2].id;
+                if (HomeTimeLineStatus.Count > 2)
+                    return HomeTimeLineStatus.Last(s => (s.is_refresh == false)).id;
+                return "";
             }
             private set { }
         }
@@ -102,9 +102,9 @@ namespace FanfouWP.API
         {
             get
             {
-                if ((MentionTimeLineStatus.Last() as Status).is_refresh == true)
-                    return MentionTimeLineStatus.Last(s => (s.user.id != this.CurrentUser.id)).id;
-                return MentionTimeLineStatus[MentionTimeLineStatus.Count - 2].id;
+                if (MentionTimeLineStatus.Count > 2)
+                    return MentionTimeLineStatus.Last(s => (s.is_refresh == false)).id;
+                return "";
             }
             private set { }
         }

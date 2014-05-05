@@ -19,7 +19,10 @@ namespace FanfouWP.ItemControls.ValueConverter
     public class ImageSourceToCacheConverter : IValueConverter
     {
         private const string ImageStorageFolder = "CacheImages";
-        private static IsolatedStorageFile _storage;
+        private IsolatedStorageFile _storage;
+
+        public delegate void ImageCompletedHander(object sender, EventArgs e);
+        public event ImageCompletedHander ImageCompleted;
 
         public ImageSourceToCacheConverter()
         {
@@ -61,6 +64,8 @@ namespace FanfouWP.ItemControls.ValueConverter
 
             // 不是网络图片,应用内的素材  
             var bm = new BitmapImage(imageFileUri);
+            if (ImageCompleted != null)
+                ImageCompleted(this, new EventArgs());
             return bm;
         }
 
@@ -70,22 +75,26 @@ namespace FanfouWP.ItemControls.ValueConverter
             throw new NotImplementedException();
         }
 
-        private static object LoadDefaultIfPassed(Uri imageFileUri, string defaultImagePath)
+        private object LoadDefaultIfPassed(Uri imageFileUri, string defaultImagePath)
         {
             string defaultImageUri = (defaultImagePath ?? string.Empty);
             if (!string.IsNullOrEmpty(defaultImageUri))
             {
                 var bm = new BitmapImage(new Uri(defaultImageUri, UriKind.Relative)); //Load default Image  
+                if (ImageCompleted != null)
+                    ImageCompleted(this, new EventArgs());
                 return bm;
             }
             else
             {
                 var bm = new BitmapImage(imageFileUri);
+                if (ImageCompleted != null)
+                    ImageCompleted(this, new EventArgs());
                 return bm;
             }
         }
 
-        private static object DownloadFromWeb(Uri imageFileUri)
+        private object DownloadFromWeb(Uri imageFileUri)
         {
             var m_webClient = new WebClient(); //Load from internet  
             var bm = new BitmapImage();
@@ -96,13 +105,15 @@ namespace FanfouWP.ItemControls.ValueConverter
                 WriteToIsolatedStorage(IsolatedStorageFile.GetUserStoreForApplication(), e.Result,
                                        GetFileNameInIsolatedStorage(imageFileUri));
                 bm.SetSource(e.Result);
+                if (ImageCompleted != null)
+                    ImageCompleted(this, new EventArgs());
                 e.Result.Close();
             };
             m_webClient.OpenReadAsync(imageFileUri);
             return bm;
         }
 
-        private static object ExtractFromLocalStorage(Uri imageFileUri)
+        private object ExtractFromLocalStorage(Uri imageFileUri)
         {
             string isolatedStoragePath = GetFileNameInIsolatedStorage(imageFileUri); //Load from local storage  
             using (
@@ -110,12 +121,14 @@ namespace FanfouWP.ItemControls.ValueConverter
                                                                          FileAccess.Read))
             {
                 var bm = new BitmapImage();
-                bm.SetSource(sourceFile);
+                bm.SetSource(sourceFile); if (ImageCompleted != null)
+                    ImageCompleted(this, new EventArgs());
+
                 return bm;
             }
         }
 
-        private static void WriteToIsolatedStorage(IsolatedStorageFile storage, Stream inputStream,
+        private void WriteToIsolatedStorage(IsolatedStorageFile storage, Stream inputStream,
                                                    string fileName)
         {
             IsolatedStorageFileStream outputStream = null;
@@ -150,7 +163,7 @@ namespace FanfouWP.ItemControls.ValueConverter
         /// </summary>  
         /// <param name="uri">The URI.</param>  
         /// <returns></returns>  
-        public static string GetFileNameInIsolatedStorage(Uri uri)
+        public string GetFileNameInIsolatedStorage(Uri uri)
         {
             return ImageStorageFolder + "\\" + uri.AbsoluteUri.GetHashCode() + ".img";
         }

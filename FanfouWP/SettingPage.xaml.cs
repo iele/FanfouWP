@@ -46,7 +46,7 @@ namespace FanfouWP
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
                 this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
-                this.colorSelector.ItemsSource = Utils.ColorList.Colors;
+                //this.colorSelector.ItemsSource = Utils.ColorList.Colors;
 
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
                 this.QualityListPicker.SelectionChanged += QualityListPicker_SelectionChanged;
@@ -206,6 +206,11 @@ namespace FanfouWP
         private void NoticeButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/NoticePage.xaml", UriKind.Relative));
+        }
+
+        private void LockButton_Click(object sender, RoutedEventArgs e)
+        {
+            var op = Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-lock:"));
         }
     }
 }

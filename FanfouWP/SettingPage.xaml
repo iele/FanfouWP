@@ -45,7 +45,8 @@
                         <toolkit:ListPicker x:Name="QualityListPicker" Margin="12,0" VerticalAlignment="Top"/>
                         <TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
                         <toolkit:ListPicker x:Name="FrequencyListPicker" Margin="12,0" VerticalAlignment="Top"/>
-                        <Button Content="清除缓存" VerticalAlignment="Bottom" x:Name="CleanButton" Click="CleanButton_Click" Margin="0,12,0,0"/>
+                        <Button Content="设置锁屏通知" VerticalAlignment="Bottom" x:Name="LockButton" Click="LockButton_Click" Margin="0,6,0,0"/>
+                        <Button Content="清除缓存" VerticalAlignment="Bottom" x:Name="CleanButton" Click="CleanButton_Click" Margin="0,18,0,0"/>
                         <Button Content="注销" VerticalAlignment="Bottom" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="0"/>
                     </StackPanel>
                 </ScrollViewer>
@@ -64,7 +65,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="主题" Margin="0,28,0,0" Foreground="#DE000000">
+            <!--<controls:PivotItem Header="主题" Margin="0,28,0,0" Foreground="#DE000000">
                 <ListBox x:Name="colorSelector" ItemsSource="{Binding}" >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -79,7 +80,7 @@
                     </ListBox.ItemTemplate>
 
                 </ListBox>
-            </controls:PivotItem>
+            </controls:PivotItem>-->
             <controls:PivotItem Header="建议" Margin="0,28,0,0" Foreground="#DE000000">
                 <ScrollViewer Margin="12,0">
                     <StackPanel Orientation="Vertical">

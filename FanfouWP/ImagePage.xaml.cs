@@ -48,6 +48,7 @@ namespace FanfouWP
             if (status != null && status.photo != null)
             {
                 var converter = new FanfouWP.ItemControls.ValueConverter.ImageSourceToCacheConverter();
+                converter.ImageCompleted += (s, e2) => Dispatcher.BeginInvoke(() => this.loading.Visibility = Visibility.Collapsed);
                 BitmapImage bm = new BitmapImage();
                 bm = (BitmapImage)converter.Convert(this.status.photo.largeurl, bm.GetType(), null, System.Globalization.CultureInfo.CurrentCulture);
                 this.image.Source = bm;
