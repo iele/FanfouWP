@@ -30,6 +30,31 @@ namespace FanfouWP
             }
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                if (State.ContainsKey("ImagePage_status"))
+                    State["ImagePage_status"] = this.status;
+            }
+            base.OnNavigatedFrom(e);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (State.ContainsKey("ImagePage_status"))
+                this.status = State["ImagePage_status"] as API.Items.Status;
+
+            if (status != null && status.photo != null)
+            {
+                var converter = new FanfouWP.ItemControls.ValueConverter.ImageSourceToCacheConverter();
+                BitmapImage bm = new BitmapImage();
+                bm = (BitmapImage)converter.Convert(this.status.photo.largeurl, bm.GetType(), null, System.Globalization.CultureInfo.CurrentCulture);
+                this.image.Source = bm;
+            }
+            base.OnNavigatedTo(e);
+        }
+
         private void OnTap(object sender, GestureEventArgs e)
         {
         }

@@ -29,7 +29,10 @@
         <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
             <usercontrols:ToastControl x:Name="toast"/>
         </coding:ProgressOverlay>
-        <Image x:Name="image" Margin="0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" CacheMode="BitmapCache" ImageOpened="image_ImageOpened">
+        <coding:ProgressOverlay x:Name="loading" Background="Transparent" Visibility="Visible" Canvas.ZIndex="1">
+            <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
+        </coding:ProgressOverlay>
+        <Image x:Name="image" Margin="0" CacheMode="BitmapCache">
             <Image.RenderTransform>
                 <CompositeTransform x:Name="transform"></CompositeTransform>
             </Image.RenderTransform>
