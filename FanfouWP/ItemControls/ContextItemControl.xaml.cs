@@ -25,8 +25,7 @@ namespace FanfouWP.ItemControls
         {
 
         }
-
-        private void MenuItem1_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void MenuItem1_Click(object sender, RoutedEventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("Reply"))
             {
@@ -35,8 +34,7 @@ namespace FanfouWP.ItemControls
             PhoneApplicationService.Current.State.Add("Reply", this.DataContext);
             App.RootFrame.Navigate(new Uri("/SendPage.xaml", UriKind.Relative));
         }
-
-        private void MenuItem2_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void MenuItem2_Click(object sender, RoutedEventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("ReSend"))
             {

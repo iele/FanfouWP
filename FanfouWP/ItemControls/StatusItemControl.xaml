@@ -33,9 +33,9 @@
     </UserControl.Foreground>
 	<Grid x:Name="LayoutRoot" Margin="12,0">
 		<toolkit:ContextMenuService.ContextMenu>
-			<toolkit:ContextMenu x:Name="cms" IsFadeEnabled="True" IsZoomEnabled="False">
-				<toolkit:MenuItem Header="回复" Tap="MenuItem1_Tap" />
-				<toolkit:MenuItem Header="转发" Tap="MenuItem2_Tap" />
+			<toolkit:ContextMenu x:Name="cms" IsZoomEnabled="False">
+                <toolkit:MenuItem Header="回复" Click="MenuItem1_Click" />
+                <toolkit:MenuItem Header="转发" Click="MenuItem2_Click" />
 			</toolkit:ContextMenu>
 		</toolkit:ContextMenuService.ContextMenu>
 

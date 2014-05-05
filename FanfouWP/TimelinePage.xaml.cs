@@ -114,7 +114,6 @@ namespace FanfouWP
 
         private void FanfouAPI_MentionTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
-            is_mention_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 this.MentionTimeLineListBox.HideRefreshPanel();
@@ -124,7 +123,6 @@ namespace FanfouWP
         }
         private void FanfouAPI_HomeTimelineFailed(object sender, API.Event.FailedEventArgs e)
         {
-            is_home_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 this.HomeTimeLineListBox.HideRefreshPanel();
@@ -136,7 +134,6 @@ namespace FanfouWP
 
         private void FanfouAPI_MentionTimelineSuccess(object sender, ModeEventArgs e)
         {
-            is_mention_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
@@ -171,7 +168,6 @@ namespace FanfouWP
 
         private void FanfouAPI_HomeTimelineSuccess(object sender, ModeEventArgs e)
         {
-            is_home_realized = false;
             Dispatcher.BeginInvoke(() =>
             {
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
@@ -318,25 +314,20 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Behind));
         }
 
-        private bool is_mention_realized = false;
         private void MentionTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.MentionTimeLineEnded && !is_mention_realized)
+            if (e.Container.DataContext == this.MentionTimeLineListBox.ItemsSource[this.MentionTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.MentionTimeLineEnded)
             {
-                is_mention_realized = true;
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
                 Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Back));
             }
         }
-
-        private bool is_home_realized = false;
         private void HomeTimeLineListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded && !is_home_realized)
+            if (e.Container.DataContext == this.HomeTimeLineListBox.ItemsSource[this.HomeTimeLineListBox.ItemsSource.Count - 1] && !FanfouAPI.HomeTimeLineEnded)
             {
-                is_home_realized = true;
                 Dispatcher.BeginInvoke(() => this.loading.Visibility = System.Windows.Visibility.Visible);
-                FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Back);
+                Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, FanfouAPI.RefreshMode.Back));
             }
         }
 

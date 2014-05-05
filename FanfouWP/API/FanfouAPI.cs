@@ -754,7 +754,7 @@ namespace FanfouWP.API
                     restRequest.AddParameter("max_id", lastHomeTimeLineStatusId);
                     break;
                 case RefreshMode.Center:
-                    if (refresh_id != "")
+                    if (refresh_id != "" && since != "" && max != "")
                     {
                         restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
@@ -822,7 +822,7 @@ namespace FanfouWP.API
                                         foreach (var i in status)
                                         {
                                             var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
-                                            if (ss.Count() != 0)
+                                            if (ss.Count() == 0)
                                                 HomeTimeLineStatus.Add(i);
                                             else
                                             {
@@ -872,7 +872,7 @@ namespace FanfouWP.API
                                         pos = i;
                                     }
                                 }
-                                this.MentionTimeLineStatus.RemoveAt(pos);
+                                this.HomeTimeLineStatus.RemoveAt(pos);
                             }
                             HomeTimeLineStatusCount = status.Count - c;
                             HomeTimeLineStatusChanged();
@@ -973,7 +973,7 @@ namespace FanfouWP.API
                     restRequest.AddParameter("max_id", lastMentionTimeLineStatusId);
                     break;
                 case RefreshMode.Center:
-                    if (refresh_id != "")
+                    if (refresh_id != "" && since != "" && max != "")
                     {
                         restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
@@ -1025,7 +1025,7 @@ namespace FanfouWP.API
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
-                                           HomeTimeLineStatus.Insert(0, r);
+                                           MentionTimeLineStatus.Insert(0, r);
                                        }
 
                                        foreach (var i in status != null ? status.Reverse() : status)
