@@ -177,7 +177,7 @@
 					RefreshTriggered="HomeTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" Background="Black" ItemRealized="HomeTimeLineListBox_ItemRealized" FontFamily="Portable User Interface">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls" Content="{Binding}">
+                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
                                 <local:StatusItemTemplateSelector.StatusTemplate>
                                     <DataTemplate>
                                         <itemcontrols:StatusItemControl DataContext="{Binding}"/>
@@ -190,7 +190,6 @@
                                     </DataTemplate>
                                 </local:StatusItemTemplateSelector.RefreshTemplate>
                             </local:StatusItemTemplateSelector>
-
                         </DataTemplate>
                     </usercontrols:RefreshableListBox.ItemTemplate>
                 </usercontrols:RefreshableListBox>
@@ -199,7 +198,7 @@
                 <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged"  ManipulationStarted="MentionTimeLineListBox_ManipulationStarted" ScrollViewer.ManipulationMode="System"    RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" ItemRealized="MentionTimeLineListBox_ItemRealized">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls" Content="{Binding}">
+                            <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
                                 <local:StatusItemTemplateSelector.StatusTemplate>
                                     <DataTemplate>
                                        <itemcontrols:StatusItemControl DataContext="{Binding}"/>

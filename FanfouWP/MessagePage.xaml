@@ -49,7 +49,19 @@
             	</phone:LongListSelector.RenderTransform>
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                    	<itemcontrols:MessageItemControl />
+                        <local:MessageItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
+                            <local:MessageItemTemplateSelector.MessageSelfTemplate>
+                                <DataTemplate>
+                                    <itemcontrols:MessageSelfItemControl DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </local:MessageItemTemplateSelector.MessageSelfTemplate>
+
+                            <local:MessageItemTemplateSelector.MessageOtherTemplate>
+                                <DataTemplate>
+                                    <itemcontrols:MessageItemControl DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </local:MessageItemTemplateSelector.MessageOtherTemplate>
+                        </local:MessageItemTemplateSelector>
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>

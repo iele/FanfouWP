@@ -13,9 +13,9 @@ using FanfouWP.API.Items;
 
 namespace FanfouWP.ItemControls
 {
-    public partial class ConversationItemControl : UserControl
+    public partial class ConversationOtherItemControl : UserControl
     {
-        public ConversationItemControl()
+        public ConversationOtherItemControl()
         {
             InitializeComponent();
 

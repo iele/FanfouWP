@@ -48,7 +48,19 @@
             <ListBox x:Name="ConversationListBox" ItemsSource="{Binding}"    ScrollViewer.ManipulationMode="System"   SelectionChanged="ConversationListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <itemcontrols:ConversationItemControl />
+                        <local:ConversationItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
+                            <local:ConversationItemTemplateSelector.ConversationSelfTemplate>
+                                <DataTemplate>
+                                    <itemcontrols:ConversationOtherItemControl DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </local:ConversationItemTemplateSelector.ConversationSelfTemplate>
+
+                            <local:ConversationItemTemplateSelector.ConversationOtherTemplate>
+                                <DataTemplate>
+                                    <itemcontrols:ConversationItemControl  DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </local:ConversationItemTemplateSelector.ConversationOtherTemplate>
+                        </local:ConversationItemTemplateSelector>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing" x:Class="FanfouWP.ItemControls.MessageItemControl"
+    xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing" x:Class="FanfouWP.ItemControls.MessageSelfItemControl"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -34,14 +34,14 @@
     </UserControl.Resources>
     <Grid Margin="12,5">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"/>
 			<ColumnDefinition/>
+			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 
-        <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" Margin="10,10,0,0" Source="{Binding sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" />
-        <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" Margin="10,10,0,0" Canvas.ZIndex="-1" Source="/Assets/00.jpg" />
+        <Image HorizontalAlignment="Right" Height="64" VerticalAlignment="Top" Width="64" Margin="0,10,10,0" Source="{Binding sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Grid.Column="1" />
+        <Image HorizontalAlignment="Right" Height="64" VerticalAlignment="Top" Width="64" Margin="0,10,10,0" Canvas.ZIndex="-1" Source="/Assets/00.jpg" Grid.Column="1" />
 
-        <edc:Callout AnchorPoint="0.066,-0.1" Fill="#FFEDEDED" FontSize="21.333" Margin="10,74,0,0" VerticalAlignment="Top" Grid.Column="1" Padding="10" StrokeThickness="0" HorizontalContentAlignment="Stretch" Style="{StaticResource CalloutStyle}">
+        <edc:Callout AnchorPoint="0.934,-0.1" Fill="#FFEDEDED" FontSize="21.333" Margin="0,74,10,0" VerticalAlignment="Top" Padding="10" StrokeThickness="0" HorizontalContentAlignment="Stretch" Style="{StaticResource CalloutStyle}">
         	<StackPanel Orientation="Vertical" HorizontalAlignment="Left">
         		<TextBlock TextWrapping="Wrap" Text="{Binding text, Converter={StaticResource HtmlToTextConverter}}" Margin="5"/>
                 <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Margin="5" Foreground="#DE676767" />

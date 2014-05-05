@@ -118,10 +118,19 @@
     <Compile Include="ImagePage.xaml.cs">
       <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\ConversationOtherItemControl.xaml.cs">
+      <DependentUpon>ConversationOtherItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemControls\MessageSelfItemControl.xaml.cs">
+      <DependentUpon>MessageSelfItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ItemControls\RefreshItemControl.xaml.cs">
       <DependentUpon>RefreshItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControls\StatusItemTemplateSelector.cs" />
+    <Compile Include="ItemControls\TemplateSelector\DataTemplateSelector.cs" />
+    <Compile Include="ItemControls\TemplateSelector\MessageItemTemplateSelector.cs" />
+    <Compile Include="ItemControls\TemplateSelector\ConversationItemTemplateSelector.cs" />
+    <Compile Include="ItemControls\TemplateSelector\StatusItemTemplateSelector.cs" />
     <Compile Include="ItemControls\StatusItemControl.xaml.cs">
       <DependentUpon>StatusItemControl.xaml</DependentUpon>
     </Compile>
@@ -254,6 +263,14 @@
     <Page Include="ImagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemControls\ConversationOtherItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ItemControls\MessageSelfItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ItemControls\RefreshItemControl.xaml">
       <SubType>Designer</SubType>

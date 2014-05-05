@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fanfouwp ="clr-namespace:FanfouWP.ItemControls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="FanfouWP.ItemControls.ConversationItemControl"  
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" x:Class="FanfouWP.ItemControls.ConversationOtherItemControl"  
     mc:Ignorable="d"
     d:DesignHeight="480" d:DesignWidth="480" >
     <UserControl.Resources >
@@ -29,15 +29,15 @@
     <UserControl.Foreground>
         <StaticResource ResourceKey="PhoneForegroundBrush"/>
     </UserControl.Foreground>
-    <Grid x:Name="LayoutRoot" Margin="12,0"><Image Source="{Binding dm.sender.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Margin="10,15,0,0"/>
+    <Grid x:Name="LayoutRoot" Margin="12,0">
+        <Image Source="{Binding dm.recipient.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Margin="10,15,0,0"/>
     	<Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.8,0.42" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Margin="10,15,0,0"/>
     	<StackPanel VerticalAlignment="Top" Margin="80,15,10,0">
-    		<TextBlock Margin="5,0" Text="{Binding dm.sender.screen_name}" VerticalAlignment="Top" FontSize="26"  Width="65535"/>
-    		<StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-    			<TextBlock Text="{Binding dm.created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" HorizontalAlignment="Left" />
-    			<TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
-    		</StackPanel>
-
+            <TextBlock Margin="5,0" Text="{Binding dm.recipient.screen_name}" VerticalAlignment="Top" FontSize="26"  Width="65535"/>
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Height="27">
+            	<TextBlock Text="{Binding dm.created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" HorizontalAlignment="Left" />
+            	<TextBlock Text="{Binding msg_num, Converter={StaticResource IntToMsgCountStringConverter}}" VerticalAlignment="Top" Foreground="#FF7A7A7A" Margin="9,0,0,0" HorizontalAlignment="Left" />
+            </StackPanel>
     	</StackPanel>
     	<StackPanel Margin="10,86,15,10">
     		<TextBlock TextWrapping="Wrap" Text="{Binding dm.text}" FontSize="24"/>
