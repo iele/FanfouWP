@@ -340,6 +340,19 @@ namespace FanfouWP.API
         private int[] CountIndex = { 100, 300, 500, 1000 };
         private void HomeTimeLineStatusChanged()
         {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+
+                if (this.HomeTimeLineStatus.First().is_refresh)
+                {
+                    this.HomeTimeLineStatus.RemoveAt(0);
+                }
+                if (this.HomeTimeLineStatus.Last().is_refresh)
+                {
+                    this.HomeTimeLineStatus.RemoveAt(this.HomeTimeLineStatus.Count - 1);
+                }
+            });
+
             if (this.HomeTimeLineStatus.Count > CountIndex[settings.cacheSize])
             {
                 var l = new ObservableCollection<Items.Status>();
@@ -365,6 +378,19 @@ namespace FanfouWP.API
 
         private void MentionTimeLineStatusChanged()
         {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+
+                if (this.MentionTimeLineStatus.First().is_refresh)
+                {
+                    this.MentionTimeLineStatus.RemoveAt(0);
+                }
+                if (this.MentionTimeLineStatus.Last().is_refresh)
+                {
+                    this.MentionTimeLineStatus.RemoveAt(this.MentionTimeLineStatus.Count - 1);
+                }
+            });
+
             if (this.MentionTimeLineStatus.Count > CountIndex[settings.cacheSize])
             {
                 var l = new ObservableCollection<Items.Status>();
@@ -800,13 +826,6 @@ namespace FanfouWP.API
                                         }
                                         break;
                                     case RefreshMode.Behind:
-                                        if (status.Count >= count)
-                                        {
-                                            var r = new Status();
-                                            r.id = Guid.NewGuid().ToString();
-                                            r.is_refresh = true;
-                                            HomeTimeLineStatus.Insert(0, r);
-                                        }
                                         foreach (var i in status.Reverse())
                                         {
                                             var ss = from h in this.HomeTimeLineStatus where h.id == i.id select h;
@@ -816,6 +835,13 @@ namespace FanfouWP.API
                                             {
                                                 c++;
                                             }
+                                        }
+                                        if (status.Count >= count)
+                                        {
+                                            var r = new Status();
+                                            r.id = Guid.NewGuid().ToString();
+                                            r.is_refresh = true;
+                                            HomeTimeLineStatus.Insert(count - c, r);
                                         }
                                         break;
                                     case RefreshMode.Back:
@@ -855,7 +881,7 @@ namespace FanfouWP.API
                                             var r = new Status();
                                             r.id = Guid.NewGuid().ToString();
                                             r.is_refresh = true;
-                                            HomeTimeLineStatus.Insert(pos, r);
+                                            HomeTimeLineStatus.Insert(pos - 1 + count - c, r);
                                         }
                                         break;
                                     default:
@@ -1020,14 +1046,6 @@ namespace FanfouWP.API
                                        }
                                        break;
                                    case RefreshMode.Behind:
-                                       if (status.Count >= count)
-                                       {
-                                           var r = new Status();
-                                           r.id = Guid.NewGuid().ToString();
-                                           r.is_refresh = true;
-                                           MentionTimeLineStatus.Insert(0, r);
-                                       }
-
                                        foreach (var i in status != null ? status.Reverse() : status)
                                        {
                                            var ss = from h in this.MentionTimeLineStatus where h.id == i.id select h;
@@ -1039,6 +1057,13 @@ namespace FanfouWP.API
                                            }
                                        }
 
+                                       if (status.Count >= count)
+                                       {
+                                           var r = new Status();
+                                           r.id = Guid.NewGuid().ToString();
+                                           r.is_refresh = true;
+                                           MentionTimeLineStatus.Insert(count - c, r);
+                                       }
 
                                        break;
                                    case RefreshMode.Back:
@@ -1078,7 +1103,7 @@ namespace FanfouWP.API
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
-                                           MentionTimeLineStatus.Insert(pos, r);
+                                           MentionTimeLineStatus.Insert(pos - 1 + count - c, r);
                                        }
                                        break;
                                    default:
