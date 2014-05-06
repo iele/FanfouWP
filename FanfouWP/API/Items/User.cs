@@ -69,5 +69,10 @@ namespace FanfouWP.API.Items
         public bool profile_background_tile { get; set; }
 
         public Status status { get; set; }
+
+        public string oauthToken { get; set; }
+        public string oauthSecret { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }

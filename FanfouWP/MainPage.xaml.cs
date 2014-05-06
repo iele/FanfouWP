@@ -88,7 +88,8 @@ namespace FanfouWP
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+            NavigationService.RemoveBackEntry();
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
         }
 
         void Instance_RestoreDataSuccess(object sender, EventArgs e)

@@ -52,6 +52,19 @@ namespace FanfouWP.API
             FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
             FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
         }
+        public void UpdateManager(User user)
+        {
+            FanfouWP.API.FanfouAPI.Instance.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
+            FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
+            FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
+            
+            oauthToken = user.oauthToken;
+            oauthSecret = user.oauthSecret;
+            username = user.username;
+            password = user.password;
+            CurrentUser = user;
+        }
+
 
         public string firstHomeTimeLineStatusId
         {
@@ -543,11 +556,9 @@ namespace FanfouWP.API
                     settings.oauthSecret = oauthSecret;
                     settings.username = username;
                     settings.password = password;
-                    settings.SaveSettings();
 
                     EventArgs e = new EventArgs();
                     LoginSuccess(this, e);
-
                 }
                 else
                 {
@@ -575,7 +586,14 @@ namespace FanfouWP.API
                     var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
                     user = ds.ReadObject(ms) as Items.User;
                     ms.Close();
+                    user.username = this.username;
+                    user.password = this.password;
+                    user.oauthToken = this.oauthToken;
+                    user.oauthSecret = this.oauthSecret;
                     settings.currentUser = user;
+                    var u = from l in settings.currentList where l.id == user.id select l;
+                    if (u.Count() == 0 )
+                        settings.currentList.Add(user);
                     settings.SaveSettings();
                     this.CurrentUser = user;
 

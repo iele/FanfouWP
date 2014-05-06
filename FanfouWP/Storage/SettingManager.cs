@@ -25,6 +25,22 @@ namespace FanfouWP.Storage
             }
         }
 
+        private List<FanfouWP.API.Items.User> _currentList;
+        public List<FanfouWP.API.Items.User> currentList
+        {
+            get
+            {
+                return _currentList;
+            }
+            set
+            {
+                _currentList = value;
+                settings["currentList"] = value;
+
+                is_setting_changed = true;
+            }
+        }
+
         private Boolean _quit_confirm;
         public Boolean quit_confirm
         {
@@ -268,6 +284,7 @@ namespace FanfouWP.Storage
 
             settings["quit_confirm"] = this.quit_confirm;
             settings["currentUser"] = this.currentUser;
+            settings["currentList"] = this.currentList;
             settings["username"] = this.username;
             settings["password"] = this.password;
             settings["oauthToken"] = this.oauthToken;
@@ -288,11 +305,15 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq,accentColor;
+            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, accentColor;
             if (settings.TryGetValue("defaultCount2", out defaultCount2) && defaultCount2 != null)
                 this.defaultCount2 = (int)defaultCount2;
             else
                 this.defaultCount2 = 0;
+            if (settings.TryGetValue("currentList", out currentList) && currentList != null)
+                this.currentList = (List<FanfouWP.API.Items.User>)currentList;
+            else
+                this.currentList = new List<FanfouWP.API.Items.User>();
             if (settings.TryGetValue("currentUser", out currentUser) && currentUser != null)
                 this.currentUser = (FanfouWP.API.Items.User)currentUser;
             else

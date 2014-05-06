@@ -47,7 +47,7 @@
                         <toolkit:ListPicker x:Name="FrequencyListPicker" Margin="12,0" VerticalAlignment="Top"/>
                         <Button Content="设置锁屏通知" VerticalAlignment="Bottom" x:Name="LockButton" Click="LockButton_Click" Margin="0,6,0,0"/>
                         <Button Content="清除缓存" VerticalAlignment="Bottom" x:Name="CleanButton" Click="CleanButton_Click" Margin="0,18,0,0"/>
-                        <Button Content="注销" VerticalAlignment="Bottom" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="0"/>
+                        <Button Content="切换账户" VerticalAlignment="Bottom" x:Name="LogoutButton" Click="LogoutButton_Click" Margin="0"/>
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>

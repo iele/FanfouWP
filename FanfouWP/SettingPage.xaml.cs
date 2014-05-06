@@ -81,29 +81,25 @@ namespace FanfouWP
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("注销后将回退至登录页面,同时当前用户所有保存数据将删除, 是否继续?", "确认注销?", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
-                return;
+            //settingManager.username = null;
+            //settingManager.password = null;
+            //settingManager.oauthToken = null;
+            //settingManager.oauthSecret = null;
+            //settingManager.currentUser = null;
+            //settingManager.SaveSettings();
 
-            settingManager.username = null;
-            settingManager.password = null;
-            settingManager.oauthToken = null;
-            settingManager.oauthSecret = null;
-            settingManager.currentUser = null;
-            settingManager.SaveSettings();
-
-            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            //Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             Dispatcher.BeginInvoke(
             async () =>
             {
-                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
-                foreach (var item in await dataFolder.GetFilesAsync())
-                    await item.DeleteAsync();
-                await dataFolder.DeleteAsync();
+                //var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
+                //foreach (var item in await dataFolder.GetFilesAsync())
+                //    await item.DeleteAsync();
+                //await dataFolder.DeleteAsync();
 
-                FanfouWP.API.FanfouAPI.Instance.ResetManager();
+                //FanfouWP.API.FanfouAPI.Instance.ResetManager();
 
-                NavigationService.RemoveBackEntry();
-                NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
             });
         }
 
