@@ -841,7 +841,7 @@ namespace FanfouWP.API
                                             var r = new Status();
                                             r.id = Guid.NewGuid().ToString();
                                             r.is_refresh = true;
-                                            HomeTimeLineStatus.Insert(count - c, r);
+                                            HomeTimeLineStatus.Insert(status.Count - c, r);
                                         }
                                         break;
                                     case RefreshMode.Back:
@@ -1062,7 +1062,7 @@ namespace FanfouWP.API
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
-                                           MentionTimeLineStatus.Insert(count - c, r);
+                                           MentionTimeLineStatus.Insert(status.Count - c, r);
                                        }
 
                                        break;
