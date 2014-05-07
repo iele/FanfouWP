@@ -102,6 +102,7 @@ namespace FanfouWP.API
             settings.oauthToken = user.oauthToken;
             settings.oauthSecret = user.oauthSecret;
             settings.currentUser = user;
+            settings.SaveSettings();
         }
 
 
