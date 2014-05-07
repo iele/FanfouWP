@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.API.Items;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -39,6 +40,9 @@ namespace FanfouWP
         private bool run_once = true;
 
         private DispatcherTimer timer;
+
+        private ToastUtil toast = new ToastUtil();
+
         public TimelinePage()
         {
             InitializeComponent();
@@ -61,16 +65,7 @@ namespace FanfouWP
 
         void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (FanfouAPI.CurrentUser != null)
-            {
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
-                {
-                    PhoneApplicationService.Current.State.Remove("UserPage");
-                }
-                PhoneApplicationService.Current.State.Add("UserPage", FanfouAPI.CurrentUser);
-                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
-            }
-
+            NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
         }
 
         void FanfouAPI_AccountNotificationFailed(object sender, FailedEventArgs e)
@@ -413,7 +408,6 @@ namespace FanfouWP
             (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
 
             this.Pivot.Visibility = Visibility.Visible;
-            this.toast.Visibility = Visibility.Visible;
             while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
 
             this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
@@ -554,11 +548,6 @@ namespace FanfouWP
             (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
         }
 
-        private void FanfouImage_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Grid_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             switch (Pivot.SelectedIndex)
@@ -575,6 +564,16 @@ namespace FanfouWP
                     break;
 
             }
+        }
+
+        private void FanfouImage_Click(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
+
+            if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
+
         }
     }
 }

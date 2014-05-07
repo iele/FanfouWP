@@ -71,7 +71,7 @@
         	<Grid Margin="12,17,0,28" Height="100">
                 <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,0,0" Foreground="#DEFFFFFF"/>
                 <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
-        		<Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
+        		<Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
         
         	</Grid>
 
@@ -102,10 +102,7 @@
         </Grid>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
-        </coding:ProgressOverlay>
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrols:ToastControl x:Name="toast"/>
-        </coding:ProgressOverlay>
+        </coding:ProgressOverlay>      
     </Grid>
 
 

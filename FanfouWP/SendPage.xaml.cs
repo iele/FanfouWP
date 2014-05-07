@@ -14,6 +14,7 @@ using System.IO;
 using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.Storage;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -32,7 +33,7 @@ namespace FanfouWP
         private WriteableBitmap image;
         private string text;
 
-        private string position = "";
+       private string position = "";
         public SendPage()
         {
             InitializeComponent(); 

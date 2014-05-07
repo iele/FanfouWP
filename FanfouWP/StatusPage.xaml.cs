@@ -19,6 +19,7 @@ using FanfouWP.ItemControls;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.Storage;
 using System.Collections.ObjectModel;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -26,8 +27,10 @@ namespace FanfouWP
     {
         private FanfouWP.API.Items.Status status;
         private ObservableCollection<Status> contextStatus;
+        private enum TextMode { Text, Url, At, Search, Strong };
 
-        private enum TextMode { Text, Url, At, Search, Strong};
+        private ToastUtil toast = new ToastUtil();
+
         public StatusPage()
         {
             InitializeComponent();
@@ -68,7 +71,7 @@ namespace FanfouWP
                 this.status = State["StatusPage_user"] as FanfouWP.API.Items.Status;
             if (State.ContainsKey("StatusPage_contextStatus"))
             {
-                this.contextStatus = State["StatusPage_contextStatus"] as  ObservableCollection<Status>;
+                this.contextStatus = State["StatusPage_contextStatus"] as ObservableCollection<Status>;
 
             }
             base.OnNavigatedTo(e);
@@ -114,7 +117,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-       }
+        }
 
         void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
         {
@@ -139,7 +142,7 @@ namespace FanfouWP
                     {
                         this.loading.Visibility = System.Windows.Visibility.Collapsed;
                         if (this.NavigationService.CanGoBack)
-                           this.NavigationService.GoBack();
+                            this.NavigationService.GoBack();
                     });
                 };
                 tp.Show();
@@ -281,7 +284,7 @@ namespace FanfouWP
                             run2.Text = sep[i];
                             Bold bold = new Bold();
                             bold.Inlines.Add(run2);
-                            myParagraph.Inlines.Add(bold);                    
+                            myParagraph.Inlines.Add(bold);
                             break;
                         case TextMode.Search:
                             Hyperlink link3 = new Hyperlink();
@@ -643,7 +646,7 @@ namespace FanfouWP
         private void ApplicationBarMenuItem_Click_1(object sender, EventArgs e)
         {
             Clipboard.SetText(this.status.text);
-            Dispatcher.BeginInvoke(() => { toast.NewToast("该消息已复制到剪贴板:)" ); });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("该消息已复制到剪贴板:)"); });
 
         }
 
@@ -655,6 +658,16 @@ namespace FanfouWP
             }
             PhoneApplicationService.Current.State.Add("ImagePage", status);
             NavigationService.Navigate(new Uri("/ImagePage.xaml", UriKind.Relative));
+        }
+
+        private void StatusImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+            {
+                PhoneApplicationService.Current.State.Remove("UserPage");
+            }
+            PhoneApplicationService.Current.State.Add("UserPage", (this.DataContext as Status).user);
+            App.RootFrame.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
         }
 
 

@@ -144,16 +144,10 @@
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <StackPanel  Margin="282,12,18,0" Height="42" Orientation="Vertical" VerticalAlignment="Top" Background="#00000000" HorizontalAlignment="Right">
-                <coding:ImageTile Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Stretch" Height="42" Width="180" x:Name="FanfouImage" Click="FanfouImage_Click" IsFrozen="True">
-                    <coding:ImageTile.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="/Assets/fanfou_beta.png"/>
-                    </coding:ImageTile.Background>
-                </coding:ImageTile>
-            </StackPanel>
+            <Image Margin="282,12,18,0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Height="42" Width="180" x:Name="FanfouImage" Tap="FanfouImage_Click" Source="/Assets/fanfou_beta.png" />
             <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
                 <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"   />
-                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42"   Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" />
+                <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42"   Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Tap="AvatarImage_Tap" />
                 <TextBlock  Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32"   Foreground="#DEFFFFFF" />
             </Grid>
         </Grid>
@@ -201,7 +195,7 @@
                             <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
                                 <local:StatusItemTemplateSelector.StatusTemplate>
                                     <DataTemplate>
-                                       <itemcontrols:StatusItemControl DataContext="{Binding}"/>
+                                        <itemcontrols:StatusItemControl DataContext="{Binding}"/>
                                     </DataTemplate>
                                 </local:StatusItemTemplateSelector.StatusTemplate>
 
@@ -229,9 +223,5 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Canvas.ZIndex="1" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrols:ToastControl x:Name="toast" Visibility="Collapsed"/>
-        </coding:ProgressOverlay>
-
     </Grid>
 </phone:PhoneApplicationPage>

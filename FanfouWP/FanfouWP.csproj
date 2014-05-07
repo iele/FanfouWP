@@ -253,6 +253,7 @@
     <Compile Include="Utils\StatusUploader.cs" />
     <Compile Include="Utils\PhotoUploader.cs" />
     <Compile Include="Utils\ThemeManager.cs" />
+    <Compile Include="Utils\ToastUtil.cs" />
     <Compile Include="ViewerPage.xaml.cs">
       <DependentUpon>ViewerPage.xaml</DependentUpon>
     </Compile>
