@@ -137,6 +137,9 @@
     <Compile Include="ItemControls\StatusItemControl.xaml.cs">
       <DependentUpon>StatusItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemControls\AccountItemControl.xaml.cs">
+      <DependentUpon>AccountItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ItemControls\ValueConverter\SettingToColorConverter.cs" />
     <Compile Include="RequestPage.xaml.cs">
       <DependentUpon>RequestPage.xaml</DependentUpon>
@@ -284,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemControls\StatusItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ItemControls\AccountItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

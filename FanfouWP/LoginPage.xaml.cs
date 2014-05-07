@@ -11,6 +11,7 @@ using FanfouWP.API;
 using FanfouWP.Storage;
 using Microsoft.Phone.Tasks;
 using Windows.UI.ViewManagement;
+using System.Collections.ObjectModel;
 
 namespace FanfouWP
 {
@@ -31,7 +32,7 @@ namespace FanfouWP
 
         void LoginPage_Loaded(object sender, RoutedEventArgs e)
         {
-            Dispatcher.BeginInvoke(() => { this.NavigationService.RemoveBackEntry(); });
+            Dispatcher.BeginInvoke(() => {  while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry(); });
         }
 
         private void FanfouAPI_LoginFailed(object sender, API.Event.FailedEventArgs e)
@@ -48,6 +49,10 @@ namespace FanfouWP
         {
             this.Dispatcher.BeginInvoke(() =>
             {
+                FanfouWP.API.FanfouAPI.Instance.HomeTimeLineStatus = new ObservableCollection<FanfouWP.API.Items.Status>();
+                FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<FanfouWP.API.Items.Status>();
+                FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<FanfouWP.API.Items.Status>();
+
                 FanfouAPI.VerifyCredentials();
             });
         }

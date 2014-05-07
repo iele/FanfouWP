@@ -144,7 +144,8 @@ namespace FanfouWP
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0) || (this.MentionTimeLineListBox.ItemsSource == null || this.MentionTimeLineListBox.ItemsSource.Count == 0))
                 {
                     this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                    this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                    if (this.FanfouAPI.MentionTimeLineStatus.Count != 0)
+                        this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
                 }
 
                 this.MentionTimeLineListBox.HideRefreshPanel();
@@ -179,7 +180,8 @@ namespace FanfouWP
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.HomeTimeLineStatus.Count != 0) || (this.HomeTimeLineListBox.ItemsSource == null || this.HomeTimeLineListBox.ItemsSource.Count == 0))
                 {
                     this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                    if (this.FanfouAPI.HomeTimeLineStatus.Count != 0)
+                        this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
                 }
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
@@ -413,7 +415,7 @@ namespace FanfouWP
 
             this.Pivot.Visibility = Visibility.Visible;
             this.toast.Visibility = Visibility.Visible;
-            NavigationService.RemoveBackEntry();
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
 
             this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
             this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;

@@ -13,6 +13,7 @@ using Microsoft.Phone.Scheduler;
 using System.Threading;
 using Windows.Phone.Speech.VoiceCommands;
 using Microsoft.Phone.Notification;
+using FanfouWP.API.Items;
 
 namespace FanfouWP
 {
@@ -83,13 +84,31 @@ namespace FanfouWP
 
             Thread.Sleep(500);
 
-            Dispatcher.BeginInvoke(async () => await FanfouWP.API.FanfouAPI.Instance.TryRestoreData());
+            if (FanfouWP.Storage.SettingManager.GetInstance().currentList.Count != 0)
+            {
+                var list = FanfouWP.Storage.SettingManager.GetInstance().currentList as List<User>;
+                if (FanfouAPI.Instance.CurrentUser != null)
+                {
+                    var i = from l in list where l.id == FanfouAPI.Instance.CurrentUser.id select l;
+                    if (i.Count() != 0)
+                    {
+                        Dispatcher.BeginInvoke(async () => await FanfouWP.API.FanfouAPI.Instance.TryRestoreData());
+                        return;
+                    }
+                }
+                while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative)));
+            }
+            else {
+                while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+                Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
+            }
         }
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
-            NavigationService.RemoveBackEntry();
-            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
+            Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/AccountPage.xaml", UriKind.Relative)));
         }
 
         void Instance_RestoreDataSuccess(object sender, EventArgs e)

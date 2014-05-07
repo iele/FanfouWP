@@ -14,6 +14,7 @@ using FanfouWP.Storage;
 using System.Windows.Media.Imaging;
 using FanfouWP.API.Items;
 using System.Windows;
+using Windows.Storage;
 
 namespace FanfouWP.API
 {
@@ -30,6 +31,7 @@ namespace FanfouWP.API
         private TimelineStorage<Items.Status> storage = new TimelineStorage<Items.Status>();
 
         public Items.User CurrentUser { get; set; }
+        public ObservableCollection<Items.User> CurrentList { get; set; }
 
         public bool HomeTimeLineEnded = false;
         public bool MentionTimeLineEnded = false;
@@ -48,21 +50,58 @@ namespace FanfouWP.API
             username = null;
             password = null;
             CurrentUser = null;
-            FanfouWP.API.FanfouAPI.Instance.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
-            FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
-            FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
+
+            HomeTimeLineEnded = false;
+            MentionTimeLineEnded = false;
+            HomeTimeLineStatusCount = 0;
+            MentionTimeLineStatusCount = 0;
+
+            HomeTimeLineStatus = new ObservableCollection<Items.Status>();
+            PublicTimeLineStatus = new ObservableCollection<Items.Status>();
+            MentionTimeLineStatus = new ObservableCollection<Items.Status>();
         }
+
+        public void DeleteManager(User user)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(async () =>
+            {
+                Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
+                foreach (var item in await dataFolder.GetFilesAsync())
+                    await item.DeleteAsync();
+                await dataFolder.DeleteAsync();
+            });
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                ResetManager();
+                CurrentList.Remove(user);
+                settings.currentList = CurrentList.ToList();
+                settings.SaveSettings();
+            });
+        }
+
         public void UpdateManager(User user)
         {
-            FanfouWP.API.FanfouAPI.Instance.HomeTimeLineStatus = new ObservableCollection<Items.Status>();
-            FanfouWP.API.FanfouAPI.Instance.PublicTimeLineStatus = new ObservableCollection<Items.Status>();
-            FanfouWP.API.FanfouAPI.Instance.MentionTimeLineStatus = new ObservableCollection<Items.Status>();
-            
+            HomeTimeLineStatus = new ObservableCollection<Items.Status>();
+            PublicTimeLineStatus = new ObservableCollection<Items.Status>();
+            MentionTimeLineStatus = new ObservableCollection<Items.Status>();
+
+            HomeTimeLineEnded = false;
+            MentionTimeLineEnded = false;
+            HomeTimeLineStatusCount = 0;
+            MentionTimeLineStatusCount = 0;
+
             oauthToken = user.oauthToken;
             oauthSecret = user.oauthSecret;
             username = user.username;
             password = user.password;
             CurrentUser = user;
+            settings.username = user.username;
+            settings.password = user.password;
+            settings.oauthToken = user.oauthToken;
+            settings.oauthSecret = user.oauthSecret;
+            settings.currentUser = user;
         }
 
 
@@ -316,6 +355,8 @@ namespace FanfouWP.API
             storage.WriteDataFailed += JsonStorage_WriteDataFailed;
             storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
             storage.ReadDataFailed += JsonStorage_ReadDataFailed;
+
+            CurrentList = new ObservableCollection<User>(settings.currentList);
         }
 
         void JsonStorage_ReadDataSuccess(object sender, UserTimelineEventArgs<Items.Status> e)
@@ -355,14 +396,17 @@ namespace FanfouWP.API
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
+                if (this.HomeTimeLineStatus.Count != 0)
+                {
 
-                if (this.HomeTimeLineStatus.First().is_refresh)
-                {
-                    this.HomeTimeLineStatus.RemoveAt(0);
-                }
-                if (this.HomeTimeLineStatus.Last().is_refresh)
-                {
-                    this.HomeTimeLineStatus.RemoveAt(this.HomeTimeLineStatus.Count - 1);
+                    if (this.HomeTimeLineStatus.First().is_refresh)
+                    {
+                        this.HomeTimeLineStatus.RemoveAt(0);
+                    }
+                    if (this.HomeTimeLineStatus.Last().is_refresh)
+                    {
+                        this.HomeTimeLineStatus.RemoveAt(this.HomeTimeLineStatus.Count - 1);
+                    }
                 }
             });
 
@@ -393,14 +437,16 @@ namespace FanfouWP.API
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-
-                if (this.MentionTimeLineStatus.First().is_refresh)
+                if (this.MentionTimeLineStatus.Count != 0)
                 {
-                    this.MentionTimeLineStatus.RemoveAt(0);
-                }
-                if (this.MentionTimeLineStatus.Last().is_refresh)
-                {
-                    this.MentionTimeLineStatus.RemoveAt(this.MentionTimeLineStatus.Count - 1);
+                    if (this.MentionTimeLineStatus.First().is_refresh)
+                    {
+                        this.MentionTimeLineStatus.RemoveAt(0);
+                    }
+                    if (this.MentionTimeLineStatus.Last().is_refresh)
+                    {
+                        this.MentionTimeLineStatus.RemoveAt(this.MentionTimeLineStatus.Count - 1);
+                    }
                 }
             });
 
@@ -592,9 +638,14 @@ namespace FanfouWP.API
                     user.oauthSecret = this.oauthSecret;
                     settings.currentUser = user;
                     var u = from l in settings.currentList where l.id == user.id select l;
-                    if (u.Count() == 0 )
-                        settings.currentList.Add(user);
-                    settings.SaveSettings();
+                    if (u.Count() == 0)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            CurrentList.Add(user);
+                            settings.currentList = CurrentList.ToList();
+                        });
+                    } settings.SaveSettings();
                     this.CurrentUser = user;
 
                     EventArgs e = new EventArgs();

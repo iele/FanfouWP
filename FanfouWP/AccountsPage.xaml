@@ -29,26 +29,29 @@
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical">
-        	<StackPanel.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF72CBE1" Offset="0"/>
-        			<GradientStop Color="#FF72CBE1" Offset="1"/>
-        		</LinearGradientBrush>
-        	</StackPanel.Background>
-        	<StackPanel x:Name="TitlePanel" Height="116" Margin="12,17,0,28">
-        		<TextBlock x:Name="title" Text="饭窗 for Windows Phone" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" Foreground="#DEFFFFFF"/>
-        		<TextBlock x:Name="page" Text="我的账户" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
-        	</StackPanel>
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF72CBE1" Offset="0"/>
+                    <GradientStop Color="#FF72CBE1" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
+            <StackPanel x:Name="TitlePanel" Height="116" Margin="12,17,0,28">
+                <TextBlock x:Name="title" Text="饭窗 for Windows Phone" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" Foreground="#DEFFFFFF"/>
+                <TextBlock x:Name="page" Text="我的账户" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
+            </StackPanel>
         </StackPanel>
         <!--TitlePanel 包含应用程序的名称和页标题-->
 
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="AccountsStatusListBox" ItemsSource="{Binding}" SelectionChanged="AccountsStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
+            <ListBox 
+ x:Name="AccountsStatusListBox" ItemsSource="{Binding}" SelectionChanged="AccountsStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <itemcontrols:UserItemControl />
+                        <StackPanel>                           
+                            <itemcontrols:AccountItemControl DataContext="{Binding}" DeleteCompleted="AccountItemControl_DeleteCompleted"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -56,7 +59,7 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
-            <shell:ApplicationBarIconButton x:Name="LoginButton" Click="LoginButton_Click"  IconUri="/Assets/AppBar/add.png" Text="添加" />        
+            <shell:ApplicationBarIconButton x:Name="LoginButton" Click="LoginButton_Click"  IconUri="/Assets/AppBar/add.png" Text="添加" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

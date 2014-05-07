@@ -60,7 +60,7 @@ namespace FanfouWP
 
         void SettingPage_Loaded(object sender, RoutedEventArgs e)
         {
-          
+
         }
 
         void TimelineFreqListPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,24 +81,8 @@ namespace FanfouWP
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            //settingManager.username = null;
-            //settingManager.password = null;
-            //settingManager.oauthToken = null;
-            //settingManager.oauthSecret = null;
-            //settingManager.currentUser = null;
-            //settingManager.SaveSettings();
-
-            //Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            Dispatcher.BeginInvoke(
-            async () =>
+            Dispatcher.BeginInvoke(() =>
             {
-                //var dataFolder = await localFolder.CreateFolderAsync("storage-" + FanfouWP.API.FanfouAPI.Instance.CurrentUser.id, CreationCollisionOption.OpenIfExists);
-                //foreach (var item in await dataFolder.GetFilesAsync())
-                //    await item.DeleteAsync();
-                //await dataFolder.DeleteAsync();
-
-                //FanfouWP.API.FanfouAPI.Instance.ResetManager();
-
                 NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
             });
         }

@@ -17,7 +17,7 @@ namespace FanfouWP
     public partial class AccountsPage : PhoneApplicationPage
     {
         private SettingManager settings = SettingManager.GetInstance();
-
+        private string id = FanfouWP.API.FanfouAPI.Instance.CurrentUser == null ? "" : string.Copy(FanfouWP.API.FanfouAPI.Instance.CurrentUser.id);
         public AccountsPage()
         {
             InitializeComponent();
@@ -36,7 +36,7 @@ namespace FanfouWP
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.AccountsStatusListBox.ItemsSource = settings.currentList;
+            this.AccountsStatusListBox.ItemsSource = FanfouWP.API.FanfouAPI.Instance.CurrentList;
             this.loading.Visibility = Visibility.Collapsed;
 
             base.OnNavigatedTo(e);
@@ -56,16 +56,16 @@ namespace FanfouWP
 
                 Dispatcher.BeginInvoke(() =>
                 {
-                   FanfouWP.API.FanfouAPI.Instance.UpdateManager(item as User);
+                    FanfouWP.API.FanfouAPI.Instance.UpdateManager(item as User);
 
                     Dispatcher.BeginInvoke(async () => await FanfouWP.API.FanfouAPI.Instance.TryRestoreData());
-               });
+                });
             }
         }
 
         void Instance_RestoreDataFailed(object sender, API.Event.FailedEventArgs e)
         {
-            NavigationService.RemoveBackEntry();
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
             Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
         }
 
@@ -77,14 +77,24 @@ namespace FanfouWP
             }
 
             PhoneApplicationService.Current.State["TimelinePage"] = true;
-     
-            NavigationService.RemoveBackEntry();
+
+            while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
             NavigationService.Navigate(new Uri("/TimelinePage.xaml", UriKind.Relative));
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
+        }
+
+        private void AccountItemControl_DeleteCompleted(object sender, EventArgs e)
+        {
+            if ((sender as User).id == id)
+            {
+                while (NavigationService.CanGoBack)
+                    NavigationService.RemoveBackEntry();
+                NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
+            }
         }
     }
 }

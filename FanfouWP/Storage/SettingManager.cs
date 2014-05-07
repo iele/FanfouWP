@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FanfouWP.Storage
@@ -300,7 +301,14 @@ namespace FanfouWP.Storage
             settings["refreshFreq"] = this.refreshFreq;
             settings["accentColor"] = this.accentColor;
 
-            settings.Save();
+            try
+            {
+                settings.Save();
+            }
+            catch (Exception) {
+                Thread.Sleep(1000);
+                settings.Save();            
+            }
         }
 
         public void RestoreSettings()
