@@ -103,8 +103,8 @@
                 			<Run Text="了解更多"/>
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
-                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.2.5" Height="30" />
-                        <TextBlock FontSize="24" TextWrapping="Wrap" Margin="14,6" Text="v1.2.5 界面微调 Emoji支持" />
+                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.3.0" Height="30" />
+                        <TextBlock FontSize="24" TextWrapping="Wrap" Margin="14,6" Text="v1.3.0 遗漏消息加载 多账户登录" />
                         <TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="开发者：iEle, Windows Phone Developer" />
                         <TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="饭否主页：@iEle" />
                         <TextBlock Margin="12,6" FontSize="24" TextWrapping="Wrap" Text="邮箱：melephas@outlook.com" />
