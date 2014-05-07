@@ -89,12 +89,9 @@ namespace FanfouWP
 
         private void AccountItemControl_DeleteCompleted(object sender, EventArgs e)
         {
-            if ((sender as User).id == id)
-            {
-                while (NavigationService.CanGoBack)
-                    NavigationService.RemoveBackEntry();
-                NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
-            }
+            while (NavigationService.CanGoBack)
+                NavigationService.RemoveBackEntry();
+            NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));
         }
     }
 }

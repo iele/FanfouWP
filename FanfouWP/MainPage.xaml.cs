@@ -83,13 +83,13 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.RestoreDataFailed += Instance_RestoreDataFailed;
 
             Thread.Sleep(500);
-
+         
             if (FanfouWP.Storage.SettingManager.GetInstance().currentList.Count != 0)
             {
                 var list = FanfouWP.Storage.SettingManager.GetInstance().currentList as List<User>;
                 if (FanfouAPI.Instance.CurrentUser != null)
                 {
-                    var i = from l in list where l.id == FanfouAPI.Instance.CurrentUser.id select l;
+                    var i = from l in list where l.id == FanfouWP.Storage.SettingManager.GetInstance().currentUser.id select l;
                     if (i.Count() != 0)
                     {
                         Dispatcher.BeginInvoke(async () => await FanfouWP.API.FanfouAPI.Instance.TryRestoreData());

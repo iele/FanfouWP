@@ -357,6 +357,7 @@ namespace FanfouWP.API
             storage.ReadDataFailed += JsonStorage_ReadDataFailed;
 
             CurrentList = new ObservableCollection<User>(settings.currentList);
+            CurrentUser = settings.currentUser;
         }
 
         void JsonStorage_ReadDataSuccess(object sender, UserTimelineEventArgs<Items.Status> e)
@@ -637,15 +638,17 @@ namespace FanfouWP.API
                     user.oauthToken = this.oauthToken;
                     user.oauthSecret = this.oauthSecret;
                     settings.currentUser = user;
-                    var u = from l in settings.currentList where l.id == user.id select l;
-                    if (u.Count() == 0)
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
-                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        var u = from l in settings.currentList where l.id == user.id select l;
+                        if (u.Count() == 0)
                         {
                             CurrentList.Add(user);
                             settings.currentList = CurrentList.ToList();
-                        });
-                    } settings.SaveSettings();
+                            settings.SaveSettings();
+                        }
+                    });
+
                     this.CurrentUser = user;
 
                     EventArgs e = new EventArgs();
