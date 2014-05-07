@@ -13,7 +13,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.API.Items;
-using FanfouWP.UserControls;
 
 namespace FanfouWP
 {
@@ -461,7 +460,7 @@ namespace FanfouWP
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
+                    Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20));
                 }
             }
 
