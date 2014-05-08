@@ -676,7 +676,8 @@ namespace FanfouWP.API
 
         void StatusUploader_StatusUploadFailed(object sender, FailedEventArgs e)
         {
-            StatusUpdateFailed(this, new FailedEventArgs(new Error()));
+            if (this.StatusUpdateFailed != null)
+                StatusUpdateFailed(this, new FailedEventArgs(new Error()));
         }
 
         void StatusUploader_StatusUploadSuccess(object sender, EventArgs e)
@@ -687,13 +688,15 @@ namespace FanfouWP.API
                 {
                     this.HomeTimeLineStatus.Insert(0, sender as Status);
                     HomeTimeLineStatusChanged();
-                    StatusUpdateSuccess(this, e);
+                    if (this.StatusUpdateSuccess != null)
+                        StatusUpdateSuccess(this, e);
                 });
             }
             catch (Exception)
             {
                 FailedEventArgs ex = new FailedEventArgs();
-                StatusUpdateFailed(this, ex);
+                if (this.StatusUpdateFailed != null)
+                    StatusUpdateFailed(this, ex);
             }
         }
 
@@ -2172,7 +2175,8 @@ namespace FanfouWP.API
 
         void PhotoUploader_PhotosUploadFailed(object sender, FailedEventArgs e)
         {
-            PhotosUploadFailed(this, new FailedEventArgs(new Error()));
+            if (this.PhotosUploadFailed != null)
+                PhotosUploadFailed(this, new FailedEventArgs(new Error()));
         }
 
         void PhotoUploader_PhotosUploadSuccess(object sender, EventArgs e)
@@ -2183,13 +2187,15 @@ namespace FanfouWP.API
                 {
                     this.HomeTimeLineStatus.Insert(0, sender as Status);
                     HomeTimeLineStatusChanged();
-                    PhotosUploadSuccess(this, e);
+                    if (this.PhotosUploadSuccess != null)
+                        PhotosUploadSuccess(this, e);
                 });
             }
             catch (Exception)
             {
                 FailedEventArgs ex = new FailedEventArgs();
-                PhotosUploadFailed(this, ex);
+                if (this.PhotosUploadFailed != null)
+                    PhotosUploadFailed(this, ex);
             }
         }
         #endregion

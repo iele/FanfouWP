@@ -189,8 +189,16 @@ namespace FanfouWP
                     Dispatcher.BeginInvoke(() =>
                     {
                         this.loading.Visibility = System.Windows.Visibility.Collapsed;
+
                         if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
+                        {
+                            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+                            {
+                                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+                            }
+                            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
                             this.NavigationService.GoBack();
+                        }
                         else
                         {
                             this.Status.Text = "";
@@ -206,12 +214,6 @@ namespace FanfouWP
                 };
                 tp.Show();
             });
-            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
-            {
-                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
-            }
-            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
-
         }
 
         void FanfouAPI_StatusUpdateFailed(object sender, API.Event.FailedEventArgs e)
@@ -244,7 +246,14 @@ namespace FanfouWP
                     {
                         this.loading.Visibility = System.Windows.Visibility.Collapsed;
                         if (NavigationService.CurrentSource == new Uri("/SendPage.xaml", UriKind.Relative) && NavigationService.CanGoBack)
+                        {
+                            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+                            {
+                                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+                            }
+                            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
                             this.NavigationService.GoBack();
+                        }
                         else
                         {
                             this.Status.Text = "";
@@ -259,15 +268,7 @@ namespace FanfouWP
                     });
                 };
                 tp.Show();
-
             });
-
-            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
-            {
-                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
-            }
-            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
-
         }
 
         private void SendButton_Click(object sender, EventArgs e)
