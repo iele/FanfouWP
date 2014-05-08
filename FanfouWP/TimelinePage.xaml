@@ -144,7 +144,7 @@
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <Image Margin="282,12,18,0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Height="42" Width="180" x:Name="FanfouImage" Tap="FanfouImage_Click" Source="/Assets/fanfou_beta.png" />
+            <Image Margin="282,12,18,0"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="42" Width="180" x:Name="FanfouImage" Tap="FanfouImage_Click" Source="/Assets/fanfou_beta.png" />
             <Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
                 <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"   />
                 <Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42"   Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Tap="AvatarImage_Tap" />
