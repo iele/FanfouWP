@@ -112,7 +112,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConversationsPage.xaml.cs">
+    <Compile Include="UserControls\ConversationsPage.xaml.cs">
       <DependentUpon>ConversationsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccountsPage.xaml.cs">
@@ -263,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="ConversationsPage.xaml">
+    <Page Include="UserControls\ConversationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
