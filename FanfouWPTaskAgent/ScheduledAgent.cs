@@ -100,7 +100,11 @@ namespace FanfouWPTaskAgent
                         {
                             ShellToast st = new ShellToast();
                             st.Title = "饭窗";
-                            st.Content = i.mentions.ToString() + "新提及 " + status[0].text;
+                            var msg=i.mentions.ToString() + "新提及 " + status[0].text;
+                            if (msg.Length > 40)
+                                st.Content = msg.Substring(0, 40);
+                            else
+                                st.Content = msg;
                             st.Show();
 
                             foreach (var item in ShellTile.ActiveTiles)
@@ -148,10 +152,10 @@ namespace FanfouWPTaskAgent
 
         protected override void OnInvoke(ScheduledTask task)
         {
-//            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
+            //            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
 
             s = AgentReader.ReadAgentParameter();
-            count=int.Parse(s[4]);
+            count = int.Parse(s[4]);
 
             var freq = 0;
 
@@ -168,7 +172,7 @@ namespace FanfouWPTaskAgent
                 notification = new Item();
                 notification.mentions = int.Parse(ss[1]);
                 notification.direct_messages = int.Parse(ss[2]);
-                notification.friend_requests = int.Parse(ss[3]);       
+                notification.friend_requests = int.Parse(ss[3]);
             }
             catch (Exception)
             {
@@ -185,7 +189,8 @@ namespace FanfouWPTaskAgent
                 NotifyComplete();
                 return;
             }
-            else {
+            else
+            {
                 freq = 0;
             }
 
