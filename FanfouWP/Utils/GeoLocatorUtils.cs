@@ -53,7 +53,7 @@ namespace FanfouWP.Utils
                     return new Pair<bool, string>(true, geoposition.CivicAddress.ToString());
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
                 var result = "";
                 if ((uint)ex.HResult == 0x80004004)
