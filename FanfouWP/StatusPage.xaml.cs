@@ -220,8 +220,9 @@ namespace FanfouWP
                         mapLayer.Add(overlay);
                         this.map.Visibility = Visibility.Visible;
                     }
-                    catch (Exception)
+                    catch (Exception exception)
                     {
+                        System.Diagnostics.Debug.WriteLine(exception.Message);
                         this.map.Visibility = Visibility.Collapsed;
                     }
                 }

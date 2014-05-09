@@ -33,8 +33,9 @@ namespace FanfouWP.ItemControls.ValueConverter
                     _storage = IsolatedStorageFile.GetUserStoreForApplication();
                 }
             }
-            catch (IsolatedStorageException e)
+            catch (IsolatedStorageException exception)
             {
+             System.Diagnostics.Debug.WriteLine(exception.Message);
             }
         }
 

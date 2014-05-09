@@ -36,8 +36,9 @@ namespace FanfouWP.ItemControls.ValueConverter
                 var b = Byte.Parse(color.Substring(4 + offset, 2), NumberStyles.HexNumber);
                 return System.Windows.Media.Color.FromArgb(a, r, g, b);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 return System.Windows.Media.Color.FromArgb(0xff, 0x88, 0x88, 0x88);
             }
         }

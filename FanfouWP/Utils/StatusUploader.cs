@@ -171,8 +171,9 @@ namespace FanfouWP.Utils
                 var e = new EventArgs();
                 StatusUploadSuccess(s, e);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 StatusUploadFailed(null, new FailedEventArgs());
             }
         }

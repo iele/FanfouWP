@@ -353,8 +353,9 @@ namespace Microsoft.Phone.Controls
 
                 SetCustomTheme(rd, themeToOverride);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 Debug.WriteLine("Error setting custom theme");
             }
         }

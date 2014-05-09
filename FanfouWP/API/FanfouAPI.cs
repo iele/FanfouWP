@@ -116,8 +116,9 @@ namespace FanfouWP.API
                         return HomeTimeLineStatus[1].id;
                     return this.HomeTimeLineStatus.First().id;
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     return "";
                 }
             }
@@ -144,8 +145,9 @@ namespace FanfouWP.API
                         return MentionTimeLineStatus[1].id;
                     return MentionTimeLineStatus.First().id;
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     return "";
                 }
             }
@@ -554,8 +556,9 @@ namespace FanfouWP.API
                         AccountNotificationFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     AccountNotificationFailed(this, e);
                 }
@@ -692,9 +695,9 @@ namespace FanfouWP.API
                         StatusUpdateSuccess(this, e);
                 });
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                FailedEventArgs ex = new FailedEventArgs();
+                System.Diagnostics.Debug.WriteLine(exception.Message); FailedEventArgs ex = new FailedEventArgs();
                 if (this.StatusUpdateFailed != null)
                     StatusUpdateFailed(this, ex);
             }
@@ -742,8 +745,9 @@ namespace FanfouWP.API
                         StatusDestroyFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message); 
                     FailedEventArgs e = new FailedEventArgs();
                     StatusDestroyFailed(this, e);
                 }
@@ -786,8 +790,9 @@ namespace FanfouWP.API
                         ContextTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message); 
                     FailedEventArgs e = new FailedEventArgs();
                     ContextTimelineFailed(this, e);
                 }
@@ -831,8 +836,9 @@ namespace FanfouWP.API
                         UserTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     UserTimelineFailed(this, e);
                 }
@@ -858,6 +864,7 @@ namespace FanfouWP.API
                 case RefreshMode.Center:
                     if (refresh_id != "" && since != "" && max != "")
                     {
+                        restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
                     }
                     else
@@ -932,8 +939,6 @@ namespace FanfouWP.API
                                         }
                                         break;
                                     case RefreshMode.Center:
-                                        var lastStatus = status.Last().rawid;
-                                        var firstStatus = HomeTimeLineStatus.First().rawid;
                                         var pos = 0;
                                         for (int i = 0; i < this.HomeTimeLineStatus.Count; i++)
                                         {
@@ -953,12 +958,12 @@ namespace FanfouWP.API
                                                 c++;
                                             }
                                         }
-                                        if (UInt64.Parse(lastStatus) > UInt64.Parse(firstStatus))
+                                        if (status.Count() >= count)
                                         {
                                             var r = new Status();
                                             r.id = Guid.NewGuid().ToString();
                                             r.is_refresh = true;
-                                            HomeTimeLineStatus.Insert(pos + count, r);
+                                            HomeTimeLineStatus.Insert(pos, r);
                                         }
                                         break;
                                     default:
@@ -994,8 +999,9 @@ namespace FanfouWP.API
                         HomeTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     HomeTimelineFailed(this, e);
                 }
@@ -1051,8 +1057,9 @@ namespace FanfouWP.API
                         PublicTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     PublicTimelineFailed(this, e);
                 }
@@ -1078,6 +1085,7 @@ namespace FanfouWP.API
                 case RefreshMode.Center:
                     if (refresh_id != "" && since != "" && max != "")
                     {
+                        restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
                     }
                     else
@@ -1155,8 +1163,6 @@ namespace FanfouWP.API
                                        }
                                        break;
                                    case RefreshMode.Center:
-                                       var lastStatus = status.Last().rawid;
-                                       var firstStatus = MentionTimeLineStatus.First().rawid;
                                        var pos = 0;
                                        for (int i = 0; i < this.MentionTimeLineStatus.Count; i++)
                                        {
@@ -1176,12 +1182,12 @@ namespace FanfouWP.API
                                                c++;
                                            }
                                        }
-                                       if (UInt64.Parse(lastStatus) > UInt64.Parse(firstStatus))
+                                       if (status.Count() >= count)
                                        {
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
-                                           MentionTimeLineStatus.Insert(pos + count, r);
+                                           MentionTimeLineStatus.Insert(pos, r);
                                        }
                                        break;
                                    default:
@@ -1217,8 +1223,9 @@ namespace FanfouWP.API
                         MentionTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     MentionTimelineFailed(this, e);
                 }
@@ -1264,8 +1271,9 @@ namespace FanfouWP.API
                         FavoritesFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FavoritesFailed(this, e);
                 }
@@ -1333,8 +1341,9 @@ namespace FanfouWP.API
                         FavoritesCreateFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FavoritesCreateFailed(this, e);
                 }
@@ -1404,8 +1413,9 @@ namespace FanfouWP.API
                         FavoritesDestroyFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FavoritesDestroyFailed(this, e);
                 }
@@ -1452,9 +1462,9 @@ namespace FanfouWP.API
                         SearchTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    FailedEventArgs e = new FailedEventArgs();
+                    System.Diagnostics.Debug.WriteLine(exception.Message); FailedEventArgs e = new FailedEventArgs();
                     SearchTimelineFailed(this, e);
                 }
             });
@@ -1499,8 +1509,9 @@ namespace FanfouWP.API
                         SearchUserTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message); 
                     FailedEventArgs e = new FailedEventArgs();
                     SearchUserTimelineFailed(this, e);
                 }
@@ -1543,8 +1554,9 @@ namespace FanfouWP.API
                         SearchUserFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     SearchUserFailed(this, e);
                 }
@@ -1586,8 +1598,9 @@ namespace FanfouWP.API
                         TrendsListFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     TrendsListFailed(this, e);
                 }
@@ -1630,8 +1643,9 @@ namespace FanfouWP.API
                         TagListFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     TagListFailed(this, e);
                 }
@@ -1674,8 +1688,9 @@ namespace FanfouWP.API
                         TaggedFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     TaggedFailed(this, e);
                 }
@@ -1718,8 +1733,9 @@ namespace FanfouWP.API
                         UsersShowFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     UsersShowFailed(this, e);
                 }
@@ -1763,8 +1779,9 @@ namespace FanfouWP.API
                         UsersFollowersFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     UsersFollowersFailed(this, e);
                 }
@@ -1811,8 +1828,9 @@ namespace FanfouWP.API
                         UsersFriendsFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     UsersFriendsFailed(this, e);
                 }
@@ -1858,8 +1876,9 @@ namespace FanfouWP.API
                         FriendshipsCreateFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsCreateFailed(this, e);
                 }
@@ -1903,8 +1922,9 @@ namespace FanfouWP.API
                         FriendshipsDestroyFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsDestroyFailed(this, e);
                 }
@@ -1946,8 +1966,9 @@ namespace FanfouWP.API
                         FriendshipsRequestsFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsRequestsFailed(this, e);
                 }
@@ -1992,8 +2013,9 @@ namespace FanfouWP.API
                         FriendshipsAcceptFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsAcceptFailed(this, e);
                 }
@@ -2038,8 +2060,9 @@ namespace FanfouWP.API
                         FriendshipsDenyFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsDenyFailed(this, e);
                 }
@@ -2084,8 +2107,9 @@ namespace FanfouWP.API
                         PhotosUserTimelineFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     PhotosUserTimelineFailed(this, e);
                 }
@@ -2193,8 +2217,9 @@ namespace FanfouWP.API
                         PhotosUploadSuccess(this, e);
                 });
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 FailedEventArgs ex = new FailedEventArgs();
                 if (this.PhotosUploadFailed != null)
                     PhotosUploadFailed(this, ex);
@@ -2239,8 +2264,9 @@ namespace FanfouWP.API
                         DirectMessageConversationListFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     DirectMessageConversationListFailed(this, e);
                 }
@@ -2285,8 +2311,9 @@ namespace FanfouWP.API
                         DirectMessageConversationFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     DirectMessageConversationFailed(this, e);
                 }
@@ -2334,8 +2361,9 @@ namespace FanfouWP.API
                         DirectMessageNewFailed(this, e);
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     DirectMessageNewFailed(this, e);
                 }

@@ -179,8 +179,9 @@ namespace FanfouWP.Utils
                 var e = new EventArgs();
                 PhotosUploadSuccess(s, e);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 PhotosUploadFailed(null, new FailedEventArgs());
             }
         }

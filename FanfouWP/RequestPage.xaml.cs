@@ -90,7 +90,9 @@ namespace FanfouWP
 
                     this.RequestStatusListBox.ItemsSource = list;
                 }
-                catch (Exception) { 
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                 }
 
                 PhoneApplicationService.Current.State.Remove("RequestPage");

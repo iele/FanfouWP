@@ -37,8 +37,9 @@ namespace FanfouWP.Storage
                     return;
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 WriteDataFailed(data, new FailedEventArgs());
                 return;
             }
@@ -69,8 +70,9 @@ namespace FanfouWP.Storage
                 }
 
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 ReadDataFailed(null, new FailedEventArgs());
                 return;
             }

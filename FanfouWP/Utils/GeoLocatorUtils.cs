@@ -26,8 +26,9 @@ namespace FanfouWP.Utils
                 reverseGeocodeQuery.QueryCompleted += handler;
                 reverseGeocodeQuery.QueryAsync();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
             }
         }
         public async static Task<Pair<bool, string>> getGeolocator()
@@ -52,7 +53,7 @@ namespace FanfouWP.Utils
                     return new Pair<bool, string>(true, geoposition.CivicAddress.ToString());
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 var result = "";
                 if ((uint)ex.HResult == 0x80004004)

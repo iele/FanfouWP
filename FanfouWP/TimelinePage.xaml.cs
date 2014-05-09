@@ -357,8 +357,9 @@ namespace FanfouWP
             {
                 ScheduledActionService.Remove(name);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
             }
         }
 

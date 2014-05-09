@@ -305,7 +305,9 @@ namespace FanfouWP.Storage
             {
                 settings.Save();
             }
-            catch (Exception) {
+            catch (Exception exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
                 Thread.Sleep(1000);
                 settings.Save();            
             }

@@ -33,11 +33,11 @@ namespace FanfouWP
         private WriteableBitmap image;
         private string text;
 
-       private string position = "";
+        private string position = "";
         public SendPage()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
             FanfouAPI.StatusUpdateSuccess += FanfouAPI_StatusUpdateSuccess;
             FanfouAPI.StatusUpdateFailed += FanfouAPI_StatusUpdateFailed;
             FanfouAPI.PhotosUploadSuccess += FanfouAPI_PhotosUploadSuccess;
@@ -72,7 +72,7 @@ namespace FanfouWP
 
         private void SendPage_Loaded(object sender, RoutedEventArgs e)
         {
-          
+
             Dispatcher.BeginInvoke(async () =>
             {
                 if (SettingManager.GetInstance().enableLocation == true)
@@ -282,7 +282,7 @@ namespace FanfouWP
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
                     (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
-                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;                    
+                    (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
                 });
 
                 FanfouAPI.PhotoUpload(this.Status.Text, image, position);
@@ -367,7 +367,10 @@ namespace FanfouWP
                     goto Noplaying;
                 }
             }
-            catch (Exception) { }
+            catch (Exception exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+            }
 
         Noplaying:
             MessageBox.Show("当前没有播放音乐:(");
@@ -486,7 +489,7 @@ namespace FanfouWP
                     this.currentPageType = PageType.ReplyWithoutStatus;
                 }
             }
-         
+
             base.OnNavigatedTo(e);
         }
 
