@@ -858,7 +858,6 @@ namespace FanfouWP.API
                 case RefreshMode.Center:
                     if (refresh_id != "" && since != "" && max != "")
                     {
-                        restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
                     }
                     else
@@ -933,6 +932,8 @@ namespace FanfouWP.API
                                         }
                                         break;
                                     case RefreshMode.Center:
+                                        var lastStatus = status.Last().rawid;
+                                        var firstStatus = HomeTimeLineStatus.First().rawid;
                                         var pos = 0;
                                         for (int i = 0; i < this.HomeTimeLineStatus.Count; i++)
                                         {
@@ -952,12 +953,12 @@ namespace FanfouWP.API
                                                 c++;
                                             }
                                         }
-                                        if (status.Count >= count)
+                                        if (UInt64.Parse(lastStatus) > UInt64.Parse(firstStatus))
                                         {
                                             var r = new Status();
                                             r.id = Guid.NewGuid().ToString();
                                             r.is_refresh = true;
-                                            HomeTimeLineStatus.Insert(pos - 1 + count - c, r);
+                                            HomeTimeLineStatus.Insert(pos + count, r);
                                         }
                                         break;
                                     default:
@@ -1077,7 +1078,6 @@ namespace FanfouWP.API
                 case RefreshMode.Center:
                     if (refresh_id != "" && since != "" && max != "")
                     {
-                        restRequest.AddParameter("since_id", since);
                         restRequest.AddParameter("max_id", max);
                     }
                     else
@@ -1133,7 +1133,7 @@ namespace FanfouWP.API
                                            }
                                        }
 
-                                       if (status.Count >= count)
+                                       if (status.Count() >= count)
                                        {
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
@@ -1155,6 +1155,8 @@ namespace FanfouWP.API
                                        }
                                        break;
                                    case RefreshMode.Center:
+                                       var lastStatus = status.Last().rawid;
+                                       var firstStatus = MentionTimeLineStatus.First().rawid;
                                        var pos = 0;
                                        for (int i = 0; i < this.MentionTimeLineStatus.Count; i++)
                                        {
@@ -1174,12 +1176,12 @@ namespace FanfouWP.API
                                                c++;
                                            }
                                        }
-                                       if (status.Count >= count)
+                                       if (UInt64.Parse(lastStatus) > UInt64.Parse(firstStatus))
                                        {
                                            var r = new Status();
                                            r.id = Guid.NewGuid().ToString();
                                            r.is_refresh = true;
-                                           MentionTimeLineStatus.Insert(pos - 1 + count - c, r);
+                                           MentionTimeLineStatus.Insert(pos + count, r);
                                        }
                                        break;
                                    default:

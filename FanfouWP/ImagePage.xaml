@@ -57,7 +57,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
 
-            <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" IsEnabled="True" />
+            <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" IsEnabled="False" />
 
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

@@ -48,7 +48,11 @@ namespace FanfouWP
             if (status != null && status.photo != null)
             {
                 var converter = new FanfouWP.ItemControls.ValueConverter.ImageSourceToCacheConverter();
-                converter.ImageCompleted += (s, e2) => Dispatcher.BeginInvoke(() => this.loading.Visibility = Visibility.Collapsed);
+                converter.ImageCompleted += (s, e2) => Dispatcher.BeginInvoke(() =>
+                {
+                    this.loading.Visibility = Visibility.Collapsed;
+                    (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                });
                 BitmapImage bm = new BitmapImage();
                 bm = (BitmapImage)converter.Convert(this.status.photo.largeurl, bm.GetType(), null, System.Globalization.CultureInfo.CurrentCulture);
                 this.image.Source = bm;
@@ -118,11 +122,6 @@ namespace FanfouWP
             Picture pic = library.SavePicture("FanfouSavedPicture-" + status.id + ".jpg", ms);
             (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             Dispatcher.BeginInvoke(() => this.toast.NewToast("图片已保存:)"));
-        }
-
-        private void image_ImageOpened(object sender, RoutedEventArgs e)
-        {
-            (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
         }
 
     }

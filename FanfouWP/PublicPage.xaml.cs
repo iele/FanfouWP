@@ -57,7 +57,7 @@ namespace FanfouWP
 
                 return;
             }
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20 * 10 + 20 * 10 + 20);
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20);
         }
 
         void Instance_PublicTimelineFailed(object sender, FailedEventArgs e)
@@ -86,7 +86,7 @@ namespace FanfouWP
             if (this.PublicStatusListBox.SelectedItem != null)
             {
                 var item = this.PublicStatusListBox.SelectedItem;
-                this.PublicStatusListBox.SelectedIndex = -1;
+                this.PublicStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -103,7 +103,7 @@ namespace FanfouWP
             {
                 this.loading.Visibility = System.Windows.Visibility.Visible;
             });
-            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20 * 10 + 20);
+            FanfouWP.API.FanfouAPI.Instance.StatusPublicTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20);
         }
     }
 }
