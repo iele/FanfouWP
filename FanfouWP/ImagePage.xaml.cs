@@ -11,6 +11,7 @@ using System.IO.IsolatedStorage;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -18,6 +19,9 @@ namespace FanfouWP
     {
         private FanfouWP.API.Items.Status status;
         private double initialScale;
+
+        private ToastUtil toast = new ToastUtil();
+
         public ImagePage()
         {
             InitializeComponent();

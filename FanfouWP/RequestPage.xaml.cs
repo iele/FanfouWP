@@ -10,12 +10,15 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using System.Collections.ObjectModel;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
     public partial class RequestPage : PhoneApplicationPage
     {
         private int currentPage = 1;
+
+        private ToastUtil toast = new ToastUtil();
 
         private ObservableCollection<User> list;
         public RequestPage()

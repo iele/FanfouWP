@@ -1,4 +1,5 @@
 ﻿using FanfouWP.Storage;
+using FanfouWP.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
@@ -21,6 +22,8 @@ namespace FanfouWP
         private dynamic friends;
         private dynamic follows;
         private dynamic fav;
+        private ToastUtil toast = new ToastUtil();
+
         public UserPage()
         {
             InitializeComponent();

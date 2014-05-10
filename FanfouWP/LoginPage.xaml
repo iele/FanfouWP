@@ -24,9 +24,6 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrol:ToastControl x:Name="toast"/>
-        </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical">
             <StackPanel.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using FanfouWP.API;
 using System.Threading;
 using System.Windows.Threading;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -19,6 +20,8 @@ namespace FanfouWP
         private FanfouWP.API.Items.DirectMessageItem dm;
         private List<FanfouWP.API.Items.DirectMessage> list;
         private FanfouWP.API.Items.User user;
+
+        private ToastUtil toast = new ToastUtil();
 
         public MessagePage()
         {

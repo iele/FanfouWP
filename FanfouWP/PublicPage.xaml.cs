@@ -11,11 +11,14 @@ using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using FanfouWP.API;
 using FanfouWP.Storage;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
     public partial class PublicPage : PhoneApplicationPage
     {
+
+        private ToastUtil toast = new ToastUtil();
         private dynamic list;
         public PublicPage()
         {

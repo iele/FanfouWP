@@ -1,5 +1,6 @@
 ﻿using FanfouWP.API.Event;
 using FanfouWP.Storage;
+using FanfouWP.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System;
@@ -16,6 +17,9 @@ namespace FanfouWP
     public partial class FriendshipPage : PhoneApplicationPage
     {
         private API.Items.User user;
+
+        private ToastUtil toast = new ToastUtil();
+
         public FriendshipPage()
         {
             InitializeComponent();

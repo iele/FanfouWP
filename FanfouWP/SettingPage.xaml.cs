@@ -7,12 +7,15 @@ using System.Windows.Media;
 using FanfouWP.Storage;
 using Windows.Storage;
 using Microsoft.Phone.Shell;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
     public partial class SettingPage : PhoneApplicationPage
     {
         private SettingManager settingManager = SettingManager.GetInstance();
+
+        private ToastUtil toast = new ToastUtil();
 
         public SettingPage()
         {

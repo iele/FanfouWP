@@ -7,12 +7,16 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
     public partial class TrendsPage : PhoneApplicationPage
     {
         private dynamic list;
+
+        private ToastUtil toast = new ToastUtil();
+
         public TrendsPage()
         {
             InitializeComponent();

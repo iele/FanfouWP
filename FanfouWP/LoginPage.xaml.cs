@@ -12,6 +12,7 @@ using FanfouWP.Storage;
 using Microsoft.Phone.Tasks;
 using Windows.UI.ViewManagement;
 using System.Collections.ObjectModel;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -19,6 +20,9 @@ namespace FanfouWP
     {
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
         private SettingManager settings = SettingManager.GetInstance();
+
+        private ToastUtil toast = new ToastUtil();
+
         public LoginPage()
         {
             InitializeComponent();

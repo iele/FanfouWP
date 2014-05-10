@@ -32,10 +32,7 @@
             </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot">
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrols:ToastControl x:Name="toast"/>
-        </coding:ProgressOverlay>
-        <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot" Foreground="#DEFFFFFF">
+       <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot" Foreground="#DEFFFFFF">
             <controls:PivotItem Header="设置" Margin="0,28,0,0" Foreground="#DE000000">
                 <ScrollViewer Margin="12,0" >
                     <StackPanel Orientation="Vertical">

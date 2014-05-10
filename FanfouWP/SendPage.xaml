@@ -21,11 +21,7 @@
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrols:ToastControl x:Name="toast"/>
-        </coding:ProgressOverlay>
-
-        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1">
+       <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <Grid Margin="0" Background="#FF72CBE1" VerticalAlignment="Top" >

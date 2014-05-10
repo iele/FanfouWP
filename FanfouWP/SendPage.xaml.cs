@@ -35,6 +35,9 @@ namespace FanfouWP
         private string text;
 
         private string position = "";
+
+        private ToastUtil toast = new ToastUtil();
+
         public SendPage()
         {
             InitializeComponent();

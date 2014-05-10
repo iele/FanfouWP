@@ -11,6 +11,7 @@ using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using System.Collections.ObjectModel;
 using FanfouWP.Storage;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -18,6 +19,8 @@ namespace FanfouWP
     {
         private SettingManager settings = SettingManager.GetInstance();
         private string id = FanfouWP.API.FanfouAPI.Instance.CurrentUser == null ? "" : string.Copy(FanfouWP.API.FanfouAPI.Instance.CurrentUser.id);
+
+        private ToastUtil toast = new ToastUtil();
         public AccountsPage()
         {
             InitializeComponent();

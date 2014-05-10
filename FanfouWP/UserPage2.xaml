@@ -26,10 +26,7 @@
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <coding:ProgressOverlay  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="2">
-            <usercontrols:ToastControl x:Name="toast"/>
-        </coding:ProgressOverlay>
-        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
+      <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">

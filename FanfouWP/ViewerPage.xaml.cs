@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using FanfouWP.Utils;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace FanfouWP
 {
@@ -14,6 +12,9 @@ namespace FanfouWP
     {
         private FanfouWP.API.Items.User user;
         private dynamic list;
+
+        private ToastUtil toast = new ToastUtil();
+
         public ViewerPage()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace FanfouWP
         {
             if (State.ContainsKey("ViewerPage_user"))
                 this.user = State["ViewerPage_user"] as FanfouWP.API.Items.User;
-            if (State.ContainsKey("ViewerPage_list")) 
+            if (State.ContainsKey("ViewerPage_list"))
                 this.list = State["ViewerPage_list"];
 
             base.OnNavigatedTo(e);

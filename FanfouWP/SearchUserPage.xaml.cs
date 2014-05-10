@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -17,7 +18,9 @@ namespace FanfouWP
         private string keyword;
         private FanfouWP.API.Items.User user;
         private dynamic keyword_list;
- 
+
+        private ToastUtil toast = new ToastUtil();
+
         public SearchUserPage()
         {
             InitializeComponent();

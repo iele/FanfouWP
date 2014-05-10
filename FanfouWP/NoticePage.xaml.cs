@@ -9,12 +9,15 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
     public partial class NoticePage : PhoneApplicationPage
     {
         private dynamic keyword_list;
+
+        private ToastUtil toast = new ToastUtil();
 
         public NoticePage()
         {

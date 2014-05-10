@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -16,6 +17,9 @@ namespace FanfouWP
         private dynamic picker;
         private int currentIndex;
         private dynamic list;
+
+        private ToastUtil toast = new ToastUtil();
+
         public TagPage()
         {
             InitializeComponent();

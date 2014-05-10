@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -19,6 +20,9 @@ namespace FanfouWP
         private dynamic list;
 
         private int currentPage = 1;
+
+        private ToastUtil toast = new ToastUtil();
+
         public FavStatusPage()
         {
             InitializeComponent();

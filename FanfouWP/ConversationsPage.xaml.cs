@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
+using FanfouWP.Utils;
 
 namespace FanfouWP
 {
@@ -16,6 +17,9 @@ namespace FanfouWP
     {
         private int currentPage = 1;
         private dynamic list;
+
+        private ToastUtil toast = new ToastUtil();
+
         public ConversationsPage()
         {
             InitializeComponent();
