@@ -89,6 +89,7 @@ namespace FanfouWP
 
         private void AccountItemControl_DeleteCompleted(object sender, EventArgs e)
         {
+            Utils.ScheduledTask.RemoveAgent();
             while (NavigationService.CanGoBack)
                 NavigationService.RemoveBackEntry();
             NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative));

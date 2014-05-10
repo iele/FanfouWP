@@ -250,10 +250,12 @@
     <Compile Include="Utils\EvilTransform.cs" />
     <Compile Include="Utils\GeoLocatorUtils.cs" />
     <Compile Include="Utils\Pair.cs" />
+    <Compile Include="Utils\ScheduledTask.cs" />
     <Compile Include="Utils\StatusUploader.cs" />
     <Compile Include="Utils\PhotoUploader.cs" />
     <Compile Include="Utils\ThemeManager.cs" />
     <Compile Include="Utils\ToastUtil.cs" />
+    <Compile Include="Utils\UriMapper.cs" />
     <Compile Include="ViewerPage.xaml.cs">
       <DependentUpon>ViewerPage.xaml</DependentUpon>
     </Compile>

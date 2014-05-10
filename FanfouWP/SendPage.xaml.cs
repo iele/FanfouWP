@@ -15,6 +15,7 @@ using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.Storage;
 using FanfouWP.Utils;
+using Microsoft.Xna.Framework.Media;
 
 namespace FanfouWP
 {
@@ -137,7 +138,8 @@ namespace FanfouWP
 
             if (is_image == true)
             {
-                addPicture();
+                if (this.image == null)
+                    addPicture();
             }
         }
 
@@ -464,9 +466,24 @@ namespace FanfouWP
                             break;
                     }
                 }
+                else if (NavigationContext.QueryString.ContainsKey("FromTile"))
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                        (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
+                        (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
+                        (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                    });
+                    FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
+                    FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
+                    Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
+
+                }
                 else
                 {
-                    if (NavigationContext.QueryString.ContainsKey("FromTile"))
+                    IDictionary<string, string> queryStrings = this.NavigationContext.QueryString;
+                    if (queryStrings.ContainsKey("FileId"))
                     {
                         Dispatcher.BeginInvoke(() =>
                         {
@@ -474,10 +491,18 @@ namespace FanfouWP
                             (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = false;
                             (ApplicationBar.Buttons[2] as ApplicationBarIconButton).IsEnabled = false;
                             (ApplicationBar.Buttons[3] as ApplicationBarIconButton).IsEnabled = false;
+                            MediaLibrary library = new MediaLibrary();
+                            Picture photoFromLibrary = library.GetPictureFromToken(queryStrings["FileId"]);
+                            BitmapImage bitmapFromPhoto = new BitmapImage();
+                            bitmapFromPhoto.SetSource(photoFromLibrary.GetImage());
+                            this.Image.Source = bitmapFromPhoto;
+                            this.image = new WriteableBitmap(bitmapFromPhoto);
+                            this.is_image = true;
                         });
                         FanfouAPI.RestoreDataSuccess += FanfouAPI_RestoreDataSuccess;
                         FanfouAPI.RestoreDataFailed += FanfouAPI_RestoreDataFailed;
                         Dispatcher.BeginInvoke(async () => await FanfouAPI.TryRestoreData());
+
                     }
                 }
             }

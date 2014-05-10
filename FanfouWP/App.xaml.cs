@@ -125,6 +125,8 @@ namespace FanfouWP
             // 在下一次导航中处理清除 BackStack 的重置请求，
             RootFrame.Navigated += CheckForResetNavigation;
 
+            RootFrame.UriMapper = new Utils.UriMapper();
+            
             // 确保我们未再次初始化
             phoneApplicationInitialized = true;
         }

@@ -347,57 +347,6 @@ namespace FanfouWP
             NavigationService.Navigate(new Uri("/RequestPage.xaml", UriKind.Relative));
         }
 
-        PeriodicTask periodicTask;
-
-        string periodicTaskName = "PeriodicAgent";
-        public bool agentsAreEnabled = true;
-        private void RemoveAgent(string name)
-        {
-            try
-            {
-                ScheduledActionService.Remove(name);
-            }
-            catch (Exception exception)
-            {
-                System.Diagnostics.Debug.WriteLine(exception.Message);
-            }
-        }
-
-        private void StartPeriodicAgent()
-        {
-            agentsAreEnabled = true;
-            periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
-            if (periodicTask != null)
-            {
-                RemoveAgent(periodicTaskName);
-            }
-
-            periodicTask = new PeriodicTask(periodicTaskName);
-
-            periodicTask.Description = "该后台用于定期获取最新消息通知";
-
-            try
-            {
-                ScheduledActionService.Add(periodicTask);
-                //                ScheduledActionService.LaunchForTest(periodicTask.Name, TimeSpan.FromSeconds(60));
-            }
-            catch (InvalidOperationException exception)
-            {
-                if (exception.Message.Contains("BNS Error: The action is disabled"))
-                {
-                    agentsAreEnabled = false;
-                }
-
-                if (exception.Message.Contains("BNS Error: The maximum number of ScheduledActions of this type have already been added."))
-                {
-
-                }
-            }
-            catch (SchedulerServiceException)
-            {
-            }
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             pdi = new ObservableCollection<PivotDataItem>();
@@ -460,7 +409,7 @@ namespace FanfouWP
             }
 
             AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
-            StartPeriodicAgent();
+            Utils.ScheduledTask.StartPeriodicAgent();
             run_once = false;
 
             if (timer == null)
