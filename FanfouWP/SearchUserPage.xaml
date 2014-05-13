@@ -12,7 +12,7 @@
    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -55,7 +55,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.95" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

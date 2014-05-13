@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using Coding4Fun.Toolkit.Controls;
 using FanfouWP.API.Items;
 using FanfouWP.Utils;
+using System.Windows.Media;
 
 namespace FanfouWP
 {
@@ -358,7 +359,9 @@ namespace FanfouWP
             this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
 
             this.TitleControl.DataContext = this.FanfouAPI.CurrentUser;
+
             Toolbox.DataContext = FanfouAPI.CurrentUser;
+            ToolPivot.DataContext = FanfouAPI.CurrentUser;
 
             if (e.NavigationMode == NavigationMode.New && run_once == true && this.is_session_restored)
             {
@@ -474,10 +477,26 @@ namespace FanfouWP
         }
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Pivot.SelectedIndex == 2)
-                this.Toolbox.GroupTileAnimationEnable(true);
-            else
-                this.Toolbox.GroupTileAnimationEnable(false);
+            switch (Pivot.SelectedIndex)
+            {
+                case 0:
+                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Visible;
+                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    break;
+                case 1:
+                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Visible;
+                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Visible;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void HomeTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)

@@ -11,7 +11,7 @@
     xmlns:NokiaMapSDK="clr-namespace:NokiaMapSDK;assembly=NokiaMapSDK"
      xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     x:Class="FanfouWP.StatusPage"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
@@ -37,7 +37,7 @@
     </phone:PhoneApplicationPage.Foreground>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="复制到剪贴板" Click="ApplicationBarMenuItem_Click_1"/>
                 <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click_2"/>

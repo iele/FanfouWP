@@ -34,16 +34,14 @@
     	<Image HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.55,1" Canvas.ZIndex="-1" Source="/Assets/00.jpg" Margin="5,10,0,0"/>
     	<StackPanel Orientation="Vertical" Margin="1.333,10,5,5" Grid.Column="1">
     		<TextBlock TextWrapping="Wrap" Text="{Binding screen_name}" FontSize="32" VerticalAlignment="Top"  Height="43" FontFamily="Portable User Interface" Width="65535" />
-    		<StackPanel Orientation="Horizontal" Margin="0,2">
-    			<TextBlock TextWrapping="Wrap" Text="{Binding statuses_count}" Margin="0" FontSize="24" Foreground="#DE878686"/>
-    			<TextBlock TextWrapping="Wrap" Text="{Binding followers_count}" Margin="5,0,0,0" FontSize="24" Foreground="#DE878686"/>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock TextWrapping="Wrap" Text="{Binding statuses_count}" Margin="0" FontSize="24" Foreground="#DE878686"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding followers_count}" Margin="5,0,0,0" FontSize="24" Foreground="#DE878686"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding friends_count}" Margin="5,0,0,0" FontSize="24" Foreground="#DE878686"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding location}" Margin="5,0,0,0" FontSize="24" Foreground="#DE878686"/>
-    			<TextBlock TextWrapping="Wrap" Text="{Binding gender}" FontSize="24" Margin="5,0,0,0" Foreground="#DE878686"/>
-            		
-    		</StackPanel>
-    		<TextBlock x:Name="message" TextWrapping="Wrap" Text="{Binding status.text, Converter={StaticResource HtmlToTextConverter}}" FontSize="21.333" Foreground="#DE7E7B7B" Margin="0,2,0,0"/>
-    	</StackPanel>
+                <TextBlock TextWrapping="Wrap" Text="{Binding gender}" FontSize="24" Margin="5,0,0,0" Foreground="#DE878686"/>
+            </StackPanel>
+        </StackPanel>
     	<Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Bottom" Margin="5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
     	<Rectangle Fill="#FFeeeeee" Height="1" VerticalAlignment="Top" Margin="5,-1,5,0" StrokeThickness="0" Grid.ColumnSpan="2"/>
 

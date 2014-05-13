@@ -14,7 +14,7 @@
     FontFamily="Portable User Interface"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
         <ResourceDictionary>
@@ -138,7 +138,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />
             </shell:ApplicationBar.MenuItems>

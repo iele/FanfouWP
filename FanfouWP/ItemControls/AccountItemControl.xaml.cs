@@ -35,10 +35,6 @@ namespace FanfouWP.ItemControls
 
         void AccountItemControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((this.DataContext as FanfouWP.API.Items.User).status == null)
-            {
-                this.message.Text = "此用户消息未公开";
-            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

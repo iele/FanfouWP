@@ -12,7 +12,7 @@
    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -56,7 +56,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

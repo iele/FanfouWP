@@ -14,7 +14,7 @@
     FontFamily="Portable User Interface"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
     <phone:PhoneApplicationPage.Resources >
         <ResourceDictionary>
@@ -143,7 +143,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
                 <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />

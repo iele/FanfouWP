@@ -12,7 +12,7 @@
    FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -69,7 +69,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.95" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
             <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
         </shell:ApplicationBar>

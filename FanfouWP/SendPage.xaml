@@ -10,7 +10,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="False">
 
@@ -40,7 +40,7 @@
 
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SendButton" Click="SendButton_Click"  IconUri="/Assets/AppBar/Send-message.png" Text="发送" />
             <shell:ApplicationBarIconButton x:Name="PictureButton" Click="PictureButton_Click"  IconUri="/Assets/AppBar/Camera.png" Text="照片" />
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/Clipboard.png" Text="话题" />
