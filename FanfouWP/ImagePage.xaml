@@ -52,7 +52,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="True" IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
 
             <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" IsEnabled="False" />
 

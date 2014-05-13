@@ -42,20 +42,20 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox 
+            <phone:LongListSelector
  x:Name="AccountsStatusListBox" ItemsSource="{Binding}" SelectionChanged="AccountsStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System">
-                <ListBox.ItemTemplate>
+                <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>                           
                             <itemcontrols:AccountItemControl DataContext="{Binding}" DeleteCompleted="AccountItemControl_DeleteCompleted"/>
                         </StackPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="LoginButton" Click="LoginButton_Click"  IconUri="/Assets/AppBar/add.png" Text="添加" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

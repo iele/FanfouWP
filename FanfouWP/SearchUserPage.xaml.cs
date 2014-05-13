@@ -129,7 +129,7 @@ namespace FanfouWP
             if (this.SearchStatusListBox.SelectedItem != null)
             {
                 var item = this.SearchStatusListBox.SelectedItem;
-                this.SearchStatusListBox.SelectedIndex = -1;
+                this.SearchStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {

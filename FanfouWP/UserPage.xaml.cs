@@ -289,7 +289,7 @@ namespace FanfouWP
             if (this.TimeLineListBox.SelectedItem != null)
             {
                 var item = this.TimeLineListBox.SelectedItem;
-                this.TimeLineListBox.SelectedIndex = -1;
+                this.TimeLineListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -324,7 +324,7 @@ namespace FanfouWP
             if (this.FavListBox.SelectedItem != null)
             {
                 var item = this.FavListBox.SelectedItem;
-                this.FavListBox.SelectedIndex = -1;
+                this.FavListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -340,7 +340,7 @@ namespace FanfouWP
             if (this.FollowersListBox.SelectedItem != null)
             {
                 var item = this.FollowersListBox.SelectedItem;
-                this.FollowersListBox.SelectedIndex = -1;
+                this.FollowersListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
                 {
@@ -356,7 +356,7 @@ namespace FanfouWP
             if (this.FriendsListBox.SelectedItem != null)
             {
                 var item = this.FriendsListBox.SelectedItem;
-                this.FriendsListBox.SelectedIndex = -1;
+                this.FriendsListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage2"))
                 {

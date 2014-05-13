@@ -36,7 +36,7 @@ namespace FanfouWP
             // 语言显示初始化
             InitializeLanguage();
 
-
+            ThemeManager.OverrideOptions = ThemeManagerOverrideOptions.SystemTrayColors;
             ThemeManager.ToLightTheme();
 
             RootFrame.Background = new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0xff, 0xff));
@@ -126,7 +126,7 @@ namespace FanfouWP
             RootFrame.Navigated += CheckForResetNavigation;
 
             RootFrame.UriMapper = new Utils.UriMapper();
-            
+
             // 确保我们未再次初始化
             phoneApplicationInitialized = true;
         }

@@ -124,7 +124,7 @@ namespace FanfouWP
             if (this.FriendsStatusListBox.SelectedItem != null)
             {
                 var item = this.FriendsStatusListBox.SelectedItem;
-                this.FriendsStatusListBox.SelectedIndex = -1;
+                this.FriendsStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("SendPage_Friend"))
                 {

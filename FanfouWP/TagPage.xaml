@@ -43,14 +43,14 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,-20,0,0">
-            <ListBox x:Name="ListBox"  ScrollViewer.ManipulationMode="System"   SelectionChanged="ListBox_SelectionChanged"
+            <phone:LongListSelector x:Name="ListBox"  ScrollViewer.ManipulationMode="System"   SelectionChanged="ListBox_SelectionChanged"
                      ItemsSource="{Binding}">
-                <ListBox.ItemTemplate>
+                <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <itemcontrols:UserItemControl />
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
         </Grid>
     </Grid>
     <toolkit:TransitionService.NavigationInTransition>

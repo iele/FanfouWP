@@ -100,7 +100,7 @@ namespace FanfouWP
                 PhoneApplicationService.Current.State.Add("StatusPage", images.SelectedItem);
                 NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
             }
-            this.images.SelectedIndex = -1;
+            this.images.SelectedItem = null;
         }
     }
 }

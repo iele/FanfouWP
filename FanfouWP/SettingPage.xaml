@@ -63,20 +63,20 @@
                 </ScrollViewer>
             </controls:PivotItem>
             <!--<controls:PivotItem Header="主题" Margin="0,28,0,0" Foreground="#DE000000">
-                <ListBox x:Name="colorSelector" ItemsSource="{Binding}" >
-                    <ListBox.ItemsPanel>
+                <phone:LongListSelector x:Name="colorSelector" ItemsSource="{Binding}" >
+                    <phone:LongListSelector.ItemsPanel>
                         <ItemsPanelTemplate>
                             <toolkit:WrapPanel></toolkit:WrapPanel>
                         </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
+                    </phone:LongListSelector.ItemsPanel>
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Rectangle Fill="{Binding color, Converter={StaticResource StatusToFillColorConverter}}" Margin="10" Height="140" Width="140">
                             </Rectangle>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
+                    </phone:LongListSelector.ItemTemplate>
 
-                </ListBox>
+                </phone:LongListSelector>
             </controls:PivotItem>-->
             <controls:PivotItem Header="建议" Margin="0,28,0,0" Foreground="#DE000000">
                 <ScrollViewer Margin="12,0">

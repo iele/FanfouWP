@@ -151,7 +151,7 @@ namespace FanfouWP
             if (this.ConversationListBox.SelectedItem != null)
             {
                 var item = this.ConversationListBox.SelectedItem;
-                this.ConversationListBox.SelectedIndex = -1;
+                this.ConversationListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("MessagePage"))
                 {

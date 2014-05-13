@@ -39,18 +39,18 @@
                 <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,50,12,0" Foreground="#DE000000"/>
             </Grid>
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-                <ListBox x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </Grid>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

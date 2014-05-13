@@ -55,7 +55,7 @@ namespace FanfouWP
             if (this.AccountsStatusListBox.SelectedItem != null)
             {
                 var item = this.AccountsStatusListBox.SelectedItem;
-                this.AccountsStatusListBox.SelectedIndex = -1;
+                this.AccountsStatusListBox.SelectedItem = null;
 
                 Dispatcher.BeginInvoke(() =>
                 {

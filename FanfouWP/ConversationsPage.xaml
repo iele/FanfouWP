@@ -42,8 +42,8 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="ConversationListBox" ItemsSource="{Binding}"    ScrollViewer.ManipulationMode="System"   SelectionChanged="ConversationListBox_SelectionChanged">
-                <ListBox.ItemTemplate>
+            <phone:LongListSelector x:Name="ConversationListBox" ItemsSource="{Binding}"    ScrollViewer.ManipulationMode="System"   SelectionChanged="ConversationListBox_SelectionChanged">
+                <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <local:ConversationItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">
                             <local:ConversationItemTemplateSelector.ConversationSelfTemplate>
@@ -59,12 +59,12 @@
                             </local:ConversationItemTemplateSelector.ConversationOtherTemplate>
                         </local:ConversationItemTemplateSelector>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="1" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
             <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
         </shell:ApplicationBar>

@@ -134,7 +134,7 @@ namespace FanfouWP
             if (this.FavStatusListBox.SelectedItem != null)
             {
                 var item = this.FavStatusListBox.SelectedItem;
-                this.FavStatusListBox.SelectedIndex = -1;
+                this.FavStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {

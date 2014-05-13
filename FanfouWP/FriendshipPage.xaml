@@ -70,7 +70,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />            
             </shell:ApplicationBar.MenuItems>

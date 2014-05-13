@@ -53,7 +53,7 @@ namespace FanfouWP.UserControls
             set { SetValue(GroupFooterTemplateProperty, value); }
         }
 
-        /// <summary>
+      /// <summary>
         ///     Identifies the RefreshableListBox.GroupFooterTemplate dependency property.
         /// </summary>
         public static readonly DependencyProperty GroupFooterTemplateProperty =

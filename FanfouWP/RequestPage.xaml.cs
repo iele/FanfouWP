@@ -160,7 +160,7 @@ namespace FanfouWP
             if (this.RequestStatusListBox.SelectedItem != null)
             {
                 var item = this.RequestStatusListBox.SelectedItem;
-                this.RequestStatusListBox.SelectedIndex = -1;
+                this.RequestStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("FriendshipPage"))
                 {

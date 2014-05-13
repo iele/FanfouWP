@@ -74,40 +74,40 @@
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
-                <ListBox x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
             <phone:PivotItem Header="听众" Margin="0,28,0,0" Foreground="#DE000000">
-                <ListBox x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:UserItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
             <phone:PivotItem Header="朋友" Margin="0,28,0,0" Foreground="#DE000000">
-                <ListBox x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:UserItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
             <phone:PivotItem Header="收藏" Margin="0,28,0,0" Foreground="#DE000000">
-                <ListBox x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
+                <phone:LongListSelector x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
         <Rectangle Height="165" VerticalAlignment="Top" Canvas.ZIndex="-1">
@@ -120,7 +120,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="1" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ffe7e7e7" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
             </shell:ApplicationBar.MenuItems>

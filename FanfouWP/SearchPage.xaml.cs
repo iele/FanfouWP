@@ -181,7 +181,7 @@ namespace FanfouWP
             if (this.SearchStatusListBox.SelectedItem != null)
             {
                 var item = this.SearchStatusListBox.SelectedItem;
-                this.SearchStatusListBox.SelectedIndex = -1;
+                this.SearchStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("StatusPage"))
                 {
@@ -197,7 +197,7 @@ namespace FanfouWP
             if (this.UserStatusListBox.SelectedItem != null)
             {
                 var item = this.UserStatusListBox.SelectedItem;
-                this.UserStatusListBox.SelectedIndex = -1;
+                this.UserStatusListBox.SelectedItem = null;
 
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {

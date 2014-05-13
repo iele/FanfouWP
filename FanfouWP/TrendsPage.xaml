@@ -41,13 +41,13 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <ListBox x:Name="TrendsListBox" SelectionChanged="TrendsListBox_SelectionChanged"  ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
-                <ListBox.ItemTemplate>
+            <phone:LongListSelector x:Name="TrendsListBox" SelectionChanged="TrendsListBox_SelectionChanged"  ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <itemcontrols:TrendsItemControl />
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </phone:LongListSelector.ItemTemplate>
+            </phone:LongListSelector>
         </Grid>
     </Grid>
 
