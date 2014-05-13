@@ -32,7 +32,8 @@
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">
             <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
                 <ScrollViewer Margin="0">
-                    <Grid>
+                    <StackPanel>
+                        <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
 							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
                         <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText" Text="{Binding status.text}" />
@@ -57,6 +58,8 @@
                             </StackPanel>
                         </StackPanel>
                     </Grid>
+                    <StackPanel Height="72" />
+                    </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
@@ -70,7 +73,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />            
             </shell:ApplicationBar.MenuItems>

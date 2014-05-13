@@ -74,12 +74,6 @@ namespace FanfouWP
 
         void FanfouAPI_AccountNotificationSuccess(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                if ((sender as FanfouWP.API.Items.Notifications).direct_messages != 0)
-                    this.Toolbox.DirectMsgTile.Notification = (sender as FanfouWP.API.Items.Notifications).direct_messages + "条新私信";
-
-            });
         }
 
         void FanfouAPI_FavoritesDestroyFailed(object sender, API.Event.FailedEventArgs e)

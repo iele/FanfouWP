@@ -32,6 +32,7 @@
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">
             <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
                 <ScrollViewer Margin="0">
+                    <StackPanel>
                     <Grid>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
 							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
@@ -70,11 +71,18 @@
                         </StackPanel>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
                         	Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1"/>
-                    </Grid>
+                        </Grid>
+                        <StackPanel Height="72" />
+                    </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
                 <phone:LongListSelector x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -84,6 +92,11 @@
             </phone:PivotItem>
             <phone:PivotItem Header="听众" Margin="0,28,0,0" Foreground="#DE000000">
                 <phone:LongListSelector x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:UserItemControl />
@@ -93,6 +106,11 @@
             </phone:PivotItem>
             <phone:PivotItem Header="朋友" Margin="0,28,0,0" Foreground="#DE000000">
                 <phone:LongListSelector x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:UserItemControl />
@@ -102,6 +120,11 @@
             </phone:PivotItem>
             <phone:PivotItem Header="收藏" Margin="0,28,-7,0" Foreground="#DE000000">
                 <phone:LongListSelector x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -120,7 +143,7 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" ForegroundColor="Black" BackgroundColor="Gray">
+        <shell:ApplicationBar  Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" ForegroundColor="Black" BackgroundColor="Gray">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
                <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               

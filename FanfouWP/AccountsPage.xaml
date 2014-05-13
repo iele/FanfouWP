@@ -44,6 +44,11 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
             <phone:LongListSelector
  x:Name="AccountsStatusListBox" ItemsSource="{Binding}" SelectionChanged="AccountsStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System">
+                <phone:LongListSelector.ListFooterTemplate>
+                    <DataTemplate>
+                        <StackPanel Height="72"/>
+                    </DataTemplate>
+                </phone:LongListSelector.ListFooterTemplate>
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>                           
@@ -55,7 +60,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="LoginButton" Click="LoginButton_Click"  IconUri="/Assets/AppBar/add.png" Text="添加" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

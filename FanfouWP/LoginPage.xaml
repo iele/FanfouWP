@@ -52,7 +52,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="True" IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
 
             <shell:ApplicationBarIconButton x:Name="ClickButton" Click="ClickButton_Click" IconUri="/Assets/AppBar/add.png" Text="登录" />
 

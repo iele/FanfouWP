@@ -33,14 +33,14 @@
         <StaticResource ResourceKey="PhoneFontSizeNormal"/>
     </phone:PhoneApplicationPage.FontSize>
     <phone:PhoneApplicationPage.Foreground>
-    	<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+        <SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
     </phone:PhoneApplicationPage.Foreground>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="复制到剪贴板" Click="ApplicationBarMenuItem_Click_1"/>
-            <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click_2"/>
+                <shell:ApplicationBarMenuItem Text="删除消息" Click="ApplicationBarMenuItem_Click_2"/>
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="UserButton" Click="UserButton_Click"  IconUri="/Assets/AppBar/Align-center.png" Text="个人资料" />
             <shell:ApplicationBarIconButton x:Name="ResendButton" Click="ResendButton_Click"  IconUri="/Assets/AppBar/Rotate.png"  Text="转发" />
@@ -68,41 +68,42 @@
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </StackPanel.Background>
-        	<Grid Margin="12,17,0,28" Height="100">
+            <Grid Margin="12,17,0,28" Height="100">
                 <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,0,0" Foreground="#DEFFFFFF"/>
                 <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
-        		<Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
-        
-        	</Grid>
+                <Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
+
+            </Grid>
 
         </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0">
             <ScrollViewer Margin="0">
-            	<StackPanel Margin="0">
-            		<RichTextBox x:Name="richText"  VerticalAlignment="Top" Margin="-8,10,-8,0"/>
-            		<StackPanel VerticalAlignment="Top" Margin="3,5,6,0" Orientation="Horizontal">
-            			<TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Padding="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-            			<TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Padding="5,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-            			<TextBlock Padding="5,0,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
-            			<TextBlock x:Name="ReplyTextBlock" Padding="5,0,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name, Converter={StaticResource NullToVisibilityConverter}}"  Tap="TextBlock_Tap_InReply" />
-            			<TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
-            		</StackPanel>
+                <StackPanel Margin="0">
+                    <RichTextBox x:Name="richText"  VerticalAlignment="Top" Margin="-8,10,-8,0"/>
+                    <StackPanel VerticalAlignment="Top" Margin="3,5,6,0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" Padding="0"  FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                        <TextBlock Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" Padding="5,0,0,0" FontSize="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
+                        <TextBlock Padding="5,0,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}" x:Name="fav"/>
+                        <TextBlock x:Name="ReplyTextBlock" Padding="5,0,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name, Converter={StaticResource NullToVisibilityConverter}}"  Tap="TextBlock_Tap_InReply" />
+                        <TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
+                    </StackPanel>
                     <Grid Visibility="{Binding photo , Converter={StaticResource NullToVisibilityConverter}}">
                         <Image Margin="0,5,0,0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="Image_Tap" HorizontalAlignment="Left" MaxHeight="400"/>
                         <Image Source="{Binding photo.thumburl, Converter={StaticResource ImageSourceToCacheConverter}}"   HorizontalAlignment="Left"  Canvas.ZIndex="-1" Tap="Image_Tap" MaxHeight="400"/>
-            		</Grid>
-            	
-            		<maps:Map x:Name="map" Margin="0,10,0,0" Height="300" Visibility="Collapsed" Loaded="map_Loaded" />
-            		<TextBlock TextWrapping="Wrap" Foreground="#FF7A7A7A" Text="此消息包含的上下文" Visibility="{Binding Visibility, ElementName=context}" Margin="6,6,0,0"/>
-            		<StackPanel x:Name="context" Margin="-10,5,0,5" Visibility="Collapsed"/>
-            	</StackPanel>
+                    </Grid>
+
+                    <maps:Map x:Name="map" Margin="0,10,0,0" Height="300" Visibility="Collapsed" Loaded="map_Loaded" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#FF7A7A7A" Text="此消息包含的上下文" Visibility="{Binding Visibility, ElementName=context}" Margin="6,6,0,0"/>
+                    <StackPanel x:Name="context" Margin="-10,5,0,5" Visibility="Collapsed"/>
+                    <StackPanel Height="72"  />
+                </StackPanel>
             </ScrollViewer>
         </Grid>
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
-        </coding:ProgressOverlay>      
+        </coding:ProgressOverlay>
     </Grid>
 
 

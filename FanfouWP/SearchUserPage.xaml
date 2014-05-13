@@ -40,6 +40,11 @@
             </Grid>
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
                 <phone:LongListSelector x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />
@@ -50,7 +55,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

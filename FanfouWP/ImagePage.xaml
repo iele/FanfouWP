@@ -25,7 +25,7 @@
         </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-    <Grid x:Name="LayoutRoot" Background="Gray">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <coding:ProgressOverlay x:Name="loading" Background="Transparent" Visibility="Visible" Canvas.ZIndex="1">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
@@ -52,7 +52,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.8" IsMenuEnabled="True" IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Mode="Default" Opacity="0.75" IsMenuEnabled="True" IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
 
             <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" Text="保存" IsEnabled="False" />
 

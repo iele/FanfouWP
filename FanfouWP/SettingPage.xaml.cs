@@ -195,5 +195,12 @@ namespace FanfouWP
         {
             var op = Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-lock:"));
         }
+
+        private void TextBlock_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.Uri = new Uri("http://icons8.com/");
+            wbt.Show();
+        }
     }
 }

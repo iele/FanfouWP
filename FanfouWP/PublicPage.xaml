@@ -42,6 +42,11 @@
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
             <phone:LongListSelector x:Name="PublicStatusListBox" ItemsSource="{Binding}" SelectionChanged="PublicStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
+                <phone:LongListSelector.ListFooterTemplate>
+                    <DataTemplate>
+                        <StackPanel Height="72"/>
+                    </DataTemplate>
+                </phone:LongListSelector.ListFooterTemplate>
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <itemcontrols:StatusItemControl />
@@ -51,7 +56,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Opacity="0.8" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="Gray" ForegroundColor="Black">
+        <shell:ApplicationBar Opacity="0.75" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
