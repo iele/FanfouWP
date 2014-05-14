@@ -347,7 +347,7 @@ namespace FanfouWP
             pdi = new ObservableCollection<PivotDataItem>();
             pdi.Add(new PivotDataItem("我的消息", "0"));
             pdi.Add(new PivotDataItem("提及我的", "0"));
-            pdi.Add(new PivotDataItem("工具箱", "0"));
+            pdi.Add(new PivotDataItem("更多", "0"));
             (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
             (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
             (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
@@ -475,6 +475,8 @@ namespace FanfouWP
             }
             base.OnBackKeyPress(e);
         }
+
+        private int old_pivot_index = 0;
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (Pivot.SelectedIndex)
@@ -483,20 +485,26 @@ namespace FanfouWP
                     (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Visible;
                     (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
                     (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    if (old_pivot_index == 2)
+                        PivotUnexpandStoryBoard.Begin();
                     break;
                 case 1:
                     (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
                     (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Visible;
                     (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    if (old_pivot_index == 2)
+                        PivotUnexpandStoryBoard.Begin();
                     break;
                 case 2:
                     (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
                     (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
                     (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Visible;
+                    PivotExpandStoryBoard.Begin();
                     break;
                 default:
                     break;
             }
+            old_pivot_index = Pivot.SelectedIndex;
         }
 
         private void HomeTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
@@ -537,6 +545,14 @@ namespace FanfouWP
             if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
                 this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
 
+        }
+
+        private void PivotExpandStoryBoard_Completed(object sender, EventArgs e)
+        {
+        }
+
+        private void PivotUnexpandStoryBoard_Completed(object sender, EventArgs e)
+        {
         }
     }
 }
