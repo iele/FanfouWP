@@ -21,12 +21,12 @@
                             </DataTemplate>
                             <DataTemplate x:Key="PrepareLoadDataTemplate">
                                 <StackPanel Height="40">
-                                    <TextBlock Text="Pull Up"                                                TextAlignment="Center" FontSize="20"/>
+                                    <TextBlock Text="Pull Up" TextAlignment="Center" FontSize="20"/>
                                 </StackPanel>
                             </DataTemplate>
                             <DataTemplate x:Key="LoadingDataTemplate">
                                 <StackPanel Height="40">
-                                    <TextBlock Text="正在加载"                                                TextAlignment="Center" FontSize="20"/>
+                                    <TextBlock Text="正在加载" TextAlignment="Center" FontSize="20"/>
                                 </StackPanel>
                             </DataTemplate>
                         </phone:LongListSelector.Resources>
