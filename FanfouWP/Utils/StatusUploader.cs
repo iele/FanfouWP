@@ -58,7 +58,7 @@ namespace FanfouWP.Utils
             request.Method = "Post";
 
             parameters = new Parameters();
-            parameters.Add("status", status);
+            parameters.Add("status", status.Replace("\r", "").Replace("\n", ""));
             if (in_reply_to_status_id != "")
                 parameters.Add("in_reply_to_status_id", in_reply_to_status_id);
             if (in_reply_to_user_id != "")

@@ -60,7 +60,7 @@ namespace FanfouWP.Utils
             request.Method = "Post";
 
             parameters = new Parameters();
-            parameters.Add("status", status);
+            parameters.Add("status", status.Replace("\r", "").Replace("\n", ""));
             if (location != "")
                 parameters.Add("location", location);
 

@@ -723,14 +723,16 @@ namespace FanfouWP.API
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
                         {
-                            var a = from s in this.HomeTimeLineStatus where s.id == id select s;
-                            if (a.Count() != 0)
-                                foreach (var item in a.ToList())
+                            foreach (var item in this.HomeTimeLineStatus.ToList())
+                            {
+                                if (item.id == id)
                                     this.HomeTimeLineStatus.Remove(item);
-                            var b = from s in this.MentionTimeLineStatus where s.id == id select s;
-                            if (b.Count() != 0)
-                                foreach (var item in b.ToList())
+                            }
+                            foreach (var item in this.MentionTimeLineStatus.ToList())
+                            {
+                                if (item.id == id)
                                     this.MentionTimeLineStatus.Remove(item);
+                            }                        
                         });
                         EventArgs e = new EventArgs();
                         StatusDestroySuccess(this, e);
