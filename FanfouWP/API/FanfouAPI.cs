@@ -426,15 +426,6 @@ namespace FanfouWP.API
         }
         private void PublicTimeLineStatusChanged()
         {
-            if (this.PublicTimeLineStatus.Count > CountIndex[settings.cacheSize])
-            {
-                var l = new ObservableCollection<Items.Status>();
-                for (var i = 0; i < CountIndex[settings.cacheSize]; i++)
-                    l.Add(this.PublicTimeLineStatus[i]);
-                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_PUBLIC_TIMELINE, this.CurrentUser.id, l);
-            }
-            else
-                storage.SaveDataToIsolatedStorage(FanfouConsts.STATUS_PUBLIC_TIMELINE, this.CurrentUser.id, this.PublicTimeLineStatus);
         }
 
         private void MentionTimeLineStatusChanged()

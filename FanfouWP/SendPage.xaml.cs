@@ -16,6 +16,8 @@ using Coding4Fun.Toolkit.Controls;
 using FanfouWP.Storage;
 using FanfouWP.Utils;
 using Microsoft.Xna.Framework.Media;
+using Windows.Storage;
+using System.Runtime.Serialization.Json;
 
 namespace FanfouWP
 {
@@ -397,7 +399,24 @@ namespace FanfouWP
                 {
                     var ms = new MemoryStream();
                     image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-                    State["SendPage_image"] = ms.ToArray();
+                    Dispatcher.BeginInvoke(async () =>
+                    {
+                        try
+                        {
+                            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+                            var dataFolder = await localFolder.CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
+                            using (var writeStream = await dataFolder.OpenStreamForWriteAsync("SendImageSave.jpg", CreationCollisionOption.ReplaceExisting))
+                            {
+                                ms.CopyTo(writeStream);
+                            }
+                            State["SendPage_image"] = true;
+                        }
+                        catch (Exception exception)
+                        {
+                            System.Diagnostics.Debug.WriteLine(exception.Message);
+                        }
+                    });
                 }
             }
 
@@ -414,10 +433,29 @@ namespace FanfouWP
                 this.is_image = (bool)State["SendPage_is_image"];
             if (State.ContainsKey("SendPage_image"))
             {
-                var bs = (byte[])State["SendPage_image"];
-                var ms = new MemoryStream(bs);
-                image.SetSource(ms);
-                this.Image.Source = image;
+                var ms = new MemoryStream();
+                Dispatcher.BeginInvoke(async () =>
+                {
+                    try
+                    {
+                        Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+                        var dataFolder = await localFolder.CreateFolderAsync("cache", CreationCollisionOption.OpenIfExists);
+                        using (var readStream = await dataFolder.OpenStreamForReadAsync("SendImageSave.jpg"))
+                        {
+                            readStream.CopyTo(ms);
+                       }
+
+                        BitmapImage bitmap = new BitmapImage();
+                        bitmap.SetSource(ms);
+                        image = new WriteableBitmap(bitmap);
+                        this.Image.Source = image;
+                    }
+                    catch (Exception exception)
+                    {
+                        System.Diagnostics.Debug.WriteLine(exception.Message);
+                    }
+                });
             }
             if (State.ContainsKey("SendPage_position"))
                 this.position = State["SendPage_position"] as string;

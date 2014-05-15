@@ -29,29 +29,29 @@
 	    		<ImageBrush Stretch="Fill" ImageSource="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
 	    	</Ellipse.Fill>
 	    </Ellipse>
-        <StackPanel Grid.ColumnSpan="2" Margin="0,180,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.ColumnSpan="2" Margin="0,165,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel Margin="0" Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
-                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="32"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
+                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
                 <StackPanel Margin="0" Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
-                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="32"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
+                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="64,0,0,0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,0,0,0">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
-                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="32"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
+                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
-                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="32"/>
+                    <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
+                    <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <Grid Margin="0,337,0,5" Grid.ColumnSpan="6" Width="420">
+        <Grid Margin="0,342,0,5" Grid.ColumnSpan="6" Width="420">
             <Grid.RowDefinitions>
             	<RowDefinition/>
             	<RowDefinition/>
@@ -61,40 +61,40 @@
             	<ColumnDefinition Width="1*"/>
             	<ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee"  Tap="DirectMsgTile_Tap">
-        		<Grid Width="138" Height="138">
-        			<Image Source="/Assets/message_outline-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="私信" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" />
+            <Border Margin="1,1,-1,-1" BorderThickness="1,1,0,0"  Tap="DirectMsgTile_Tap" BorderBrush="#FFeeeeee">
+        		<Grid Width="120" Height="120">
+        			<Image Source="/Assets/message_outline-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="私信" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" />
         		</Grid>
         	</Border>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Column="1" Tap="FavTile_Tap" >
-        		<Grid Margin="0" Height="138" Width="138" Tap="FavTile_Tap" Grid.Column="1">
-        			<Image Source="/Assets/bookmark-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="收藏" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
+        	<Border Margin="-1,1,-1,-1" BorderThickness="1,1,1,0" BorderBrush="#FFeeeeee" Grid.Column="1" Tap="FavTile_Tap" >
+        		<Grid Margin="0" Height="120" Width="120" Tap="FavTile_Tap" Grid.Column="1">
+        			<Image Source="/Assets/bookmark-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="收藏" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Column="2"  Tap="SearchTile_Tap">
-        		<Grid Margin="0" Height="138" Width="138" Grid.Column="2">
-        			<Image Source="/Assets/search-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="搜索" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
+        	<Border Margin="-1,1,1,-1" BorderThickness="0,1,1,0" BorderBrush="#FFeeeeee" Grid.Column="2"  Tap="SearchTile_Tap">
+        		<Grid Margin="0" Height="120" Width="120" Grid.Column="2">
+        			<Image Source="/Assets/search-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="搜索" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Row="1"  Tap="TrendTile_Tap" >
-        		<Grid Margin="0" Height="138" Width="138" Grid.Row="1">
-        			<Image Source="/Assets/newspaper-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="热门话题" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" FontFamily="Portable User Interface"/>
+        	<Border Margin="1,-1,-1,1" BorderThickness="1,1,0,1" BorderBrush="#FFeeeeee" Grid.Row="1"  Tap="TrendTile_Tap" >
+        		<Grid Margin="0" Height="120" Width="120" Grid.Row="1">
+        			<Image Source="/Assets/newspaper-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="热门话题" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" FontFamily="Portable User Interface"/>
         		</Grid>
         	</Border>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="1" Tap="TagTile_Tap" >
-        		<Grid Margin="0" Height="138" Width="138" Grid.Row="1" Grid.Column="1">
-        			<Image Source="/Assets/tag-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="个人标签" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
+        	<Border Margin="-1,-1,-1,1" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="1" Tap="TagTile_Tap" >
+        		<Grid Margin="0" Height="120" Width="120" Grid.Row="1" Grid.Column="1">
+        			<Image Source="/Assets/tag-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="个人标签" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="1" Width="138" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="2" Tap="SettingTile_Tap" >
-        		<Grid Margin="0" Height="138" Width="138" Grid.Row="1" Grid.Column="2">
-        			<Image Source="/Assets/services-512.png" VerticalAlignment="Top" Margin="0,20,0,0" HorizontalAlignment="Center" Width="64" Height="64"/>
-        			<TextBlock Text="设置" Margin="0,0,0,28" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
+        	<Border Margin="-1,-1,1,1" BorderThickness="0,1,1,1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="2" Tap="SettingTile_Tap" >
+        		<Grid Margin="0" Height="120" Width="120" Grid.Row="1" Grid.Column="2">
+        			<Image Source="/Assets/services-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
+        			<TextBlock Text="设置" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
         </Grid>

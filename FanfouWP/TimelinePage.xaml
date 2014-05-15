@@ -24,9 +24,9 @@
             </DoubleAnimation>          
         </Storyboard>
         <Storyboard x:Name="PivotUnexpandStoryBoard" x:Key="PivotUnexpandStoryBoard" Storyboard.TargetName="Rect" Completed="PivotUnexpandStoryBoard_Completed">
-            <DoubleAnimation From="440" To="103" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.5" >
+            <DoubleAnimation From="440" To="103" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.3" >
                 <DoubleAnimation.EasingFunction>
-                    <PowerEase />
+                    <ExponentialEase />
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
