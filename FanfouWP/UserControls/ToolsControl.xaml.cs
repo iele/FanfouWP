@@ -70,5 +70,10 @@ namespace FanfouWP.UserControls
         {
             App.RootFrame.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
         }
+
+        private void Ellipse_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+                      App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+        }
     }
 }

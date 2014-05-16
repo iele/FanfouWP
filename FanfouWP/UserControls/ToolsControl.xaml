@@ -24,7 +24,7 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-	    <Ellipse HorizontalAlignment="Center" Height="128" Margin="0,20,0,0" Stroke="White" StrokeThickness="3.1" VerticalAlignment="Top" Width="128" Grid.ColumnSpan="2">
+	    <Ellipse HorizontalAlignment="Center" Height="128" Margin="0,20,0,0" Stroke="White" StrokeThickness="3.1" VerticalAlignment="Top" Width="128" Grid.ColumnSpan="2" Tap="Ellipse_Tap">
 	    	<Ellipse.Fill>
 	    		<ImageBrush Stretch="Fill" ImageSource="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
 	    	</Ellipse.Fill>
@@ -51,7 +51,7 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <Grid Margin="0,342,0,5" Grid.ColumnSpan="6" Width="420">
+        <Grid Margin="0,354,0,5" Grid.ColumnSpan="6" Width="420">
             <Grid.RowDefinitions>
             	<RowDefinition/>
             	<RowDefinition/>
@@ -61,37 +61,37 @@
             	<ColumnDefinition Width="1*"/>
             	<ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Border Margin="1,1,-1,-1" BorderThickness="1,1,0,0"  Tap="DirectMsgTile_Tap" BorderBrush="#FFeeeeee">
+            <Border Margin="1,1,-1,-1" BorderThickness="1,1,0,0"  Tap="DirectMsgTile_Tap" BorderBrush="Transparent">
         		<Grid Width="120" Height="120">
         			<Image Source="/Assets/message_outline-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="私信" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" />
         		</Grid>
         	</Border>
-        	<Border Margin="-1,1,-1,-1" BorderThickness="1,1,1,0" BorderBrush="#FFeeeeee" Grid.Column="1" Tap="FavTile_Tap" >
+        	<Border Margin="-1,1,-1,-1" BorderThickness="1,1,1,0" BorderBrush="Transparent" Grid.Column="1" Tap="FavTile_Tap" >
         		<Grid Margin="0" Height="120" Width="120" Tap="FavTile_Tap" Grid.Column="1">
         			<Image Source="/Assets/bookmark-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="收藏" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="-1,1,1,-1" BorderThickness="0,1,1,0" BorderBrush="#FFeeeeee" Grid.Column="2"  Tap="SearchTile_Tap">
+        	<Border Margin="-1,1,1,-1" BorderThickness="0,1,1,0" BorderBrush="Transparent" Grid.Column="2"  Tap="SearchTile_Tap">
         		<Grid Margin="0" Height="120" Width="120" Grid.Column="2">
         			<Image Source="/Assets/search-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="搜索" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="1,-1,-1,1" BorderThickness="1,1,0,1" BorderBrush="#FFeeeeee" Grid.Row="1"  Tap="TrendTile_Tap" >
+        	<Border Margin="1,-1,-1,1" BorderThickness="1,1,0,1" BorderBrush="Transparent" Grid.Row="1"  Tap="TrendTile_Tap" >
         		<Grid Margin="0" Height="120" Width="120" Grid.Row="1">
         			<Image Source="/Assets/newspaper-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="热门话题" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray" FontFamily="Portable User Interface"/>
         		</Grid>
         	</Border>
-        	<Border Margin="-1,-1,-1,1" BorderThickness="1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="1" Tap="TagTile_Tap" >
+        	<Border Margin="-1,-1,-1,1" BorderThickness="1" BorderBrush="Transparent" Grid.Row="1" Grid.Column="1" Tap="TagTile_Tap" >
         		<Grid Margin="0" Height="120" Width="120" Grid.Row="1" Grid.Column="1">
         			<Image Source="/Assets/tag-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="个人标签" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>
         		</Grid>
         	</Border>
-        	<Border Margin="-1,-1,1,1" BorderThickness="0,1,1,1" BorderBrush="#FFeeeeee" Grid.Row="1" Grid.Column="2" Tap="SettingTile_Tap" >
+        	<Border Margin="-1,-1,1,1" BorderThickness="0,1,1,1" BorderBrush="Transparent" Grid.Row="1" Grid.Column="2" Tap="SettingTile_Tap" >
         		<Grid Margin="0" Height="120" Width="120" Grid.Row="1" Grid.Column="2">
         			<Image Source="/Assets/services-512.png" VerticalAlignment="Top" Margin="0,15,0,0" HorizontalAlignment="Center" Width="50" Height="50"/>
         			<TextBlock Text="设置" Margin="0,0,0,15" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="21.333" Foreground="Gray"/>

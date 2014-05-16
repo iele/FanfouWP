@@ -140,7 +140,6 @@
     <Compile Include="ItemControls\AccountItemControl.xaml.cs">
       <DependentUpon>AccountItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemControls\ValueConverter\SettingToColorConverter.cs" />
     <Compile Include="RequestPage.xaml.cs">
       <DependentUpon>RequestPage.xaml</DependentUpon>
     </Compile>
@@ -228,9 +227,6 @@
     <Compile Include="UserControls\ProgressRing.cs" />
     <Compile Include="UserControls\RefreshableListBox.cs" />
     <Compile Include="UserControls\RefreshableListBoxMethods.cs" />
-    <Compile Include="UserControls\ToastControl.xaml.cs">
-      <DependentUpon>ToastControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ToolsControl.xaml.cs">
       <DependentUpon>ToolsControl.xaml</DependentUpon>
     </Compile>
@@ -246,7 +242,6 @@
     <Compile Include="UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ColorList.cs" />
     <Compile Include="Utils\EvilTransform.cs" />
     <Compile Include="Utils\GeoLocatorUtils.cs" />
     <Compile Include="Utils\Pair.cs" />
@@ -386,10 +381,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimelinePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\ToastControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
