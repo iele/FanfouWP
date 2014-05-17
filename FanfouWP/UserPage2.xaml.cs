@@ -465,5 +465,38 @@ namespace FanfouWP
             PhoneApplicationService.Current.State.Add("MessagePage_User", this.user);
             NavigationService.Navigate(new Uri("/MessagePage.xaml", UriKind.Relative));
         }
+
+        private void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (pivot.SelectedIndex)
+            {
+                case 0:
+                    (this.pivot.Items[0] as UIElement).Opacity = 1;
+                    (this.pivot.Items[1] as UIElement).Opacity = 0;
+                    (this.pivot.Items[2] as UIElement).Opacity = 0;
+                    (this.pivot.Items[3] as UIElement).Opacity = 0;
+                    break;
+                case 1:
+                    (this.pivot.Items[0] as UIElement).Opacity = 0;
+                    (this.pivot.Items[1] as UIElement).Opacity = 1;
+                    (this.pivot.Items[2] as UIElement).Opacity = 0;
+                    (this.pivot.Items[3] as UIElement).Opacity = 0;
+                    break;
+                case 2:
+                    (this.pivot.Items[0] as UIElement).Opacity = 0;
+                    (this.pivot.Items[1] as UIElement).Opacity = 0;
+                    (this.pivot.Items[2] as UIElement).Opacity = 1;
+                    (this.pivot.Items[3] as UIElement).Opacity = 0;
+                    break;
+                case 3:
+                    (this.pivot.Items[0] as UIElement).Opacity = 0;
+                    (this.pivot.Items[1] as UIElement).Opacity = 0;
+                    (this.pivot.Items[2] as UIElement).Opacity = 0;
+                    (this.pivot.Items[3] as UIElement).Opacity = 1;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -29,7 +29,7 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF">
+        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF" SelectionChanged="pivot_SelectionChanged">
             <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
                 <ScrollViewer Margin="0">
                     <StackPanel>

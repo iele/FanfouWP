@@ -638,7 +638,13 @@ namespace FanfouWP.API
                         var u = from l in settings.currentList where l.id == user.id select l;
                         if (u.Count() == 0)
                         {
-                            CurrentList.Add(user);
+                            CurrentList.Insert(0, user);
+                            settings.currentList = CurrentList.ToList();
+                            settings.SaveSettings();
+                        }
+                        else {
+                            CurrentList.Remove(u.First());
+                            CurrentList.Insert(0, user);
                             settings.currentList = CurrentList.ToList();
                             settings.SaveSettings();
                         }

@@ -62,6 +62,16 @@ namespace FanfouWP
             FanfouAPI.MentionTimelineFailed += FanfouAPI_MentionTimelineFailed;
             FanfouAPI.AccountNotificationSuccess += FanfouAPI_AccountNotificationSuccess;
             FanfouAPI.AccountNotificationFailed += FanfouAPI_AccountNotificationFailed;
+            FanfouAPI.VerifyCredentialsSuccess += FanfouAPI_VerifyCredentialsSuccess;
+            FanfouAPI.VerifyCredentialsFailed += FanfouAPI_VerifyCredentialsFailed;
+        }
+
+        void FanfouAPI_VerifyCredentialsFailed(object sender, FailedEventArgs e)
+        {
+        }
+
+        void FanfouAPI_VerifyCredentialsSuccess(object sender, EventArgs e)
+        {
         }
 
         void AvatarImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -365,6 +375,7 @@ namespace FanfouWP
 
             if (e.NavigationMode == NavigationMode.New && run_once == true && this.is_session_restored)
             {
+                FanfouAPI.VerifyCredentials();
                 FanfouAPI.AccountNotification();
 
                 if (FanfouAPI.HomeTimeLineStatus.Count != 0)

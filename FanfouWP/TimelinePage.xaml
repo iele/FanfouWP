@@ -153,13 +153,9 @@
         </Grid.Resources>
         <Grid Margin="0,12,0,0" HorizontalAlignment="Stretch"  VerticalAlignment="Top" x:Name="TitleControl">
             <Image Margin="18,0"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="32" x:Name="FanfouImage" Tap="FanfouImage_Click" Source="/Assets/fanfou_beta.png" />
-            <TextBlock Margin="20,0,0,0"  VerticalAlignment="Center" Foreground="#DEFFFFFF" Tap="AvatarImage_Tap" FontSize="28" HorizontalAlignment="Left" Text="{Binding screen_name}"/>
-            <!--<Grid Margin="17,12,203,66" Background="#00000000" x:Name="AvatarImage" Tap="AvatarImage_Tap">
-				<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"   />
-				<Image HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="42"   Margin="0" Source="/Assets/00.jpg" Canvas.ZIndex="-1" Tap="AvatarImage_Tap" />
-				<TextBlock  Text="{Binding screen_name}" x:Name="ScreenName" Margin="53,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" FontSize="32"   Foreground="#DEFFFFFF" />
-			</Grid>-->
-        </Grid>
+            <Image HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="40" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="18,0,0,0" Tap="AvatarImage_Tap"  />
+            <TextBlock Margin="73,0,0,0"  VerticalAlignment="Center" Foreground="#DEFFFFFF" Tap="AvatarImage_Tap" FontSize="28" HorizontalAlignment="Left" Text="{Binding screen_name}"/>
+          </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,40,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
