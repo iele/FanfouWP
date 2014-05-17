@@ -723,7 +723,7 @@ namespace FanfouWP.API
                             {
                                 if (item.id == id)
                                     this.MentionTimeLineStatus.Remove(item);
-                            }                        
+                            }
                         });
                         EventArgs e = new EventArgs();
                         StatusDestroySuccess(this, e);
@@ -740,7 +740,7 @@ namespace FanfouWP.API
                 }
                 catch (Exception exception)
                 {
-                    System.Diagnostics.Debug.WriteLine(exception.Message); 
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     StatusDestroyFailed(this, e);
                 }
@@ -785,7 +785,7 @@ namespace FanfouWP.API
                 }
                 catch (Exception exception)
                 {
-                    System.Diagnostics.Debug.WriteLine(exception.Message); 
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     ContextTimelineFailed(this, e);
                 }
@@ -1504,7 +1504,7 @@ namespace FanfouWP.API
                 }
                 catch (Exception exception)
                 {
-                    System.Diagnostics.Debug.WriteLine(exception.Message); 
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     SearchUserTimelineFailed(this, e);
                 }

@@ -10,15 +10,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-	<Grid x:Name="LayoutRoot">
+	<Grid x:Name="LayoutRoot" Margin="0,25">
 		<ProgressBar x:Name="progressBar" Visibility="Collapsed" Margin="0" IsIndeterminate="True" Height="64" FontFamily="Portable User Interface"/>
 		<TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Portable User Interface" Width="65536" Canvas.ZIndex="-3" Grid.Column="1"/>
 		<Grid Margin="0" Height="64">
-			<TextBlock x:Name="TextBlock" TextWrapping="Wrap" Text="点击此处加载未读消息" FontSize="24" TextAlignment="Center" Tap="TextBlock_Tap" FontFamily="Portable User Interface" LineHeight="16" Margin="0,0,0,-1" VerticalAlignment="Center">
-				<TextBlock.Foreground>
-                    <SolidColorBrush Color="#FF7A7A7A"/>
-				</TextBlock.Foreground>
-			</TextBlock>
+			<TextBlock x:Name="TextBlock" TextWrapping="Wrap" Text="点击此处加载未读消息" FontSize="24" TextAlignment="Center" Tap="TextBlock_Tap" FontFamily="Portable User Interface" LineHeight="16" Margin="0,0,0,-1" VerticalAlignment="Center" Foreground="#FF7A7A7A"/>
 		</Grid>
 	</Grid>
 </UserControl>

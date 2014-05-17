@@ -482,23 +482,25 @@ namespace FanfouWP
             switch (Pivot.SelectedIndex)
             {
                 case 0:
-                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Visible;
-                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
-                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[1] as UIElement).Opacity = 0;
+                    (this.Pivot.Items[2] as UIElement).Opacity = 0;
                     if (old_pivot_index == 2)
                         PivotUnexpandStoryBoard.Begin();
+                    else
+                        (this.Pivot.Items[0] as UIElement).Opacity = 1;
                     break;
                 case 1:
-                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
-                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Visible;
-                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Collapsed;
+                    (this.Pivot.Items[0] as UIElement).Opacity = 0;
+                    (this.Pivot.Items[2] as UIElement).Opacity = 0;
                     if (old_pivot_index == 2)
                         PivotUnexpandStoryBoard.Begin();
+                    else
+                        (this.Pivot.Items[1] as UIElement).Opacity = 1;
                     break;
                 case 2:
-                    (this.Pivot.Items[0] as UIElement).Visibility = Visibility.Collapsed;
-                    (this.Pivot.Items[1] as UIElement).Visibility = Visibility.Collapsed;
-                    (this.Pivot.Items[2] as UIElement).Visibility = Visibility.Visible;
+                    (this.Pivot.Items[0] as UIElement).Opacity = 0;
+                    (this.Pivot.Items[1] as UIElement).Opacity = 0;
+                    (this.Pivot.Items[2] as UIElement).Opacity = 1;
                     PivotExpandStoryBoard.Begin();
                     break;
                 default:
@@ -553,6 +555,19 @@ namespace FanfouWP
 
         private void PivotUnexpandStoryBoard_Completed(object sender, EventArgs e)
         {
+            switch (Pivot.SelectedIndex)
+            {
+                case 0:
+                    (this.Pivot.Items[0] as UIElement).Opacity = 1;
+                    break;
+                case 1:
+                    (this.Pivot.Items[1] as UIElement).Opacity = 1;
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
