@@ -71,13 +71,18 @@
                             </StackPanel>
                             <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
                         	Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1"/>
-                            <StackPanel Height="72" />
                         </Grid>
+                        <StackPanel Height="72" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
             <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
                 <phone:LongListSelector x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <itemcontrols:StatusItemControl />

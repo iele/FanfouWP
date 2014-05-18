@@ -73,7 +73,55 @@ namespace FanfouWP.UserControls
 
         private void Ellipse_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-                      App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
+            PhoneApplicationService.Current.State.Add("SelfPage_Index", 0);
+            App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+        }
+
+        private void StackPanel1_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
+            PhoneApplicationService.Current.State.Add("SelfPage_Index", 1);
+            App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+
+        }
+
+        private void StackPanel2_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
+            PhoneApplicationService.Current.State.Add("SelfPage_Index", 4);
+            App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+
+        }
+
+        private void StackPanel3_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
+            PhoneApplicationService.Current.State.Add("SelfPage_Index", 2);
+            App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
+
+        }
+
+        private void StackPanel4_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
+            PhoneApplicationService.Current.State.Add("SelfPage_Index", 3);
+            App.RootFrame.Navigate(new Uri("/SelfPage.xaml", UriKind.Relative));
         }
     }
 }

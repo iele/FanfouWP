@@ -15,6 +15,7 @@ using Coding4Fun.Toolkit.Controls;
 using FanfouWP.API.Items;
 using FanfouWP.Utils;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace FanfouWP
 {
@@ -147,6 +148,11 @@ namespace FanfouWP
                         this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
                 }
 
+                if (setting.alwaysTop && this.FanfouAPI.MentionTimeLineStatus.Count != 0 && this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                {
+                    this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                }
+
                 this.MentionTimeLineListBox.HideRefreshPanel();
 
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
@@ -181,6 +187,11 @@ namespace FanfouWP
                     this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
                     if (this.FanfouAPI.HomeTimeLineStatus.Count != 0)
                         this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                }
+
+                if (setting.alwaysTop && this.FanfouAPI.HomeTimeLineStatus.Count != 0 && this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                {
+                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
                 }
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
@@ -530,6 +541,14 @@ namespace FanfouWP
         {
             pdi[1].Count = "0";
             (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
+        }
+
+        private void HomeTimeLineListBox_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+        }
+
+        private void MentionTimeLineListBox_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
         }
 
         private void Grid_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)

@@ -248,17 +248,18 @@ namespace FanfouWP.Storage
                 is_setting_changed = true;
             }
         }
-        private int _accentColor;
-        public int accentColor
+
+        private bool _alwaysTop;
+        public bool alwaysTop
         {
             get
             {
-                return _accentColor;
+                return _alwaysTop;
             }
             set
             {
-                _accentColor = value;
-                settings["accentColor"] = value;
+                _alwaysTop = value;
+                settings["alwaysTop"] = value;
 
                 is_setting_changed = true;
             }
@@ -299,7 +300,7 @@ namespace FanfouWP.Storage
             settings["defaultCount2"] = this.defaultCount2;
             settings["reverseContext"] = this.reverseContext;
             settings["refreshFreq"] = this.refreshFreq;
-            settings["accentColor"] = this.accentColor;
+            settings["alwaysTop"] = this.alwaysTop;
 
             try
             {
@@ -315,7 +316,7 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, accentColor;
+            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, alwaysTop;
             if (settings.TryGetValue("defaultCount2", out defaultCount2) && defaultCount2 != null)
                 this.defaultCount2 = (int)defaultCount2;
             else
@@ -377,10 +378,10 @@ namespace FanfouWP.Storage
                 this.refreshFreq = (int)refreshFreq;
             else
                 this.refreshFreq = 2;
-            if (settings.TryGetValue("accentColor", out accentColor) && accentColor != null)
-                this.accentColor = (int)accentColor;
+            if (settings.TryGetValue("alwaysTop", out alwaysTop) && alwaysTop != null)
+                this.alwaysTop = (bool)alwaysTop;
             else
-                this.accentColor = 0;
+                this.alwaysTop = false;
         }
 
     }

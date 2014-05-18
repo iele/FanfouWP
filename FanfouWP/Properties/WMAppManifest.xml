@@ -4,7 +4,7 @@
   <AppExtra AppPlatformVersion="8.0" xmlns="">
     <Extra Name="SDOptOut" />
   </AppExtra>
-  <App xmlns="" ProductID="{993e4e45-ae65-45f4-9269-fa0a8494bcd9}" Title="饭窗" RuntimeType="Silverlight" Version="1.3.0.0" Genre="apps.normal" Author="iEle" Description="Fanfou Client for Windows Phone" Publisher="FanfouWP" PublisherID="{e5bfe9c9-2238-41e4-a9a7-f9e005685df3}">
+  <App xmlns="" ProductID="{993e4e45-ae65-45f4-9269-fa0a8494bcd9}" Title="饭窗" RuntimeType="Silverlight" Version="1.3.5.0" Genre="apps.normal" Author="iEle" Description="Fanfou Client for Windows Phone" Publisher="FanfouWP" PublisherID="{e5bfe9c9-2238-41e4-a9a7-f9e005685df3}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />

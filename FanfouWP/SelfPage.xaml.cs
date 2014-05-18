@@ -24,9 +24,17 @@ namespace FanfouWP
         private dynamic fav;
         private ToastUtil toast = new ToastUtil();
 
+        private int? index = null;
+
         public SelfPage()
         {
             InitializeComponent();
+
+            if (PhoneApplicationService.Current.State.ContainsKey("SelfPage_Index"))
+            {
+                index = (int)PhoneApplicationService.Current.State["SelfPage_Index"];
+                PhoneApplicationService.Current.State.Remove("SelfPage_Index");
+            }
 
             user = FanfouWP.API.FanfouAPI.Instance.CurrentUser;
             this.Loaded += SelfPage_Loaded;
@@ -101,6 +109,10 @@ namespace FanfouWP
             if (State.ContainsKey("SelfPage_index"))
             {
                 this.pivot.SelectedIndex = (int)State["SelfPage_index"];
+            }
+            else if (index != null)
+            {
+                this.pivot.SelectedIndex = (int)index;              
             }
             base.OnNavigatedTo(e);
         }

@@ -21,7 +21,7 @@
                 <DoubleAnimation.EasingFunction>
                     <ExponentialEase />
                 </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>          
+            </DoubleAnimation>
         </Storyboard>
         <Storyboard x:Name="PivotUnexpandStoryBoard" x:Key="PivotUnexpandStoryBoard" Storyboard.TargetName="Rect" Completed="PivotUnexpandStoryBoard_Completed">
             <DoubleAnimation From="452" To="120" Storyboard.TargetProperty="Height" BeginTime="0:0:0" Duration="0:0:0.3" >
@@ -155,11 +155,11 @@
             <Image Margin="18,0"  HorizontalAlignment="Right" VerticalAlignment="Center" Height="32" x:Name="FanfouImage" Tap="FanfouImage_Click" Source="/Assets/fanfou_beta.png" />
             <Image HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="40" Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="18,0,0,0" Tap="AvatarImage_Tap"  />
             <TextBlock Margin="73,0,0,0"  VerticalAlignment="Center" Foreground="#DEFFFFFF" Tap="AvatarImage_Tap" FontSize="28" HorizontalAlignment="Left" Text="{Binding screen_name}"/>
-          </Grid>
+        </Grid>
         <phone:Pivot x:Name="Pivot" Margin="0,40,0,0" Style="{StaticResource PivotStyle}" SelectionChanged="Pivot_SelectionChanged">
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Grid DoubleTap="Grid_DoubleTap">
+                    <Grid DoubleTap="Grid_DoubleTap" Margin="0,5,0,0">
                         <TextBlock Text="{Binding Title}" FontSize="{StaticResource PhoneFontSizeExtraLarge}"
                 			Foreground="White"/>
                         <StackPanel Margin="0,0,-10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{StaticResource PhoneAccentBrush}" Height="24" Width="32" Visibility="{Binding Count, Converter={StaticResource CountToVisibilityConverter}}">
@@ -170,9 +170,9 @@
                 </DataTemplate>
             </phone:Pivot.HeaderTemplate>
 
-            <phone:PivotItem Margin="0,36,0,0" Header="我的消息" FontFamily="Portable User Interface">
+            <phone:PivotItem Margin="0,30,0,0" Header="我的消息" FontFamily="Portable User Interface">
 
-                <usercontrols:RefreshableListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged"      ManipulationStarted="HomeTimeLineListBox_ManipulationStarted" ScrollViewer.ManipulationMode="System"  
+                <usercontrols:RefreshableListBox x:Name="HomeTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="HomeTimeLineListBox_SelectionChanged"     ManipulationStarted="HomeTimeLineListBox_ManipulationStarted" ManipulationCompleted="HomeTimeLineListBox_ManipulationCompleted"  ScrollViewer.ManipulationMode="System"  
         			RefreshTriggered="HomeTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" Background="Black" ItemRealized="HomeTimeLineListBox_ItemRealized" FontFamily="Portable User Interface">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
@@ -193,8 +193,8 @@
                     </usercontrols:RefreshableListBox.ItemTemplate>
                 </usercontrols:RefreshableListBox>
             </phone:PivotItem>
-            <phone:PivotItem Margin="0,36,0,0" Header="提及我的" >
-                <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged"  ManipulationStarted="MentionTimeLineListBox_ManipulationStarted" ScrollViewer.ManipulationMode="System"    RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" ItemRealized="MentionTimeLineListBox_ItemRealized">
+            <phone:PivotItem Margin="0,30,0,0" Header="提及我的" >
+                <usercontrols:RefreshableListBox x:Name="MentionTimeLineListBox" ItemsSource="{Binding}" SelectionChanged="MentionTimeLineListBox_SelectionChanged"  ManipulationStarted="MentionTimeLineListBox_ManipulationStarted" ManipulationCompleted="MentionTimeLineListBox_ManipulationCompleted"  ScrollViewer.ManipulationMode="System"    RefreshTriggered="MentionTimeLineListBox_RefreshTriggered" Margin="0,-20,0,0" ItemRealized="MentionTimeLineListBox_ItemRealized">
                     <usercontrols:RefreshableListBox.ItemTemplate>
                         <DataTemplate>
                             <local:StatusItemTemplateSelector xmlns:local="clr-namespace:FanfouWP.ItemControls.TemplateSelector" Content="{Binding}">

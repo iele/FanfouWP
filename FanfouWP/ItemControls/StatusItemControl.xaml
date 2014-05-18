@@ -63,10 +63,10 @@
 				<StackPanel Margin="-3,0,0,2" Orientation="Horizontal">
 					<TextBlock Padding="5,5,0,0" Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" Foreground="#FF7A7A7A" Margin="0" HorizontalAlignment="Left"/>
 					<TextBlock Padding="5,5,0,0" Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
-					<TextBlock Padding="5,5,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}"/>
 					<TextBlock Padding="5,5,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name, Converter={StaticResource NullToVisibilityConverter}}"  />
 					<TextBlock Padding="5,5,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}"/>
-				</StackPanel>
+                    <TextBlock Padding="5,5,0,0" Text="{Binding favorited, Converter={StaticResource BoolToFavoritedConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding favorited, Converter={StaticResource NullToVisibilityConverter}}"/>
+                </StackPanel>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>

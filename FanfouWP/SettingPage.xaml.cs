@@ -49,8 +49,8 @@ namespace FanfouWP
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
                 this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
-                //this.colorSelector.ItemsSource = Utils.ColorList.Colors;
-
+                this.TopCheckBox.IsChecked = settingManager.alwaysTop;
+            
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
                 this.QualityListPicker.SelectionChanged += QualityListPicker_SelectionChanged;
                 this.CacheListPicker.SelectionChanged += CacheListPicker_SelectionChanged;
@@ -201,6 +201,11 @@ namespace FanfouWP
             WebBrowserTask wbt = new WebBrowserTask();
             wbt.Uri = new Uri("http://icons8.com/");
             wbt.Show();
+        }
+
+        private void TopCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            settingManager.alwaysTop = this.TopCheckBox.IsChecked.HasValue ? this.TopCheckBox.IsChecked.Value : false;
         }
     }
 }

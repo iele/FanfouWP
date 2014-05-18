@@ -31,27 +31,27 @@
 	    </Ellipse>
         <StackPanel Grid.ColumnSpan="2" Margin="0,165,0,0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <StackPanel Margin="0" Orientation="Vertical">
+                <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel1_Tap">
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
                     <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
-                <StackPanel Margin="0" Orientation="Vertical">
+                <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel2_Tap">
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
                     <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,0,0,0">
-                <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,0,0,0" >
+                <StackPanel Orientation="Vertical" Tap="StackPanel3_Tap">
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
                     <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Tap="StackPanel4_Tap">
                     <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top" Foreground="#DEFFFFFF"/>
                     <TextBlock Foreground="Gray" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="36"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <Grid Margin="0,354,0,5" Grid.ColumnSpan="6" Width="420">
+        <Grid Margin="0,320,0,5" Grid.ColumnSpan="6" Width="420" HorizontalAlignment="Center" Height="254">
             <Grid.RowDefinitions>
             	<RowDefinition/>
             	<RowDefinition/>
