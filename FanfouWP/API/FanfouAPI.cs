@@ -643,7 +643,8 @@ namespace FanfouWP.API
                             settings.SaveSettings();
                         }
                         else {
-                            CurrentList.Remove(u.First());
+                            foreach (var item in u)
+                                CurrentList.Remove(item);
                             CurrentList.Insert(0, user);
                             settings.currentList = CurrentList.ToList();
                             settings.SaveSettings();
