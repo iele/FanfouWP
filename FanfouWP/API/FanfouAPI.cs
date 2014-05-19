@@ -635,20 +635,15 @@ namespace FanfouWP.API
                     settings.currentUser = user;
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
-                        var u = from l in settings.currentList where l.id == user.id select l;
-                        if (u.Count() == 0)
+                        var list = CurrentList.ToList();
+                        foreach (var item in list)
                         {
-                            CurrentList.Insert(0, user);
-                            settings.currentList = CurrentList.ToList();
-                            settings.SaveSettings();
-                        }
-                        else {
-                            foreach (var item in u)
+                            if(item.id == user.id)
                                 CurrentList.Remove(item);
-                            CurrentList.Insert(0, user);
-                            settings.currentList = CurrentList.ToList();
-                            settings.SaveSettings();
                         }
+                        CurrentList.Insert(0, user);
+                        settings.currentList = CurrentList.ToList();
+                        settings.SaveSettings();    
                     });
 
                     this.CurrentUser = user;
