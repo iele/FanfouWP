@@ -144,13 +144,13 @@ namespace FanfouWP
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0) || (this.MentionTimeLineListBox.ItemsSource == null || this.MentionTimeLineListBox.ItemsSource.Count == 0))
                 {
                     this.MentionTimeLineListBox.ItemsSource = this.FanfouAPI.MentionTimeLineStatus;
-                    if (this.FanfouAPI.MentionTimeLineStatus.Count != 0)
-                        this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                    if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                        this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
                 }
 
-                if (setting.alwaysTop && this.FanfouAPI.MentionTimeLineStatus.Count != 0 && this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                if (setting.alwaysTop && this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
                 {
-                    this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                    this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
                 }
 
                 this.MentionTimeLineListBox.HideRefreshPanel();
@@ -185,13 +185,13 @@ namespace FanfouWP
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.HomeTimeLineStatus.Count != 0) || (this.HomeTimeLineListBox.ItemsSource == null || this.HomeTimeLineListBox.ItemsSource.Count == 0))
                 {
                     this.HomeTimeLineListBox.ItemsSource = this.FanfouAPI.HomeTimeLineStatus;
-                    if (this.FanfouAPI.HomeTimeLineStatus.Count != 0)
-                        this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                    if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                        this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
                 }
 
-                if (setting.alwaysTop && this.FanfouAPI.HomeTimeLineStatus.Count != 0 && this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                if (setting.alwaysTop && this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
                 {
-                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                    this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
                 }
 
                 this.HomeTimeLineListBox.HideRefreshPanel();
@@ -389,17 +389,18 @@ namespace FanfouWP
                 FanfouAPI.VerifyCredentials();
                 FanfouAPI.AccountNotification();
 
-                if (FanfouAPI.HomeTimeLineStatus.Count != 0)
+                if (this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
                 {
-                    this.HomeTimeLineListBox.ScrollTo(FanfouAPI.HomeTimeLineStatus.First());
+                    this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20, API.FanfouAPI.RefreshMode.Behind));
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusHomeTimeline(setting.defaultCount2 * 10 + 20));
-                } if (FanfouAPI.MentionTimeLineStatus.Count != 0)
+                }
+                if (this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
                 {
-                    this.MentionTimeLineListBox.ScrollTo(FanfouAPI.MentionTimeLineStatus.First());
+                    this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
                     Dispatcher.BeginInvoke(() => FanfouAPI.StatusMentionTimeline(setting.defaultCount2 * 10 + 20, API.FanfouAPI.RefreshMode.Behind));
                 }
                 else
