@@ -633,20 +633,20 @@ namespace FanfouWP.API
                     user.oauthToken = this.oauthToken;
                     user.oauthSecret = this.oauthSecret;
                     settings.currentUser = user;
+                    this.CurrentUser = user;
+                    
                     Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
                         var list = CurrentList.ToList();
                         foreach (var item in list)
                         {
-                            if(item.id == user.id)
+                            if (item.id == user.id)
                                 CurrentList.Remove(item);
                         }
                         CurrentList.Insert(0, user);
                         settings.currentList = CurrentList.ToList();
-                        settings.SaveSettings();    
+                        settings.SaveSettings();
                     });
-
-                    this.CurrentUser = user;
 
                     EventArgs e = new EventArgs();
                     VerifyCredentialsSuccess(this, e);
