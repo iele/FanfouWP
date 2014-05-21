@@ -72,9 +72,92 @@ namespace FanfouWP
             if (State.ContainsKey("StatusPage_contextStatus"))
             {
                 this.contextStatus = State["StatusPage_contextStatus"] as ObservableCollection<Status>;
-
             }
+          
+            base.OnNavigatedTo(e);
+        }
+        void Instance_ContextTimelineSuccess(object sender, API.Event.UserTimelineEventArgs<Status> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.contextStatus = e.UserStatus;
+                var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
+                this.context.Children.Clear();
+                foreach (var item in c)
+                {
+                    var cic = new ContextItemControl();
+                    cic.Tap += cic_Tap;
+                    cic.DataContext = item;
+                    this.context.Children.Add(cic);
+                }
 
+                if (e.UserStatus.Count != 0)
+                    this.context.Visibility = Visibility.Visible;
+
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+
+        void cic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if ((sender as ContextItemControl).DataContext != null)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                {
+                    PhoneApplicationService.Current.State.Remove("UserPage");
+                }
+                PhoneApplicationService.Current.State.Add("UserPage", ((sender as ContextItemControl).DataContext as Status).user);
+                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+            }
+        }
+
+        void Instance_ContextTimelineFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+        }
+
+        void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除失败:( " + e.error.error); });
+        }
+
+        void Instance_StatusDestroySuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                ToastPrompt tp = new ToastPrompt();
+                tp.Title = "饭窗";
+                tp.Message = "状态删除成功:)";
+                tp.MillisecondsUntilHidden = 1000;
+                tp.Completed += (s2, e2) =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                        if (this.NavigationService.CanGoBack)
+                            this.NavigationService.GoBack();
+                    });
+                };
+                tp.Show();
+            });
+
+            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
+            {
+                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
+            }
+            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
+
+        }
+
+        private void StatusPage_Loaded(object sender, RoutedEventArgs e)
+        {
             Dispatcher.BeginInvoke(() =>
             {
                 this.DataContext = status;
@@ -110,9 +193,15 @@ namespace FanfouWP
                         FanfouWP.API.FanfouAPI.Instance.StatusContextTimeline(this.status.id);
                     }
                 }
+            });
 
+            Dispatcher.BeginInvoke(() =>
+            {
                 NewAppBar();
+            });
 
+            Dispatcher.BeginInvoke(() =>
+            {
                 if (this.status.location != "")
                 {
                     try
@@ -143,6 +232,10 @@ namespace FanfouWP
                         this.map.Visibility = Visibility.Collapsed;
                     }
                 }
+            });
+
+            Dispatcher.BeginInvoke(() =>
+            {
 
                 string text = HttpUtility.HtmlDecode(this.status.text);
                 List<string> sep = new List<string>();
@@ -234,96 +327,13 @@ namespace FanfouWP
 
                 this.richText.Blocks.Clear();
                 this.richText.Blocks.Add(myParagraph);
-
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-
             });
 
-            base.OnNavigatedTo(e);
-        }
-        void Instance_ContextTimelineSuccess(object sender, API.Event.UserTimelineEventArgs<Status> e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.contextStatus = e.UserStatus;
-                var c = SettingManager.GetInstance().reverseContext ? contextStatus.Reverse() : contextStatus;
-                this.context.Children.Clear();
-                foreach (var item in c)
-                {
-                    var cic = new ContextItemControl();
-                    cic.Tap += cic_Tap;
-                    cic.DataContext = item;
-                    this.context.Children.Add(cic);
-                }
-
-                if (e.UserStatus.Count != 0)
-                    this.context.Visibility = Visibility.Visible;
-
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-            });
-        }
-
-        void cic_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if ((sender as ContextItemControl).DataContext != null)
-            {
-                if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
-                {
-                    PhoneApplicationService.Current.State.Remove("UserPage");
-                }
-                PhoneApplicationService.Current.State.Add("UserPage", ((sender as ContextItemControl).DataContext as Status).user);
-                NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
-            }
-        }
-
-        void Instance_ContextTimelineFailed(object sender, API.Event.FailedEventArgs e)
-        {
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
             });
-        }
 
-        void Instance_StatusDestroyFailed(object sender, API.Event.FailedEventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
-            });
-            Dispatcher.BeginInvoke(() => { toast.NewToast("状态删除失败:( " + e.error.error); });
-        }
-
-        void Instance_StatusDestroySuccess(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                ToastPrompt tp = new ToastPrompt();
-                tp.Title = "饭窗";
-                tp.Message = "状态删除成功:)";
-                tp.MillisecondsUntilHidden = 1000;
-                tp.Completed += (s2, e2) =>
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                        if (this.NavigationService.CanGoBack)
-                            this.NavigationService.GoBack();
-                    });
-                };
-                tp.Show();
-            });
-
-            if (PhoneApplicationService.Current.State.ContainsKey("TimelinePage_To"))
-            {
-                PhoneApplicationService.Current.State.Remove("TimelinePage_To");
-            }
-            PhoneApplicationService.Current.State.Add("TimelinePage_To", "");
-
-        }
-
-        private void StatusPage_Loaded(object sender, RoutedEventArgs e)
-        {
-           
         }
 
         private void textStateParser(string text, out List<string> sep, out List<TextMode> t)
