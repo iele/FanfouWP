@@ -36,7 +36,7 @@ namespace FanfouWP.API.Items
 
         public string url { get; set; }
 
-        public bool protect { get; set; }
+        public bool @protected { get; set; }
 
         public int followers_count { get; set; }
 

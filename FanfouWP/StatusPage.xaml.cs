@@ -93,7 +93,8 @@ namespace FanfouWP
                         toast.NewToast("未找到该用户（可能设置为不公开）");
                         return;
                     }
-                    else {
+                    else
+                    {
                         if (PhoneApplicationService.Current.State.ContainsKey("SearchPage_User"))
                         {
                             PhoneApplicationService.Current.State.Remove("SearchPage_User");
@@ -316,6 +317,17 @@ namespace FanfouWP
                                 var item = new FanfouWP.API.Items.Trends();
                                 item.query = sep[count1];
 
+                                if (item.query == this.status.user.screen_name)
+                                {
+                                    if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                                    {
+                                        PhoneApplicationService.Current.State.Remove("UserPage");
+                                    }
+                                    PhoneApplicationService.Current.State.Add("UserPage", this.status.user);
+                                    NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+                                    return;
+                                }
+                                
                                 var id = "";
                                 if (item.query == this.status.in_reply_to_screen_name)
                                     id = this.status.in_reply_to_user_id;
@@ -370,7 +382,7 @@ namespace FanfouWP
                             {
                                 var item = new FanfouWP.API.Items.Trends();
                                 item.query = sep[count2];
-                                
+
                                 if (PhoneApplicationService.Current.State.ContainsKey("SearchPage"))
                                 {
                                     PhoneApplicationService.Current.State.Remove("SearchPage");
