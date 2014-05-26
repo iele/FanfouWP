@@ -51,9 +51,59 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.UsersShowSuccess += Instance_UsersShowSuccess;
             FanfouWP.API.FanfouAPI.Instance.UsersShowFailed += Instance_UsersShowFailed;
 
+            FanfouWP.API.FanfouAPI.Instance.SearchUserSuccess += Instance_SearchUserSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
+
             FanfouWP.API.FanfouAPI.Instance.ContextTimelineSuccess += Instance_ContextTimelineSuccess;
             FanfouWP.API.FanfouAPI.Instance.ContextTimelineFailed += Instance_ContextTimelineFailed;
             Loaded += StatusPage_Loaded;
+        }
+
+        void Instance_SearchUserFailed(object sender, API.Event.FailedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+            });
+            Dispatcher.BeginInvoke(() => { toast.NewToast("查询用户失败:( " + e.error.error); });
+        }
+
+        void Instance_SearchUserSuccess(object sender, API.Event.UserTimelineEventArgs<User> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+                this.ReplyTextBlock.IsHitTestVisible = false;
+                this.RepostTextBlock.IsHitTestVisible = false;
+
+                if (e.UserStatus != null)
+                {
+                    if (e.UserStatus.Count == 1)
+                    {
+                        if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
+                        {
+                            PhoneApplicationService.Current.State.Remove("UserPage");
+                        }
+                        PhoneApplicationService.Current.State.Add("UserPage", e.UserStatus.First());
+                        NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
+                        return;
+                    }
+                    else if (e.UserStatus.Count == 0)
+                    {
+                        toast.NewToast("未找到该用户（可能设置为不公开）");
+                        return;
+                    }
+                    else {
+                        if (PhoneApplicationService.Current.State.ContainsKey("SearchPage_User"))
+                        {
+                            PhoneApplicationService.Current.State.Remove("SearchPage_User");
+                        }
+                        PhoneApplicationService.Current.State.Add("SearchPage_User", e.UserStatus.First().screen_name);
+                        NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
+                        return;
+                    }
+                }
+            });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -73,7 +123,7 @@ namespace FanfouWP
             {
                 this.contextStatus = State["StatusPage_contextStatus"] as ObservableCollection<Status>;
             }
-          
+
             base.OnNavigatedTo(e);
         }
         void Instance_ContextTimelineSuccess(object sender, API.Event.UserTimelineEventArgs<Status> e)
@@ -266,12 +316,25 @@ namespace FanfouWP
                                 var item = new FanfouWP.API.Items.Trends();
                                 item.query = sep[count1];
 
-                                if (PhoneApplicationService.Current.State.ContainsKey("SearchPage_User"))
+                                var id = "";
+                                if (item.query == this.status.in_reply_to_screen_name)
+                                    id = this.status.in_reply_to_user_id;
+                                if (item.query == this.status.in_reply_to_status_id)
+                                    id = this.status.in_reply_to_status_id;
+                                if (id != "")
                                 {
-                                    PhoneApplicationService.Current.State.Remove("SearchPage_User");
+                                    Dispatcher.BeginInvoke(() =>
+                                   {
+                                       this.loading.Visibility = System.Windows.Visibility.Visible;
+                                       this.ReplyTextBlock.IsHitTestVisible = false;
+                                   });
+                                    FanfouWP.API.FanfouAPI.Instance.UsersShow(id);
+                                    return;
                                 }
-                                PhoneApplicationService.Current.State.Add("SearchPage_User", item);
-                                NavigationService.Navigate(new Uri("/SearchPage.xaml", UriKind.Relative));
+                                else
+                                {
+                                    FanfouWP.API.FanfouAPI.Instance.SearchUser(item.query);
+                                }
                             };
 
                             myParagraph.Inlines.Add("@");
@@ -307,7 +370,7 @@ namespace FanfouWP
                             {
                                 var item = new FanfouWP.API.Items.Trends();
                                 item.query = sep[count2];
-
+                                
                                 if (PhoneApplicationService.Current.State.ContainsKey("SearchPage"))
                                 {
                                     PhoneApplicationService.Current.State.Remove("SearchPage");

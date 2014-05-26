@@ -10,9 +10,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     SupportedOrientations="Portrait" Orientation="Portrait">
-	<Image HorizontalAlignment="Left" Source="/Assets/SplashScreenImage.jpg" Stretch="UniformToFill"/>
+	<Image HorizontalAlignment="Left" Source="/Assets/SplashScreenImage.png" Stretch="UniformToFill"/>
 
-    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <!--LayoutRoot 是包含所有页面内容的根网格
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -32,6 +32,6 @@
                 <toolkit:SlideTransition Mode="SlideDownFadeOut "/>
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
-    </toolkit:TransitionService.NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>-->
 
 </phone:PhoneApplicationPage>
