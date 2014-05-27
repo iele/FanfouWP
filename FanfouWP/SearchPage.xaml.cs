@@ -10,6 +10,8 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using FanfouWP.Utils;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FanfouWP
 {
@@ -35,7 +37,28 @@ namespace FanfouWP
                 keyword_user = (PhoneApplicationService.Current.State["SearchPage_User"] as FanfouWP.API.Items.Trends).query;
             }
 
+            FanfouWP.API.FanfouAPI.Instance.SearchTimelineSuccess += Instance_SearchTimelineSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchTimelineFailed += Instance_SearchTimelineFailed;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserSuccess += Instance_SearchUserSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
+            FanfouWP.API.FanfouAPI.Instance.SavedSearchListSuccess += Instance_SavedSearchListSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SavedSearchListFailed += Instance_SavedSearchListFailed;
+
             this.Loaded += SearchPage_Loaded;
+        }
+
+        void Instance_SavedSearchListFailed(object sender, FailedEventArgs e)
+        {
+        }
+
+        void Instance_SavedSearchListSuccess(object sender, ListEventArgs<FanfouWP.API.Items.Search> e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                this.SearchText.FilterMode = AutoCompleteFilterMode.None;
+                this.SearchText.MinimumPrefixLength = 0;
+                this.SearchText.ItemsSource = from s in FanfouWP.API.FanfouAPI.Instance.SavedSearch as List<FanfouWP.API.Items.Search> select s.query;
+            });
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -70,15 +93,19 @@ namespace FanfouWP
                 this.currentIndex = (int)State["SearchPage_currentIndex"];
                 this.Pivot.SelectedIndex = currentIndex; base.OnNavigatedTo(e);
             }
+
+            if (FanfouWP.API.FanfouAPI.Instance.SavedSearch == null)
+                FanfouWP.API.FanfouAPI.Instance.SavedSearchList();
+            else
+            {
+                this.SearchText.FilterMode = AutoCompleteFilterMode.None;
+                this.SearchText.MinimumPrefixLength = 0;
+                this.SearchText.ItemsSource = from s in FanfouWP.API.FanfouAPI.Instance.SavedSearch as List<FanfouWP.API.Items.Search> select s.query;
+            }
         }
 
         void SearchPage_Loaded(object sender, RoutedEventArgs e)
         {
-            FanfouWP.API.FanfouAPI.Instance.SearchTimelineSuccess += Instance_SearchTimelineSuccess;
-            FanfouWP.API.FanfouAPI.Instance.SearchTimelineFailed += Instance_SearchTimelineFailed;
-            FanfouWP.API.FanfouAPI.Instance.SearchUserSuccess += Instance_SearchUserSuccess;
-            FanfouWP.API.FanfouAPI.Instance.SearchUserFailed += Instance_SearchUserFailed;
-
             Dispatcher.BeginInvoke(() =>
             {
                 if (keyword != null && keyword != "")
@@ -207,5 +234,11 @@ namespace FanfouWP
                 NavigationService.Navigate(new Uri("/UserPage.xaml", UriKind.Relative));
             }
         }
+
+        private void SearchText_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.SearchText.Text = SearchText.SelectedItem as string;
+        }
+
     }
 }

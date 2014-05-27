@@ -43,6 +43,8 @@ namespace FanfouWP.API
         public ObservableCollection<Items.Status> PublicTimeLineStatus = new ObservableCollection<Items.Status>();
         public ObservableCollection<Items.Status> MentionTimeLineStatus = new ObservableCollection<Items.Status>();
 
+        public List<Items.Search> SavedSearch;
+
         public void ResetManager()
         {
             oauthToken = null;
@@ -329,6 +331,12 @@ namespace FanfouWP.API
         public event DirectMessageNewSuccessHandler DirectMessageNewSuccess;
         public event DirectMessageNewFailedHandler DirectMessageNewFailed;
 
+        public delegate void SavedSearchListSuccessHandler(object sender, ListEventArgs<Search> e);
+        public delegate void SavedSearchListFailedHandler(object sender, FailedEventArgs e);
+
+        public event SavedSearchListSuccessHandler SavedSearchListSuccess;
+        public event SavedSearchListFailedHandler SavedSearchListFailed;
+
 
         private static FanfouAPI instance;
         public static FanfouAPI Instance
@@ -571,19 +579,18 @@ namespace FanfouWP.API
                 //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
-            var client = GetClient();
             if (url != "")
-                client.AddParameter("url", url);
+                restRequest.AddParameter("url", url);
             if (location != "")
-                client.AddParameter("location", location);
+                restRequest.AddParameter("location", location);
             if (description != "")
-                client.AddParameter("description", description);
+                restRequest.AddParameter("description", description);
             if (name != "")
-                client.AddParameter("name", name);
+                restRequest.AddParameter("name", name);
             if (email != "")
-                client.AddParameter("email", email);
+                restRequest.AddParameter("email", email);
 
-            client.BeginRequest(restRequest, (request, response, userstate) =>
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 try
                 {
@@ -1785,6 +1792,52 @@ namespace FanfouWP.API
                     System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     TaggedFailed(this, e);
+                }
+            });
+        }
+
+        public void SavedSearchList()
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.SAVED_SEARCHES_LIST,
+                Method = Hammock.Web.WebMethod.Get,
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
+            };
+           
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        List<Search> search = new List<Search>();
+                        var ds = new DataContractJsonSerializer(search.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        search = ds.ReadObject(ms) as List<Search>;
+                        ms.Close();
+
+                        ListEventArgs<Search> e = new ListEventArgs<Search>();
+                        e.Result = search;
+                        SavedSearch = search;
+                        SavedSearchListSuccess(this, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        SavedSearchListFailed(this, e);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
+                    FailedEventArgs e = new FailedEventArgs();
+                    SavedSearchListFailed(this, e);
                 }
             });
         }

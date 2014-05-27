@@ -36,7 +36,7 @@
             </Rectangle>
             <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0" VerticalAlignment="Top">
                 <TextBlock x:Name="title" Text="搜索时间线 可用&quot;|&quot;分割多个关键字" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,17,12,56" Foreground="#DEFFFFFF"/>
-                <TextBox x:Name="SearchText" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Margin="12,50,12,0" Foreground="#DE000000"/>
+                <TextBox x:Name="SearchText" Height="72" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="12,50,12,0" Foreground="#DE000000"/>
             </Grid>
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
                 <phone:LongListSelector x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
