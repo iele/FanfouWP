@@ -181,6 +181,8 @@ namespace FanfouWP.API
         public delegate void VerifyCredentialsFailedHandler(object sender, FailedEventArgs e);
         public delegate void AccountNotificationSuccessHandler(object sender, EventArgs e);
         public delegate void AccountNotificationFailedHandler(object sender, FailedEventArgs e);
+        public delegate void AccountUpdateProfileSuccessHandler(object sender, EventArgs e);
+        public delegate void AccountUpdateProfileFailedHandler(object sender, FailedEventArgs e);
 
         public event LoginSuccessHandler LoginSuccess;
         public event LoginFailedHandler LoginFailed;
@@ -188,6 +190,8 @@ namespace FanfouWP.API
         public event VerifyCredentialsFailedHandler VerifyCredentialsFailed;
         public event AccountNotificationSuccessHandler AccountNotificationSuccess;
         public event AccountNotificationFailedHandler AccountNotificationFailed;
+        public event AccountUpdateProfileSuccessHandler AccountUpdateProfileSuccess;
+        public event AccountUpdateProfileFailedHandler AccountUpdateProfileFailed;
 
         public delegate void StatusUpdateSuccessHandler(object sender, EventArgs e);
         public delegate void StatusUpdateFailedHandler(object sender, FailedEventArgs e);
@@ -505,7 +509,7 @@ namespace FanfouWP.API
                         ClientUsername = username,
                         ClientPassword = password,
                     },
-                    DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                    //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
                 };
                 return client;
             }
@@ -522,7 +526,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.ACCOUNT_NOTIFICATION,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -558,6 +562,80 @@ namespace FanfouWP.API
             });
         }
 
+        public void AccountUpdateProfile(string url = "", string location = "", string description = "", string name = "", string email = "")
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.ACCOUNT_UPDATE_PROFILE,
+                Method = Hammock.Web.WebMethod.Post,
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
+            };
+
+            var client = GetClient();
+            if (url != "")
+                client.AddParameter("url", url);
+            if (location != "")
+                client.AddParameter("location", location);
+            if (description != "")
+                client.AddParameter("description", description);
+            if (name != "")
+                client.AddParameter("name", name);
+            if (email != "")
+                client.AddParameter("email", email);
+
+            client.BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        Items.User user = new Items.User();
+                        var ds = new DataContractJsonSerializer(user.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        user = ds.ReadObject(ms) as Items.User;
+                        ms.Close();
+                        user.username = this.username;
+                        user.password = this.password;
+                        user.oauthToken = this.oauthToken;
+                        user.oauthSecret = this.oauthSecret;
+                        settings.currentUser = user;
+                        this.CurrentUser = user;
+
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            var list = CurrentList.ToList();
+                            foreach (var item in list)
+                            {
+                                if (item.id == user.id)
+                                    CurrentList.Remove(item);
+                            }
+                            CurrentList.Insert(0, user);
+                            settings.currentList = CurrentList.ToList();
+                            settings.SaveSettings();
+                        });
+
+                        AccountUpdateProfileSuccess(this, new EventArgs());
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        AccountUpdateProfileFailed(this, e);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
+                    FailedEventArgs e = new FailedEventArgs();
+                    AccountUpdateProfileFailed(this, e);
+                }
+            });
+        }
+
         public void Login(string username, string password)
         {
             this.username = username;
@@ -583,7 +661,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.ACCESS_TOKEN,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("x_auth_mode", "client_auth");
             restRequest.AddParameter("x_auth_username", username);
@@ -620,7 +698,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.VERIFY_CREDENTIALS,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -706,7 +784,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_DESTROY,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -760,7 +838,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUSES_CONTEXT_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
 
@@ -806,7 +884,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("user_id", user_id);
             restRequest.AddParameter("count", count.ToString());
@@ -852,7 +930,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_HOME_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             switch (mode)
             {
@@ -1017,7 +1095,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_PUBLIC_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             restRequest.AddParameter("count", count.ToString());
@@ -1075,7 +1153,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_MENTION_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             switch (mode)
             {
@@ -1245,7 +1323,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_ID,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("page", page.ToString());
@@ -1291,7 +1369,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_CREATE_ID + id + ".json",
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -1363,7 +1441,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_DESTROY_ID + id + ".json",
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -1439,7 +1517,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_PUBLIC_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("q", q);
             restRequest.AddParameter("count", "60");
@@ -1485,7 +1563,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("q", q);
             if (id != "")
@@ -1533,7 +1611,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_USER,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("q", q);
             restRequest.AddParameter("count", "60");
@@ -1580,7 +1658,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.TRENDS_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -1625,7 +1703,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_TAG_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
 
@@ -1671,7 +1749,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_TAGGED,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("tag", tag);
 
@@ -1718,7 +1796,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_SHOW,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
 
@@ -1762,7 +1840,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_FOLLOWERS,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -1812,7 +1890,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_FRIENDS,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -1861,7 +1939,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_CREATE,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -1908,7 +1986,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_DESTROY,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -1955,7 +2033,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_REQUESTS,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("page", page.ToString());
 
@@ -2001,7 +2079,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_ACCEPT,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -2049,7 +2127,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_DENY,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();
@@ -2098,7 +2176,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.PHOTOS_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -2256,7 +2334,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_CONVERSATION_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("count", count.ToString());
             restRequest.AddParameter("page", page.ToString());
@@ -2303,7 +2381,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_CONVERSATION,
                 Method = Hammock.Web.WebMethod.Get,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -2351,7 +2429,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_NEW,
                 Method = Hammock.Web.WebMethod.Post,
-                DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
 
             var client = GetClient();

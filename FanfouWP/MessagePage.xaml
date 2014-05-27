@@ -27,9 +27,7 @@
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <StackPanel Margin="0" Orientation="Vertical" Background="#FF72CBE1">
-            <StackPanel Height="27" Margin="12,17,0,12">
-                <TextBlock Text="" x:Name="title"  Style="{StaticResource PhoneTextNormalStyle}" FontFamily="Portable User Interface" Foreground="#DEFFFFFF"/>
-            </StackPanel>
+            <TextBlock Text="" x:Name="title"  Style="{StaticResource PhoneTextNormalStyle}" FontFamily="Portable User Interface" Foreground="#DEFFFFFF" Margin="24,17,24,12"/>
 
         </StackPanel>
         <!--TitlePanel 包含应用程序的名称和页标题-->

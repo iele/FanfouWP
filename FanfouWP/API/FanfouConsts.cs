@@ -45,5 +45,6 @@ namespace FanfouWP.API
         public const string DIRECT_MESSAGES_DESTROY = "direct_messages/destroy.json";
         public const string DIRECT_MESSAGES_NEW = "direct_messages/new.json";
         public const string ACCOUNT_NOTIFICATION = "account/notification.json";
+        public const string ACCOUNT_UPDATE_PROFILE = "/account/update_profile.json";
     }
 }

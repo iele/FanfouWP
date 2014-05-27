@@ -145,6 +145,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar  Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
             <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="ProfileMenu" Click="ProfileMenu_Click" Text="更新资料" />
                 <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />

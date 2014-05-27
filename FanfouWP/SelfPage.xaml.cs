@@ -454,5 +454,10 @@ namespace FanfouWP
             }
         }
 
+        private void ProfileMenu_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ProfilePage.xaml", UriKind.Relative));
+        }
+
     }
 }
