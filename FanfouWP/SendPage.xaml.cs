@@ -592,12 +592,12 @@ namespace FanfouWP
 
         private void AtItem_Click(object sender, EventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey("FriendsPage"))
+            if (PhoneApplicationService.Current.State.ContainsKey("MentionUserPage"))
             {
-                PhoneApplicationService.Current.State.Remove("FriendsPage");
+                PhoneApplicationService.Current.State.Remove("MentionUserPage");
             }
-            PhoneApplicationService.Current.State.Add("FriendsPage", FanfouAPI.Instance.CurrentUser);
-            NavigationService.Navigate(new Uri("/FriendsPage.xaml", UriKind.Relative));
+            PhoneApplicationService.Current.State.Add("MentionUserPage", FanfouAPI.Instance.CurrentUser);
+            NavigationService.Navigate(new Uri("/MentionUserPage.xaml", UriKind.Relative));
         }
 
     }

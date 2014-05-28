@@ -147,9 +147,6 @@
     <Compile Include="RequestPage.xaml.cs">
       <DependentUpon>RequestPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FriendsPage.xaml.cs">
-      <DependentUpon>FriendsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ItemControls\ConversationItemControl.xaml.cs">
       <DependentUpon>ConversationItemControl.xaml</DependentUpon>
     </Compile>
@@ -181,6 +178,9 @@
     </Compile>
     <Compile Include="NoticePage.xaml.cs">
       <DependentUpon>NoticePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MentionUserPage.xaml.cs">
+      <DependentUpon>MentionUserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SearchUserPage.xaml.cs">
       <DependentUpon>SearchUserPage.xaml</DependentUpon>
@@ -304,10 +304,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FriendsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ItemControls\ConversationItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -337,6 +333,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="NoticePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MentionUserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -233,7 +233,16 @@ namespace FanfouWP
                     this.FirstStatusText.Text = "此用户尚未发送任何消息= =!";
                 else
                     this.FirstStatusText.Text = HttpUtility.HtmlDecode(status.First().text);
-                this.loading.Visibility = System.Windows.Visibility.Collapsed;
+
+                if (this.friends == null)
+                    FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
+                if (this.follows == null)
+                    FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
+                if (this.fav == null)
+                    FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
+                if (this.tag == null)
+                    FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
+
             });
         }
 
@@ -249,22 +258,8 @@ namespace FanfouWP
         void UserPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.DataContext = user;
-            if (!user.@protected || user.following)
-            {
-                if (this.status == null)
-                    FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
-                if (this.friends == null)
-                    FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
-                if (this.follows == null)
-                    FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
-                if (this.fav == null)
-                    FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
-                if (this.tag == null)
-                    FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
-            }
-            else {
-                Dispatcher.BeginInvoke(() => { toast.NewToast("此用户设置为非公开:( "); });            
-            }
+            if (this.status == null)
+                FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
             checkMenu();
         }
 
@@ -427,10 +422,6 @@ namespace FanfouWP
 
             this.DataContext = user;
             FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.UsersFriends(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.UsersFollowers(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.FavoritesId(this.user.id);
-            FanfouWP.API.FanfouAPI.Instance.TaggedList(this.user.id);
             checkMenu();
         }
 

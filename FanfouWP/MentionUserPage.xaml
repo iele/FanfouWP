@@ -1,12 +1,12 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="FanfouWP.FriendsPages"
+    x:Class="FanfouWP.MentionUserPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
    xmlns:coding="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
+     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  xmlns:itemcontrols ="clr-namespace:FanfouWP.ItemControls"
     xmlns:usercontrols ="clr-namespace:FanfouWP.UserControls"
     xmlns:utils="clr-namespace:FanfouWP.Utils"
    FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -18,47 +18,45 @@
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Canvas.ZIndex="1" Visibility="Visible">
+    <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent" Visibility="Collapsed" Canvas.ZIndex="1" Height="0">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <StackPanel Margin="0" Orientation="Vertical">
-        	<StackPanel.Background>
-        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-        			<GradientStop Color="#FF72CBE1" Offset="0"/>
-        			<GradientStop Color="#FF72CBE1" Offset="1"/>
-        		</LinearGradientBrush>
-        	</StackPanel.Background>
-        	<StackPanel x:Name="TitlePanel" Height="116" Margin="12,17,0,28">
-        		<TextBlock x:Name="title" Text="我的朋友" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" Foreground="#DEFFFFFF"/>
-        		<TextBlock x:Name="page" Text="第1页" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
-        	</StackPanel>
-        </StackPanel>
-        <!--TitlePanel 包含应用程序的名称和页标题-->
-
-
-        <!--ContentPanel - 在此处放置其他内容-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0">
-            <phone:LongListSelector x:Name="FriendsStatusListBox" ItemsSource="{Binding}" SelectionChanged="FriendsStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
-                <phone:LongListSelector.ListFooterTemplate>
-                    <DataTemplate>
-                        <StackPanel Height="72"/>
-                    </DataTemplate>
-                </phone:LongListSelector.ListFooterTemplate>  <phone:LongListSelector.ItemTemplate>
-                    <DataTemplate>
-                        <itemcontrols:UserItemControl />
-                    </DataTemplate>
-                </phone:LongListSelector.ItemTemplate>
-            </phone:LongListSelector>
+        <Grid Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Margin="0" Grid.Row="0" Canvas.ZIndex="-1" Height="135" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF72CBE1" Offset="0"/>
+                        <GradientStop Color="#FF72CBE1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0" VerticalAlignment="Top">
+                <TextBlock x:Name="title" Text="搜索想要提及的好友" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,17,12,56" Foreground="#DEFFFFFF"/>
+                <TextBox x:Name="SearchText" Height="72" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="12,50,12,0" Foreground="#DE000000"/>
+            </Grid>
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+                <phone:LongListSelector x:Name="SearchStatusListBox" ItemsSource="{Binding}" SelectionChanged="SearchStatusListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"  >
+                    <phone:LongListSelector.ListFooterTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="72"/>
+                        </DataTemplate>
+                    </phone:LongListSelector.ListFooterTemplate>
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <itemcontrols:UserItemControl />
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </Grid>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="0.95" IsMenuEnabled="False"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
-            <shell:ApplicationBarIconButton x:Name="ForeButton" Click="ForeButton_Click"  IconUri="/Assets/AppBar/back.png" Text="前页" IsEnabled="False" />
-            <shell:ApplicationBarIconButton x:Name="BackButton" Click="BackButton_Click"  IconUri="/Assets/AppBar/next.png" Text="次页" />
+            <shell:ApplicationBarIconButton x:Name="SearchButton" Click="SearchButton_Click"  IconUri="/Assets/AppBar/feature.search.png" Text="搜索" IsEnabled="True" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
