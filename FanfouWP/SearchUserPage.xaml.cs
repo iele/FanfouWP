@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using FanfouWP.API.Items;
 using FanfouWP.API.Event;
 using FanfouWP.Utils;
+using System.Collections.ObjectModel;
 
 namespace FanfouWP
 {
@@ -17,7 +18,7 @@ namespace FanfouWP
     {
         private string keyword;
         private FanfouWP.API.Items.User user;
-        private dynamic keyword_list;
+        private ObservableCollection<Status> keyword_list;
         private bool SearchUserTimelineEnd = false;
 
         private ToastUtil toast = new ToastUtil();
@@ -57,7 +58,7 @@ namespace FanfouWP
             if (State.ContainsKey("SearchUserPage_keyword"))
                 this.keyword = State["SearchUserPage_keyword"] as string;
             if (State.ContainsKey("SearchUserPage_keyword_list"))
-                this.keyword_list = State["SearchUserPage_keyword_list"];
+                this.keyword_list = State["SearchUserPage_keyword_list"] as ObservableCollection<Status>;
             if (State.ContainsKey("SearchUserPage_user"))
                 this.user = State["SearchUserPage_user"] as User;
             if (State.ContainsKey("SearchUserPage_SearchUserTimelineEnd"))
@@ -81,6 +82,9 @@ namespace FanfouWP
                         this.loading.Visibility = System.Windows.Visibility.Visible;
                         (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                         FanfouWP.API.FanfouAPI.Instance.SearchUserTimeline(this.SearchText.Text, this.user.id);
+                    }
+                    else {
+                        this.SearchStatusListBox.ItemsSource = keyword_list;
                     }
                 }
             });
@@ -116,8 +120,7 @@ namespace FanfouWP
                 else
                 {
                     foreach (var item in e.UserStatus)
-                        keyword_list.Add(item);
-
+                        this.keyword_list.Add(item);
                 }
                 if (this.SearchStatusListBox.ItemsSource == null)
                     this.SearchStatusListBox.ItemsSource = keyword_list;

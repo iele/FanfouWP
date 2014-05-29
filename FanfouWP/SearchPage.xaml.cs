@@ -77,8 +77,8 @@ namespace FanfouWP
                 State["SearchPage_keyword"] = this.keyword;
                 State["SearchPage_keyword_user"] = this.keyword_user;
                 State["SearchPage_currentIndex"] = this.Pivot.SelectedIndex;
-                State["SearchUserPage_keyword_list"] = this.keyword_list;
-                State["SearchUserPage_keyword_user_list"] = this.keyword_user_list;
+                State["SearchPage_keyword_list"] = this.keyword_list;
+                State["SearchPage_keyword_user_list"] = this.keyword_user_list;
                 State["SearchPage_SearchTimelineEnd"] = this.SearchTimelineEnd;
                 State["SearchPage_SearchUserEnd"] = this.SearchUserEnd;
                 State["SearchPage_SearchUserCount"] = this.SearchUserCount;
@@ -132,6 +132,10 @@ namespace FanfouWP
                         (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                         FanfouWP.API.FanfouAPI.Instance.SearchTimeline(this.SearchText.Text);
                     }
+                    else
+                    {
+                        this.SearchStatusListBox.ItemsSource = this.keyword_list;
+                    }
                     this.Pivot.SelectedIndex = 0;
                 }
 
@@ -144,7 +148,17 @@ namespace FanfouWP
                         (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                         FanfouWP.API.FanfouAPI.Instance.SearchUser(this.UserSearchText.Text);
                     }
+                    else
+                    {
+                        this.UserStatusListBox.ItemsSource = this.keyword_user_list;
+                    }
                     this.Pivot.SelectedIndex = 1;
+                }
+
+                if (this.currentIndex != -1)
+                {
+                    this.Pivot.SelectedIndex = this.currentIndex;
+
                 }
             });
 

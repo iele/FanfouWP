@@ -141,6 +141,7 @@
     <Compile Include="ItemControls\AccountItemControl.xaml.cs">
       <DependentUpon>AccountItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObserbableCollection.cs" />
     <Compile Include="ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
