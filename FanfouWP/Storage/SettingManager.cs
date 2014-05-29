@@ -267,9 +267,9 @@ namespace FanfouWP.Storage
 
         public Boolean is_setting_changed { get; set; }
 
-        private static readonly SettingManager instance = new SettingManager();
+        private static SettingManager instance = new SettingManager();
 
-        private IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+        public IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 
         private SettingManager()
         {

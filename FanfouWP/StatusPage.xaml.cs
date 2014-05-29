@@ -73,9 +73,9 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.ReplyTextBlock.IsHitTestVisible = false;
-                this.RepostTextBlock.IsHitTestVisible = false;
-
+                this.ReplyTextBlock.IsHitTestVisible = true;
+                this.RepostTextBlock.IsHitTestVisible = true;
+          
                 if (e.UserStatus != null)
                 {
                     if (e.UserStatus.Count == 1)
@@ -707,8 +707,8 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.ReplyTextBlock.IsHitTestVisible = false;
-                this.RepostTextBlock.IsHitTestVisible = false;
+                this.ReplyTextBlock.IsHitTestVisible = true;
+                this.RepostTextBlock.IsHitTestVisible = true;
             });
             Dispatcher.BeginInvoke(() => { toast.NewToast("用户信息获取失败:( " + e.error.error); });
 
@@ -719,9 +719,9 @@ namespace FanfouWP
             Dispatcher.BeginInvoke(() =>
             {
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
-                this.ReplyTextBlock.IsHitTestVisible = false;
-                this.RepostTextBlock.IsHitTestVisible = false;
-
+                this.ReplyTextBlock.IsHitTestVisible = true;
+                this.RepostTextBlock.IsHitTestVisible = true;
+          
                 if (PhoneApplicationService.Current.State.ContainsKey("UserPage"))
                 {
                     PhoneApplicationService.Current.State.Remove("UserPage");

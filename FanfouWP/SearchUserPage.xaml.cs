@@ -18,6 +18,7 @@ namespace FanfouWP
         private string keyword;
         private FanfouWP.API.Items.User user;
         private dynamic keyword_list;
+        private bool SearchUserTimelineEnd = false;
 
         private ToastUtil toast = new ToastUtil();
 
@@ -29,6 +30,9 @@ namespace FanfouWP
             {
                 user = PhoneApplicationService.Current.State["SearchUserPage"] as FanfouWP.API.Items.User;
             }
+
+            FanfouWP.API.FanfouAPI.Instance.SearchUserTimelineSuccess += Instance_SearchUserTimelineSuccess;
+            FanfouWP.API.FanfouAPI.Instance.SearchUserTimelineFailed += Instance_SearchUserTimelineFailed;
 
             this.Loaded += SearchPage_Loaded;
         }
@@ -42,6 +46,7 @@ namespace FanfouWP
                 State["SearchUserPage_keyword"] = this.keyword;
                 State["SearchUserPage_user"] = this.user;
                 State["SearchUserPage_keyword_list"] = this.keyword_list;
+                State["SearchUserPage_SearchUserTimelineEnd"] = this.SearchUserTimelineEnd;
             }
 
             base.OnNavigatedFrom(e);
@@ -51,11 +56,13 @@ namespace FanfouWP
         {
             if (State.ContainsKey("SearchUserPage_keyword"))
                 this.keyword = State["SearchUserPage_keyword"] as string;
-            if (State.ContainsKey("SearchUserPage_user"))
-                this.user = State["SearchUserPage_user"] as User;
             if (State.ContainsKey("SearchUserPage_keyword_list"))
                 this.keyword_list = State["SearchUserPage_keyword_list"];
-    
+            if (State.ContainsKey("SearchUserPage_user"))
+                this.user = State["SearchUserPage_user"] as User;
+            if (State.ContainsKey("SearchUserPage_SearchUserTimelineEnd"))
+                this.SearchUserTimelineEnd = (bool)State["SearchUserPage_SearchUserTimelineEnd"];
+
             this.title.Text = "搜索" + this.user.screen_name + " 可用\"|\"分割多个关键字";
 
             base.OnNavigatedTo(e);
@@ -63,21 +70,13 @@ namespace FanfouWP
 
         void SearchPage_Loaded(object sender, RoutedEventArgs e)
         {
-            FanfouWP.API.FanfouAPI.Instance.SearchUserTimelineSuccess += Instance_SearchUserTimelineSuccess;
-            FanfouWP.API.FanfouAPI.Instance.SearchUserTimelineFailed += Instance_SearchUserTimelineFailed;
-
             Dispatcher.BeginInvoke(() =>
             {
-               
                 if (keyword != null && keyword != "")
                 {
                     this.SearchText.Text = keyword;
 
-                    if (keyword_list != null)
-                    {
-                        this.SearchStatusListBox.ItemsSource = this.keyword_list;
-                    }
-                    else
+                    if (keyword_list == null)
                     {
                         this.loading.Visibility = System.Windows.Visibility.Visible;
                         (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
@@ -103,10 +102,25 @@ namespace FanfouWP
 
             Dispatcher.BeginInvoke(() =>
             {
-                this.keyword_list = e.UserStatus;
-                this.SearchStatusListBox.ItemsSource = keyword_list;
                 this.loading.Visibility = System.Windows.Visibility.Collapsed;
                 (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+
+                if (e.UserStatus.Count == 0)
+                {
+                    SearchUserTimelineEnd = true;
+                    return;
+                }
+
+                if (keyword_list == null)
+                    this.keyword_list = e.UserStatus;
+                else
+                {
+                    foreach (var item in e.UserStatus)
+                        keyword_list.Add(item);
+
+                }
+                if (this.SearchStatusListBox.ItemsSource == null)
+                    this.SearchStatusListBox.ItemsSource = keyword_list;
             });
         }
 
@@ -120,6 +134,11 @@ namespace FanfouWP
                     (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     this.Focus();
                 });
+
+                keyword = this.SearchText.Text;
+                keyword_list = null;
+                this.SearchStatusListBox.ItemsSource = null;
+                SearchUserTimelineEnd = false;
                 FanfouWP.API.FanfouAPI.Instance.SearchUserTimeline(this.SearchText.Text, this.user.id);
             }
         }
@@ -137,6 +156,15 @@ namespace FanfouWP
                 }
                 PhoneApplicationService.Current.State.Add("StatusPage", item);
                 NavigationService.Navigate(new Uri("/StatusPage.xaml", UriKind.Relative));
+            }
+        }
+
+        private void SearchStatusListBox_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            if (e.Container.DataContext == this.SearchStatusListBox.ItemsSource[this.SearchStatusListBox.ItemsSource.Count - 1] && !SearchUserTimelineEnd)
+            {
+                this.loading.Visibility = System.Windows.Visibility.Visible;
+                FanfouWP.API.FanfouAPI.Instance.SearchUserTimeline(keyword, user.id, 60, (e.Container.DataContext as Status).id);
             }
         }
     }

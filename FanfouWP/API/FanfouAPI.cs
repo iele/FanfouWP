@@ -371,7 +371,12 @@ namespace FanfouWP.API
             storage.ReadDataSuccess += JsonStorage_ReadDataSuccess;
             storage.ReadDataFailed += JsonStorage_ReadDataFailed;
 
-            CurrentList = new ObservableCollection<User>(settings.currentList);
+            if (settings.currentList != null)
+                CurrentList = new ObservableCollection<User>(settings.currentList);
+            else
+            {
+                CurrentList = new ObservableCollection<User>();
+            }
             CurrentUser = settings.currentUser;
         }
 
@@ -1518,7 +1523,7 @@ namespace FanfouWP.API
         #endregion
         #region search
 
-        public void SearchTimeline(string q)
+        public void SearchTimeline(string q, int count = 60, string max_id = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1527,7 +1532,9 @@ namespace FanfouWP.API
                 //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("q", q);
-            restRequest.AddParameter("count", "60");
+            restRequest.AddParameter("count", count.ToString());
+            if (max_id != "")
+                restRequest.AddParameter("max_id", max_id);
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -1564,7 +1571,7 @@ namespace FanfouWP.API
             });
         }
 
-        public void SearchUserTimeline(string q, string id = "")
+        public void SearchUserTimeline(string q, string id = "", int count = 60, string max_id = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1575,7 +1582,9 @@ namespace FanfouWP.API
             restRequest.AddParameter("q", q);
             if (id != "")
                 restRequest.AddParameter("id", id);
-            restRequest.AddParameter("count", "60");
+            restRequest.AddParameter("count", count.ToString());
+            if (max_id != "")
+                restRequest.AddParameter("max_id", max_id);
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -1612,7 +1621,7 @@ namespace FanfouWP.API
                 }
             });
         }
-        public void SearchUser(string q)
+        public void SearchUser(string q, int count = 60, int page = 0)
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
@@ -1621,7 +1630,9 @@ namespace FanfouWP.API
                 //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
             restRequest.AddParameter("q", q);
-            restRequest.AddParameter("count", "60");
+            restRequest.AddParameter("count", count.ToString());
+            if (page != 0)
+                restRequest.AddParameter("page", page.ToString());
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
@@ -1804,7 +1815,7 @@ namespace FanfouWP.API
                 Method = Hammock.Web.WebMethod.Get,
                 //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
             };
-           
+
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
             {
                 try
