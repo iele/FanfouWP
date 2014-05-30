@@ -38,7 +38,29 @@
 							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
                         <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
                         <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
-                            <ListBox x:Name="tags" VerticalAlignment="Top" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding}" Tap="tags_Tap" >
+                                <Grid VerticalAlignment="Top" Margin="0,12,0,6" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="0,0,12,0" Orientation="Vertical" Tap="StackPanel_Tap_1" VerticalAlignment="Top"   >
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,91,12,0" Orientation="Vertical" Tap="StackPanel_Tap_2" VerticalAlignment="Top"   >
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="48"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="12,91,0,0" Orientation="Vertical" Tap="StackPanel_Tap_3" Grid.ColumnSpan="2" Grid.Column="1" VerticalAlignment="Top"   >
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="48"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="12,0,0,0" Orientation="Vertical" Tap="StackPanel_Tap_4" Grid.ColumnSpan="2" Grid.Column="1" VerticalAlignment="Top"   >
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
+                                    </StackPanel>
+                                </Grid>
+                                <ListBox x:Name="tags" VerticalAlignment="Top" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding}" Tap="tags_Tap" >
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <toolkit:WrapPanel />
@@ -52,22 +74,7 @@
                             </ListBox>
                             <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,0,0,6"/>
                             <TextBlock TextWrapping="Wrap" Text="{Binding url}" VerticalAlignment="Top" Padding="0,6,0,6" x:Name="UrlText" Tap="UrlText_Tap" Margin="0,3"/>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_1"   >
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="消息" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding statuses_count}" VerticalAlignment="Top" FontSize="48"/>
-                            </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_2"   >
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="听众" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding followers_count}"  VerticalAlignment="Top" FontSize="48"/>
-                            </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_3"   >
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="朋友" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding friends_count}"  VerticalAlignment="Top" FontSize="48"/>
-                            </StackPanel>
-                            <StackPanel Margin="0" Orientation="Vertical" Tap="StackPanel_Tap_4"   >
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="收藏" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding favourites_count}" VerticalAlignment="Top" FontSize="48"/>
-                            </StackPanel>
+                         
                         </StackPanel>
                         <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
                         	Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1"/>
