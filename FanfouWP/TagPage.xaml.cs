@@ -18,7 +18,7 @@ namespace FanfouWP
         private int currentIndex;
         private dynamic list;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public TagPage()
         {

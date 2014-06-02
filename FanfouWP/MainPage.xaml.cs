@@ -52,7 +52,7 @@ namespace FanfouWP
             });
 
 
-            Dispatcher.BeginInvoke(async () => await Utils.GeoLocatorUtils.getGeolocator());
+            Dispatcher.BeginInvoke(async () => await Utils.GeoLocator.getGeolocator());
 
             this.Loaded += MainPage_Loaded;
         }

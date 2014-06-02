@@ -20,7 +20,7 @@ namespace FanfouWP
         private SettingManager settings = SettingManager.GetInstance();
         private string id = FanfouWP.API.FanfouAPI.Instance.CurrentUser == null ? "" : string.Copy(FanfouWP.API.FanfouAPI.Instance.CurrentUser.id);
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
         public AccountsPage()
         {
             InitializeComponent();

@@ -21,7 +21,7 @@ namespace FanfouWP
         private ObservableCollection<Status> keyword_list;
         private bool SearchUserTimelineEnd = false;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public SearchUserPage()
         {

@@ -18,7 +18,7 @@ namespace FanfouWP
     {
         private int currentPage = 1;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         private ObservableCollection<User> list;
         public RequestPage()

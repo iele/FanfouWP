@@ -38,7 +38,7 @@ namespace FanfouWP
 
         private string position = "";
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public SendPage()
         {
@@ -83,7 +83,7 @@ namespace FanfouWP
             {
                 if (SettingManager.GetInstance().enableLocation == true)
                 {
-                    var result = await FanfouWP.Utils.GeoLocatorUtils.getGeolocator();
+                    var result = await FanfouWP.Utils.GeoLocator.getGeolocator();
                     this.position = result.Second;
                     if (result.First == true)
                         this.location.Text = "已定位";

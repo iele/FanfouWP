@@ -27,7 +27,7 @@ namespace FanfouWP
         private bool SearchUserEnd = false;
         private int SearchUserCount = 1;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public SearchPage()
         {

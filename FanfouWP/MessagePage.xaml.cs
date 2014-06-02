@@ -21,7 +21,7 @@ namespace FanfouWP
         private List<FanfouWP.API.Items.DirectMessage> list;
         private FanfouWP.API.Items.User user;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public MessagePage()
         {

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace FanfouWP
@@ -22,7 +23,7 @@ namespace FanfouWP
         private dynamic friends;
         private dynamic follows;
         private dynamic fav;
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public UserPage()
         {
@@ -47,6 +48,35 @@ namespace FanfouWP
             FanfouWP.API.FanfouAPI.Instance.FriendshipsCreateFailed += Instance_FriendshipsCreateFailed;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroySuccess += Instance_FriendshipsDestroySuccess;
             FanfouWP.API.FanfouAPI.Instance.FriendshipsDestroyFailed += Instance_FriendshipsDestroyFailed;
+
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsExistsSuccess += Instance_FriendshipsExistsSuccess;
+            FanfouWP.API.FanfouAPI.Instance.FriendshipsExistsFailed += Instance_FriendshipsExistsFailed;
+        }
+
+        void Instance_FriendshipsExistsFailed(object sender, API.Event.FailedEventArgs e)
+        {
+        }
+
+        void Instance_FriendshipsExistsSuccess(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (user.following && (bool)sender == true)
+                {
+                    this.friendship.Source = new BitmapImage(new Uri("/Assets/connected.png", UriKind.Relative));
+                    return;
+                }
+                if (user.following)
+                {
+                    this.friendship.Source = new BitmapImage(new Uri("/Assets/follow.png", UriKind.Relative));
+                    return;
+                }
+                if ((bool)sender)
+                {
+                    this.friendship.Source = new BitmapImage(new Uri("/Assets/friend.png", UriKind.Relative));
+                    return;
+                }
+            });
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -260,6 +290,7 @@ namespace FanfouWP
             this.DataContext = user;
             if (this.status == null)
                 FanfouWP.API.FanfouAPI.Instance.StatusUserTimeline(SettingManager.GetInstance().defaultCount2 * 10 + 20, this.user.id);
+            FanfouWP.API.FanfouAPI.Instance.FriendshipExists(user.id, FanfouWP.API.FanfouAPI.Instance.CurrentUser.id);
             checkMenu();
         }
 

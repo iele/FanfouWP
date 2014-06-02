@@ -18,7 +18,7 @@ namespace FanfouWP
         private int currentPage = 1;
         private dynamic list;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public ConversationsPage()
         {

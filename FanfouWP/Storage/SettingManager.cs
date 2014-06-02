@@ -265,6 +265,21 @@ namespace FanfouWP.Storage
             }
         }
 
+        private bool _largeImage;
+        public bool largeImage
+        {
+            get
+            {
+                return _largeImage;
+            }
+            set
+            {
+                _largeImage = value;
+                settings["largeImage"] = value;
+
+                is_setting_changed = true;
+            }
+        }
         public Boolean is_setting_changed { get; set; }
 
         private static SettingManager instance = new SettingManager();
@@ -301,6 +316,7 @@ namespace FanfouWP.Storage
             settings["reverseContext"] = this.reverseContext;
             settings["refreshFreq"] = this.refreshFreq;
             settings["alwaysTop"] = this.alwaysTop;
+            settings["largeImage"] = this.largeImage;
 
             try
             {
@@ -316,7 +332,7 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, alwaysTop;
+            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, alwaysTop,largeImage;
             if (settings.TryGetValue("defaultCount2", out defaultCount2) && defaultCount2 != null)
                 this.defaultCount2 = (int)defaultCount2;
             else
@@ -382,6 +398,10 @@ namespace FanfouWP.Storage
                 this.alwaysTop = (bool)alwaysTop;
             else
                 this.alwaysTop = false;
+            if (settings.TryGetValue("largeImage", out largeImage) && largeImage != null)
+                this.largeImage = (bool)largeImage;
+            else
+                this.largeImage = false;
         }
 
     }

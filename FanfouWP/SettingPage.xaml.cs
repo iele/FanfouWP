@@ -15,7 +15,7 @@ namespace FanfouWP
     {
         private SettingManager settingManager = SettingManager.GetInstance();
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public SettingPage()
         {
@@ -50,6 +50,7 @@ namespace FanfouWP
                 this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
                 this.TopCheckBox.IsChecked = settingManager.alwaysTop;
+                this.WifiCheckBox.IsChecked = settingManager.largeImage;
             
                 this.CountListPicker.SelectionChanged += CountListPicker_SelectionChanged;
                 this.QualityListPicker.SelectionChanged += QualityListPicker_SelectionChanged;
@@ -206,6 +207,11 @@ namespace FanfouWP
         private void TopCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             settingManager.alwaysTop = this.TopCheckBox.IsChecked.HasValue ? this.TopCheckBox.IsChecked.Value : false;
+        }
+
+        private void WifiCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            settingManager.largeImage = this.WifiCheckBox.IsChecked.HasValue ? this.WifiCheckBox.IsChecked.Value : false;     
         }
     }
 }

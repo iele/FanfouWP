@@ -18,7 +18,7 @@ namespace FanfouWP
         private string keyword;
         private dynamic keyword_list;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public MentionUserPage()
         {

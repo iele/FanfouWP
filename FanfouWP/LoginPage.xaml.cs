@@ -21,7 +21,7 @@ namespace FanfouWP
         private FanfouAPI FanfouAPI = FanfouAPI.Instance;
         private SettingManager settings = SettingManager.GetInstance();
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public LoginPage()
         {

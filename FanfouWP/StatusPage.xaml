@@ -19,6 +19,7 @@
             <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
+            <converter:ImageSourceToCacheWithWifiConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheWithWifiConverter" />
             <converter:BoolToFavoritedConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="BoolToFavoritedConverter" />
             <converter:NullToVisibilityConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="NullToVisibilityConverter" />
             <converter:ReplyToNameConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ReplyToNameConverter" />
@@ -70,8 +71,8 @@
             </StackPanel.Background>
             <Grid Margin="12,17,0,28" Height="100">
                 <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,0,0" Foreground="#DEFFFFFF"/>
-                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left"/>
-                <Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
+                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
+                <Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheWithWifiConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
 
             </Grid>
 
@@ -90,7 +91,7 @@
                         <TextBlock x:Name="RepostTextBlock" Padding="5,0,0,0" Text="{Binding repost_screen_name, Converter={StaticResource RetweetToNameConverter}}" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding repost_screen_name, Converter={StaticResource NullToVisibilityConverter}}" Tap="TextBlock_Tap_Repost" />
                     </StackPanel>
                     <Grid Visibility="{Binding photo , Converter={StaticResource NullToVisibilityConverter}}">
-                        <Image Margin="0,5,0,0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheConverter}}" Tap="Image_Tap" HorizontalAlignment="Left" MaxHeight="400"/>
+                        <Image Margin="0,5,0,0" Source="{Binding photo.largeurl, Converter={StaticResource ImageSourceToCacheWithWifiConverter}}" Tap="Image_Tap" HorizontalAlignment="Left" MaxHeight="400"/>
                         <Image Source="{Binding photo.thumburl, Converter={StaticResource ImageSourceToCacheConverter}}"   HorizontalAlignment="Left"  Canvas.ZIndex="-1" Tap="Image_Tap" MaxHeight="400"/>
                     </Grid>
 

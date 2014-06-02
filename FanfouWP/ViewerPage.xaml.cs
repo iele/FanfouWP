@@ -13,7 +13,7 @@ namespace FanfouWP
         private FanfouWP.API.Items.User user;
         private dynamic list;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public ViewerPage()
         {

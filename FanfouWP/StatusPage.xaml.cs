@@ -29,7 +29,7 @@ namespace FanfouWP
         private ObservableCollection<Status> contextStatus;
         private enum TextMode { Text, Url, At, Search, Strong };
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public StatusPage()
         {

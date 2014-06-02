@@ -305,6 +305,8 @@ namespace FanfouWP.API
         public delegate void FriendshipsAcceptFailedHandler(object sender, FailedEventArgs e);
         public delegate void FriendshipsDenySuccessHandler(object sender, EventArgs e);
         public delegate void FriendshipsDenyFailedHandler(object sender, FailedEventArgs e);
+        public delegate void FriendshipsExistsSuccessHandler(object sender, EventArgs e);
+        public delegate void FriendshipsExistsFailedHandler(object sender, FailedEventArgs e);
 
         public event FriendshipsCreateSuccessHandler FriendshipsCreateSuccess;
         public event FriendshipsCreateFailedHandler FriendshipsCreateFailed;
@@ -316,6 +318,8 @@ namespace FanfouWP.API
         public event FriendshipsAcceptFailedHandler FriendshipsAcceptFailed;
         public event FriendshipsDenySuccessHandler FriendshipsDenySuccess;
         public event FriendshipsDenyFailedHandler FriendshipsDenyFailed;
+        public event FriendshipsExistsSuccessHandler FriendshipsExistsSuccess;
+        public event FriendshipsExistsFailedHandler FriendshipsExistsFailed;
 
         public delegate void DirectMessageConversationListSuccessHandler(object sender, UserTimelineEventArgs<Items.DirectMessageItem> e);
         public delegate void DirectMessageConversationListFailedHandler(object sender, FailedEventArgs e);
@@ -1522,7 +1526,6 @@ namespace FanfouWP.API
 
         #endregion
         #region search
-
         public void SearchTimeline(string q, int count = 60, string max_id = "")
         {
             Hammock.RestRequest restRequest = new Hammock.RestRequest
@@ -2229,6 +2232,47 @@ namespace FanfouWP.API
                     System.Diagnostics.Debug.WriteLine(exception.Message);
                     FailedEventArgs e = new FailedEventArgs();
                     FriendshipsDenyFailed(this, e);
+                }
+            });
+        }
+        public void FriendshipExists(string user_a, string user_b)
+        {
+            Hammock.RestRequest restRequest = new Hammock.RestRequest
+            {
+                Path = FanfouConsts.FRIENDSHIPS_EXISTS,
+                Method = Hammock.Web.WebMethod.Get,
+                //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
+            };
+
+            restRequest.AddParameter("user_a", user_a);
+            restRequest.AddParameter("user_b", user_b);
+
+            GetClient().BeginRequest(restRequest, (request, response, userstate) =>
+            {
+                try
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        var content = response.Content == "true" ? true : false;
+                        EventArgs e = new EventArgs();
+                        FriendshipsExistsSuccess(content, e);
+                    }
+                    else
+                    {
+                        Items.Error er = new Items.Error();
+                        var ds = new DataContractJsonSerializer(er.GetType());
+                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        er = ds.ReadObject(ms) as Items.Error;
+                        ms.Close();
+                        FailedEventArgs e = new FailedEventArgs(er);
+                        FriendshipsExistsFailed(this, e);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
+                    FailedEventArgs e = new FailedEventArgs();
+                    FriendshipsExistsFailed(this, e);
                 }
             });
         }

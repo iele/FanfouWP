@@ -40,6 +40,7 @@ namespace FanfouWP.API
         public const string FRIENDSHIPS_REQUESTS = "friendships/requests.json";
         public const string FRIENDSHIPS_DENY = "friendships/deny.json";
         public const string FRIENDSHIPS_ACCEPT = "friendships/accept.json";
+        public const string FRIENDSHIPS_EXISTS = "friendships/exists.json";
         public const string DIRECT_MESSAGES_CONVERSATION_LIST = "direct_messages/conversation_list.json";
         public const string DIRECT_MESSAGES_CONVERSATION = "direct_messages/conversation.json";
         public const string DIRECT_MESSAGES_DESTROY = "direct_messages/destroy.json";

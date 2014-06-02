@@ -22,7 +22,7 @@ namespace FanfouWP
         private dynamic friends;
         private dynamic follows;
         private dynamic fav;
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         private int? index = null;
 

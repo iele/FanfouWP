@@ -20,7 +20,7 @@ namespace FanfouWP
         private FanfouWP.API.Items.Status status;
         private double initialScale;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public ImagePage()
         {

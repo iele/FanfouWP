@@ -18,7 +18,7 @@ namespace FanfouWP
     public partial class PublicPage : PhoneApplicationPage
     {
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
         private dynamic list;
         public PublicPage()
         {

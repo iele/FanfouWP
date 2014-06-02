@@ -25,7 +25,7 @@ namespace FanfouWP.ItemControls.ValueConverter
         public event ImageCompletedHander ImageCompleted;
 
         public ImageSourceToCacheConverter()
-        {
+        {         
             try
             {
                 if (_storage == null)
@@ -40,8 +40,7 @@ namespace FanfouWP.ItemControls.ValueConverter
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-
+        {           
             var path = value as string;
             if (String.IsNullOrEmpty(path.ToString())) return null;
             var imageFileUri = new Uri(path);
@@ -58,7 +57,7 @@ namespace FanfouWP.ItemControls.ValueConverter
                 {
                     return LoadDefaultIfPassed(imageFileUri, (parameter ?? string.Empty).ToString());
                 }
-
+                
                 // 最后再网上获取  
                 return DownloadFromWeb(imageFileUri);
             }

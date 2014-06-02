@@ -44,7 +44,7 @@ namespace FanfouWP
 
         private DispatcherTimer timer;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public TimelinePage()
         {

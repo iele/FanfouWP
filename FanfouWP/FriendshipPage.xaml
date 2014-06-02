@@ -21,7 +21,9 @@
             <converter:SourceToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SourceToTextConverter" />
             <converter:DateToTextConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="DateToTextConverter" />
             <converter:StatusToFillColorConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="StatusToFillColorConverter" />
+            <converter:SexToIconConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="SexToIconConverter" />
             <converter:ImageSourceToCacheConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheConverter" />
+            <converter:ImageSourceToCacheWithWifiConverter xmlns:converter="clr-namespace:FanfouWP.ItemControls.ValueConverter" x:Key="ImageSourceToCacheWithWifiConverter" />
         </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
@@ -34,9 +36,13 @@
                 <ScrollViewer Margin="0">
                     <StackPanel>
                         <Grid>
-                        <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
-							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheConverter}}"/>
-                        <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText" Text="{Binding status.text}" />
+                            <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Canvas.ZIndex="-1"
+							Source="{Binding profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}"/>
+                            <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128"
+							Source="{Binding profile_image_url_large, Converter={StaticResource ImageSourceToCacheWithWifiConverter}}"/>
+                            <Image HorizontalAlignment="Left" Height="32" Margin="106,106,0,0" VerticalAlignment="Top" Width="32"
+                        	Source="{Binding gender, Converter={StaticResource SexToIconConverter}}" Canvas.ZIndex="1"/>
+                            <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText" Text="{Binding status.text}" />
                         <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
                                 <Grid VerticalAlignment="Top" Margin="0,12,0,6" HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>

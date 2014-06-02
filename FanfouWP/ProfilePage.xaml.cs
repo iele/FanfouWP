@@ -13,7 +13,7 @@ namespace FanfouWP
 {
     public partial class ProfilePage : PhoneApplicationPage
     {
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
         public ProfilePage()
         {
             InitializeComponent();

@@ -18,7 +18,7 @@ namespace FanfouWP
     {
         private API.Items.User user;
 
-        private ToastUtil toast = new ToastUtil();
+        private Toast toast = new Toast();
 
         public FriendshipPage()
         {
