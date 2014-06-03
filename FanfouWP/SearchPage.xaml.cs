@@ -193,7 +193,11 @@ namespace FanfouWP
                 else
                 {
                     foreach (var item in e.UserStatus)
-                        keyword_user_list.Add(item);
+                    {
+                        var l = from k in keyword_user_list where k.id == item.id select k;
+                        if (l.Count() == 0)
+                            keyword_user_list.Add(item);
+                    }
                 }
                 if (this.UserStatusListBox.ItemsSource == null)
                     this.UserStatusListBox.ItemsSource = keyword_user_list;
@@ -229,7 +233,11 @@ namespace FanfouWP
                 else
                 {
                     foreach (var item in e.UserStatus)
-                        keyword_list.Add(item);
+                    {
+                        var l = from k in keyword_list where k.id == item.id select k;
+                        if (l.Count() == 0)
+                            keyword_list.Add(item);
+                    }
                 }
                 if (this.SearchStatusListBox.ItemsSource == null)
                     this.SearchStatusListBox.ItemsSource = keyword_list;

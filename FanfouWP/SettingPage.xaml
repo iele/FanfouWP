@@ -38,7 +38,6 @@
                     <StackPanel Orientation="Vertical">
                         <CheckBox x:Name="QuitCheckBox" Content="连按两次后退键退出" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top"/>
                         <CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top"/>
-                        <CheckBox x:Name="WifiCheckBox" Content="仅当拥有Wi-Fi时显示清晰图片" Click="WifiCheckBox_Checked" Height="72" VerticalAlignment="Top"/>
                         <TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
                         <toolkit:ListPicker x:Name="QualityListPicker" Margin="12,0" VerticalAlignment="Top"/>
                         <TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
@@ -50,17 +49,18 @@
                 </ScrollViewer>
             </controls:PivotItem>
             <controls:PivotItem Header="时间线" Margin="0,28,0,0" Foreground="#DE000000">
-                <ScrollViewer Margin="24,0">
+                <ScrollViewer Margin="12,0">
                     <StackPanel Orientation="Vertical">
-                        <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-                        <CheckBox x:Name="TopCheckBox" Content="刷新自动跳转到顶部" Click="TopCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-                        <CheckBox x:Name="ContextCheckBox" Content="逆向表示消息上下文" Click="ContextCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="-12,0,0,0"/>
-                        <TextBlock TextWrapping="Wrap" Text="时间线刷新频率" Margin="0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-                        <toolkit:ListPicker x:Name="TimelineFreqListPicker" Margin="0" VerticalAlignment="Top"/>
-                        <TextBlock TextWrapping="Wrap" Text="时间线刷新消息数量" Margin="0,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-                        <toolkit:ListPicker x:Name="CountListPicker" Margin="0" VerticalAlignment="Top"/>
-                        <TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="0,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
-                        <toolkit:ListPicker x:Name="CacheListPicker" Margin="0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="0"/>
+                        <CheckBox x:Name="TopCheckBox" Content="刷新自动跳转到顶部" Click="TopCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="0"/>
+                        <CheckBox x:Name="ContextCheckBox" Content="逆向表示消息上下文" Click="ContextCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="0"/>
+                        <CheckBox x:Name="WifiCheckBox" Content="仅当拥有Wi-Fi时显示清晰图片" Click="WifiCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="0"/>
+                        <TextBlock TextWrapping="Wrap" Text="时间线刷新频率" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <toolkit:ListPicker x:Name="TimelineFreqListPicker" Margin="12,0" VerticalAlignment="Top"/>
+                        <TextBlock TextWrapping="Wrap" Text="时间线刷新消息数量" Margin="12,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <toolkit:ListPicker x:Name="CountListPicker" Margin="12,0" VerticalAlignment="Top"/>
+                        <TextBlock TextWrapping="Wrap" Text="时间线缓存数量" Margin="12,5,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <toolkit:ListPicker x:Name="CacheListPicker" Margin="12,0" VerticalAlignment="Top"/>
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
