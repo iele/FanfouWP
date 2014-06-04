@@ -87,8 +87,7 @@
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
                         <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.4.0" Height="30" />
-                        <TextBlock FontSize="24" TextWrapping="Wrap" Margin="14,6" Text="v1.4.0 支持用户更新信息，界面调整" />
-                        <StackPanel Orientation="Horizontal" Width="432">
+                        <StackPanel Margin="12,6"  Orientation="Horizontal" Width="432">
                         	<TextBlock FontSize="24" Text="该应用部分图标来自 " />
                             <TextBlock Text="icons8" Margin="0,0,0,0" FontSize="24" TextDecorations="Underline" Tap="TextBlock_Tap"/>
                         </StackPanel>

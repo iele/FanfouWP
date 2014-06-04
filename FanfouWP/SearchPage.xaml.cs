@@ -252,25 +252,28 @@ namespace FanfouWP
                 {
                     this.loading.Visibility = System.Windows.Visibility.Visible;
                     (this.ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+
                     this.Focus();
+
+                    if (this.Pivot.SelectedIndex == 0)
+                    {
+                        keyword = this.SearchText.Text;
+                        keyword_list = null;
+                        this.SearchStatusListBox.ItemsSource = null;
+                        SearchTimelineEnd = false;
+                        FanfouWP.API.FanfouAPI.Instance.SearchTimeline(keyword);
+                    }
+                    else if (this.Pivot.SelectedIndex == 1)
+                    {
+                        keyword_user = this.UserSearchText.Text;
+                        keyword_user_list = null;
+                        this.UserStatusListBox.ItemsSource = null;
+                        SearchUserEnd = false;
+                        SearchUserCount = 0;
+                        FanfouWP.API.FanfouAPI.Instance.SearchUser(this.UserSearchText.Text);
+                    }
                 });
-                if (this.Pivot.SelectedIndex == 0)
-                {
-                    keyword = this.SearchText.Text;
-                    keyword_list = null;
-                    this.SearchStatusListBox.ItemsSource = null;
-                    SearchTimelineEnd = false;
-                    FanfouWP.API.FanfouAPI.Instance.SearchTimeline(keyword);
-                }
-                else if (this.Pivot.SelectedIndex == 1)
-                {
-                    keyword_user = this.UserSearchText.Text;
-                    keyword_user_list = null;
-                    this.UserStatusListBox.ItemsSource = null;
-                    SearchUserEnd = false;
-                    SearchUserCount = 0;
-                    FanfouWP.API.FanfouAPI.Instance.SearchUser(this.UserSearchText.Text);
-                }
+
             }
         }
 
