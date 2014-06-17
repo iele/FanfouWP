@@ -143,7 +143,6 @@
     </Compile>
     <Compile Include="ItemControls\ValueConverter\ImageSourceToCacheConverter.cs" />
     <Compile Include="ItemControls\ValueConverter\SexToIconConverter.cs" />
-    <Compile Include="ObserbableCollection.cs" />
     <Compile Include="ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
