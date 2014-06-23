@@ -8,8 +8,8 @@ namespace FanfouWPTaskAgent.Agent
 {
     public sealed class FanfouConsts
     {
-        public const string CONSUMER_KEY = "ca01f862370339af2dc80eca5e9fa8cd";
-        public const string CONSUMER_SECRET = "6faef3388beac280fc1830a7797c4e55";
+        public const string CONSUMER_KEY = "888e4366bb2f32318a1a06853c44086b";
+        public const string CONSUMER_SECRET = "57bb3217893ddc3b01e5b946f590141f";
         public const string BASE_URL = "http://fanfou.com";
         public const string API_URL = "http://api.fanfou.com";
         public const string ACCESS_TOKEN = "oauth/access_token";

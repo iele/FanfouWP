@@ -75,8 +75,9 @@ namespace FanfouWPTaskAgent
                     ClientUsername = s[0],
                     ClientPassword = s[1]
                 }
-            };
 
+            };
+            client.AddHeader("Accept-Encoding", "GZip");
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
                 Path = FanfouConsts.STATUS_MENTION_TIMELINE,
@@ -92,7 +93,7 @@ namespace FanfouWPTaskAgent
                     {
                         status = new ObservableCollection<Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        var ms = new MemoryStream(Agent.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Status>;
                         ms.Close();
 
@@ -226,7 +227,7 @@ namespace FanfouWPTaskAgent
                     {
                         Item i = new Item();
                         var ds = new DataContractJsonSerializer(i.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        var ms = new MemoryStream(Agent.GzipDecompress.Decompress(response.ContentStream));
                         i = ds.ReadObject(ms) as Item;
                         ms.Close();
 

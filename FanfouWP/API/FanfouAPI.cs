@@ -524,10 +524,11 @@ namespace FanfouWP.API
                         Token = oauthToken,
                         TokenSecret = oauthSecret,
                         ClientUsername = username,
-                        ClientPassword = password,
+                        ClientPassword = password,                       
                     },
                     //Method = Hammock.Web.WebMethod.Get, DecompressionMethods = Hammock.Silverlight.Compat.DecompressionMethods.GZip   
                 };
+                client.AddHeader("Accept-Encoding", "GZip");
                 return client;
             }
             else
@@ -554,7 +555,7 @@ namespace FanfouWP.API
                     {
                         Items.Notifications i = new Items.Notifications();
                         var ds = new DataContractJsonSerializer(i.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         i = ds.ReadObject(ms) as Items.Notifications;
                         ms.Close();
                         AccountNotificationSuccess(i, new EventArgs());
@@ -563,7 +564,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -607,7 +608,7 @@ namespace FanfouWP.API
                     {
                         Items.User user = new Items.User();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as Items.User;
                         ms.Close();
                         user.username = this.username;
@@ -636,7 +637,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -723,7 +724,7 @@ namespace FanfouWP.API
                 {
                     Items.User user = new Items.User();
                     var ds = new DataContractJsonSerializer(user.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                   var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                     user = ds.ReadObject(ms) as Items.User;
                     ms.Close();
                     user.username = this.username;
@@ -753,7 +754,7 @@ namespace FanfouWP.API
                 {
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
-                    var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                   var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                     er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
@@ -833,7 +834,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error; ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
                         StatusDestroyFailed(this, e);
@@ -866,7 +867,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -878,7 +879,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -913,7 +914,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -925,7 +926,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -981,7 +982,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1089,7 +1090,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1124,7 +1125,7 @@ namespace FanfouWP.API
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
 
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -1148,7 +1149,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1205,7 +1206,7 @@ namespace FanfouWP.API
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
 
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
                         var l = new ObservableCollection<Items.Status>();
@@ -1315,7 +1316,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1352,7 +1353,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1364,7 +1365,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1399,7 +1400,7 @@ namespace FanfouWP.API
                     {
                         Items.Status s = new Items.Status();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.Status;
                         ms.Close();
 
@@ -1435,7 +1436,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1471,7 +1472,7 @@ namespace FanfouWP.API
                     {
                         Items.Status s = new Items.Status();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.Status;
                         ms.Close();
 
@@ -1508,7 +1509,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1547,7 +1548,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1559,7 +1560,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1597,7 +1598,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1609,7 +1610,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1645,7 +1646,7 @@ namespace FanfouWP.API
                     {
                         UserList user = new UserList();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as UserList;
                         ms.Close();
 
@@ -1657,7 +1658,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1690,7 +1691,7 @@ namespace FanfouWP.API
                     {
                         Items.TrendsList trends = new Items.TrendsList();
                         var ds = new DataContractJsonSerializer(trends.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         trends = ds.ReadObject(ms) as Items.TrendsList;
                         ms.Close();
 
@@ -1702,7 +1703,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1736,7 +1737,7 @@ namespace FanfouWP.API
                     {
                         List<string> tags = new List<string>();
                         var ds = new DataContractJsonSerializer(tags.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         tags = ds.ReadObject(ms) as List<string>;
                         ms.Close();
 
@@ -1748,7 +1749,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1782,7 +1783,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(users.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1794,7 +1795,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1827,7 +1828,7 @@ namespace FanfouWP.API
                     {
                         List<Search> search = new List<Search>();
                         var ds = new DataContractJsonSerializer(search.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         search = ds.ReadObject(ms) as List<Search>;
                         ms.Close();
 
@@ -1840,7 +1841,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1875,7 +1876,7 @@ namespace FanfouWP.API
                     {
                         Items.User user = new Items.User();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -1886,7 +1887,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1921,7 +1922,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1933,7 +1934,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1971,7 +1972,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1983,7 +1984,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2021,7 +2022,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2032,7 +2033,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2068,7 +2069,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2079,7 +2080,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2112,7 +2113,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -2124,7 +2125,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2161,7 +2162,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2172,7 +2173,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2209,7 +2210,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2220,7 +2221,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2261,7 +2262,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2297,7 +2298,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -2309,7 +2310,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2455,7 +2456,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.DirectMessageItem> list = new ObservableCollection<Items.DirectMessageItem>();
                         var ds = new DataContractJsonSerializer(list.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessageItem>;
                         ms.Close();
 
@@ -2467,7 +2468,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2503,7 +2504,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.DirectMessage> list = new ObservableCollection<Items.DirectMessage>();
                         var ds = new DataContractJsonSerializer(list.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessage>;
                         ms.Close();
 
@@ -2515,7 +2516,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2555,7 +2556,7 @@ namespace FanfouWP.API
                     {
                         Items.DirectMessage d = new Items.DirectMessage();
                         var ds = new DataContractJsonSerializer(d.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         d = ds.ReadObject(ms) as Items.DirectMessage;
                         ms.Close();
                         EventArgs e = new EventArgs();
@@ -2565,7 +2566,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                        var ms = new MemoryStream(Encoding.UTF8.GetBytes(response.Content));
+                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
