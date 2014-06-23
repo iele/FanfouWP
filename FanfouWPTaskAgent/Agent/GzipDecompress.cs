@@ -14,9 +14,9 @@ namespace FanfouWPTaskAgent.Agent
         {
             using (MemoryStream tempMs = new MemoryStream())
             {
-                GZipStream Decompress = new GZipStream(stream, CompressionMode.Decompress);
-                Decompress.CopyTo(tempMs);
-                Decompress.Close();
+                GZipStream decompress = new GZipStream(stream, CompressionMode.Decompress);
+                decompress.CopyTo(tempMs);
+                decompress.Close();
                 return tempMs.ToArray();               
             }
         }

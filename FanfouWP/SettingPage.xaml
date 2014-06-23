@@ -86,7 +86,7 @@
                 			<Run Text="了解更多"/>
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
-                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.4.0" Height="30" />
+                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.4.5" Height="30" />
                         <StackPanel Margin="12,6"  Orientation="Horizontal" Width="432">
                         	<TextBlock FontSize="24" Text="该应用部分图标来自 " />
                             <TextBlock Text="icons8" Margin="0,0,0,0" FontSize="24" TextDecorations="Underline" Tap="TextBlock_Tap"/>
