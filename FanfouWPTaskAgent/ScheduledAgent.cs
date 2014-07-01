@@ -212,8 +212,8 @@ namespace FanfouWPTaskAgent
                     ClientPassword = s[1]
                 }
             };
-
-
+            client.AddHeader("Accept-Encoding", "GZip");
+        
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
                 Path = FanfouConsts.ACCOUNT_NOTIFICATION,

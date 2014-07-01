@@ -149,7 +149,7 @@ namespace FanfouWP
                         this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
                 }
 
-                if (setting.alwaysTop && this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0)
+                if (setting.alwaysTop && this.MentionTimeLineListBox.ItemsSource != null && this.MentionTimeLineListBox.ItemsSource.Count != 0 && (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind || e.RefreshMode == API.FanfouAPI.RefreshMode.New))
                 {
                     this.MentionTimeLineListBox.ScrollTo(this.MentionTimeLineListBox.ItemsSource[0]);
                 }
@@ -190,7 +190,7 @@ namespace FanfouWP
                         this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
                 }
 
-                if (setting.alwaysTop && this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0)
+                if (setting.alwaysTop && this.HomeTimeLineListBox.ItemsSource != null && this.HomeTimeLineListBox.ItemsSource.Count != 0 && (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind || e.RefreshMode == API.FanfouAPI.RefreshMode.New))
                 {
                     this.HomeTimeLineListBox.ScrollTo(this.HomeTimeLineListBox.ItemsSource[0]);
                 }
