@@ -524,9 +524,9 @@ namespace FanfouWP.API
                         Token = oauthToken,
                         TokenSecret = oauthSecret,
                         ClientUsername = username,
-                        ClientPassword = password,                       
+                        ClientPassword = password,
                     },
-                    
+
                 };
                 client.AddHeader("Accept-Encoding", "GZip");
                 return client;
@@ -544,7 +544,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.ACCOUNT_NOTIFICATION,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -555,7 +555,7 @@ namespace FanfouWP.API
                     {
                         Items.Notifications i = new Items.Notifications();
                         var ds = new DataContractJsonSerializer(i.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         i = ds.ReadObject(ms) as Items.Notifications;
                         ms.Close();
                         AccountNotificationSuccess(i, new EventArgs());
@@ -564,7 +564,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -586,7 +586,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.ACCOUNT_UPDATE_PROFILE,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             if (url != "")
@@ -608,7 +608,7 @@ namespace FanfouWP.API
                     {
                         Items.User user = new Items.User();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as Items.User;
                         ms.Close();
                         user.username = this.username;
@@ -637,7 +637,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -678,7 +678,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.ACCESS_TOKEN,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
             restRequest.AddParameter("x_auth_mode", "client_auth");
             restRequest.AddParameter("x_auth_username", username);
@@ -715,7 +715,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.VERIFY_CREDENTIALS,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -724,7 +724,7 @@ namespace FanfouWP.API
                 {
                     Items.User user = new Items.User();
                     var ds = new DataContractJsonSerializer(user.GetType());
-                   var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                    var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                     user = ds.ReadObject(ms) as Items.User;
                     ms.Close();
                     user.username = this.username;
@@ -754,7 +754,7 @@ namespace FanfouWP.API
                 {
                     Items.Error er = new Items.Error();
                     var ds = new DataContractJsonSerializer(er.GetType());
-                   var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                    var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                     er = ds.ReadObject(ms) as Items.Error;
                     ms.Close();
                     FailedEventArgs e = new FailedEventArgs(er);
@@ -801,7 +801,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_DESTROY,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -834,7 +834,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error; ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
                         StatusDestroyFailed(this, e);
@@ -855,7 +855,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUSES_CONTEXT_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
 
@@ -879,7 +879,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -901,7 +901,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("user_id", user_id);
             restRequest.AddParameter("count", count.ToString());
@@ -914,7 +914,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -926,7 +926,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -947,7 +947,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_HOME_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             switch (mode)
             {
@@ -982,7 +982,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1090,7 +1090,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1112,7 +1112,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_PUBLIC_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             restRequest.AddParameter("count", count.ToString());
@@ -1125,7 +1125,7 @@ namespace FanfouWP.API
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
 
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
                         Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -1149,7 +1149,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1170,7 +1170,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.STATUS_MENTION_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             switch (mode)
             {
@@ -1206,7 +1206,7 @@ namespace FanfouWP.API
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
 
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
                         var l = new ObservableCollection<Items.Status>();
@@ -1316,7 +1316,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1340,7 +1340,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_ID,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("page", page.ToString());
@@ -1353,7 +1353,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1365,7 +1365,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1386,7 +1386,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_CREATE_ID + id + ".json",
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -1400,7 +1400,7 @@ namespace FanfouWP.API
                     {
                         Items.Status s = new Items.Status();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.Status;
                         ms.Close();
 
@@ -1436,7 +1436,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1458,7 +1458,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FAVORITES_DESTROY_ID + id + ".json",
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -1472,7 +1472,7 @@ namespace FanfouWP.API
                     {
                         Items.Status s = new Items.Status();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.Status;
                         ms.Close();
 
@@ -1509,7 +1509,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1533,7 +1533,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_PUBLIC_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("q", q);
             restRequest.AddParameter("count", count.ToString());
@@ -1548,7 +1548,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1560,7 +1560,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1581,7 +1581,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("q", q);
             if (id != "")
@@ -1598,7 +1598,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -1610,7 +1610,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1631,7 +1631,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SEARCH_USER,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("q", q);
             restRequest.AddParameter("count", count.ToString());
@@ -1646,7 +1646,7 @@ namespace FanfouWP.API
                     {
                         UserList user = new UserList();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as UserList;
                         ms.Close();
 
@@ -1658,7 +1658,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1680,7 +1680,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.TRENDS_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -1691,7 +1691,7 @@ namespace FanfouWP.API
                     {
                         Items.TrendsList trends = new Items.TrendsList();
                         var ds = new DataContractJsonSerializer(trends.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         trends = ds.ReadObject(ms) as Items.TrendsList;
                         ms.Close();
 
@@ -1703,7 +1703,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1725,7 +1725,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_TAG_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
 
@@ -1737,7 +1737,7 @@ namespace FanfouWP.API
                     {
                         List<string> tags = new List<string>();
                         var ds = new DataContractJsonSerializer(tags.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         tags = ds.ReadObject(ms) as List<string>;
                         ms.Close();
 
@@ -1749,7 +1749,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1771,7 +1771,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_TAGGED,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("tag", tag);
 
@@ -1783,7 +1783,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> users = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(users.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         users = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1795,7 +1795,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1817,7 +1817,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.SAVED_SEARCHES_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             GetClient().BeginRequest(restRequest, (request, response, userstate) =>
@@ -1828,7 +1828,7 @@ namespace FanfouWP.API
                     {
                         List<Search> search = new List<Search>();
                         var ds = new DataContractJsonSerializer(search.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         search = ds.ReadObject(ms) as List<Search>;
                         ms.Close();
 
@@ -1841,7 +1841,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1864,7 +1864,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_SHOW,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
 
@@ -1876,7 +1876,7 @@ namespace FanfouWP.API
                     {
                         Items.User user = new Items.User();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -1887,7 +1887,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1908,7 +1908,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_FOLLOWERS,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -1922,7 +1922,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1934,7 +1934,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -1958,7 +1958,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.USERS_FRIENDS,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -1972,7 +1972,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -1984,7 +1984,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2007,7 +2007,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_CREATE,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -2022,7 +2022,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2033,7 +2033,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2054,7 +2054,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_DESTROY,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -2069,7 +2069,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2080,7 +2080,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2101,7 +2101,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_REQUESTS,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("page", page.ToString());
 
@@ -2113,7 +2113,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.User> user = new ObservableCollection<Items.User>();
                         var ds = new DataContractJsonSerializer(user.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         user = ds.ReadObject(ms) as ObservableCollection<Items.User>;
                         ms.Close();
 
@@ -2125,7 +2125,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2147,7 +2147,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_ACCEPT,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -2162,7 +2162,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2173,7 +2173,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2195,7 +2195,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_DENY,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -2210,7 +2210,7 @@ namespace FanfouWP.API
                     {
                         Items.User s = new Items.User();
                         var ds = new DataContractJsonSerializer(s.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         s = ds.ReadObject(ms) as Items.User;
                         ms.Close();
 
@@ -2221,7 +2221,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2242,7 +2242,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.FRIENDSHIPS_EXISTS,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
 
             restRequest.AddParameter("user_a", user_a);
@@ -2254,7 +2254,9 @@ namespace FanfouWP.API
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        var content = response.Content == "true" ? true : false;
+                        var result = Utils.GzipDecompress.Decompress(response.ContentStream);
+                        var r = UTF8Encoding.UTF8.GetString(result, 0, result.Count());
+                        var content = r == "true" ? true : false;
                         EventArgs e = new EventArgs();
                         FriendshipsExistsSuccess(content, e);
                     }
@@ -2262,7 +2264,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2285,7 +2287,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.PHOTOS_USER_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -2298,7 +2300,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.Status> status = new ObservableCollection<Items.Status>();
                         var ds = new DataContractJsonSerializer(status.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         status = ds.ReadObject(ms) as ObservableCollection<Items.Status>;
                         ms.Close();
 
@@ -2310,7 +2312,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2443,7 +2445,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_CONVERSATION_LIST,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("count", count.ToString());
             restRequest.AddParameter("page", page.ToString());
@@ -2456,7 +2458,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.DirectMessageItem> list = new ObservableCollection<Items.DirectMessageItem>();
                         var ds = new DataContractJsonSerializer(list.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessageItem>;
                         ms.Close();
 
@@ -2468,7 +2470,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2490,7 +2492,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_CONVERSATION,
                 Method = Hammock.Web.WebMethod.Get,
-                
+
             };
             restRequest.AddParameter("id", id);
             restRequest.AddParameter("count", count.ToString());
@@ -2504,7 +2506,7 @@ namespace FanfouWP.API
                     {
                         ObservableCollection<Items.DirectMessage> list = new ObservableCollection<Items.DirectMessage>();
                         var ds = new DataContractJsonSerializer(list.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         list = ds.ReadObject(ms) as ObservableCollection<Items.DirectMessage>;
                         ms.Close();
 
@@ -2516,7 +2518,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);
@@ -2538,7 +2540,7 @@ namespace FanfouWP.API
             {
                 Path = FanfouConsts.DIRECT_MESSAGES_NEW,
                 Method = Hammock.Web.WebMethod.Post,
-                
+
             };
 
             var client = GetClient();
@@ -2556,7 +2558,7 @@ namespace FanfouWP.API
                     {
                         Items.DirectMessage d = new Items.DirectMessage();
                         var ds = new DataContractJsonSerializer(d.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         d = ds.ReadObject(ms) as Items.DirectMessage;
                         ms.Close();
                         EventArgs e = new EventArgs();
@@ -2566,7 +2568,7 @@ namespace FanfouWP.API
                     {
                         Items.Error er = new Items.Error();
                         var ds = new DataContractJsonSerializer(er.GetType());
-                       var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
+                        var ms = new MemoryStream(Utils.GzipDecompress.Decompress(response.ContentStream));
                         er = ds.ReadObject(ms) as Items.Error;
                         ms.Close();
                         FailedEventArgs e = new FailedEventArgs(er);

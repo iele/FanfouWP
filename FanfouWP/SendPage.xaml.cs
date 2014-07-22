@@ -356,34 +356,6 @@ namespace FanfouWP
 
             input.Show();
         }
-
-        private void MusicButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string name = Microsoft.Xna.Framework.Media.MediaPlayer.Queue.ActiveSong.Name;
-                string album = Microsoft.Xna.Framework.Media.MediaPlayer.Queue.ActiveSong.Album.Name;
-
-                if (name != null && album != null)
-                {
-                    this.Status.Text = this.Status.Text + "#我正在听#" + name + " - " + album;
-                    return;
-                }
-                else
-                {
-                    goto Noplaying;
-                }
-            }
-            catch (Exception exception)
-            {
-                System.Diagnostics.Debug.WriteLine(exception.Message);
-            }
-
-        Noplaying:
-            MessageBox.Show("当前没有播放音乐:(");
-
-        }
-
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (e.NavigationMode != NavigationMode.Back)
@@ -590,7 +562,7 @@ namespace FanfouWP
             }
         }
 
-        private void AtItem_Click(object sender, EventArgs e)
+        private void AtButton_Click(object sender, EventArgs e)
         {
             if (PhoneApplicationService.Current.State.ContainsKey("MentionUserPage"))
             {
