@@ -20,30 +20,7 @@ namespace FanfouWP
     public partial class MainPage : PhoneApplicationPage
     {
         public MainPage()
-        {
-            //HttpNotificationChannel pushChannel;
-            //string channelName = "FanfouChannel";
-            //pushChannel = HttpNotificationChannel.Find(channelName);
-            //if (pushChannel == null)
-            //{
-            //    pushChannel = new HttpNotificationChannel(channelName);
-
-            //    pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-            //    pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-            //    pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-            //    pushChannel.Open();
-            //    pushChannel.BindToShellToast();
-            //}
-            //else
-            //{
-            //    pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-            //    pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-            //    pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-            //    System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
-            //    MessageBox.Show(String.Format("Channel Uri is {0}",
-            //        pushChannel.ChannelUri.ToString()));
-            //}
-
+        {       
             InitializeComponent();
 
             Dispatcher.BeginInvoke(async () =>
@@ -56,27 +33,7 @@ namespace FanfouWP
 
             this.Loaded += MainPage_Loaded;
         }
-        //private void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
-        //{
-        //    Dispatcher.BeginInvoke(() =>
-        //        MessageBox.Show(String.Format("A push notification {0} error occurred.  {1} ({2}) {3}",
-        //            e.ErrorType, e.Message, e.ErrorCode, e.ErrorAdditionalData)));
-        //}
-
-        //private void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
-        //{
-        //    Dispatcher.BeginInvoke(() =>
-        //    {
-        //        System.Diagnostics.Debug.WriteLine(e.ChannelUri.ToString());
-        //        MessageBox.Show(String.Format("Channel Uri is {0}", e.ChannelUri.ToString()));
-        //    });
-        //}
-
+   
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.RestoreDataSuccess += Instance_RestoreDataSuccess;

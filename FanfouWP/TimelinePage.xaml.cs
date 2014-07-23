@@ -253,7 +253,7 @@ namespace FanfouWP
             });
             Dispatcher.BeginInvoke(() =>
             {
-                AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq);
+                AgentWriter.WriteAgentParameter(setting.username, setting.password, setting.oauthToken, setting.oauthSecret, setting.backgroundFeq2);
                 Utils.ScheduledTask.StartPeriodicAgent();
                 run_once = false;
 

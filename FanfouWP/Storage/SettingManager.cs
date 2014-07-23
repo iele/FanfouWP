@@ -185,17 +185,17 @@ namespace FanfouWP.Storage
             }
         }
 
-        private int _backgroundFeq;
-        public int backgroundFeq
+        private int _backgroundFeq2;
+        public int backgroundFeq2
         {
             get
             {
-                return _backgroundFeq;
+                return _backgroundFeq2;
             }
             set
             {
-                _backgroundFeq = value;
-                settings["backgroundFeq"] = value;
+                _backgroundFeq2 = value;
+                settings["backgroundFeq2"] = value;
 
                 is_setting_changed = true;
             }
@@ -311,7 +311,7 @@ namespace FanfouWP.Storage
             settings["enableLocation"] = this.enableLocation;
             settings["imageQuality"] = this.imageQuality;
             settings["cacheSize"] = this.cacheSize;
-            settings["backgroundFeq"] = this.backgroundFeq;
+            settings["backgroundFeq2"] = this.backgroundFeq2;
             settings["defaultCount2"] = this.defaultCount2;
             settings["reverseContext"] = this.reverseContext;
             settings["refreshFreq"] = this.refreshFreq;
@@ -332,7 +332,7 @@ namespace FanfouWP.Storage
 
         public void RestoreSettings()
         {
-            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq, defaultCount2, reverseContext, refreshFreq, alwaysTop,largeImage;
+            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq2, defaultCount2, reverseContext, refreshFreq, alwaysTop,largeImage;
             if (settings.TryGetValue("defaultCount2", out defaultCount2) && defaultCount2 != null)
                 this.defaultCount2 = (int)defaultCount2;
             else
@@ -382,10 +382,10 @@ namespace FanfouWP.Storage
                 this.cacheSize = (int)cacheSize;
             else
                 this.cacheSize = 0;
-            if (settings.TryGetValue("backgroundFeq", out backgroundFeq) && backgroundFeq != null)
-                this.backgroundFeq = (int)backgroundFeq;
+            if (settings.TryGetValue("backgroundFeq2", out backgroundFeq2) && backgroundFeq2 != null)
+                this.backgroundFeq2 = (int)backgroundFeq2;
             else
-                this.backgroundFeq = 0;
+                this.backgroundFeq2 = 0;
             if (settings.TryGetValue("reverseContext", out reverseContext) && reverseContext != null)
                 this.reverseContext = (bool)reverseContext;
             else

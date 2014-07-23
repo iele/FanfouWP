@@ -36,7 +36,7 @@ namespace FanfouWP
             this.QualityListPicker.ItemsSource = new string[] { "2G (最大长宽600px,压缩80%)", "3G (最大长宽800px,压缩90%)", "Wi-Fi (最大长宽1280px,压缩100%)", "无限制" };
             this.CountListPicker.ItemsSource = new string[] { "20", "30", "40", "50", "60" };
             this.CacheListPicker.ItemsSource = new string[] { "100", "300", "500", "1000" };
-            this.FrequencyListPicker.ItemsSource = new string[] { "30分钟", "1小时", "2小时", "关闭" };
+            this.FrequencyListPicker.ItemsSource = new string[] { "打开", "关闭" };
             this.TimelineFreqListPicker.ItemsSource = new string[] { "1分钟", "2分钟", "5分钟", "10分钟", "关闭" };
             Dispatcher.BeginInvoke(() =>
             {
@@ -45,7 +45,7 @@ namespace FanfouWP
                 this.ImageCheckBox.IsChecked = settingManager.displayImage;
                 this.QualityListPicker.SelectedIndex = settingManager.imageQuality;
                 this.CacheListPicker.SelectedIndex = settingManager.cacheSize;
-                this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq;
+                this.FrequencyListPicker.SelectedIndex = settingManager.backgroundFeq2;
                 this.ContextCheckBox.IsChecked = settingManager.reverseContext;
                 this.CountListPicker.SelectedIndex = settingManager.defaultCount2;
                 this.TimelineFreqListPicker.SelectedIndex = settingManager.refreshFreq;
@@ -155,8 +155,8 @@ namespace FanfouWP
         {
             if (this.FrequencyListPicker.SelectedIndex != -1)
             {
-                settingManager.backgroundFeq = this.FrequencyListPicker.SelectedIndex;
-                AgentWriter.WriteAgentParameter(settingManager.username, settingManager.password, settingManager.oauthToken, settingManager.oauthSecret, settingManager.backgroundFeq);
+                settingManager.backgroundFeq2 = this.FrequencyListPicker.SelectedIndex;
+                AgentWriter.WriteAgentParameter(settingManager.username, settingManager.password, settingManager.oauthToken, settingManager.oauthSecret, settingManager.backgroundFeq2);
             }
         }
 

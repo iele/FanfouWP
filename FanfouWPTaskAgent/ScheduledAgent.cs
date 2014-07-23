@@ -101,7 +101,7 @@ namespace FanfouWPTaskAgent
                         {
                             ShellToast st = new ShellToast();
                             st.Title = "饭窗";
-                            var msg=i.mentions.ToString() + "新提及 " + status[0].text;
+                            var msg = i.mentions.ToString() + "新提及 " + status[0].text;
                             if (msg.Length > 40)
                                 st.Content = msg.Substring(0, 40);
                             else
@@ -153,14 +153,18 @@ namespace FanfouWPTaskAgent
 
         protected override void OnInvoke(ScheduledTask task)
         {
-            //            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
+            //ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(60));
 
             s = AgentReader.ReadAgentParameter();
             count = int.Parse(s[4]);
 
-            var freq = 0;
-
             if (s.Length != 5)
+            {
+                NotifyComplete();
+                return;
+            }
+
+            if (count == 1)
             {
                 NotifyComplete();
                 return;
@@ -169,7 +173,6 @@ namespace FanfouWPTaskAgent
             try
             {
                 var ss = TaskStorage.ReadAgentParameter();
-                freq = int.Parse(ss[0]);
                 notification = new Item();
                 notification.mentions = int.Parse(ss[1]);
                 notification.direct_messages = int.Parse(ss[2]);
@@ -178,21 +181,9 @@ namespace FanfouWPTaskAgent
             catch (Exception)
             {
                 notification = new Item();
-                freq = 0;
                 notification.mentions = 0;
                 notification.friend_requests = 0;
                 notification.direct_messages = 0;
-            }
-
-            if (freq % (count + 1) != 0)
-            {
-                TaskStorage.WriteAgentParameter(freq++, notification.mentions, notification.direct_messages, notification.friend_requests);
-                NotifyComplete();
-                return;
-            }
-            else
-            {
-                freq = 0;
             }
 
             var client = new Hammock.RestClient
@@ -213,7 +204,7 @@ namespace FanfouWPTaskAgent
                 }
             };
             client.AddHeader("Accept-Encoding", "GZip");
-        
+
             Hammock.RestRequest restRequest = new Hammock.RestRequest
             {
                 Path = FanfouConsts.ACCOUNT_NOTIFICATION,
@@ -231,7 +222,7 @@ namespace FanfouWPTaskAgent
                         i = ds.ReadObject(ms) as Item;
                         ms.Close();
 
-                        TaskStorage.WriteAgentParameter(freq, i.mentions, i.direct_messages, i.friend_requests);
+                        TaskStorage.WriteAgentParameter(0, i.mentions, i.direct_messages, i.friend_requests);
 
                         if (i.mentions == 0 && i.friend_requests == 0 && i.direct_messages == 0)
                         {

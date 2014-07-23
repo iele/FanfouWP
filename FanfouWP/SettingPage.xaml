@@ -40,7 +40,7 @@
                         <CheckBox x:Name="LocationCheckBox" Content="启用地理信息服务" Click="LocationCheckBox_Checked" Height="72" VerticalAlignment="Top"/>
                         <TextBlock TextWrapping="Wrap" Text="发送图片的质量" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
                         <toolkit:ListPicker x:Name="QualityListPicker" Margin="12,0" VerticalAlignment="Top"/>
-                        <TextBlock TextWrapping="Wrap" Text="后台获取通知频率" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
+                        <TextBlock TextWrapping="Wrap" Text="后台获取通知" Margin="12,0,0,0" FontSize="24" Height="32" VerticalAlignment="Top"/>
                         <toolkit:ListPicker x:Name="FrequencyListPicker" Margin="12,0" VerticalAlignment="Top"/>
                         <Button Content="设置锁屏通知" VerticalAlignment="Bottom" x:Name="LockButton" Click="LockButton_Click" Margin="0,6,0,0"/>
                         <Button Content="清除缓存" VerticalAlignment="Bottom" x:Name="CleanButton" Click="CleanButton_Click" Margin="0,18,0,0"/>
