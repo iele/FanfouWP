@@ -20,12 +20,24 @@ namespace FanfouWP
     public partial class MainPage : PhoneApplicationPage
     {
         public MainPage()
-        {       
+        {
             InitializeComponent();
 
             Dispatcher.BeginInvoke(async () =>
             {
-                await VoiceCommandService.InstallCommandSetsFromFileAsync(new Uri("ms-appx:///VoiceCommandDefinition.xml"));
+                try
+                {
+                    await VoiceCommandService.InstallCommandSetsFromFileAsync(new Uri("ms-appx:///VoiceCommandDefinition.xml"));
+                }
+                catch (Exception e)
+                {
+                    if (!Storage.SettingManager.GetInstance().voiceError)
+                    {
+                        MessageBox.Show("注册语音命令错误,请安装中文语音包");
+                        Storage.SettingManager.GetInstance().voiceError = true;
+                        Storage.SettingManager.GetInstance().SaveSettings();
+                    }
+                }
             });
 
 
@@ -33,14 +45,14 @@ namespace FanfouWP
 
             this.Loaded += MainPage_Loaded;
         }
-   
+
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             FanfouWP.API.FanfouAPI.Instance.RestoreDataSuccess += Instance_RestoreDataSuccess;
             FanfouWP.API.FanfouAPI.Instance.RestoreDataFailed += Instance_RestoreDataFailed;
 
             Thread.Sleep(500);
-         
+
             if (FanfouWP.Storage.SettingManager.GetInstance().currentList.Count != 0)
             {
                 var list = FanfouWP.Storage.SettingManager.GetInstance().currentList as List<User>;
@@ -56,7 +68,8 @@ namespace FanfouWP
                 while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
                 Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/AccountsPage.xaml", UriKind.Relative)));
             }
-            else {
+            else
+            {
                 while (NavigationService.CanGoBack) NavigationService.RemoveBackEntry();
                 Dispatcher.BeginInvoke(() => NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative)));
             }
