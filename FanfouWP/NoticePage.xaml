@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
 
             <Grid Background="#FF72CBE1" x:Name="TitlePanel" Grid.Row="0" Margin="0" VerticalAlignment="Top">
-                <TextBlock x:Name="title" Text="饭窗公告" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,17,12,28" Foreground="#DEFFFFFF"/>
+                <TextBlock x:Name="title" Text="饭窗公告" Style="{StaticResource PhoneTextNormalStyle}" Margin="24,17,12,12" Foreground="#DEFFFFFF"/>
             </Grid>
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
                 <Grid.RowDefinitions>

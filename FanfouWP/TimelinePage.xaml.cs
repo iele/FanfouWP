@@ -25,10 +25,13 @@ namespace FanfouWP
         public string Title { get; set; }
         public string Count { get; set; }
 
-        public PivotDataItem(string title, string count)
+        public Uri Source { get; set; }
+
+        public PivotDataItem(string title, string count, Uri source)
         {
             this.Title = title;
             this.Count = count;
+            this.Source = source;
         }
     }
 
@@ -140,7 +143,7 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                 {
                     pdi[1].Count = (int.Parse(pdi[1].Count) + FanfouAPI.MentionTimeLineStatusCount).ToString();
-                    (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
+                    (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count, pdi[1].Source);
                 }
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.MentionTimeLineStatus.Count != 0) || (this.MentionTimeLineListBox.ItemsSource == null || this.MentionTimeLineListBox.ItemsSource.Count == 0))
                 {
@@ -180,7 +183,7 @@ namespace FanfouWP
                 if (e.RefreshMode == API.FanfouAPI.RefreshMode.Behind)
                 {
                     pdi[0].Count = (int.Parse(pdi[0].Count) + FanfouAPI.HomeTimeLineStatusCount).ToString();
-                    (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count);
+                    (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count, pdi[0].Source);
                 }
 
                 if ((e.RefreshMode == API.FanfouAPI.RefreshMode.New && this.FanfouAPI.HomeTimeLineStatus.Count != 0) || (this.HomeTimeLineListBox.ItemsSource == null || this.HomeTimeLineListBox.ItemsSource.Count == 0))
@@ -457,9 +460,9 @@ namespace FanfouWP
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             pdi = new ObservableCollection<PivotDataItem>();
-            pdi.Add(new PivotDataItem("我的消息", "0"));
-            pdi.Add(new PivotDataItem("提及我的", "0"));
-            pdi.Add(new PivotDataItem("更多", "0"));
+            pdi.Add(new PivotDataItem("我的消息", "0", new Uri("/Assets/activity_feed-512.png", UriKind.Relative)));
+            pdi.Add(new PivotDataItem("提及我的", "0", new Uri("/Assets/email-512.png", UriKind.Relative)));
+            pdi.Add(new PivotDataItem("更多", "0", new Uri("/Assets/more-512.png", UriKind.Relative)));
             (this.Pivot.Items[0] as PivotItem).Header = pdi[0];
             (this.Pivot.Items[1] as PivotItem).Header = pdi[1];
             (this.Pivot.Items[2] as PivotItem).Header = pdi[2];
@@ -546,13 +549,13 @@ namespace FanfouWP
         private void HomeTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             pdi[0].Count = "0";
-            (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count);
+            (this.Pivot.Items[0] as PivotItem).Header = new PivotDataItem(pdi[0].Title, pdi[0].Count, pdi[0].Source);
         }
 
         private void MentionTimeLineListBox_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
             pdi[1].Count = "0";
-            (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count);
+            (this.Pivot.Items[1] as PivotItem).Header = new PivotDataItem(pdi[1].Title, pdi[1].Count, pdi[1].Source);
         }
 
         private void HomeTimeLineListBox_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)

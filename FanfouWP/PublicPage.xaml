@@ -32,8 +32,8 @@
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <StackPanel x:Name="TitlePanel" Height="89" Margin="12,17,0,28">
-                <TextBlock x:Name="page" Text="随便看看" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
+            <StackPanel x:Name="TitlePanel" Margin="12,17,0,12">
+                <TextBlock x:Name="page" Text="随便看看" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontSize="56"/>
             </StackPanel>
         </StackPanel>
         <!--TitlePanel 包含应用程序的名称和页标题-->

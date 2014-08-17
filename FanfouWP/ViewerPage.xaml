@@ -28,7 +28,7 @@
 
         <!--ContentPanel - 在此处放置其他内容-->
         <StackPanel Margin="0" Orientation="Vertical" Background="#FF72CBE1">
-            <StackPanel Height="27" Margin="12,17,0,17">
+            <StackPanel Height="27" Margin="12,17,0,12">
                 <TextBlock x:Name="title" Text="" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DEFFFFFF"/>
             </StackPanel>
 

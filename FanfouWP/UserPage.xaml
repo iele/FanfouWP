@@ -32,8 +32,11 @@
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF" SelectionChanged="pivot_SelectionChanged">
-            <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
-                <ScrollViewer Margin="0">
+            <phone:PivotItem Margin="12,14,12,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="资料" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
+                <ScrollViewer Margin="0,0,0,0">
                     <StackPanel>
                         <Grid>
                             <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Canvas.ZIndex="-1"
@@ -88,7 +91,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="消息" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -102,7 +108,10 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="听众" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="听众" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -116,7 +125,10 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="朋友" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="朋友" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -130,7 +142,11 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="收藏" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="收藏" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
+
                 <phone:LongListSelector x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -145,7 +161,7 @@
                 </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="165" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="108" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1" Offset="1"/>

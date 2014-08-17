@@ -28,12 +28,15 @@
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-      <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
+        <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
         <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF" SelectionChanged="pivot_SelectionChanged">
-            <phone:PivotItem Header="资料" Margin="12,28,12,0" Foreground="#DE000000">
-                <ScrollViewer Margin="0">
+            <phone:PivotItem Margin="12,14,12,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="资料" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
+                <ScrollViewer Margin="0,0,0,0">
                     <StackPanel>
                         <Grid>
                             <Image HorizontalAlignment="Left" Height="128" Margin="10,10,0,0" VerticalAlignment="Top" Width="128" Canvas.ZIndex="-1"
@@ -45,7 +48,7 @@
                             <Image HorizontalAlignment="Left" Height="32" Margin="10,106,0,0" VerticalAlignment="Top" Width="32"
                             Canvas.ZIndex="1" x:Name="friendship"/>
                             <TextBlock TextWrapping="Wrap" Margin="150,10,10,0" Height="128" VerticalAlignment="Top" Foreground="#FF898888" FontSize="18.667" x:Name="FirstStatusText"/>
-                        <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
+                            <StackPanel Margin="10,143,10,0" Orientation="Vertical" VerticalAlignment="Top">
                                 <Grid VerticalAlignment="Top" Margin="0,12,0,6" HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -69,27 +72,29 @@
                                     </StackPanel>
                                 </Grid>
                                 <ListBox x:Name="tags" VerticalAlignment="Top" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding}" Tap="tags_Tap" >
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <toolkit:WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}" Margin="0,12,5,12" FontSize="24"></TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                            <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,0,0,6"/>
-                            <TextBlock TextWrapping="Wrap" Text="{Binding url}" VerticalAlignment="Top" Padding="0,6,0,6" x:Name="UrlText" Tap="UrlText_Tap" Margin="0,3"/>
-                         
-                        </StackPanel>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <toolkit:WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" Margin="0,12,5,12" FontSize="24"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding description}" VerticalAlignment="Top" Padding="0,0,0,6"/>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding url}" VerticalAlignment="Top" Padding="0,6,0,6" x:Name="UrlText" Tap="UrlText_Tap" Margin="0,3"/>
+                            </StackPanel>
                         </Grid>
                         <StackPanel Height="72" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
-            <phone:PivotItem Header="消息" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="消息" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="TimeLineListBox" SelectionChanged="TimeLineListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -103,7 +108,10 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="听众" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="听众" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="FollowersListBox" SelectionChanged="FollowersListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -117,7 +125,10 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="朋友" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="朋友" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
                 <phone:LongListSelector x:Name="FriendsListBox" SelectionChanged="FriendsListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -131,7 +142,11 @@
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
             </phone:PivotItem>
-            <phone:PivotItem Header="收藏" Margin="0,28,0,0" Foreground="#DE000000">
+            <phone:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="收藏" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </phone:PivotItem.Header>
+
                 <phone:LongListSelector x:Name="FavListBox" SelectionChanged="FavListBox_SelectionChanged" ScrollViewer.ManipulationMode="System"    ItemsSource="{Binding}">
                     <phone:LongListSelector.ListFooterTemplate>
                         <DataTemplate>
@@ -146,7 +161,7 @@
                 </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
-        <Rectangle Height="165" VerticalAlignment="Top" Canvas.ZIndex="-1">
+        <Rectangle Height="108" VerticalAlignment="Top" Canvas.ZIndex="-1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
@@ -156,11 +171,10 @@
         </Rectangle>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar  Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" BackgroundColor="#ff888888" ForegroundColor="Black">
+        <shell:ApplicationBar  Opacity="0.95" IsMenuEnabled="True"  IsVisible="True" ForegroundColor="Black" BackgroundColor="Gray">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="FriendMenu" Click="FriendMenu_Click" Text="添加好友" />
-                <shell:ApplicationBarMenuItem x:Name="DirectMenu" Click="DirectMenu_Click" Text="发送私信" />
-                <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />               
+                <shell:ApplicationBarMenuItem x:Name="PhotosMenu" Click="PhotosMenu_Click" Text="查看照片流" />
             </shell:ApplicationBar.MenuItems>
             <shell:ApplicationBarIconButton x:Name="MainButton" Click="MainButton_Click"  IconUri="/Assets/AppBar/refresh.png" Text="刷新" />
             <shell:ApplicationBarIconButton x:Name="ReplayButton" Text="提及"  Click="ReplayButton_Click" IconUri="/Assets/AppBar/Redo.png" />

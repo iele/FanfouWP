@@ -33,7 +33,10 @@
     </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot">
        <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot" Foreground="#DEFFFFFF">
-            <controls:PivotItem Header="设置" Margin="0,28,0,0" Foreground="#DE000000">
+            <controls:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <controls:PivotItem.Header>
+                    <TextBlock Text="设置" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </controls:PivotItem.Header>
                 <ScrollViewer Margin="12,0" >
                     <StackPanel Orientation="Vertical">
                         <CheckBox x:Name="QuitCheckBox" Content="连按两次后退键退出" Click="QuitCheckBox_Checked"  Height="72" VerticalAlignment="Top"/>
@@ -48,7 +51,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="时间线" Margin="0,28,0,0" Foreground="#DE000000">
+            <controls:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <controls:PivotItem.Header>
+                    <TextBlock Text="时间线" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </controls:PivotItem.Header>
                 <ScrollViewer Margin="12,0">
                     <StackPanel Orientation="Vertical">
                         <CheckBox x:Name="ImageCheckBox" Content="时间线内显示图片" Click="ImageCheckBox_Checked" Height="72" VerticalAlignment="Top" Margin="0"/>
@@ -64,7 +70,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="建议" Margin="0,28,0,0" Foreground="#DE000000">
+            <controls:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
+                <controls:PivotItem.Header>
+                    <TextBlock Text="建议" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </controls:PivotItem.Header>
                 <ScrollViewer Margin="12,0">
                     <StackPanel Orientation="Vertical">
                         <Button x:Name="FollowButton" Content="关注应用账号@饭窗" VerticalAlignment="Top" Click="FollowButton_Click"/>
@@ -75,7 +84,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
-            <controls:PivotItem Header="关于" Margin="0,28,0,0" Foreground="#DE000000" >
+            <controls:PivotItem Margin="0,14,0,0" Foreground="#DE000000" >
+                <controls:PivotItem.Header>
+                    <TextBlock Text="关于" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                </controls:PivotItem.Header>
                 <ScrollViewer Margin="12,0">
                     <StackPanel>
                         <TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于饭否" VerticalAlignment="Center" Width="161" FontSize="32"/>
@@ -86,7 +98,7 @@
                 			<Run Text="了解更多"/>
                         </TextBlock>
                         <TextBlock HorizontalAlignment="Left" Margin="12,12,0,6" Text="关于本应用" VerticalAlignment="Center" Width="161" FontSize="32"/>
-                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.4.5.2" Height="30" />
+                        <TextBlock Margin="12,6" FontSize="24" Text="饭窗 for Windows Phone 1.4.5.5" Height="30" />
                         <StackPanel Margin="12,6"  Orientation="Horizontal" Width="432">
                         	<TextBlock FontSize="24" Text="该应用部分图标来自 " />
                             <TextBlock Text="icons8" Margin="0,0,0,0" FontSize="24" TextDecorations="Underline" Tap="TextBlock_Tap"/>
@@ -99,7 +111,7 @@
                 </ScrollViewer>
             </controls:PivotItem>
         </controls:Pivot>
-        <Rectangle Height="160" Margin="0" Stroke="Black" VerticalAlignment="Top" Canvas.ZIndex="-1" StrokeThickness="0">
+        <Rectangle Height="108" Margin="0" Stroke="Black" VerticalAlignment="Top" Canvas.ZIndex="-1" StrokeThickness="0">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF72CBE1" Offset="0.004"/>

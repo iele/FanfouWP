@@ -69,10 +69,10 @@
                     <GradientStop Color="#FF72CBE1" Offset="1"/>
                 </LinearGradientBrush>
             </StackPanel.Background>
-            <Grid Margin="12,17,0,28" Height="100">
-                <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="110,0,0,0" Foreground="#DEFFFFFF"/>
-                <Image Height="100" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
-                <Image Height="100" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheWithWifiConverter}}" Margin="0,0,368,0" Width="100" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
+            <Grid Margin="12,17,0,12" Height="64">
+                <TextBlock Text="{Binding user.screen_name}" Style="{StaticResource PhoneTextTitle1Style}" Margin="74,0,0,5" Foreground="#DEFFFFFF" FontSize="50.667" VerticalAlignment="Center"/>
+                <Image Height="64" Source="{Binding user.profile_image_url, Converter={StaticResource ImageSourceToCacheConverter}}" Canvas.ZIndex="-1" Margin="0,0,368,0" Width="64" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
+                <Image Height="64" Source="{Binding user.profile_image_url_large, Converter={StaticResource ImageSourceToCacheWithWifiConverter}}" Margin="0,0,368,0" Width="64" HorizontalAlignment="Left" Tap="StatusImage_Tap"/>
 
             </Grid>
 

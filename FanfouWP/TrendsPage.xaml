@@ -31,8 +31,8 @@
         			<GradientStop Color="#FF72CBE1"/>
         		</LinearGradientBrush>
         	</StackPanel.Background>
-        	<StackPanel Height="89" Margin="12,17,0,28">
-        		<TextBlock Text="热门话题" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF"/>
+        	<StackPanel Margin="12,17,0,12">
+        		<TextBlock Text="热门话题" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontSize="56"/>
         	</StackPanel>
 
         </StackPanel>
