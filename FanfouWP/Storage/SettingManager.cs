@@ -280,6 +280,22 @@ namespace FanfouWP.Storage
                 is_setting_changed = true;
             }
         }
+
+        private bool _voiceError;
+        public bool voiceError
+        {
+            get
+            {
+                return _voiceError;
+            }
+            set
+            {
+                _voiceError = value;
+                settings["voiceError"] = value;
+
+                is_setting_changed = true;
+            }
+        }
         public Boolean is_setting_changed { get; set; }
 
         private static SettingManager instance = new SettingManager();
@@ -317,7 +333,7 @@ namespace FanfouWP.Storage
             settings["refreshFreq"] = this.refreshFreq;
             settings["alwaysTop"] = this.alwaysTop;
             settings["largeImage"] = this.largeImage;
-
+            settings["voiceError"] = this.voiceError;
             try
             {
                 settings.Save();
@@ -326,13 +342,13 @@ namespace FanfouWP.Storage
             {
                 System.Diagnostics.Debug.WriteLine(exception.Message);
                 Thread.Sleep(1000);
-                settings.Save();            
+                settings.Save();
             }
         }
 
         public void RestoreSettings()
         {
-            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq2, defaultCount2, reverseContext, refreshFreq, alwaysTop,largeImage;
+            Object currentUser, currentList, quit_confirm, username, password, oauthToken, oauthSecret, displayImage, enableLocation, imageQuality, cacheSize, backgroundFeq2, defaultCount2, reverseContext, refreshFreq, alwaysTop, largeImage,voiceError;
             if (settings.TryGetValue("defaultCount2", out defaultCount2) && defaultCount2 != null)
                 this.defaultCount2 = (int)defaultCount2;
             else
@@ -402,6 +418,10 @@ namespace FanfouWP.Storage
                 this.largeImage = (bool)largeImage;
             else
                 this.largeImage = false;
+            if (settings.TryGetValue("voiceError", out voiceError) && voiceError != null)
+                this.voiceError = (bool)voiceError;
+            else
+                this.voiceError = false;
         }
 
     }
