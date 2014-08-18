@@ -32,7 +32,7 @@
             </ResourceDictionary>
     </phone:PhoneApplicationPage.Resources>
     <Grid x:Name="LayoutRoot">
-       <controls:Pivot Title="饭窗 for Windows Phone"  x:Name="Pivot" Foreground="#DEFFFFFF">
+       <controls:Pivot  x:Name="Pivot" Foreground="#DEFFFFFF" Title="饭窗 for Windows Phone">
             <controls:PivotItem Margin="0,14,0,0" Foreground="#DE000000">
                 <controls:PivotItem.Header>
                     <TextBlock Text="设置" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
