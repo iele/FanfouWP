@@ -11,7 +11,7 @@
     xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
     x:Class="FanfouWP.UserPage"
     mc:Ignorable="d"
-    FontFamily="Portable User Interface"
+    FontFamily="Segoe WP"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
@@ -31,7 +31,7 @@
         <coding:ProgressOverlay x:Name="loading"  VerticalAlignment="Top" Background="Transparent">
             <ProgressBar Height="10" IsIndeterminate="True" Foreground="{StaticResource PhoneAccentBrush}"/>
         </coding:ProgressOverlay>
-        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF" SelectionChanged="pivot_SelectionChanged">
+        <phone:Pivot  x:Name="pivot" Title="{Binding screen_name}" Foreground="#DEFFFFFF" SelectionChanged="pivot_SelectionChanged" FontFamily="Portable User Interface">
             <phone:PivotItem Margin="12,14,12,0" Foreground="#DE000000">
                 <phone:PivotItem.Header>
                     <TextBlock Text="资料" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />

@@ -60,7 +60,7 @@
 		<StackPanel Orientation="Vertical" Margin="8,10,0,0" Grid.Column="1">
 			<TextBlock Margin="0,2" TextWrapping="Wrap" Text="{Binding user.screen_name}" VerticalAlignment="Top" FontSize="26.667"  Width="65536"/>
 			<StackPanel Margin="0">
-				<StackPanel Margin="-3,0,0,2" Orientation="Horizontal">
+				<StackPanel Margin="-4,0,0,2" Orientation="Horizontal">
 					<TextBlock Padding="5,5,0,0" Text="{Binding created_at, Converter={StaticResource DateToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" Foreground="#FF7A7A7A" Margin="0" HorizontalAlignment="Left"/>
 					<TextBlock Padding="5,5,0,0" Text="{Binding source, Converter={StaticResource SourceToTextConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A"/>
 					<TextBlock Padding="5,5,0,0" Text="{Binding in_reply_to_screen_name, Converter={StaticResource ReplyToNameConverter}}" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Left" Foreground="#FF7A7A7A" Visibility="{Binding in_reply_to_screen_name, Converter={StaticResource NullToVisibilityConverter}}"  />

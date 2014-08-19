@@ -34,7 +34,7 @@
         	</StackPanel.Background>
         	<StackPanel x:Name="TitlePanel" Margin="12,17,0,12">
         		<TextBlock x:Name="title" Text="我的收藏" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" Foreground="#DEFFFFFF"/>
-        		<TextBlock x:Name="page" Text="第1页" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontSize="56"/>
+        		<TextBlock x:Name="page" Text="第1页" Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontSize="56"/>
         	</StackPanel>
         </StackPanel>
         <!--TitlePanel 包含应用程序的名称和页标题-->

@@ -32,8 +32,8 @@
                 </LinearGradientBrush>
             </StackPanel.Background>
             <StackPanel Margin="12,17,0,12">
-                <TextBlock Text="饭窗" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DEFFFFFF"/>
-                <TextBlock Text="登录" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontFamily="Portable User Interface" FontSize="56"/>
+                <TextBlock Text="饭窗 for Windows Phone" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#DEFFFFFF"/>
+                <TextBlock Text="登录" Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#DEFFFFFF" FontFamily="Segoe WP SemiLight" FontSize="56"/>
             </StackPanel>
 
         </StackPanel>

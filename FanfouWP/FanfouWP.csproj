@@ -607,9 +607,6 @@
     <Resource Include="Assets\loginback.png" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FanfouWPTaskAgent\FanfouWPTaskAgent.csproj">
       <Project>{92268E77-799B-4F91-B425-C3C3228B5B98}</Project>
       <Name>FanfouWPTaskAgent</Name>
