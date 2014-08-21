@@ -14,22 +14,30 @@ using System.Threading;
 using Windows.Phone.Speech.VoiceCommands;
 using Microsoft.Phone.Notification;
 using FanfouWP.API.Items;
+using Windows.Phone.Speech.Recognition;
 
 namespace FanfouWP
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public MainPage()
+        private async void InstallVoiceCommands()
         {
-            InitializeComponent();
+            string wp80vcdPath = "ms-appx:///VoiceCommandDefinition10.xml";
+            string wp81vcdPath = "ms-appx:///VoiceCommandDefinition11.xml";
 
-            Dispatcher.BeginInvoke(async () =>
+            try
             {
-                try
-                {
-                    await VoiceCommandService.InstallCommandSetsFromFileAsync(new Uri("ms-appx:///VoiceCommandDefinition.xml"));
-                }
-                catch (Exception e)
+                bool using81orAbove = ((Environment.OSVersion.Version.Major >= 8)
+                    && (Environment.OSVersion.Version.Minor >= 10));
+
+                string vcdPath = using81orAbove ? wp81vcdPath : wp80vcdPath;
+                
+                Uri vcdUri = new Uri(vcdPath);
+                await VoiceCommandService.InstallCommandSetsFromFileAsync(vcdUri);
+            }
+            catch (Exception)
+            {
+                Dispatcher.BeginInvoke(() =>
                 {
                     if (!Storage.SettingManager.GetInstance().voiceError)
                     {
@@ -37,7 +45,16 @@ namespace FanfouWP
                         Storage.SettingManager.GetInstance().voiceError = true;
                         Storage.SettingManager.GetInstance().SaveSettings();
                     }
-                }
+                });
+            }
+        }
+        public MainPage()
+        {
+            InitializeComponent();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                InstallVoiceCommands();
             });
 
 

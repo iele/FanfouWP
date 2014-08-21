@@ -83,7 +83,7 @@ namespace FanfouWPTaskAgent
                 Path = FanfouConsts.STATUS_MENTION_TIMELINE,
                 Method = Hammock.Web.WebMethod.Get
             };
-            restRequest.AddParameter("count", "1");
+            restRequest.AddParameter("count", i.mentions.ToString());
             ObservableCollection<Status> status = null;
             try
             {
@@ -99,14 +99,17 @@ namespace FanfouWPTaskAgent
 
                         if (status != null)
                         {
-                            ShellToast st = new ShellToast();
-                            st.Title = "饭窗";
-                            var msg = i.mentions.ToString() + "新提及 " + status[0].text;
-                            if (msg.Length > 40)
-                                st.Content = msg.Substring(0, 40);
-                            else
-                                st.Content = msg;
-                            st.Show();
+                            foreach (var item in status)
+                            {
+                                ShellToast st = new ShellToast();
+                                st.Title = "饭窗";
+                                var msg = item.user.screen_name + ": " + item.text;
+                                if (msg.Length > 40)
+                                    st.Content = msg.Substring(0, 40);
+                                else
+                                    st.Content = msg;
+                                st.Show();
+                            }
 
                             foreach (var item in ShellTile.ActiveTiles)
                             {
@@ -114,7 +117,10 @@ namespace FanfouWPTaskAgent
                                 data.Title = "饭窗";
                                 data.WideContent1 = "您有" + i.mentions + "条提及 ";
                                 data.WideContent2 = status[0].user.screen_name;
-                                data.WideContent3 = status[0].text;
+                                if (status[0].text.Length > 40)
+                                    data.WideContent3 = status[0].text;
+                                else
+                                    data.WideContent3 = status[0].text;
                                 data.Count = i.mentions + i.direct_messages + i.friend_requests > 99 ? 99 : i.mentions + i.direct_messages + i.friend_requests;
                                 item.Update(data);
                             }

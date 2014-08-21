@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.1">
+  <CommandSet xml:lang="zh-CN">
+    <CommandPrefix>[打开][通过]饭窗</CommandPrefix>
+    <Example>发送新消息</Example>
+
+    <Command Name="发送新消息">
+      <Example>新饭否</Example>
+      <ListenFor> {option}{fanfou}</ListenFor>
+      <Feedback>正在跳转</Feedback>
+      <Navigate Target="/SendPage.xaml" />
+    </Command>
+    <Command Name="发送图片">
+      <Example>发送图片</Example>
+      <ListenFor> {option}图片 </ListenFor>
+      <Feedback>正在跳转</Feedback>
+      <Navigate Target="/SendPage.xaml" />
+    </Command>
+
+    <PhraseList Label="option">
+      <Item>新</Item>
+      <Item>发送</Item>
+    </PhraseList>
+
+    <PhraseList Label="fanfou">
+      <Item>饭否</Item>
+      <Item>饭窗</Item>
+      <Item>消息</Item>
+    </PhraseList>
+  </CommandSet>
+  
+</VoiceCommands>

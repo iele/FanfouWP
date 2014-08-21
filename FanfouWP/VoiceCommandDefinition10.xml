@@ -2,7 +2,7 @@
 
 <VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.0">
   <CommandSet xml:lang="zh-CN">
-    <CommandPrefix>饭窗</CommandPrefix>
+    <CommandPrefix>[打开][通过]饭窗</CommandPrefix>
     <Example>发送新消息</Example>
 
     <Command Name="发送新消息">
@@ -11,7 +11,7 @@
       <Feedback>正在跳转</Feedback>
       <Navigate Target="/SendPage.xaml" />
     </Command>
-   <Command Name="发送图片">
+    <Command Name="发送图片">
       <Example>发送图片</Example>
       <ListenFor> [发送][新]图片 </ListenFor>
       <Feedback>正在跳转</Feedback>
