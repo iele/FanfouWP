@@ -115,12 +115,9 @@ namespace FanfouWPTaskAgent
                             {
                                 var data = new IconicTileData();
                                 data.Title = "饭窗";
-                                data.WideContent1 = "您有" + i.mentions + "条提及 ";
-                                data.WideContent2 = status[0].user.screen_name;
-                                if (status[0].text.Length > 40)
-                                    data.WideContent3 = status[0].text;
-                                else
-                                    data.WideContent3 = status[0].text;
+                                data.WideContent1 = "新消息提醒";
+                                data.WideContent2 = "您有" + i.mentions + "条提及";
+                                data.WideContent3 = i.direct_messages + "条新私信 " + i.friend_requests + "条好友请求";
                                 data.Count = i.mentions + i.direct_messages + i.friend_requests > 99 ? 99 : i.mentions + i.direct_messages + i.friend_requests;
                                 item.Update(data);
                             }
